@@ -12,16 +12,17 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@supabase/supabase-js": "2.42.4",
+		"next": "14.2.1",
 		"react": "18.2.0",
-		"react-dom": "18.2.0",
-		"next": "14.2.1"
+		"react-dom": "18.2.0"
 	},
 	"devDependencies": {
-		"typescript": "5.4.5",
 		"@types/node": "20.12.7",
 		"@types/react": "18.2.79",
 		"@types/react-dom": "18.2.25",
 		"eslint": "8.57.0",
-		"eslint-config-next": "14.2.1"
+		"eslint-config-next": "14.2.1",
+		"typescript": "5.4.5"
 	}
 }
