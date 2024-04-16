@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server'
-import { supabase } from '../../db'
+import { supabase } from '@/db'
 
 export async function GET(request: NextRequest) {
 
