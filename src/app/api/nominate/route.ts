@@ -15,6 +15,10 @@ export async function POST(request: NextRequest) {
         .select('*')
         .eq('wallet_address', nominated_user_address);
 
+    // TODO: limit the user to the daily nomination limit
+    // TODO: do not allow to nominate itself
+    // TODO: do not allow to nominate the same user twice
+
     if (error_find || !nominated_user || nominated_user.length === 0) {
         return Response.json({}, { status: 404 });
     }

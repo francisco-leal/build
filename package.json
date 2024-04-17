@@ -10,7 +10,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --write .",
+        "supabase-types": "supabase gen types typescript --project-id \"$SUPABASE_BOSS_PROJECT\" --schema public > src/db/database.types.ts"
     },
     "dependencies": {
         "@airstack/node": "0.0.6",

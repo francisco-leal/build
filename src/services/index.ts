@@ -1,3 +1,4 @@
+import { supabase } from '@/db';
 import { init, fetchQuery } from '@airstack/node';
 
 init(process.env.AIRSTACK_API_KEY!);
@@ -35,14 +36,24 @@ export async function searchSocialUser(username: string) {
     return [].concat(airstackData.Socials.Social ?? []).concat(talentProtocolData);
 }
 
-async function getNominationsFromFarcaster() {
+export async function getNominationsFromFarcaster() {
     // TODO: inject into app_daily_nominations
 }
 
-async function computeUserNominationsAndStats() {
-    // TODO: update app_nomination and app_user_stats
+export async function computeUserNominationsAndStats() {
+    const { error: error_update_nominations } = await supabase.rpc('update_nominations');
+    if (error_update_nominations) {
+        throw error_update_nominations;
+    }
+    const { error: error_update_user_stats } = await supabase.rpc('update_user_stats');
+    if (error_update_user_stats) {
+        throw error_update_user_stats;
+    }
 }
 
-async function computeLeaderboard() {
-    // TODO: update app_leaderboard
+export async function computeLeaderboard() {
+    const { error: error_update_leaderboard } = await supabase.rpc('update_leaderboard');
+    if (error_update_leaderboard) {
+        throw error_update_leaderboard;
+    }
 }

@@ -39,10 +39,12 @@ export async function POST(request: NextRequest) {
     }
 
     if (!app_user || app_user.length === 0) {
-        const { data, error: error_write } = await supabase
-            .from('app_user')
-            .insert({ wallet_address, referral_code: generateRandomSequence(16) })
-            .select();
+        const { data, error: error_write } = await supabase.rpc('insert_user', {
+            wallet_address,
+            referral_code: generateRandomSequence(16),
+            boss_score: 1000,
+            boss_budget: 1000
+        });
 
         if (error_write) {
             return Response.json({ error: error_write }, { status: 404 });

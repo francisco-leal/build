@@ -65,7 +65,7 @@ export type Database = {
           {
             foreignKeyName: "public_app_leaderboard_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "app_user"
             referencedColumns: ["id"]
           },
@@ -177,10 +177,61 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      daily_nominations_view: {
+        Row: {
+          created_at: string | null
+          max_nominations: number | null
+          nomination_rank: number | null
+          user_id_from: number | null
+          user_id_nominated: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_app_daily_nominations_user_id_from_fkey"
+            columns: ["user_id_from"]
+            isOneToOne: false
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_app_daily_nominations_user_id_nominated_fkey"
+            columns: ["user_id_nominated"]
+            isOneToOne: false
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
-      [_ in never]: never
+      insert_user: {
+        Args: {
+          wallet_address: string
+          referral_code: string
+          boss_score: number
+          boss_budget: number
+        }
+        Returns: {
+          created_at: string
+          id: number
+          max_nominations: number
+          referral_code: string | null
+          social_profiles: Json | null
+          wallet_address: string
+        }[]
+      }
+      update_leaderboard: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      update_nominations: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      update_user_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
