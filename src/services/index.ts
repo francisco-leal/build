@@ -1,4 +1,4 @@
-import { init, fetchQuery } from "@airstack/node";
+import { init, fetchQuery } from '@airstack/node';
 
 init(process.env.AIRSTACK_API_KEY!);
 
@@ -22,13 +22,8 @@ export async function searchSocialUser(username: string) {
         }
     }`;
     // TODO: complete talent protocol data
-    const [
-        { data: talentProtocolData, error: talentProtocolError },
-        { data: airstackData, error: airstackError }
-    ] = await Promise.all([
-        { data: [], error: null },
-        fetchQuery(query)
-    ]);
+    const [{ data: talentProtocolData, error: talentProtocolError }, { data: airstackData, error: airstackError }] =
+        await Promise.all([{ data: [], error: null }, fetchQuery(query)]);
 
     if (airstackError) {
         throw new Error(airstackError);

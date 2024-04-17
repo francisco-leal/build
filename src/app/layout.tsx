@@ -1,18 +1,18 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-	title: "$BOSS",
-	description: "$boss",
+    title: '$BOSS',
+    description: '$boss'
 };
 
 export default function RootLayout({
-	children,
+    children
 }: Readonly<{
-	children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en">
-			<body>{children}</body>
-		</html>
-	);
+    return (
+        <html lang="en">
+            <body>{children}</body>
+        </html>
+    );
 }

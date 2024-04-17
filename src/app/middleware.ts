@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-import { getSession } from "@/services/authentication/cookie-session";
+import { getSession } from '@/services/authentication/cookie-session';
 
 export async function middleware(request: NextRequest) {
     const user = await getSession();
     if (!user) {
-        return NextResponse.redirect(new URL('/', request.url))
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
     return NextResponse.next();
@@ -21,5 +21,5 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    matcher: '/((?!api|_next/static|_next/image|favicon.ico|leaderboard).*)',
-}
+    matcher: '/((?!api|_next/static|_next/image|favicon.ico|leaderboard).*)'
+};
