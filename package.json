@@ -14,6 +14,7 @@
 	"dependencies": {
 		"@airstack/node": "0.0.6",
 		"@supabase/supabase-js": "2.42.4",
+		"iron-session": "8.0.1",
 		"next": "14.2.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0"
