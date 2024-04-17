@@ -79,7 +79,55 @@ BEGIN
             SELECT COUNT(*)
             FROM app_nominations AS an3
             WHERE an3.user_id_nominated = aus.user_id
-        );
+        )
+    -- to prevent pg-safeupdate error
+    WHERE TRUE;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### [FUNCTION] Update boss score
+
+```sql
+CREATE OR REPLACE FUNCTION update_user_boss_score()
+RETURNS VOID AS $$
+BEGIN
+    -- Update nominated users' boss_score (90% of boss_budget)
+    UPDATE app_user_stats AS aus
+    SET boss_score = boss_score + (0.9 * nominated_budget)
+    FROM (
+        SELECT user_id_nominated, SUM(boss_budget) AS nominated_budget
+        FROM app_daily_nominations
+        JOIN app_user_stats ON app_daily_nominations.user_id_nominated = app_user_stats.user_id
+        GROUP BY user_id_nominated
+    ) AS uin
+    WHERE aus.user_id = uin.user_id_nominated;
+
+    -- Update nominating users' boss_score (10% of boss_budget)
+    UPDATE app_user_stats AS aus
+    SET boss_score = boss_score + (0.1 * nominated_budget)
+    FROM (
+        SELECT user_id_nominated, SUM(boss_budget) AS nominated_budget
+        FROM app_daily_nominations
+        JOIN app_user_stats ON app_daily_nominations.user_id_nominated = app_user_stats.user_id
+        GROUP BY user_id_nominated
+    ) AS uin, app_daily_nominations
+    WHERE aus.user_id = app_daily_nominations.user_id_from;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### [FUNCTION] Update boss_budget
+
+```sql
+CREATE OR REPLACE FUNCTION update_user_boss_budget()
+RETURNS VOID AS $$
+BEGIN
+    UPDATE app_user_stats AS aus
+    SET
+        boss_budget = aus.builder_score * 20 + (aus.builder_score + aus.boss_token_balance) * 0.2 + aus.nomination_streak * 10 + aus.boss_token_balance * 0.01
+    -- to prevent pg-safeupdate error
+    WHERE TRUE;
 END;
 $$ LANGUAGE plpgsql;
 ```

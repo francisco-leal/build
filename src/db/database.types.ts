@@ -138,6 +138,8 @@ export type Database = {
         Row: {
           boss_budget: number
           boss_score: number
+          boss_token_balance: number
+          builder_score: number
           id: number
           nominated: number
           nomination_streak: number
@@ -147,7 +149,9 @@ export type Database = {
         }
         Insert: {
           boss_budget: number
-          boss_score: number
+          boss_score?: number
+          boss_token_balance?: number
+          builder_score?: number
           id?: number
           nominated?: number
           nomination_streak?: number
@@ -158,6 +162,8 @@ export type Database = {
         Update: {
           boss_budget?: number
           boss_score?: number
+          boss_token_balance?: number
+          builder_score?: number
           id?: number
           nominated?: number
           nomination_streak?: number
@@ -225,6 +231,14 @@ export type Database = {
         Returns: undefined
       }
       update_nominations: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      update_user_boss_budget: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      update_user_boss_score: {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
