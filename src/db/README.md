@@ -42,6 +42,44 @@ FROM (
 WHERE nomination_rank <= max_nominations;
 ```
 
+### [VIEW] User's personal stats
+
+```sql
+CREATE VIEW user_personal_stats AS
+SELECT
+    aus.user_id,
+    u.wallet_address,
+    lb.rank AS my_rank,
+    aus.nominations AS total_nominations_received,
+    aus.boss_budget AS my_boss_budget,
+    aus.bpe_nominations + aus.bpe_regular_nominator AS total_boss_points_earned,
+    aus.bpe_nominations AS boss_points_from_nominations,
+    aus.bpe_regular_nominator AS boss_points_from_nominating,
+    aus.boss_score AS boss_points
+FROM app_user_stats aus
+LEFT JOIN app_leaderboard lb ON aus.user_id = lb.user_id
+LEFT JOIN app_user u ON aus.user_id = u.id;
+```
+
+### [VIEW] User's nominations
+
+```sql
+CREATE VIEW user_nominations AS
+SELECT
+    aus.user_id AS user_id,
+    u.wallet_address AS wallet_address,
+    an.user_id_nominated AS nominated_user_id,
+    an.day_id AS nomination_date,
+    u.username AS nominated_username,
+    lb.rank AS nominated_user_rank,
+    aus.boss_score AS nominated_user_boss_points
+FROM app_user_stats aus
+JOIN app_nominations an ON aus.user_id = an.user_id_from
+JOIN app_user u ON an.user_id_nominated = u.id
+JOIN app_user un ON an.user_id = u.id
+LEFT JOIN app_leaderboard lb ON u.id = lb.user_id;
+```
+
 ### [FUNCTION] Update nominations
 
 ```sql
@@ -92,9 +130,11 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_user_boss_score()
 RETURNS VOID AS $$
 BEGIN
-    -- Update nominated users' boss_score (90% of boss_budget)
+    -- Update nominated users' boss_score (90% of boss_budget) and calculate bpe_nominations
     UPDATE app_user_stats AS aus
-    SET boss_score = boss_score + (0.9 * nominated_budget)
+    SET
+        boss_score = boss_score + (0.9 * nominated_budget),
+        bpe_nominations = bpe_nominations + COALESCE((0.9 * nominated_budget), 0)
     FROM (
         SELECT user_id_nominated, SUM(boss_budget) AS nominated_budget
         FROM app_daily_nominations
@@ -103,9 +143,11 @@ BEGIN
     ) AS uin
     WHERE aus.user_id = uin.user_id_nominated;
 
-    -- Update nominating users' boss_score (10% of boss_budget)
+    -- Update nominating users' boss_score (10% of boss_budget) and calculate bpe_regular_nominator
     UPDATE app_user_stats AS aus
-    SET boss_score = boss_score + (0.1 * nominated_budget)
+    SET
+        boss_score = boss_score + (0.1 * nominated_budget),
+        bpe_regular_nominator = bpe_regular_nominator + COALESCE((0.1 * nominated_budget), 0)
     FROM (
         SELECT user_id_nominated, SUM(boss_budget) AS nominated_budget
         FROM app_daily_nominations

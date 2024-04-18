@@ -15,16 +15,16 @@ function generateRandomSequence(length: number) {
 }
 
 export async function GET(request: NextRequest) {
-    let { data: app_user, error } = await supabase
-        .from('app_user')
+    let { data: user_personal_stats, error } = await supabase
+        .from('user_personal_stats')
         .select('*')
         .eq('wallet_address', request.nextUrl.searchParams.get('wallet_address')!);
 
-    if (error || !app_user || app_user.length === 0) {
+    if (error || !user_personal_stats || user_personal_stats.length === 0) {
         return Response.json({ error }, { status: 404 });
     }
 
-    return Response.json(app_user[0]);
+    return Response.json(user_personal_stats[0]);
 }
 
 export async function POST(request: NextRequest) {

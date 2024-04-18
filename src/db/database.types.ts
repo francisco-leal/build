@@ -114,6 +114,7 @@ export type Database = {
           max_nominations: number
           referral_code: string | null
           social_profiles: Json | null
+          username: string | null
           wallet_address: string
         }
         Insert: {
@@ -122,6 +123,7 @@ export type Database = {
           max_nominations?: number
           referral_code?: string | null
           social_profiles?: Json | null
+          username?: string | null
           wallet_address: string
         }
         Update: {
@@ -130,6 +132,7 @@ export type Database = {
           max_nominations?: number
           referral_code?: string | null
           social_profiles?: Json | null
+          username?: string | null
           wallet_address?: string
         }
         Relationships: []
@@ -139,6 +142,9 @@ export type Database = {
           boss_budget: number
           boss_score: number
           boss_token_balance: number
+          bpe_first_nominator: number
+          bpe_nominations: number
+          bpe_regular_nominator: number
           builder_score: number
           id: number
           nominated: number
@@ -151,6 +157,9 @@ export type Database = {
           boss_budget: number
           boss_score?: number
           boss_token_balance?: number
+          bpe_first_nominator?: number
+          bpe_nominations?: number
+          bpe_regular_nominator?: number
           builder_score?: number
           id?: number
           nominated?: number
@@ -163,6 +172,9 @@ export type Database = {
           boss_budget?: number
           boss_score?: number
           boss_token_balance?: number
+          bpe_first_nominator?: number
+          bpe_nominations?: number
+          bpe_regular_nominator?: number
           builder_score?: number
           id?: number
           nominated?: number
@@ -208,6 +220,56 @@ export type Database = {
           },
         ]
       }
+      user_nominations: {
+        Row: {
+          nominated_user_boss_points: number | null
+          nominated_user_id: number | null
+          nominated_user_rank: number | null
+          nominated_username: string | null
+          nominated_wallet_address: string | null
+          nomination_date: number | null
+          nominator_user_id: number | null
+          nominator_wallet_address: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_app_nominations_user_id_nominated_fkey"
+            columns: ["nominated_user_id"]
+            isOneToOne: false
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_app_user_stats_user_id_fkey"
+            columns: ["nominator_user_id"]
+            isOneToOne: false
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_personal_stats: {
+        Row: {
+          boss_points: number | null
+          boss_points_from_nominating: number | null
+          boss_points_from_nominations: number | null
+          my_boss_budget: number | null
+          my_rank: number | null
+          total_boss_points_earned: number | null
+          total_nominations_received: number | null
+          user_id: number | null
+          wallet_address: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_app_user_stats_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       insert_user: {
@@ -223,6 +285,7 @@ export type Database = {
           max_nominations: number
           referral_code: string | null
           social_profiles: Json | null
+          username: string | null
           wallet_address: string
         }[]
       }
