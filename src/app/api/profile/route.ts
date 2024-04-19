@@ -1,18 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { supabase } from '@/db';
 import { setSession } from '@/services/authentication/cookie-session';
-
-function generateRandomSequence(length: number) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
-}
+import { generateRandomSequence } from '@/services';
 
 export async function GET(request: NextRequest) {
     let { data: user_personal_stats, error } = await supabase
@@ -39,10 +28,12 @@ export async function POST(request: NextRequest) {
     }
 
     if (!app_user || app_user.length === 0) {
+        // TODO: get builder score
+        // TODO: calculate boss_budget
         const { data, error: error_write } = await supabase.rpc('insert_user', {
             wallet_address,
             referral_code: generateRandomSequence(16),
-            boss_score: 1000,
+            boss_score: 0,
             boss_budget: 1000
         });
 

@@ -3,13 +3,33 @@ import { init, fetchQuery } from '@airstack/node';
 
 init(process.env.AIRSTACK_API_KEY!);
 
-export async function searchSocialUser(username: string) {
+export function generateRandomSequence(length: number) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+    }
+    return result;
+}
+
+export async function searchSocialUser(querySearch: string) {
+    let addressToSearch = '';
+    let username = '';
+    if (querySearch.length === 42) {
+        addressToSearch = querySearch;
+    } else {
+        username = querySearch;
+    }
+
     const query = `query QueryUserOnLensAndFarcaster {
         Socials(
             input: {
                 filter: {
                     dappName: { _in: [farcaster, lens] },
-                    identity: { _in: ["lens/@${username}","fc_fname:${username}", "${username}.eth"]}
+                    identity: { ${addressToSearch.length > 0 ? `_eq: "${addressToSearch}"` : `_in: ["lens/@${username}","fc_fname:${username}", "${username}.eth"]`} }
                 },
                 blockchain: ethereum
             }
