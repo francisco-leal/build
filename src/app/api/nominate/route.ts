@@ -1,7 +1,8 @@
 import { supabase } from '@/db';
-import { generateRandomSequence, searchSocialUser } from '@/services';
+import { searchSocialUser } from '@/services';
 import { getSession } from '@/services/authentication/cookie-session';
 import { type NextRequest } from 'next/server';
+import { createProfile } from '@/app/api/profile/create';
 
 export async function POST(request: NextRequest) {
     const { nominated_user_address } = await request.json();
@@ -33,14 +34,7 @@ export async function POST(request: NextRequest) {
         if (profiles.length === 0) {
             return Response.json({ error: 'user not found' }, { status: 404 });
         }
-        // TODO: get builder score
-        // TODO: calculate boss_budget
-        const { error: error_write } = await supabase.rpc('insert_user', {
-            wallet_address: nominated_user_address,
-            referral_code: generateRandomSequence(16),
-            boss_score: 0,
-            boss_budget: 1000
-        });
+        const { error: error_write } = await createProfile(nominated_user_address);
 
         if (error_write) {
             return Response.json({ error: error_write }, { status: 404 });

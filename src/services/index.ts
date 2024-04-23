@@ -1,5 +1,6 @@
 import { supabase } from '@/db';
 import { init, fetchQuery } from '@airstack/node';
+import { searchTalentProtocolUser } from './talent-protocol';
 
 init(process.env.AIRSTACK_API_KEY!);
 
@@ -18,7 +19,7 @@ export function generateRandomSequence(length: number) {
 export async function searchSocialUser(querySearch: string) {
     let addressToSearch = '';
     let username = '';
-    if (querySearch.length === 42) {
+    if (querySearch.length === 42 && querySearch.startsWith('0x')) {
         addressToSearch = querySearch;
     } else {
         username = querySearch;
@@ -42,18 +43,41 @@ export async function searchSocialUser(querySearch: string) {
             }
         }
     }`;
-    // TODO: complete talent protocol data
     const [{ data: talentProtocolData, error: talentProtocolError }, { data: airstackData, error: airstackError }] =
-        await Promise.all([{ data: [], error: null }, fetchQuery(query)]);
+        await Promise.all([searchTalentProtocolUser(querySearch), fetchQuery(query)]);
 
     if (airstackError) {
         throw new Error(airstackError);
     }
-    if (talentProtocolError) {
+    if (talentProtocolError && talentProtocolData !== null) {
         throw new Error(talentProtocolError);
     }
 
-    return [].concat(airstackData.Socials.Social ?? []).concat(talentProtocolData);
+    // format results
+    const result: { address: string; username: string; profile_image: string; dapp: string }[] = [];
+    return result
+        .concat(
+            airstackData.Socials.Social
+                ? airstackData.Socials.Social.map(
+                      (s: { userAddress: string; profileName: string; dappName: string; profileImage: string }) => ({
+                          address: s.userAddress,
+                          username: s.profileName,
+                          profile_image: s.profileImage,
+                          dapp: s.dappName
+                      })
+                  )
+                : []
+        )
+        .concat(
+            talentProtocolData
+                ? talentProtocolData.map(t => ({
+                      address: '',
+                      username: t.user.username,
+                      profile_image: t.user.profile_picture_url,
+                      dapp: 'talent-protocol'
+                  }))
+                : []
+        );
 }
 
 export async function getNominationsFromFarcaster() {

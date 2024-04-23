@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { supabase } from '@/db';
 import { setSession } from '@/services/authentication/cookie-session';
-import { generateRandomSequence } from '@/services';
+import { createProfile } from './create';
 
 export async function GET(request: NextRequest) {
     let { data: user_personal_stats, error } = await supabase
@@ -28,14 +28,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!app_user || app_user.length === 0) {
-        // TODO: get builder score
-        // TODO: calculate boss_budget
-        const { data, error: error_write } = await supabase.rpc('insert_user', {
-            wallet_address,
-            referral_code: generateRandomSequence(16),
-            boss_score: 0,
-            boss_budget: 1000
-        });
+        const { data, error: error_write } = await createProfile(wallet_address);
 
         if (error_write) {
             return Response.json({ error: error_write }, { status: 404 });
