@@ -1,3 +1,10 @@
+### [CONSTRAINT] Unique nominations
+
+```sql
+ALTER TABLE app_nominations
+ADD CONSTRAINT unique_nomination_entry UNIQUE (user_id_from, user_id_nominated);
+```
+
 ### [FUNCTION] Insert new user
 
 ```sql
@@ -180,15 +187,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_leaderboard()
 RETURNS VOID AS $$
 BEGIN
-    WITH user_scores AS (
-        SELECT
-            user_id,
-            (SELECT COALESCE(SUM(nominations), 0) FROM app_user_stats WHERE user_id = aus.user_id) +
-            (SELECT COALESCE(SUM(nominated), 0) FROM app_user_stats WHERE user_id = aus.user_id) AS score
-        FROM (
-            SELECT DISTINCT user_id FROM app_user_stats
-        ) AS aus
-    )
+    WITH user_scores AS (SELECT user_id, nominated AS score FROM app_user_stats)
     INSERT INTO app_leaderboard (user_id, rank)
     SELECT user_id, rank
     FROM (

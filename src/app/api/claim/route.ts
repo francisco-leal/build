@@ -1,4 +1,3 @@
-import { searchSocialUser } from '@/services';
 import { type NextRequest } from 'next/server';
 import { supabase } from '@/db';
 import { validateAndNominate } from '@/app/api/nominate/validate-and-nominate';

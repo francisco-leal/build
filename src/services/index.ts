@@ -25,6 +25,8 @@ export async function searchSocialUser(querySearch: string) {
         username = querySearch;
     }
 
+    // TODO: [possible improvement] add a 5 mins cache
+
     const query = `query QueryUserOnLensAndFarcaster {
         Socials(
             input: {
@@ -72,8 +74,8 @@ export async function searchSocialUser(querySearch: string) {
             talentProtocolData
                 ? talentProtocolData.map(t => ({
                       address: '',
-                      username: t.user.username,
-                      profile_image: t.user.profile_picture_url,
+                      username: t.user ? t.user.username : t.passport_profile!.name,
+                      profile_image: t.user ? t.user.profile_picture_url : t.passport_profile!.image_url,
                       dapp: 'talent-protocol'
                   }))
                 : []

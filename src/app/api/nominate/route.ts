@@ -1,8 +1,5 @@
-import { supabase } from '@/db';
-import { searchSocialUser } from '@/services';
 import { getSession } from '@/services/authentication/cookie-session';
 import { type NextRequest } from 'next/server';
-import { createProfile } from '@/app/api/profile/create';
 import { validateAndNominate } from './validate-and-nominate';
 
 export async function POST(request: NextRequest) {

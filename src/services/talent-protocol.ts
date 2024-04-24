@@ -3,12 +3,19 @@ type PassportResult = {
     user: {
         profile_picture_url: string;
         username: string;
-    };
+    } | null;
+    passport_profile: {
+        image_url: string;
+        name: string;
+    } | null;
 };
 export async function getBuilderScore(wallet: string): Promise<number> {
     const { data, error } = await searchTalentProtocolUser(wallet);
 
     if (error || !data || data.length === 0) {
+        if (error.indexOf('Resource not found') !== -1) {
+            return 0;
+        }
         throw new Error(error || 'No data found');
     }
 
