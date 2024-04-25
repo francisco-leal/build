@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, Link, Typography } from '@mui/joy';
+import { Box, Button, Link } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { LogoLong } from '../icons';
 

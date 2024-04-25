@@ -1,5 +1,5 @@
 'use client';
-import { NavBar } from './shared/components/nav-bar';
+import { NavBar } from '@/app/shared/components/nav-bar';
 import { Typography, Button, Box, Link, Table } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 
@@ -18,7 +18,6 @@ export default function Home() {
     return (
         <main>
             <NavBar />
-
             {/* SECTION 1 */}
             <Box sx={{ padding: '144px 0 80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Box
@@ -85,14 +84,8 @@ export default function Home() {
                                     borderRadius: '0%'
                                 }}
                             >
-<<<<<<< HEAD
                                 Read BOSS Memo
                             </Button>
-=======
-                                {"Dear builder, you're fired."}
-                            </Typography>
-                        </Box>
->>>>>>> c686e9a (refactor: add theme)
 
                             <Button
                                 variant="solid"
@@ -103,16 +96,8 @@ export default function Home() {
                                     borderRadius: '0%'
                                 }}
                             >
-<<<<<<< HEAD
                                 Mint Builders Manifesto
                             </Button>
-=======
-                                {`
-                                    There's no room for builders in the corporate world. Read the memo and 
-                                    help us keep the status quo: nominate the builders you know.
-                                `}
-                            </Typography>
->>>>>>> c686e9a (refactor: add theme)
                         </Box>
                     </Box>
                 </Box>
