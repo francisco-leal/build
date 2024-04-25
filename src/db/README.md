@@ -107,6 +107,14 @@ GROUP BY
     user_id_from, group_id;
 ```
 
+### [VIEW] app leaderboard v1
+
+```sql
+CREATE OR REPLACE VIEW app_leaderboard_v1 AS
+SELECT u.wallet_address, u.social_profiles, u.username, us.builder_score
+    FROM app_user u JOIN app_user_stats us ON u.id = us.user_id ORDER BY us.builder_score DESC
+```
+
 ### [FUNCTION] Update nominations
 
 ```sql

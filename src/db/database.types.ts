@@ -195,6 +195,15 @@ export type Database = {
       }
     }
     Views: {
+      app_leaderboard_v1: {
+        Row: {
+          builder_score: number | null
+          social_profiles: Json | null
+          username: string | null
+          wallet_address: string | null
+        }
+        Relationships: []
+      }
       daily_nominations_view: {
         Row: {
           created_at: string | null
@@ -214,6 +223,22 @@ export type Database = {
           {
             foreignKeyName: "public_app_daily_nominations_user_id_nominated_fkey"
             columns: ["user_id_nominated"]
+            isOneToOne: false
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_nomination_streak: {
+        Row: {
+          last_nomination_day: number | null
+          streak: number | null
+          user_id_from: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_app_nominations_user_id_from_fkey"
+            columns: ["user_id_from"]
             isOneToOne: false
             referencedRelation: "app_user"
             referencedColumns: ["id"]
