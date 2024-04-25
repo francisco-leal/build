@@ -1,6 +1,7 @@
 'use client';
 import { Box, Button, Link, Typography } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { LogoLong } from '../icons';
 
 export const NavBar = () => {
     const { open } = useWeb3Modal();
@@ -17,9 +18,9 @@ export const NavBar = () => {
                     alignItems: 'center'
                 }}
             >
-                <Typography level="h2" sx={{ color: 'white' }}>
-                    BOSS
-                </Typography>
+                <Link href="/">
+                    <LogoLong />
+                </Link>
 
                 <Box sx={{ gap: '24px', display: { xs: 'none', md: 'flex' } }}>
                     <Link sx={{ color: 'common.white' }}>Memo</Link>

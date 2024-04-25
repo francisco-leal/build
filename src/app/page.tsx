@@ -2,7 +2,6 @@
 import { NavBar } from './shared/components/nav-bar';
 import { Typography, Button, Box, Link, Table } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
-import { LogoLong } from './shared/icons';
 
 export default function Home() {
     const { open } = useWeb3Modal();
