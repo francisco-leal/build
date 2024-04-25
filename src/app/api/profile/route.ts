@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { supabase } from '@/db';
 import { setSession } from '@/services/authentication/cookie-session';
 import { createProfile } from './create';
+import { SiweMessage } from 'siwe';
 
 export async function GET(request: NextRequest) {
     let { data: user_personal_stats, error } = await supabase
@@ -17,7 +18,15 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-    const { wallet_address } = await request.json();
+    const { wallet_address, siwe } = await request.json();
+
+    const SIWEObject = new SiweMessage(siwe.message);
+    const { data: message, error } = await SIWEObject.verify({ signature: siwe.signature, nonce: siwe.nonce });
+
+    if (error) {
+        return Response.json({ error }, { status: 404 });
+    }
+
     let { data: app_user, error: error_find } = await supabase
         .from('app_user')
         .select('*')
@@ -37,7 +46,16 @@ export async function POST(request: NextRequest) {
         app_user = data;
     }
 
-    await setSession({ userId: app_user[0].id, userWalletAddress: app_user[0].wallet_address });
+    await setSession({
+        userId: app_user[0].id,
+        userWalletAddress: app_user[0].wallet_address,
+        siwe: {
+            address: message.address,
+            nonce: message.nonce,
+            issuedAt: message.issuedAt,
+            expirationTime: message.expirationTime
+        }
+    });
     return Response.json(app_user[0]);
 }
 
