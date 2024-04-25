@@ -44,7 +44,18 @@ export default function Home() {
             </Box>
 
             {/* SECTION 1 */}
-            <Box sx={{ padding: '144px 0 80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box
+                sx={{
+                    padding: '144px 0 80px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundImage: 'url(/images/homepage.png)',
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center'
+                }}
+            >
                 <Box
                     sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '600px', gap: '40px' }}
                 >
