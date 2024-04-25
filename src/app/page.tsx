@@ -1,6 +1,7 @@
 'use client';
 import { Typography, Button, Box, Link, Table } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { LogoLong } from './shared/icons';
 
 export default function Home() {
     const { open } = useWeb3Modal();
@@ -19,9 +20,7 @@ export default function Home() {
             {/* NAVBAR */}
             <Box sx={{ padding: '8px 64px', borderBottom: '1px solid var(--neutral-050, #FBFCFE)' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography level="h2" sx={{ color: 'white' }}>
-                        BOSS
-                    </Typography>
+                    <LogoLong size={128} />
 
                     <Box sx={{ display: 'flex', gap: '24px' }}>
                         <Link sx={{ color: colors.white }}>Memo</Link>
