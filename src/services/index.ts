@@ -42,6 +42,7 @@ export async function searchSocialUser(querySearch: string) {
                 dappName
                 profileName
                 profileImage
+                userAssociatedAddresses
             }
         }
     }`;
@@ -55,14 +56,28 @@ export async function searchSocialUser(querySearch: string) {
         throw new Error(talentProtocolError);
     }
 
+    const filterFarcasterAddress = (userAddress: string, userAssociatedAddresses: string[]) => {
+        if (userAssociatedAddresses.length === 1) {
+            return userAddress;
+        }
+        const f = userAssociatedAddresses.filter(ua => ua !== userAddress);
+        return f.length === 1 ? f[0] : userAddress;
+    };
+
     // format results
     const result: { address: string; username: string; profile_image: string; dapp: string }[] = [];
     return result
         .concat(
             airstackData.Socials.Social
                 ? airstackData.Socials.Social.map(
-                      (s: { userAddress: string; profileName: string; dappName: string; profileImage: string }) => ({
-                          address: s.userAddress,
+                      (s: {
+                          userAddress: string;
+                          profileName: string;
+                          dappName: string;
+                          profileImage: string;
+                          userAssociatedAddresses: string[];
+                      }) => ({
+                          address: filterFarcasterAddress(s.userAddress, s.userAssociatedAddresses),
                           username: s.profileName,
                           profile_image: s.profileImage,
                           dapp: s.dappName
