@@ -5,6 +5,13 @@ ALTER TABLE app_nominations
 ADD CONSTRAINT unique_nomination_entry UNIQUE (user_id_from, user_id_nominated);
 ```
 
+### [CONSTRAINT] Unique daily leaderboard
+
+```sql
+ALTER TABLE app_leaderboard
+ADD CONSTRAINT unique_daily_leaderboard_entry UNIQUE (user_id, day_id);
+```
+
 ### [FUNCTION] Insert new user
 
 ```sql
@@ -105,6 +112,15 @@ FROM (
 ) AS subquery
 GROUP BY
     user_id_from, group_id;
+```
+
+### [VIEW] app leaderboard current
+
+```sql
+CREATE OR REPLACE VIEW app_leaderboard_current AS
+SELECT *
+    FROM app_leaderboard
+    WHERE day_id = (SELECT MAX(day_id) FROM app_leaderboard);
 ```
 
 ### [VIEW] app leaderboard v1
@@ -226,8 +242,8 @@ CREATE OR REPLACE FUNCTION update_leaderboard()
 RETURNS VOID AS $$
 BEGIN
     WITH user_scores AS (SELECT user_id, nominated AS score FROM app_user_stats)
-    INSERT INTO app_leaderboard (user_id, rank)
-    SELECT user_id, rank
+    INSERT INTO app_leaderboard (user_id, rank, day_id)
+    SELECT user_id, rank, (extract(epoch from current_timestamp)::integer / 86400) - 1
     FROM (
         SELECT
             user_id,

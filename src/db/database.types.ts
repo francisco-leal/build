@@ -47,16 +47,19 @@ export type Database = {
       }
       app_leaderboard: {
         Row: {
+          day_id: number
           id: number
           rank: number
           user_id: number
         }
         Insert: {
+          day_id: number
           id?: number
           rank: number
           user_id: number
         }
         Update: {
+          day_id?: number
           id?: number
           rank?: number
           user_id?: number
@@ -195,6 +198,35 @@ export type Database = {
       }
     }
     Views: {
+      app_leaderboard_current: {
+        Row: {
+          day_id: number | null
+          id: number | null
+          rank: number | null
+          user_id: number | null
+        }
+        Insert: {
+          day_id?: number | null
+          id?: number | null
+          rank?: number | null
+          user_id?: number | null
+        }
+        Update: {
+          day_id?: number | null
+          id?: number | null
+          rank?: number | null
+          user_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_app_leaderboard_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       app_leaderboard_v1: {
         Row: {
           builder_score: number | null
