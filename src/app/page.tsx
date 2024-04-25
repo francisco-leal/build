@@ -1,4 +1,5 @@
 'use client';
+import { NavBar } from './shared/components/nav-bar';
 import { Typography, Button, Box, Link, Table } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { LogoLong } from './shared/icons';
@@ -17,31 +18,7 @@ export default function Home() {
 
     return (
         <main>
-            {/* NAVBAR */}
-            <Box sx={{ padding: '8px 64px', borderBottom: '1px solid var(--neutral-050, #FBFCFE)' }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <LogoLong size={128} />
-
-                    <Box sx={{ display: 'flex', gap: '24px' }}>
-                        <Link sx={{ color: colors.white }}>Memo</Link>
-                        <Link sx={{ color: colors.white }}>Bossenomics</Link>
-                        <Link sx={{ color: colors.white }}>Airdrop</Link>
-                    </Box>
-
-                    <Button
-                        variant="solid"
-                        onClick={() => open()}
-                        size="md"
-                        sx={{
-                            color: colors.blue,
-                            backgroundColor: colors.white,
-                            borderRadius: '0%'
-                        }}
-                    >
-                        Connect Wallet
-                    </Button>
-                </Box>
-            </Box>
+            <NavBar />
 
             {/* SECTION 1 */}
             <Box sx={{ padding: '144px 0 80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -109,8 +86,14 @@ export default function Home() {
                                     borderRadius: '0%'
                                 }}
                             >
+<<<<<<< HEAD
                                 Read BOSS Memo
                             </Button>
+=======
+                                {"Dear builder, you're fired."}
+                            </Typography>
+                        </Box>
+>>>>>>> c686e9a (refactor: add theme)
 
                             <Button
                                 variant="solid"
@@ -121,8 +104,16 @@ export default function Home() {
                                     borderRadius: '0%'
                                 }}
                             >
+<<<<<<< HEAD
                                 Mint Builders Manifesto
                             </Button>
+=======
+                                {`
+                                    There's no room for builders in the corporate world. Read the memo and 
+                                    help us keep the status quo: nominate the builders you know.
+                                `}
+                            </Typography>
+>>>>>>> c686e9a (refactor: add theme)
                         </Box>
                     </Box>
                 </Box>
