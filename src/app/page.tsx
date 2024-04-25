@@ -1,9 +1,11 @@
 'use client';
-import { Typography, Button, Box, Table } from '@mui/joy';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { Typography, Button, Box, Table, Link } from '@mui/joy';
 import { NavBar } from '@/app/shared/components/nav-bar';
 import { Footer } from '@/app/shared/components/footer';
 
 export default function Home() {
+    const { open } = useWeb3Modal();
 
     const colors = { blue: '#0142F5', white: '#FBFCFE', lightBlue: '#CDD7E1', black: '#0B0D0E', grey: '#636B74' };
 
@@ -95,7 +97,9 @@ export default function Home() {
                                     borderRadius: '0%'
                                 }}
                             >
-                                Read BOSS Memo
+                                <Link href="/memo" underline='none' sx={{color: colors.white}}>
+                                    Read BOSS Memo
+                                </Link>
                             </Button>
 
                             <Button
@@ -239,6 +243,7 @@ export default function Home() {
                                 </Box>
 
                                 <Button
+                                    onClick={() => open()}
                                     variant="solid"
                                     size="md"
                                     sx={{
