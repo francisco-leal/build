@@ -20,7 +20,7 @@ export const NavBar = () => {
 
     return (
         <Box ref={headerRef} component="nav" sx={{ py: 2, px: 2, borderBottom: 1, borderColor: 'common.white' }}>
-            <Stack direction="row" spacing={2} maxWidth="lg" justifyContent="space-between">
+            <Stack direction="row" spacing={2} maxWidth="lg" justifyContent="space-between" mx="auto">
                 <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
                     <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
                     <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
