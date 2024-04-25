@@ -25,8 +25,8 @@ export default function Home() {
 
                     <Box sx={{ display: 'flex', gap: '24px' }}>
                         <Link sx={{ color: colors.white }}>Memo</Link>
-                        <Link sx={{ color: colors.white }}>Airdrop</Link>
                         <Link sx={{ color: colors.white }}>Bossenomics</Link>
+                        <Link sx={{ color: colors.white }}>Airdrop</Link>
                     </Box>
 
                     <Button
