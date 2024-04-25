@@ -1,7 +1,7 @@
 'use client';
+import { NavBar } from '@/app/shared/components/nav-bar';
 import { Typography, Button, Box, Link, Table } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
-import { LogoLong } from './shared/icons';
 
 export default function Home() {
     const { open } = useWeb3Modal();
@@ -17,32 +17,7 @@ export default function Home() {
 
     return (
         <main>
-            {/* NAVBAR */}
-            <Box sx={{ padding: '8px 64px', borderBottom: '1px solid var(--neutral-050, #FBFCFE)' }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <LogoLong size={128} />
-
-                    <Box sx={{ display: 'flex', gap: '24px' }}>
-                        <Link sx={{ color: colors.white }}>Memo</Link>
-                        <Link sx={{ color: colors.white }}>Bossenomics</Link>
-                        <Link sx={{ color: colors.white }}>Airdrop</Link>
-                    </Box>
-
-                    <Button
-                        variant="solid"
-                        onClick={() => open()}
-                        size="md"
-                        sx={{
-                            color: colors.blue,
-                            backgroundColor: colors.white,
-                            borderRadius: '0%'
-                        }}
-                    >
-                        Connect Wallet
-                    </Button>
-                </Box>
-            </Box>
-
+            <NavBar />
             {/* SECTION 1 */}
             <Box sx={{ padding: '144px 0 80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Box
