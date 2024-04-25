@@ -1,10 +1,9 @@
 'use client';
+import { Typography, Button, Box, Table } from '@mui/joy';
 import { NavBar } from '@/app/shared/components/nav-bar';
-import { Typography, Button, Box, Link, Table } from '@mui/joy';
-import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { Footer } from '@/app/shared/components/footer';
 
 export default function Home() {
-    const { open } = useWeb3Modal();
 
     const colors = { blue: '#0142F5', white: '#FBFCFE', lightBlue: '#CDD7E1', black: '#0B0D0E', grey: '#636B74' };
 
@@ -18,6 +17,7 @@ export default function Home() {
     return (
         <main>
             <NavBar />
+
             {/* SECTION 1 */}
             <Box
                 sx={{
@@ -459,43 +459,7 @@ export default function Home() {
                 </Box>
             </Box>
 
-            {/* FOOTER */}
-            <Box
-                sx={{
-                    padding: '48px 0 32px 0',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}
-            >
-                <Box
-                    sx={{
-                        width: '1224px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '24px'
-                    }}
-                >
-                    <Typography sx={{ color: colors.white, fontSize: '51px' }}>BOSS</Typography>
-
-                    <Box sx={{ display: 'flex', gap: '24px' }}>
-                        <Link sx={{ color: colors.white }}>Buy</Link>
-                        <Link sx={{ color: colors.white }}>Farcaster</Link>
-                        <Link sx={{ color: colors.white }}>Telegram</Link>
-                        <Link sx={{ color: colors.white }}>Party.app</Link>
-                        <Link sx={{ color: colors.white }}>FAQ</Link>
-                        <Link sx={{ color: colors.white }}>Meme templates</Link>
-                    </Box>
-
-                    <Typography sx={{ color: colors.white }}>
-                        BOSS is an experimental community project, not directly owned by{' '}
-                        <Link sx={{ color: colors.white, textDecoration: 'underline' }}>Talent Protocol</Link>. Not
-                        Financial Advice. DYOR.
-                    </Typography>
-                </Box>
-            </Box>
+            <Footer />
         </main>
     );
 }
