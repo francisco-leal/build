@@ -1,7 +1,6 @@
-import { type NextRequest } from 'next/server';
 import { supabase } from '@/db';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     let { data: app_leaderboard, error } = await supabase.from('app_leaderboard').select('*');
 
     if (error || !app_leaderboard) {

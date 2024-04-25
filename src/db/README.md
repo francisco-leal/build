@@ -87,6 +87,26 @@ JOIN app_user un ON an.user_id = u.id
 LEFT JOIN app_leaderboard lb ON u.id = lb.user_id;
 ```
 
+### [VIEW] User's nominations streak
+
+```sql
+CREATE OR REPLACE VIEW user_nomination_streak AS
+SELECT
+    user_id_from,
+    MAX(day_id) AS last_nomination_day,
+    COUNT(*) AS streak
+FROM (
+    SELECT DISTINCT ON (user_id_from, day_id)
+        user_id_from,
+        day_id,
+        day_id - ROW_NUMBER() OVER (PARTITION BY user_id_from ORDER BY day_id) AS group_id
+    FROM
+        app_nominations
+) AS subquery
+GROUP BY
+    user_id_from, group_id;
+```
+
 ### [FUNCTION] Update nominations
 
 ```sql
@@ -95,7 +115,9 @@ RETURNS VOID AS $$
 BEGIN
     INSERT INTO app_nominations (user_id_from, user_id_nominated, day_id)
     SELECT user_id_from, user_id_nominated, extract(epoch from created_at)::integer / 86400
-    FROM daily_nominations_view;
+    FROM daily_nominations_view
+    -- avoid throwing when meeting the unique constraint
+    ON CONFLICT DO NOTHING;
 END;
 $$ LANGUAGE plpgsql;
 ```
@@ -108,13 +130,6 @@ RETURNS VOID AS $$
 BEGIN
     UPDATE app_user_stats AS aus
     SET
-        nomination_streak = (
-            SELECT COUNT(DISTINCT an1.day_id)
-            FROM app_nominations AS an1
-            WHERE an1.user_id_from = aus.user_id
-            AND an1.day_id >= (SELECT MAX(day_id) FROM app_nominations WHERE user_id_from = aus.user_id) - (aus.nomination_streak * 86400)
-            AND an1.day_id <= (SELECT MAX(day_id) FROM app_nominations WHERE user_id_from = aus.user_id)
-        ),
         nominations = (
             SELECT COUNT(*)
             FROM app_nominations AS an2
@@ -127,6 +142,27 @@ BEGIN
         )
     -- to prevent pg-safeupdate error
     WHERE TRUE;
+
+    -- Update users listed in user_nomination_streak with their streak, and set others' streak to zero
+    UPDATE app_user_stats AS aus
+    SET nomination_streak = COALESCE(streak, 0)
+    FROM (
+        SELECT
+            user_id_from,
+            streak
+        FROM
+            user_nomination_streak
+        WHERE
+            last_nomination_day = (extract(epoch from current_timestamp)::integer / 86400) - 1
+    ) AS streak_data
+    WHERE
+        aus.user_id = streak_data.user_id_from;
+
+    -- Set streak to zero for users not listed in user_nomination_streak
+    UPDATE app_user_stats
+    SET nomination_streak = 0
+    WHERE
+        user_id NOT IN (SELECT user_id_from FROM user_nomination_streak WHERE last_nomination_day = (extract(epoch from current_timestamp)::integer / 86400) - 1);
 END;
 $$ LANGUAGE plpgsql;
 ```
@@ -138,30 +174,24 @@ CREATE OR REPLACE FUNCTION update_user_boss_score()
 RETURNS VOID AS $$
 BEGIN
     -- Update nominated users' boss_score (90% of boss_budget) and calculate bpe_nominations
-    UPDATE app_user_stats AS aus
+    UPDATE app_user_stats AS nominated
     SET
-        boss_score = boss_score + (0.9 * nominated_budget),
-        bpe_nominations = bpe_nominations + COALESCE((0.9 * nominated_budget), 0)
-    FROM (
-        SELECT user_id_nominated, SUM(boss_budget) AS nominated_budget
-        FROM app_daily_nominations
-        JOIN app_user_stats ON app_daily_nominations.user_id_nominated = app_user_stats.user_id
-        GROUP BY user_id_nominated
-    ) AS uin
-    WHERE aus.user_id = uin.user_id_nominated;
+        boss_score = nominated.boss_score + (0.9 * nominator.boss_budget),
+        bpe_nominations = nominated.bpe_nominations + (0.9 * nominator.boss_budget)
+    FROM app_nominations AS nomination
+    JOIN app_user_stats AS nominator ON nomination.user_id_from = nominator.user_id
+    WHERE nominated.user_id = nomination.user_id_nominated
+    AND nomination.day_id = (extract(epoch from current_timestamp)::integer / 86400) - 1;
 
     -- Update nominating users' boss_score (10% of boss_budget) and calculate bpe_regular_nominator
-    UPDATE app_user_stats AS aus
+    UPDATE app_user_stats AS nominator
     SET
-        boss_score = boss_score + (0.1 * nominated_budget),
-        bpe_regular_nominator = bpe_regular_nominator + COALESCE((0.1 * nominated_budget), 0)
-    FROM (
-        SELECT user_id_nominated, SUM(boss_budget) AS nominated_budget
-        FROM app_daily_nominations
-        JOIN app_user_stats ON app_daily_nominations.user_id_nominated = app_user_stats.user_id
-        GROUP BY user_id_nominated
-    ) AS uin, app_daily_nominations
-    WHERE aus.user_id = app_daily_nominations.user_id_from;
+        boss_score = nominator.boss_score + (0.1 * nominator.boss_budget),
+        bpe_regular_nominator = nominator.bpe_regular_nominator + (0.1 * nominator.boss_budget)
+    FROM app_nominations AS nomination
+    JOIN app_user_stats AS nominator_data ON nomination.user_id_from = nominator_data.user_id
+    WHERE nominator.user_id = nomination.user_id_from
+    AND nomination.day_id = (extract(epoch from current_timestamp)::integer / 86400) - 1;
 END;
 $$ LANGUAGE plpgsql;
 ```
