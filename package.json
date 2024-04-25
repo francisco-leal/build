@@ -15,6 +15,8 @@
         "supabase-types": "supabase gen types typescript --project-id \"$SUPABASE_BOSS_PROJECT\" --schema public > src/db/database.types.ts"
     },
     "dependencies": {
+        "frog": "0.8.6",
+        "hono": "4.2.7",
         "@airstack/node": "0.0.6",
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
