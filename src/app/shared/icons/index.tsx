@@ -1,9 +1,10 @@
-import { MusicHeadeset } from './music-headset';
-import { Coin } from './coin';
-import { ContentFiles } from './content-files';
-import { Eye } from './eye';
-import { LogoLong } from './logo-long';
-import { Terminal } from './terminal';
-import { UserShield } from './user-shield';
-
-export { MusicHeadeset, Coin, ContentFiles, Eye, LogoLong, Terminal, UserShield };
+export { MusicHeadeset } from './music-headset';
+export { Coin } from './coin';
+export { Cross } from './cross';
+export { ContentFiles } from './content-files';
+export { Eye } from './eye';
+export { LogoLong } from './logo-long';
+export { LogoShort } from './logo-short';
+export { Terminal } from './terminal';
+export { UserShield } from './user-shield';
+export { Hamburger } from './hamburger';

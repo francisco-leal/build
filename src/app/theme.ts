@@ -5,6 +5,9 @@ export const theme = extendTheme({
     colorSchemes: {
         light: {
             palette: {
+                primary: {
+                    500: '#0142F5'
+                },
                 neutral: {
                     solidColor: '#0142F5',
                     solidBg: '#FBFCFE',
