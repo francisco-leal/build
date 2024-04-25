@@ -19,7 +19,18 @@ export default function Home() {
         <main>
             <NavBar />
             {/* SECTION 1 */}
-            <Box sx={{ padding: '144px 0 80px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box
+                sx={{
+                    padding: '144px 0 80px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundImage: 'url(/images/homepage.png)',
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center'
+                }}
+            >
                 <Box
                     sx={{
                         width: '1224px',
