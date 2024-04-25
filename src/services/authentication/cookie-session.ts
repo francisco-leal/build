@@ -7,6 +7,12 @@ if (!sessionPassword) throw new Error('SESSION_PASSWORD is not set');
 export type User = {
     userId: number;
     userWalletAddress: string;
+    siwe?: {
+        nonce: string;
+        address: string;
+        issuedAt?: string;
+        expirationTime?: string;
+    };
 };
 
 export async function getSession(): Promise<User | null> {
