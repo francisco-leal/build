@@ -23,9 +23,9 @@ export const NavBar = () => {
                 </Link>
 
                 <Box sx={{ gap: '24px', display: { xs: 'none', md: 'flex' } }}>
-                    <Link sx={{ color: 'common.white' }}>Memo</Link>
+                    <Link href="/memo" sx={{ color: 'common.white' }}>Memo</Link>
                     <Link sx={{ color: 'common.white' }}>Airdrop</Link>
-                    <Link sx={{ color: 'common.white' }}>Bossenomics</Link>
+                    <Link href="/bossenomics" sx={{ color: 'common.white' }}>Bossenomics</Link>
                 </Box>
 
                 <Button variant="solid" color="neutral" onClick={() => open()}>
