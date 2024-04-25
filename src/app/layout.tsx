@@ -1,4 +1,10 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+
+import { cookieToInitialState } from 'wagmi';
+
+import { config } from './config';
+import Web3ModalProvider from './context';
 
 export const metadata: Metadata = {
     title: '$BOSS',
@@ -10,9 +16,12 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const initialState = cookieToInitialState(config, headers().get('cookie'));
     return (
         <html lang="en">
-            <body>{children}</body>
+            <body>
+                <Web3ModalProvider initialState={initialState}>{children}</Web3ModalProvider>
+            </body>
         </html>
     );
 }
