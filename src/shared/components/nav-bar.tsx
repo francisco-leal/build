@@ -2,10 +2,9 @@
 import { Box, Button, Drawer, IconButton, Link, Stack, Typography } from '@mui/joy';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { Cross, Hamburger, LogoLong, LogoShort } from '../icons';
-import { useEffect, useRef, useContext } from 'react';
+import { useRef } from 'react';
 import { useDisclose } from '../hooks/use-disclose';
 import { useAccount } from 'wagmi';
-import { UserContext } from '@/context/user';
 
 const MOBILE_BREAKPOINT = 'md' as const;
 const MOBILE_ONLY = { xs: 'block', [MOBILE_BREAKPOINT]: 'none' } as const;
@@ -14,9 +13,7 @@ const DESKTOP_ONLY = { xs: 'none', [MOBILE_BREAKPOINT]: 'flex' } as const;
 export const NavBar = () => {
     // Wallet
     const { open } = useWeb3Modal();
-    const { address, isConnected } = useAccount();
-    const { user, authUser } = useContext(UserContext);
-    const preventMultipleAuth = useRef(false);
+    const { address } = useAccount();
     // UI
     const drawer = useDisclose();
     const headerRef = useRef<HTMLDivElement>(null);
@@ -24,18 +21,6 @@ export const NavBar = () => {
     // FIXME this could lead to leaky styles if the header size becomes dynamic.
     const headerHeight = headerRef.current?.clientHeight ?? 0;
     const drawerHeight = `calc(100vh - ${headerHeight}px)`;
-
-    useEffect(() => {
-        if (isConnected && !user && !preventMultipleAuth.current) {
-            preventMultipleAuth.current = true; // Set the ref to true after calling authUser
-            authUser();
-        }
-
-        // Reset the flag if the user disconnects
-        return () => {
-            preventMultipleAuth.current = false;
-        };
-    }, [address, isConnected]);
 
     return (
         <Box ref={headerRef} component="nav" sx={{ py: 2, px: 2, borderBottom: 1, borderColor: 'common.white' }}>
@@ -53,7 +38,7 @@ export const NavBar = () => {
 
                 <Stack direction={'row'} spacing={2}>
                     <Button variant="solid" color="neutral" onClick={() => open()}>
-                        Connect Wallet
+                        {address ? address.slice(0, 8) : 'Connect Wallet'}
                     </Button>
 
                     <IconButton
