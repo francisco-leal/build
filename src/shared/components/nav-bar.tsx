@@ -1,19 +1,15 @@
 'use client';
-import { Box, Button, Drawer, IconButton, Link, Stack, Typography } from '@mui/joy';
-import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { Box, Drawer, IconButton, Link, Stack, Typography } from '@mui/joy';
 import { Cross, Hamburger, LogoLong, LogoShort } from '../icons';
 import { useRef } from 'react';
 import { useDisclose } from '../hooks/use-disclose';
-import { useAccount } from 'wagmi';
+import { ConnectWalletButton } from './connect-wallet-button';
 
 const MOBILE_BREAKPOINT = 'md' as const;
 const MOBILE_ONLY = { xs: 'block', [MOBILE_BREAKPOINT]: 'none' } as const;
 const DESKTOP_ONLY = { xs: 'none', [MOBILE_BREAKPOINT]: 'flex' } as const;
 
 export const NavBar = () => {
-    // Wallet
-    const { open } = useWeb3Modal();
-    const { address } = useAccount();
     // UI
     const drawer = useDisclose();
     const headerRef = useRef<HTMLDivElement>(null);
@@ -37,9 +33,7 @@ export const NavBar = () => {
                 </Box>
 
                 <Stack direction={'row'} spacing={2}>
-                    <Button variant="solid" color="neutral" onClick={() => open()}>
-                        {address ? address.slice(0, 8) : 'Connect Wallet'}
-                    </Button>
+                    <ConnectWalletButton />
 
                     <IconButton
                         onClick={drawer.toggle}
