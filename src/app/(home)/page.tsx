@@ -9,7 +9,7 @@ export default function Home() {
     const colors = { blue: '#0142F5', white: '#FBFCFE', lightBlue: '#CDD7E1', black: '#0B0D0E', grey: '#636B74' };
 
     return (
-        <main>
+        <>
             <NavBar />
             <Section1 />
             <Section2 />
@@ -208,6 +208,6 @@ export default function Home() {
                     </Typography>
                 </Box>
             </Box>
-        </main>
+        </>
     );
 }

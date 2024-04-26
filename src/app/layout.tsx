@@ -7,6 +7,7 @@ import { config } from '@/config';
 import Web3ModalProvider from '@/context';
 import { theme } from './theme';
 import { Box } from '@mui/joy';
+import { UserProvider } from '@/context/user';
 
 export const metadata: Metadata = {
     title: '$BOSS',
@@ -23,7 +24,9 @@ export default function RootLayout({
         <html lang="en">
             <CssVarsProvider theme={theme}>
                 <Box component="body" sx={{ backgroundColor: 'primary.500', m: 0, p: 0 }}>
-                    <Web3ModalProvider initialState={initialState}>{children}</Web3ModalProvider>
+                    <Web3ModalProvider initialState={initialState}>
+                        <UserProvider>{children}</UserProvider>
+                    </Web3ModalProvider>
                 </Box>
             </CssVarsProvider>
         </html>
