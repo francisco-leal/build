@@ -7,7 +7,6 @@ export const Footer = () => {
             sx={{
                 pt: 6,
                 pb: 4,
-                px: 0,
                 gap: 3,
                 alignItems: 'center'
             }}
