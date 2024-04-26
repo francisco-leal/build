@@ -10,8 +10,7 @@ export const ConnectWalletButton = ({ hideIfConnected }: { hideIfConnected?: boo
     return (
         <Box
             sx={{
-                '& *': { backgroundColor: 'white' },
-                padding: '120px'
+                '& *': { backgroundColor: 'white' }
             }}
         >
             <w3m-button />
