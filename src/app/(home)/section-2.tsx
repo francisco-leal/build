@@ -1,5 +1,5 @@
 import { Button, Link, Sheet, Stack, Typography } from '@mui/joy';
-import { Eye, Terminal } from '../shared/icons';
+import { Eye, Terminal } from '@/shared/icons';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 
 export const Section2 = () => {
