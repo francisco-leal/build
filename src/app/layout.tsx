@@ -3,8 +3,8 @@ import { headers } from 'next/headers';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { cookieToInitialState } from 'wagmi';
 
-import { config } from './config';
-import Web3ModalProvider from './context';
+import { config } from '@/config';
+import Web3ModalProvider from '@/context';
 import { theme } from './theme';
 
 export const metadata: Metadata = {
