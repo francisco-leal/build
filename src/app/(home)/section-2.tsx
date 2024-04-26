@@ -6,6 +6,7 @@ export const Section2 = () => {
     const { open } = useWeb3Modal();
     return (
         <Stack
+            component="section"
             sx={{
                 maxWidth: { xs: 'sm', lg: 'lg' },
                 flexDirection: { xs: 'column', lg: 'row' },

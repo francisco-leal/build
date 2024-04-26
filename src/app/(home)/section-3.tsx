@@ -9,6 +9,7 @@ const mockData = [
 
 export const Section3 = () => (
     <Box
+        component="section"
         sx={{
             // Temporary, hide section in mobile
             display: 'flex',
