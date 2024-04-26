@@ -29,6 +29,14 @@ export async function validateAndNominate(user_nominator: { userId: number }, no
     }
 
     // validate user nominating user and limits
+    const fromDate = new Date();
+    fromDate.setHours(0, 0, 0, 0);
+    const toDate = new Date();
+    toDate.setHours(0, 0, 0, 0);
+    toDate.setDate(toDate.getDate() + 1);
+
+    console.log();
+
     const [
         { data: user_nominated_user, error: error_user_nominated_user },
         { data: user_daily_nominated_users, error: error_user_daily_nominated_users }
@@ -38,7 +46,12 @@ export async function validateAndNominate(user_nominator: { userId: number }, no
             .select('id')
             .eq('user_id_from', user_nominator.userId)
             .eq('user_id_nominated', nominated_user[0].id),
-        supabase.from('app_daily_nominations').select('user_id_nominated').eq('user_id_from', user_nominator.userId)
+        supabase
+            .from('app_daily_nominations')
+            .select('user_id_nominated')
+            .eq('user_id_from', user_nominator.userId)
+            .gte('created_at', fromDate.toISOString())
+            .lte('created_at', toDate.toISOString())
     ]);
 
     if (error_user_nominated_user) {
@@ -48,6 +61,8 @@ export async function validateAndNominate(user_nominator: { userId: number }, no
     if (error_user_daily_nominated_users) {
         return { error: error_user_daily_nominated_users, data: null };
     }
+
+    console.log(user_daily_nominated_users, fromDate, toDate);
 
     if (
         user_daily_nominated_users &&
