@@ -1,4 +1,4 @@
-import { Sheet, Stack, Typography } from '@mui/joy';
+import { Sheet, Stack, Typography, Box } from '@mui/joy';
 
 export const Section2 = () => {
     return (
@@ -47,10 +47,13 @@ export const Section2 = () => {
             <Sheet
                 variant="outlined"
                 sx={{
-                    maxWidth: { xs: 'md', md: 'lg' },
-                    height: 372 // -> this will be removed when the graphic is added
+                    maxWidth: { xs: 'md', md: 'lg' }
                 }}
-            ></Sheet>
+            >
+                <Box>
+                    <img src="/public/images/bossenomics-graph.png" alt="graph" />
+                </Box>
+            </Sheet>
         </Stack>
     );
 };
