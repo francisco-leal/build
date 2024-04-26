@@ -1,40 +1,32 @@
 /* eslint-disable react/jsx-key */
 /** @jsxImportSource frog/jsx */
 
-import { Button, FrameIntent, Frog, TextInput } from 'frog';
+import { Button, Frog } from 'frog';
 import { devtools } from 'frog/dev';
 import { handle } from 'frog/next';
+import { neynar } from 'frog/hubs';
 import { serveStatic } from 'frog/serve-static';
 
 const app = new Frog({
     assetsPath: '/',
-    basePath: '/api'
+    basePath: '/api',
+    hub: neynar({ apiKey: 'NEYNAR_FROG_FM' }),
+    verify: true
 });
 
-app.frame('/:username?', c => {
-    const { inputText, status } = c;
-    const username = c.req.param('username') || inputText;
-
-    console.log('username', username, inputText);
-
-    const frameIntents: FrameIntent[] = [];
-    if (!username) {
-        frameIntents.push(<TextInput placeholder="Enter nominee..." />);
-    }
-    if (status !== 'response') {
-        frameIntents.push(<Button value="nominate">Nominate</Button>);
-    }
-    if (status === 'response') {
-        // TODO: do api request to nominate
-        frameIntents.push(<Button.Reset>Reset</Button.Reset>);
-    }
+app.frame('/nominate/:address', async c => {
+    const userAddress = c.req.param('address');
+    const { origin } = new URL(c.url);
+    const r = await fetch(origin + '/api/profile?wallet_address=' + userAddress);
+    const response = await r.json();
 
     return c.res({
+        action: `/confirm/${userAddress}`,
         image: (
             <div
                 style={{
                     alignItems: 'center',
-                    background: status === 'response' ? 'linear-gradient(to right, #432889, #17101F)' : 'black',
+                    background: 'black',
                     backgroundSize: '100% 100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -45,27 +37,102 @@ app.frame('/:username?', c => {
                     width: '100%'
                 }}
             >
-                <div
-                    style={{
-                        color: 'white',
-                        fontSize: 60,
-                        fontStyle: 'normal',
-                        letterSpacing: '-0.025em',
-                        lineHeight: 1.4,
-                        marginTop: 30,
-                        padding: '0 120px',
-                        whiteSpace: 'pre-wrap'
-                    }}
-                >
-                    {status === 'response'
-                        ? 'Thaaannkkk youuuu!!1 🥳'
-                        : username
-                          ? `Vote for ${username}!`
-                          : 'Write a nominee 👇'}
+                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>Name: {response.username}</div>
+                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>Rank: {response.my_rank}</div>
+            </div>
+        ),
+        intents: [<Button value="nominate">Nominate</Button>]
+    });
+});
+
+app.frame('/confirm/:address', async c => {
+    const { status, frameData, previousButtonValues, verified } = c;
+    const userAddress = c.req.param('address');
+    const fromAddress = frameData?.address;
+    const { origin } = new URL(c.url);
+
+    if (!fromAddress) {
+        return c.res({
+            image: (
+                <div style={{ display: 'flex', background: 'black' }}>
+                    <div style={{ display: 'flex', color: 'white' }}>Connect first!</div>
+                </div>
+            ),
+            intents: [<Button.Reset>Reset</Button.Reset>]
+        });
+    }
+
+    if (status === 'response' && previousButtonValues && previousButtonValues[0] === 'confirm') {
+        if (verified) {
+            const r = await fetch(origin + '/api/nominate/frame', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nominated_user_address: userAddress, from_user_address: fromAddress })
+            });
+            if (r.status === 200) {
+                return c.res({
+                    image: (
+                        <div style={{ display: 'flex', background: 'black' }}>
+                            <div style={{ display: 'flex', color: 'white' }}>Nominated!</div>
+                        </div>
+                    ),
+                    intents: [<Button.Reset>Reset</Button.Reset>]
+                });
+            }
+            if (r.status === 401) {
+                return c.res({
+                    image: (
+                        <div style={{ display: 'flex', background: 'black' }}>
+                            <div style={{ display: 'flex', color: 'white' }}>Connect first!</div>
+                        </div>
+                    ),
+                    intents: [<Button.Reset>Reset</Button.Reset>]
+                });
+            }
+            if (r.status === 400) {
+                const response = await r.json();
+                return c.res({
+                    image: (
+                        <div style={{ display: 'flex', background: 'black' }}>
+                            <div style={{ display: 'flex', color: 'white' }}>{response.error}</div>
+                        </div>
+                    ),
+                    intents: [<Button.Reset>Reset</Button.Reset>]
+                });
+            }
+        }
+    }
+
+    const r = await fetch(origin + '/api/profile?wallet_address=' + fromAddress);
+    const response = await r.json();
+
+    return c.res({
+        image: (
+            <div
+                style={{
+                    alignItems: 'center',
+                    background: 'black',
+                    backgroundSize: '100% 100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'nowrap',
+                    height: '100%',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    width: '100%'
+                }}
+            >
+                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>
+                    You will give: {response.my_boss_budget * 0.9} points
+                </div>
+                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>
+                    You will receive: {response.my_boss_budget * 0.1} points
                 </div>
             </div>
         ),
-        intents: frameIntents
+        intents: [<Button value="confirm">Confirm</Button>]
     });
 });
 
