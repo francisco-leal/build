@@ -1,5 +1,5 @@
 'use client';
-import { NavBar } from '../shared/components/nav-bar';
+import { NavBar } from '@/shared/components/nav-bar';
 import { Typography, Button, Box, Link, Table } from '@mui/joy';
 import { Section1 } from './section-1';
 import { Section2 } from './section-2';
