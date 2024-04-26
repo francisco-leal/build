@@ -42,7 +42,7 @@ export const Section1 = () => (
                 }}
             >
                 Dear builder,
-                <br /> you're fired.
+                <br /> you&apos;re fired.
             </Typography>
 
             <Typography
@@ -54,7 +54,7 @@ export const Section1 = () => (
                     textAlign: 'center'
                 }}
             >
-                There's no room for builders in the corporate world. Read the memo and help us keep the status quo:
+                There&apos;s no room for builders in the corporate world. Read the memo and help us keep the status quo:
                 nominate the builders you know.
             </Typography>
 

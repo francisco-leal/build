@@ -5,13 +5,13 @@ import { Card, Typography } from '@mui/joy';
 
 const content = [
     'Dear builder,',
-    'If you could go ahead and read this letter, that’d be great.',
-    "I hope this memo finds you... doing whatever it is you do. Look, I'll cut to the chase – you're fired. Yeah, sorry about that.",
+    "If you could go ahead and read this letter, that'd be great.",
+    "I hope this memo finds you... doing whatever it is you do. Look, I'll cut to the chase - you're fired. Yeah, sorry about that.",
     "I mean, don't get me wrong, your whole permissionless thing is fascinating and all.",
-    "I know you’re all about your autonomy, decentralization and whatnot, but that's just not how we do things around here, okay? We like our hierarchies and red tape, thank you very much.",
+    "I know you're all about your autonomy, decentralization and whatnot, but that's just not how we do things around here, okay? We like our hierarchies and red tape, thank you very much.",
     "And all this talk about meritocracy, impactful work and equal opportunity? Yeah, that's gonna be a no from us. We prefer to keep things nice and cozy for the folks at the top.",
     'So, yeah, consider this your official notice. Mmmkay?',
-    "Your services are no longer required, effective immediately. You may think you're all hot stuff with your web3 dreams, but let's face it – there's no room for rebels and troublemakers in the corporate world.",
+    "Your services are no longer required, effective immediately. You may think you're all hot stuff with your web3 dreams, but let's face it - there's no room for rebels and troublemakers in the corporate world.",
     'Best regards,'
 ];
 
