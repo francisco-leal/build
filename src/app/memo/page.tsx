@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 import { Sheet, Stack, Typography } from '@mui/joy';
-import { NavBar } from '@/shared/components/nav-bar';
+import { Header } from '@/shared/components/header';
 import { Footer } from '@/shared/components/footer';
 
 const content = [
@@ -19,7 +19,7 @@ const content = [
 export default function Memo() {
     return (
         <main>
-            <NavBar />
+            <Header />
 
             <Stack sx={{ alignItems: 'center' }}>
                 <Stack
