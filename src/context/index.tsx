@@ -17,7 +17,13 @@ if (!projectId) throw new Error('Project ID is not defined');
 // Create modal
 createWeb3Modal({
     wagmiConfig: config,
-    projectId
+    projectId,
+    themeMode: 'light',
+    themeVariables: {
+        '--w3m-border-radius-master': '0px',
+        '--w3m-color-mix': '#0142F5',
+        '--w3m-color-mix-strength': 0
+    }
 });
 
 export default function Web3ModalProvider({ children, initialState }: { children: ReactNode; initialState?: State }) {
