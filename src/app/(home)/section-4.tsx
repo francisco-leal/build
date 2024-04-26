@@ -38,13 +38,7 @@ export const Section4 = () => {
                         </Typography>
                     </Stack>
 
-                    <Button
-                        variant="solid"
-                        color="neutral"
-                        component={Link}
-                        href="/"
-                        underline="none"
-                    >
+                    <Button variant="solid" color="neutral" component={Link} href="/" underline="none">
                         Claim Talent Passport
                     </Button>
                 </Stack>
@@ -69,13 +63,7 @@ export const Section4 = () => {
                         </Typography>
                     </Stack>
 
-                    <Button
-                        variant="solid"
-                        color="neutral"
-                        component={Link}
-                        href="/"
-                        underline="none"
-                    >
+                    <Button variant="solid" color="neutral" component={Link} href="/" underline="none">
                         Join Party
                     </Button>
                 </Stack>
