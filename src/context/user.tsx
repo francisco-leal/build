@@ -33,10 +33,27 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({ child
     const [authingUser, setAuthingUser] = useState(false);
     const [user, setUser] = useState<User | null>(null);
 
+    const checkCookieForUser = async () => {
+        const res = await fetch('/api/profile', {
+            credentials: 'include'
+        });
+
+        if (!res.ok) {
+            return false;
+        }
+
+        const userResponse = await res.json();
+        setUser(userResponse);
+        return true;
+    };
+
     // Function to update user data
     const authUser = async () => {
         if (authingUser) return false;
         if (user) return true;
+
+        const userSaved = await checkCookieForUser();
+        if (userSaved) return true;
 
         setAuthingUser(true);
         const res = await fetch('/api/profile/nonce', {

@@ -6,7 +6,7 @@ export async function PATCH() {
     const user = await getSession();
 
     if (!user) {
-        return Response.json({ error: 'user now connected!' }, { status: 401 });
+        return Response.json({ error: 'user not connected!' }, { status: 401 });
     }
     const builderScore = await getBuilderScore(user.userWalletAddress);
     const { data: user_personal_stats, error } = await supabase
