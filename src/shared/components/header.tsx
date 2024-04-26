@@ -27,9 +27,27 @@ export const Header = () => {
                 </Link>
 
                 <Box sx={{ gap: '24px', display: DESKTOP_ONLY }} component="nav">
-                    <Link sx={{ color: 'common.white' }}>Memo</Link>
-                    <Link sx={{ color: 'common.white' }}>Bossenomics</Link>
-                    <Link sx={{ color: 'common.white' }}>Airdrop</Link>
+                    <Link sx={{ color: 'common.white' }} href="/memo">
+                        Memo
+                    </Link>
+                    <Link sx={{ color: 'common.white' }} href="/bossenomics">
+                        Bossenomics
+                    </Link>
+                    <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
+                        <Typography sx={{ color: 'common.white', opacity: '0.5' }}>Airdrop</Typography>
+                        <Typography
+                            sx={{
+                                color: 'primary',
+                                bgcolor: 'common.white',
+                                fontWeight: '500',
+                                px: 1,
+                                borderRadius: '24px',
+                                fontSize: '12px'
+                            }}
+                        >
+                            Soon
+                        </Typography>
+                    </Stack>
                 </Box>
 
                 <Stack direction={'row'} spacing={2}>
@@ -92,9 +110,23 @@ export const Header = () => {
                     }
                 }}
             >
-                <Link>Memo</Link>
-                <Link>Bossenomics</Link>
-                <Link>Airdrop</Link>
+                <Link href="/memo">Memo</Link>
+                <Link href="/bossenomics">Bossenomics</Link>
+                <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
+                    <Typography sx={{ color: 'common.white', opacity: '0.5', fontSize: '32px' }}>Airdrop</Typography>
+                    <Typography
+                        sx={{
+                            color: 'primary',
+                            bgcolor: 'common.white',
+                            fontWeight: '500',
+                            px: 1,
+                            borderRadius: '24px',
+                            fontSize: '14px'
+                        }}
+                    >
+                        Soon
+                    </Typography>
+                </Stack>
 
                 <Typography sx={{ color: 'neutral.50', mt: 'auto', textAlign: 'center' }} level="body-md">
                     BOSS is an experimental community project, not owned by <u>Talent Protocol</u>. Not Financial
