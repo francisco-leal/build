@@ -1,7 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
-import { Card, Typography } from '@mui/joy';
-// import { useTheme } from '@mui/joy/styles';
+import { Sheet, Stack, Typography } from '@mui/joy';
+import { Header } from '@/shared/components/header';
+import { Footer } from '@/shared/components/footer';
 
 const content = [
     'Dear builder,',
@@ -16,48 +17,46 @@ const content = [
 ];
 
 export default function Memo() {
-    // const theme = useTheme();
     return (
-        <main
-            style={{
-                backgroundColor: 'blue',
-                margin: 0,
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center'
-            }}
-        >
-            <Card
-                variant="plain"
-                style={{
-                    backgroundColor: 'white',
-                    padding: '120px 208px',
-                    maxWidth: '300px',
-                    margin: '18px 0px',
-                    // [theme.breakpoints.up('xs')]: {
-                    //     maxWidth: '300px',
-                    //     margin: '18px 0px',
-                    //   },
-                    //   [theme.breakpoints.up('sm')]: {
-                    //     maxWidth: '650px',
-                    //     margin: '80px 0px',
-                    //   },
-                    borderRadius: 0,
-                    borderWidth: '4px',
-                    borderColor: 'black',
-                    borderStyle: 'solid',
-                    boxShadow: '10px 10px 0px 0px black'
-                }}
-            >
-                <Typography level="h1">Dear builder, you’re fired.</Typography>
-                {content.map((line, index) => (
-                    <Typography key={index} level="body-md" style={{ padding: '20px 0px' }}>
-                        {line}
-                    </Typography>
-                ))}
-            </Card>
+        <main>
+            <Header />
+
+            <Stack sx={{ alignItems: 'center' }}>
+                <Stack
+                    component="section"
+                    sx={{
+                        maxWidth: { md: 'lg' },
+                        py: 10,
+                        px: { xs: 2, md: 0 }
+                    }}
+                >
+                    <Sheet
+                        variant="outlined"
+                        sx={{
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            py: { xs: 5, md: 15 },
+                            px: { xs: 2, md: 21 },
+                            gap: 5
+                        }}
+                    >
+                        <Typography sx={{ fontSize: { xs: '32px', md: '56px' }, fontWeight: 'bold' }}>
+                            Dear builder, you're fired.
+                        </Typography>
+
+                        <Stack sx={{ gap: 4 }}>
+                            {content.map((line, index) => (
+                                <Typography key={index} sx={{ fontSize: '18px', fontWeight: '600' }}>
+                                    {line}
+                                </Typography>
+                            ))}
+                        </Stack>
+                    </Sheet>
+                </Stack>
+            </Stack>
+
+            <Footer />
         </main>
     );
 }
