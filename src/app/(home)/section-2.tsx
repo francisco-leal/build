@@ -8,10 +8,10 @@ export const Section2 = () => {
         <Stack
             component="section"
             sx={{
-                maxWidth: { xs: 'sm', lg: 'lg' },
-                flexDirection: { xs: 'column', lg: 'row' },
-                px: { xs: 2, md: 8 },
-                pt: { xs: 6, md: 10 },
+                maxWidth: { xs: 'md', md: 'lg' },
+                flexDirection: { xs: 'column', md: 'row' },
+                px: { xs: 2, sm: 8 },
+                pt: { xs: 6, sm: 10 },
                 mx: 'auto',
                 gap: 5
             }}
