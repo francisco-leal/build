@@ -41,7 +41,7 @@ export const Section3 = () => (
                 values={mockData}
                 sx={{
                     width: { xs: 980 },
-                    mr: { xs: 2, sm: 0 },
+                    mr: { xs: 8 },
                     my: 4
                 }}
             />
@@ -50,7 +50,7 @@ export const Section3 = () => (
         <RankingsTable
             values={mockData}
             sx={{
-                display: { xs: 'none', md: 'block', pr: 4 },
+                display: { xs: 'none', md: 'block' },
                 width: '100%',
                 my: 4
             }}
