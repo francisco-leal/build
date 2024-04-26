@@ -16,7 +16,7 @@ export const Section4 = () => {
             <Typography sx={{ color: 'common.white', fontSize: '40px', fontWeight: 'bold' }}>Become a BOSS</Typography>
 
             <Stack sx={{ flexDirection: { xs: 'column', lg: 'row' }, alignItems: 'center', gap: 3 }}>
-                <Stack sx={{ height: '100%', width: { xs: '100%', lg: '50%' }, p: 5, gap: 5, alignItems: "center" }}>
+                <Stack sx={{ height: '100%', width: { xs: '100%', lg: '50%' }, p: 5, gap: 5, alignItems: 'center' }}>
                     <Stack sx={{ alignItems: 'center', gap: 1 }}>
                         <Typography sx={{ color: 'common.white', fontSize: '24px', fontWeight: 'bold' }}>
                             Step 1
@@ -35,18 +35,12 @@ export const Section4 = () => {
                         </Typography>
                     </Stack>
 
-                    <Button
-                        variant="solid"
-                        color="neutral"
-                        component={Link}
-                        href="/"
-                        underline="none"
-                    >
+                    <Button variant="solid" color="neutral" component={Link} href="/" underline="none">
                         Claim Talent Passport
                     </Button>
                 </Stack>
 
-                <Stack sx={{ height: '100%', width: { xs: '100%', lg: '50%' }, p: 5, gap: 5, alignItems: "center" }}>
+                <Stack sx={{ height: '100%', width: { xs: '100%', lg: '50%' }, p: 5, gap: 5, alignItems: 'center' }}>
                     <Stack sx={{ alignItems: 'center', gap: 1 }}>
                         <Typography sx={{ color: 'common.white', fontSize: '24px', fontWeight: 'bold' }}>
                             Step 2
@@ -65,13 +59,7 @@ export const Section4 = () => {
                         </Typography>
                     </Stack>
 
-                    <Button
-                        variant="solid"
-                        color="neutral"
-                        component={Link}
-                        href="/"
-                        underline="none"
-                    >
+                    <Button variant="solid" color="neutral" component={Link} href="/" underline="none">
                         Join Party
                     </Button>
                 </Stack>
