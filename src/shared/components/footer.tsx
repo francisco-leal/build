@@ -1,4 +1,5 @@
 import { Typography, Link, Stack } from '@mui/joy';
+import { LogoLong } from '../icons';
 
 export const Footer = () => {
     return (
@@ -7,12 +8,13 @@ export const Footer = () => {
                 pt: 6,
                 pb: 4,
                 px: 0,
-                gap: 3
+                gap: 3,
+                alignItems: 'center'
             }}
         >
-            <Typography level="h1" sx={{ color: 'common.white', fontSize: '51px', textAlign: 'center' }}>
-                BOSS
-            </Typography>
+            <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
+                <LogoLong sx={{ width: 132 }} />
+            </Link>
 
             <Stack
                 sx={{
