@@ -4,49 +4,6 @@ import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '@/shared/context/user';
 import { LeaderboardData, User, UserStats, LeaderboardUser } from '@/shared/interfaces';
 
-const mockData: LeaderboardUser[] = [
-    {
-        rank: 1,
-        id: 1,
-        wallet: '0x33',
-        name: 'Tiago',
-        builder_score: 50,
-        boss_score: 2000,
-        nominations: 10,
-        highlight: true
-    },
-    {
-        rank: 2,
-        id: 2,
-        wallet: '0x33',
-        name: 'Leal',
-        builder_score: 150,
-        boss_score: 4000,
-        nominations: 70,
-        highlight: false
-    },
-    {
-        rank: 3,
-        id: 3,
-        wallet: '0x33',
-        name: 'Filipe',
-        builder_score: 200,
-        boss_score: 10000,
-        nominations: 50,
-        highlight: false
-    },
-    {
-        rank: 4,
-        id: 4,
-        wallet: '0x33',
-        name: 'Pedro',
-        builder_score: 100,
-        boss_score: 8000,
-        nominations: 30,
-        highlight: false
-    }
-];
-
 export const Section3 = () => {
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
     const { user } = useContext(UserContext);
