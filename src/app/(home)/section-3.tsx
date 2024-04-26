@@ -14,8 +14,8 @@ export const Section3 = () => (
         component="section"
         sx={{
             py: 10,
-            pl: { xs: 2, md: 2, lg: 8 },
-            pr: { xs: 0, md: 2, lg: 8 },
+            pl: { xs: 2, sm: 8 },
+            pr: { xs: 0, md: 8 },
             maxWidth: { xs: 'md', md: 'lg' },
             justifyContent: 'center',
             alignItems: 'center',
@@ -40,7 +40,7 @@ export const Section3 = () => (
             <RankingsTable
                 values={mockData}
                 sx={{
-                    width: { xs: 540, sm: '100%' },
+                    width: { xs: 980 },
                     mr: { xs: 2, sm: 0 },
                     my: 4
                 }}

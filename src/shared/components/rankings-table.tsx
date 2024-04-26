@@ -16,6 +16,7 @@ export const RankingsTable = ({ values, variant = 'outlined', ...props }: Rankin
         <Table
             sx={{
                 backgroundColor: 'common.white',
+                tr: { textAlign: 'left' },
                 '& tr.highlight': { color: 'primary.500' }
             }}
         >
@@ -25,7 +26,7 @@ export const RankingsTable = ({ values, variant = 'outlined', ...props }: Rankin
                     <th>Name</th>
                     <th>Builder Score</th>
                     <th>BOSS Points</th>
-                    <th>Nominations Received</th>
+                    <th style={{ width: 164 }}>Nominations Received</th>
                 </tr>
             </thead>
             <tbody>
