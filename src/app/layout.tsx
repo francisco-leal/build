@@ -6,6 +6,7 @@ import { cookieToInitialState } from 'wagmi';
 import { config } from '@/config';
 import Web3ModalProvider from '@/context';
 import { theme } from './theme';
+import { Box } from '@mui/joy';
 
 export const metadata: Metadata = {
     title: '$BOSS',
@@ -21,9 +22,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <CssVarsProvider theme={theme}>
-                <body style={{ backgroundColor: '#0142F5', margin: '0', padding: '0' }}>
+                <Box component="body" sx={{ backgroundColor: 'primary.500', m: 0, p: 0 }}>
                     <Web3ModalProvider initialState={initialState}>{children}</Web3ModalProvider>
-                </body>
+                </Box>
             </CssVarsProvider>
         </html>
     );

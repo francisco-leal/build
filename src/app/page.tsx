@@ -1,11 +1,8 @@
 'use client';
-import { NavBar } from '@/app/shared/components/nav-bar';
+import { NavBar } from './shared/components/nav-bar';
 import { Typography, Button, Box, Link, Table } from '@mui/joy';
-import { useWeb3Modal } from '@web3modal/wagmi/react';
 
 export default function Home() {
-    const { open } = useWeb3Modal();
-
     const colors = { blue: '#0142F5', white: '#FBFCFE', lightBlue: '#CDD7E1', black: '#0B0D0E', grey: '#636B74' };
 
     const mockData = [
@@ -18,14 +15,16 @@ export default function Home() {
     return (
         <main>
             <NavBar />
+
             {/* SECTION 1 */}
             <Box
                 sx={{
-                    padding: '144px 0 80px',
-                    display: 'flex',
+                    // Temporary, hide section in mobile
+                    display: { xs: 'none', md: 'flex' },
+                    padding: { sm: '144px 0 80px' },
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundImage: 'url(/images/homepage.png)',
+                    backgroundImage: { md: 'url(/images/homepage.png)' },
                     backgroundSize: 'contain',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center'
@@ -117,8 +116,9 @@ export default function Home() {
             {/* SECTION 2 */}
             <Box
                 sx={{
+                    // Temporary, hide section in mobile
+                    display: { xs: 'none', md: 'flex' },
                     padding: '80px 0 80px',
-                    display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}
@@ -258,8 +258,10 @@ export default function Home() {
             {/* SECTION 3 */}
             <Box
                 sx={{
+                    // Temporary, hide section in mobile
+                    display: { xs: 'none', md: 'flex' },
                     padding: '80px 0 80px',
-                    display: 'flex',
+
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}
@@ -312,16 +314,20 @@ export default function Home() {
             {/* SECTION 4 */}
             <Box
                 sx={{
+                    // Temporary, hide section in mobile
+                    display: { xs: 'none', md: 'flex' },
                     padding: '80px 0 80px',
-                    display: 'flex',
+
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}
             >
                 <Box
                     sx={{
+                        // Temporary, hide section in mobile
+                        display: { xs: 'none', md: 'flex' },
                         width: '1224px',
-                        display: 'flex',
+
                         flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -462,8 +468,10 @@ export default function Home() {
             {/* FOOTER */}
             <Box
                 sx={{
+                    // Temporary, hide section in mobile
+                    display: { xs: 'none', md: 'flex' },
                     padding: '48px 0 32px 0',
-                    display: 'flex',
+
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}
