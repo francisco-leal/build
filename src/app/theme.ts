@@ -49,6 +49,7 @@ export const theme = extendTheme({
                 root: ({ ownerState, theme }) => ({
                     ...(ownerState.variant === 'outlined' && {
                         backgroundColor: theme.vars.palette.common.white,
+                        boxSizing: 'border-box',
                         boxShadow: `12px 12px 0px 0px ${theme.vars.palette.common.black}`,
                         border: `4px solid ${theme.vars.palette.common.black}`
                     })
