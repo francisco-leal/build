@@ -1,10 +1,10 @@
 'use client';
 
-import { UserContext } from '@/context/user';
+import { UserContext } from '@/shared/context/user';
 import { useContext, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
-export const Web3Auth: React.FunctionComponent<{ children: React.ReactNode }> = ({ children }) => {
+export const Web3Auth = () => {
     const { user, authUser } = useContext(UserContext);
     const { address } = useAccount();
 
@@ -14,5 +14,5 @@ export const Web3Auth: React.FunctionComponent<{ children: React.ReactNode }> = 
         }
     }, [address]);
 
-    return children;
+    return null;
 };

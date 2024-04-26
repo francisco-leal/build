@@ -26,7 +26,8 @@ export default function RootLayout({
                 <Box component="body" sx={{ backgroundColor: 'primary.500', m: 0, p: 0 }}>
                     <Web3ModalProvider initialState={initialState}>
                         <UserProvider>
-                            <Web3Auth>{children}</Web3Auth>
+                            {children}
+                            <Web3Auth />
                         </UserProvider>
                     </Web3ModalProvider>
                 </Box>
