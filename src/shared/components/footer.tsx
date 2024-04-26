@@ -7,12 +7,13 @@ export const Footer = () => {
             sx={{
                 pt: 6,
                 pb: 4,
+                px: 2,
                 gap: 3,
                 alignItems: 'center'
             }}
         >
-            <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
-                <LogoLong sx={{ width: 132 }} />
+            <Link href="/" sx={{ '& svg': { color: 'common.white' } }}>
+                <LogoLong sx={{ width: 256, height: 54 }} />
             </Link>
 
             <Stack

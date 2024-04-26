@@ -9,7 +9,7 @@ const MOBILE_BREAKPOINT = 'md' as const;
 const MOBILE_ONLY = { xs: 'block', [MOBILE_BREAKPOINT]: 'none' } as const;
 const DESKTOP_ONLY = { xs: 'none', [MOBILE_BREAKPOINT]: 'flex' } as const;
 
-export const NavBar = () => {
+export const Header = () => {
     // UI
     const drawer = useDisclose();
     const headerRef = useRef<HTMLDivElement>(null);
@@ -19,14 +19,14 @@ export const NavBar = () => {
     const drawerHeight = `calc(100vh - ${headerHeight}px)`;
 
     return (
-        <Box ref={headerRef} component="nav" sx={{ py: 2, px: 2, borderBottom: 1, borderColor: 'common.white' }}>
+        <Box ref={headerRef} component="header" sx={{ py: 2, px: 2, borderBottom: 1, borderColor: 'common.white' }}>
             <Stack direction="row" spacing={2} maxWidth="lg" justifyContent="space-between" mx="auto">
                 <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
                     <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
                     <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
                 </Link>
 
-                <Box sx={{ gap: '24px', display: DESKTOP_ONLY }}>
+                <Box sx={{ gap: '24px', display: DESKTOP_ONLY }} component="nav">
                     <Link sx={{ color: 'common.white' }}>Memo</Link>
                     <Link sx={{ color: 'common.white' }}>Bossenomics</Link>
                     <Link sx={{ color: 'common.white' }}>Airdrop</Link>
