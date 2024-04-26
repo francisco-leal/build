@@ -15,8 +15,6 @@
         "supabase-types": "supabase gen types typescript --project-id \"$SUPABASE_BOSS_PROJECT\" --schema public > src/db/database.types.ts"
     },
     "dependencies": {
-        "frog": "0.8.6",
-        "hono": "4.2.7",
         "@airstack/node": "0.0.6",
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
@@ -27,6 +25,8 @@
         "@web3modal/wagmi": "^4.1.11",
         "encoding": "^0.1.13",
         "ethers": "^5.6",
+        "frog": "0.8.6",
+        "hono": "4.2.7",
         "iron-session": "8.0.1",
         "next": "14.2.1",
         "pino-pretty": "^11.0.0",
