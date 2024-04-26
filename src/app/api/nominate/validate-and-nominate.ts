@@ -1,5 +1,4 @@
 import { supabase } from '@/db';
-import { searchSocialUser } from '@/services';
 import { createProfile } from '@/app/api/profile/create';
 
 // TODO: maybe this can be improved somehow
@@ -22,11 +21,6 @@ export async function validateAndNominate(user_nominator: { userId: number }, no
     }
 
     if (!nominated_user || nominated_user.length === 0) {
-        const profiles = await searchSocialUser(nominated_user_address);
-        if (profiles.length === 0) {
-            return { error: 'user not found', data: null };
-        }
-        // TODO: include social profiles in the profile creation
         const { error: error_write } = await createProfile(nominated_user_address);
 
         if (error_write) {

@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     let { data: app_user, error: error_find } = await supabase
-        .from('app_user')
+        .from('app_user_and_stats')
         .select('*')
         .eq('wallet_address', wallet_address);
 
@@ -46,8 +46,8 @@ export async function POST(request: NextRequest) {
     }
 
     await setSession({
-        userId: app_user[0].id,
-        userWalletAddress: app_user[0].wallet_address,
+        userId: app_user![0].user_id!,
+        userWalletAddress: app_user![0].wallet_address!,
         siwe: {
             address: message.address,
             nonce: message.nonce,
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
             expirationTime: message.expirationTime
         }
     });
-    return Response.json(app_user[0]);
+    return Response.json(app_user![0]);
 }
 
 export async function PUT(request: NextRequest) {
