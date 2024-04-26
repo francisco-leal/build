@@ -66,7 +66,7 @@ export const Section1 = () => (
                     pt: 5
                 }}
             >
-                <Button variant="outlined" component={Link} href="/" underline="none">
+                <Button variant="outlined" component={Link} href="/memo" underline="none">
                     Read BOSS Memo
                 </Button>
 
