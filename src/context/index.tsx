@@ -18,8 +18,11 @@ if (!projectId) throw new Error('Project ID is not defined');
 createWeb3Modal({
     wagmiConfig: config,
     projectId,
+    themeMode: 'light',
     themeVariables: {
-        '--w3m-border-radius-master': '0px'
+        '--w3m-border-radius-master': '0px',
+        '--w3m-color-mix': '#0142F5',
+        '--w3m-color-mix-strength': 0
     }
 });
 

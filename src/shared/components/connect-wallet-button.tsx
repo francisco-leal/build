@@ -1,4 +1,5 @@
 import { useAccount } from 'wagmi';
+import { Box } from '@mui/joy';
 
 export const ConnectWalletButton = ({ hideIfConnected }: { hideIfConnected?: boolean }) => {
     // Wallet
@@ -6,5 +7,14 @@ export const ConnectWalletButton = ({ hideIfConnected }: { hideIfConnected?: boo
 
     if (hideIfConnected && address) return null;
 
-    return <w3m-button />;
+    return (
+        <Box
+            sx={{
+                '& *': { backgroundColor: 'white' },
+                padding: '120px'
+            }}
+        >
+            <w3m-button />
+        </Box>
+    );
 };
