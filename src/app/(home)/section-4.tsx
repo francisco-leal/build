@@ -1,3 +1,4 @@
+import { Coin, UserShield } from '@/shared/icons';
 import { Typography, Button, Box, Link, Table, Stack } from '@mui/joy';
 
 export const Section4 = () => {
@@ -5,19 +6,21 @@ export const Section4 = () => {
         <Stack
             component="section"
             sx={{
+                maxWidth: { xs: 'md', md: 'lg' },
+                px: { xs: 2, sm: 8 },
+                pt: { xs: 6, sm: 10 },
+                pb: 10,
                 mx: 'auto',
-                maxWidth: { xs: 'sm', lg: 'lg' },
-                py: { xs: 6, lg: 10 },
-                px: { xs: 2, lg: 0 },
-                alignItems: 'center',
+                textAlign: 'center',
                 gap: 5
             }}
         >
             <Typography sx={{ color: 'common.white', fontSize: '40px', fontWeight: 'bold' }}>Become a BOSS</Typography>
 
-            <Stack sx={{ flexDirection: { xs: 'column', lg: 'row' }, alignItems: 'center', gap: 3 }}>
-                <Stack sx={{ height: '100%', width: { xs: '100%', lg: '50%' }, p: 5, gap: 5, alignItems: "center" }}>
+            <Stack sx={{ flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: 3 }}>
+                <Stack sx={{ height: '100%', flex: 1, p: 5, gap: 5, alignItems: 'center' }}>
                     <Stack sx={{ alignItems: 'center', gap: 1 }}>
+                        <UserShield sx={{ color: 'common.white', fontSize: '64px' }} />
                         <Typography sx={{ color: 'common.white', fontSize: '24px', fontWeight: 'bold' }}>
                             Step 1
                         </Typography>
@@ -46,8 +49,9 @@ export const Section4 = () => {
                     </Button>
                 </Stack>
 
-                <Stack sx={{ height: '100%', width: { xs: '100%', lg: '50%' }, p: 5, gap: 5, alignItems: "center" }}>
+                <Stack sx={{ height: '100%', flex: 1, p: 5, gap: 5, alignItems: 'center' }}>
                     <Stack sx={{ alignItems: 'center', gap: 1 }}>
+                        <Coin sx={{ color: 'common.white', fontSize: '64px' }} />
                         <Typography sx={{ color: 'common.white', fontSize: '24px', fontWeight: 'bold' }}>
                             Step 2
                         </Typography>
