@@ -1,76 +1,209 @@
-import { Box, Button, Link, Stack, Typography } from '@mui/joy';
+import { SetStateAction, useState } from 'react';
+import { Box, Link, Stack, Typography, Autocomplete, Modal, ModalClose, Button, Sheet } from '@mui/joy';
 import { Interface, MusicHeadeset } from '@/shared/icons';
 
-export const Section1 = () => (
-    <Stack
-        component="section"
-        sx={{
-            pt: { xs: 10, lg: 14 },
-            pb: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative'
-        }}
-    >
-        <Box
-            sx={{
-                position: 'absolute',
-                top: 0,
-                width: '100%',
-                height: '100%',
-                backgroundImage: { lg: 'url(/images/homepage.png)' },
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                zIndex: -1
-            }}
-        />
+export const Section1 = () => {
+    const mockdata = ['gil', 'leal', 'filipe', 'pedro', 'pupo'];
+    const [open, setOpen] = useState<boolean>(false);
+    const [selectedUser, setSelectedUser] = useState<string | null>(null);
+
+    const handleUserSelect = (user: SetStateAction<string | null>) => {
+        setSelectedUser(user);
+        setOpen(true);
+    };
+
+    const handleCancel = () => {
+        setSelectedUser(null);
+        setOpen(false);
+    };
+
+    return (
         <Stack
+            component="section"
             sx={{
-                maxWidth: 'md',
-                px: 2,
+                pt: { xs: 10, lg: 18 },
+                pb: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
-                textAlign: 'center',
-                color: 'common.white'
+                position: 'relative'
             }}
         >
-            <Typography level="h1">
-                Nominate <Interface /> the best
-                <br />
-                builders <MusicHeadeset /> you know.
-            </Typography>
-
-            <Typography
+            <Box
                 sx={{
-                    pt: { xs: 2, sm: 5 },
-                    color: 'common.white',
-                    fontSize: '18px',
-                    fontWeight: '600',
-                    lineHeight: '166%',
-                    textAlign: 'center',
-                    maxWidth: '644px'
+                    position: 'absolute',
+                    top: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: { lg: 'url(/images/homepage.png)' },
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center'
+                }}
+            />
+            <Stack
+                sx={{
+                    maxWidth: 'sm',
+                    px: 2,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: 2
                 }}
             >
-                Read the <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>memo</Link>
-                : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination game, and earn BOSS.
-            </Typography>
-
-            <Stack direction={{ xs: 'column-reverse', sm: 'row' }} gap={2} pt={5}>
-                <Button variant="outlined" component={Link} href="/memo" underline="none">
-                    Read BOSS Memo
-                </Button>
-
-                <Button
-                    variant="solid"
-                    color="neutral"
-                    component={Link}
-                    href="https://zora.co/collect/base:0x91ce2a53e54c79845e391ae81dd6c9b669e9164d/1"
-                    target="_blank"
+                <Typography
+                    level="h1"
+                    sx={{
+                        color: 'common.white',
+                        fontSize: { xs: '32px', md: '59px' },
+                        textAlign: 'center',
+                        lineHeight: '115%',
+                        fontWeight: '700'
+                    }}
                 >
-                    Mint Builders Manifesto
-                </Button>
+                    Nominate <Interface /> the best
+                    <br />
+                    builders <MusicHeadeset /> you know.
+                </Typography>
+
+                <Typography
+                    sx={{
+                        color: 'common.white',
+                        fontSize: '18px',
+                        fontWeight: '600',
+                        textAlign: 'center'
+                    }}
+                >
+                    Read the{' '}
+                    <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>
+                        memo
+                    </Link>
+                    : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination
+                    game, and earn BOSS.
+                </Typography>
+
+                <Stack
+                    sx={{
+                        flexDirection: { xs: 'column-reverse', sm: 'row' },
+                        alignItems: 'center',
+                        width: '100%'
+                    }}
+                >
+                    <Autocomplete
+                        placeholder="Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
+                        type="search"
+                        freeSolo
+                        disableClearable
+                        options={mockdata}
+                        sx={{ borderRadius: 0, width: '100%' }}
+                        renderOption={(props, option) => (
+                            <Stack
+                                sx={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    py: 1,
+                                    px: 2
+                                }}
+                            >
+                                <Typography {...props}>{option}</Typography>
+                                <Button
+                                    variant="solid"
+                                    onClick={() => handleUserSelect(option)}
+                                    sx={{ py: '2px', px: '12px' }}
+                                >
+                                    Nominate
+                                </Button>
+                            </Stack>
+                        )}
+                    />
+                </Stack>
+
+                <Modal
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <Sheet
+                        variant="plain"
+                        sx={{
+                            borderRadius: 0,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            width: '600px',
+                            p: 3,
+                            gap: 3
+                        }}
+                    >
+                        <ModalClose variant="plain" sx={{ m: 1 }} />
+
+                        <Typography level="h4">Confirm Nomination</Typography>
+
+                        <Stack sx={{ alignItems: 'center' }}>
+                            <Typography>{selectedUser}</Typography>
+                        </Stack>
+
+                        <Stack sx={{ gap: 2, width: '100%' }}>
+                            <Box
+                                sx={{ backgroundColor: 'common.black', opacity: '0.3', height: '1px', width: '100%' }}
+                            />
+
+                            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Typography sx={{ fontSize: '14px', color: 'neutral.500' }}>Date</Typography>
+                                <Typography sx={{ fontSize: '14px' }}>May 09</Typography>
+                            </Stack>
+
+                            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Typography sx={{ fontSize: '14px', color: 'neutral.500' }}>My Daily Budget</Typography>
+                                <Typography sx={{ fontSize: '14px' }}>100</Typography>
+                            </Stack>
+
+                            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Typography sx={{ fontSize: '14px', color: 'neutral.500' }}>
+                                    BOSS Points Sent
+                                </Typography>
+                                <Typography sx={{ fontSize: '14px' }}>90</Typography>
+                            </Stack>
+
+                            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Typography sx={{ fontSize: '14px', color: 'neutral.500' }}>
+                                    BOSS Points Earned
+                                </Typography>
+                                <Typography sx={{ fontSize: '14px' }}>10</Typography>
+                            </Stack>
+
+                            <Box
+                                sx={{ backgroundColor: 'common.black', opacity: '0.3', height: '1px', width: '100%' }}
+                            />
+
+                            <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Typography sx={{ fontSize: '14px', color: 'neutral.500' }}>My BOSS Points</Typography>
+                                <Typography sx={{ fontSize: '16px', fontWeight: '600' }}>1.150</Typography>
+                            </Stack>
+                        </Stack>
+
+                        <Stack sx={{ flexDirection: 'row', justifyContent: 'end', gap: 1 }}>
+                            <Button
+                                variant="outlined"
+                                color="neutral"
+                                onClick={handleCancel}
+                                sx={{ color: 'neutral.500', borderColor: 'neutral.500' }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button variant="solid">Connect wallet</Button>
+                        </Stack>
+                    </Sheet>
+                </Modal>
+
+                <Stack sx={{ flexDirection: 'row', alignItems: 'center', width: '100%', gap: '16px' }}>
+                    <Box sx={{ backgroundColor: 'common.white', opacity: '0.3', height: '1px', width: '50%' }} />
+                    <Typography sx={{ color: 'common.white' }}>Or</Typography>
+                    <Box sx={{ backgroundColor: 'common.white', opacity: '0.3', height: '1px', width: '50%' }} />
+                </Stack>
+
+                <Link href="#" sx={{ color: 'common.white', textDecoration: 'underline' }}>
+                    Share your nomination link
+                </Link>
             </Stack>
         </Stack>
-    </Stack>
-);
+    );
+};

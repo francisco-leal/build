@@ -14,7 +14,7 @@ export default function Home() {
             <Stack component="main">
                 <Section1 />
                 <Section2 />
-                <Section3 />
+                {/* <Section3 /> */}
                 <Section4 />
             </Stack>
             <Footer />
