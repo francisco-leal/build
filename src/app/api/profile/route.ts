@@ -6,6 +6,25 @@ import { SiweMessage } from 'siwe';
 import { getSession } from '@/services/authentication/cookie-session';
 
 export async function GET(request: NextRequest) {
+    // if it contains a query parameter wallet_address, we will search for the user by wallet_address
+    const walletAddressSearch = request.nextUrl.searchParams.get('wallet_address');
+
+    if (walletAddressSearch) {
+        let { data: user_personal_stats, error } = await supabase
+            .from('user_personal_stats')
+            .select('*')
+            .eq('wallet_address', walletAddressSearch)
+            .single();
+
+        if (error || !user_personal_stats) {
+            return Response.json({ error }, { status: 404 });
+        }
+
+        return Response.json(user_personal_stats);
+    }
+
+    // otherwise we will return the user session
+
     const user = await getSession();
 
     if (!user) {

@@ -74,9 +74,10 @@ CREATE VIEW user_personal_stats AS
 SELECT
     aus.user_id,
     u.wallet_address,
-    lb.rank AS my_rank,
+    u.username,
+    lb.rank AS rank,
     aus.nominations AS total_nominations_received,
-    aus.boss_budget AS my_boss_budget,
+    aus.boss_budget AS boss_budget,
     aus.bpe_nominations + aus.bpe_regular_nominator AS total_boss_points_earned,
     aus.bpe_nominations AS boss_points_from_nominations,
     aus.bpe_regular_nominator AS boss_points_from_nominating,

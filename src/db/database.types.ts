@@ -339,11 +339,11 @@ export type Database = {
       }
       user_personal_stats: {
         Row: {
+          boss_budget: number | null
           boss_points: number | null
           boss_points_from_nominating: number | null
           boss_points_from_nominations: number | null
-          my_boss_budget: number | null
-          my_rank: number | null
+          rank: number | null
           total_boss_points_earned: number | null
           total_nominations_received: number | null
           user_id: number | null
