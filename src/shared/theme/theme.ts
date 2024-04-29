@@ -39,8 +39,8 @@ export const theme = extendTheme({
     components: {
         JoyLink: {
             defaultProps: {
-                component: ThemeLink,
-            },
+                component: ThemeLink
+            }
         },
         JoyButton: {
             styleOverrides: {
@@ -48,7 +48,7 @@ export const theme = extendTheme({
                     height: 40,
                     borderRadius: '0'
                 }
-            },
+            }
         },
         JoySheet: {
             styleOverrides: {

@@ -1,6 +1,6 @@
 import { Sheet, Stack, Typography, Box } from '@mui/joy';
-import DESKTOP_GRAPH from "../../../public/images/bossenomics-graph.png"
-import MOBILE_GRAPH from "../../../public/images/bossenomics-graph-mobile.png"
+import DESKTOP_GRAPH from '../../../public/images/bossenomics-graph.png';
+import MOBILE_GRAPH from '../../../public/images/bossenomics-graph-mobile.png';
 import Image from 'next/image';
 
 export const Section2 = () => {
@@ -8,7 +8,7 @@ export const Section2 = () => {
         <Stack
             component="section"
             sx={{
-                mx: "auto",
+                mx: 'auto',
                 maxWidth: { xs: 'sm', md: 'lg' },
                 px: { xs: 2, sm: 8 },
                 py: 5,
@@ -17,7 +17,6 @@ export const Section2 = () => {
         >
             <Stack
                 sx={{
-
                     gap: 2
                 }}
             >
@@ -49,10 +48,7 @@ export const Section2 = () => {
                 </Typography>
             </Stack>
 
-            <Sheet
-                variant='outlined'
-                sx={{ width: "100%" }}
-            >
+            <Sheet variant="outlined" sx={{ width: '100%' }}>
                 <Stack sx={{ py: { xs: 5, md: 5 }, px: { xs: 5, md: 20 } }}>
                     <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                         <Image src={DESKTOP_GRAPH} alt="graph" style={{ width: '100%', height: 'auto' }} />
