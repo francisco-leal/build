@@ -19,50 +19,28 @@ export const Header = () => {
     const drawerHeight = `calc(100vh - ${headerHeight}px)`;
 
     return (
-        <Box ref={headerRef} component="header" sx={{ py: 2, borderBottom: 1, borderColor: 'common.white' }}>
-            <Stack direction="row" maxWidth={{ xs: 'md', md: 'lg' }} px={2} mx="auto">
-                <Stack direction="row" flex={1}>
-                    <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
-                        <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
-                        <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
-                    </Link>
-                </Stack>
+        <Box ref={headerRef} component="header" sx={{ py: 2, px: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.3)' }}>
+            <Stack direction="row" spacing={2} maxWidth="lg" justifyContent="space-between" mx="auto">
+                <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
+                    <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
+                    <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
+                </Link>
 
-                <Stack
-                    direction="row"
-                    flex={1}
-                    component="nav"
-                    gap={2}
-                    justifyContent={'center'}
-                    display={DESKTOP_ONLY}
-                >
+                <Box sx={{ gap: '24px', display: DESKTOP_ONLY }} component="nav">
                     <Link sx={{ color: 'common.white' }} href="/memo">
                         Memo
                     </Link>
-                    <Link sx={{ color: 'common.white' }} href="/bossnomics">
-                        Bossnomics
+                    <Link sx={{ color: 'common.white' }} href="/airdrop">
+                        Airdrop
                     </Link>
-                    <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
-                        <Typography sx={{ color: 'common.white', opacity: '0.5' }}>Airdrop</Typography>
-                        <Typography
-                            sx={{
-                                color: 'primary',
-                                bgcolor: 'common.white',
-                                fontWeight: '500',
-                                px: 1,
-                                borderRadius: '24px',
-                                fontSize: '12px'
-                            }}
-                        >
-                            Soon
-                        </Typography>
-                    </Stack>
-                </Stack>
+                    <Link sx={{ color: 'common.white' }} href="/bossenomics">
+                        Bossenomics
+                    </Link>
+                </Box>
 
-                <Stack direction={'row'} flex={1} justifyContent={'flex-end'} alignItems={"center"}>
-                    {!drawer.isOpen && (
-                        <ConnectWalletButton sx={{ flex: { xs: 1, md: 'initial', justifyContent: 'center' } }} />
-                    )}
+                <Stack direction={'row'} spacing={2}>
+                    <ConnectWalletButton />
+
                     <IconButton
                         onClick={drawer.toggle}
                         sx={{
@@ -139,7 +117,8 @@ export const Header = () => {
                 </Stack>
 
                 <Typography sx={{ color: 'neutral.50', mt: 'auto', textAlign: 'center' }} level="body-md">
-                    BOSS is an experimental community project. Not Financial Advice. DYOR.
+                    BOSS is an experimental community project, not owned by <u>Talent Protocol</u>. Not Financial
+                    Advice. DYOR.
                 </Typography>
             </Drawer>
         </Box>
