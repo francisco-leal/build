@@ -30,8 +30,8 @@ export const Header = () => {
                     <Link sx={{ color: 'common.white' }} href="/memo">
                         Memo
                     </Link>
-                    <Link sx={{ color: 'common.white' }} href="/bossenomics">
-                        Bossenomics
+                    <Link sx={{ color: 'common.white' }} href="/bossnomics">
+                        Bossnomics
                     </Link>
                     <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
                         <Typography sx={{ color: 'common.white', opacity: '0.5' }}>Airdrop</Typography>
@@ -111,7 +111,7 @@ export const Header = () => {
                 }}
             >
                 <Link href="/memo">Memo</Link>
-                <Link href="/bossenomics">Bossenomics</Link>
+                <Link href="/bossnomics">Bossnomics</Link>
                 <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
                     <Typography sx={{ color: 'common.white', opacity: '0.5', fontSize: '32px' }}>Airdrop</Typography>
                     <Typography

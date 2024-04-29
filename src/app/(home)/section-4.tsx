@@ -59,7 +59,7 @@ export const Section4 = () => {
                             }}
                         >
                             Join us on party.app until May 7th, to help us raise LP funds and launch the $BOSS token
-                            together on May 8th! Read more in the Bossenomics.
+                            together on May 8th! Read more in the Bossnomics.
                         </Typography>
                     </Stack>
 
