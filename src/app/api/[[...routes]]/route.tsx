@@ -4,59 +4,67 @@
 import { Button, Frog } from 'frog';
 import { devtools } from 'frog/dev';
 import { handle } from 'frog/next';
-import { neynar } from 'frog/hubs';
+import { neynar } from 'frog/middlewares';
 import { serveStatic } from 'frog/serve-static';
+import { createSystem } from 'frog/ui';
+
+export const { Box, Heading, Text, VStack, vars } = createSystem();
+
+type CVarInteractor = {
+    custodyAddress?: string;
+};
 
 const app = new Frog({
     assetsPath: '/',
     basePath: '/api',
-    hub: neynar({ apiKey: 'NEYNAR_FROG_FM' }),
-    verify: true
+    ui: { vars }
 });
+
+app.use(
+    neynar({
+        apiKey: process.env.NEXT_PUBLIC_NEYNAR_API!,
+        features: ['interactor']
+    })
+);
 
 app.frame('/nominate/:address', async c => {
     const userAddress = c.req.param('address');
     const { origin } = new URL(c.url);
     const r = await fetch(origin + '/api/profile?wallet_address=' + userAddress);
-    const response = await r.json();
+    const { username, rank } = await r.json();
 
     return c.res({
         action: `/confirm/${userAddress}`,
         image: (
-            <div
-                style={{
-                    alignItems: 'center',
-                    background: 'black',
-                    backgroundSize: '100% 100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flexWrap: 'nowrap',
-                    height: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    width: '100%'
-                }}
-            >
-                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>Name: {response.username}</div>
-                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>Rank: {response.my_rank}</div>
-            </div>
+            <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                <VStack gap="4">
+                    <Heading>Nominate {username}</Heading>
+                    <Text color="text200" size="20">
+                        Current rank is {rank}
+                    </Text>
+                </VStack>
+            </Box>
         ),
         intents: [<Button value="nominate">Nominate</Button>]
     });
 });
 
 app.frame('/confirm/:address', async c => {
-    const { status, frameData, previousButtonValues, verified } = c;
-    const userAddress = c.req.param('address');
-    const fromAddress = frameData?.address;
-    const { origin } = new URL(c.url);
+    const { status, previousButtonValues, verified, req, url, res, var: cVar } = c;
+    const userAddress = req.param('address');
+    const fromAddress = (cVar.interactor as CVarInteractor).custodyAddress;
+    const { origin } = new URL(url);
 
     if (!fromAddress) {
-        return c.res({
+        return res({
             image: (
-                <div style={{ display: 'flex', background: 'black' }}>
-                    <div style={{ display: 'flex', color: 'white' }}>Connect first!</div>
-                </div>
+                <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                    <VStack gap="4">
+                        <Text color="text200" size="20">
+                            Connect first!
+                        </Text>
+                    </VStack>
+                </Box>
             ),
             intents: [<Button.Reset>Reset</Button.Reset>]
         });
@@ -68,36 +76,47 @@ app.frame('/confirm/:address', async c => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
+                    // TODO: add api key
                 },
                 body: JSON.stringify({ nominated_user_address: userAddress, from_user_address: fromAddress })
             });
             if (r.status === 200) {
-                return c.res({
+                return res({
                     image: (
-                        <div style={{ display: 'flex', background: 'black' }}>
-                            <div style={{ display: 'flex', color: 'white' }}>Nominated!</div>
-                        </div>
+                        <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                            <VStack gap="4">
+                                <Heading>Nominated !!1 🥳</Heading>
+                            </VStack>
+                        </Box>
                     ),
                     intents: [<Button.Reset>Reset</Button.Reset>]
                 });
             }
             if (r.status === 401) {
-                return c.res({
+                return res({
                     image: (
-                        <div style={{ display: 'flex', background: 'black' }}>
-                            <div style={{ display: 'flex', color: 'white' }}>Connect first!</div>
-                        </div>
+                        <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                            <VStack gap="4">
+                                <Text color="text200" size="20">
+                                    Connect first!
+                                </Text>
+                            </VStack>
+                        </Box>
                     ),
                     intents: [<Button.Reset>Reset</Button.Reset>]
                 });
             }
             if (r.status === 400) {
-                const response = await r.json();
-                return c.res({
+                const { error } = await r.json();
+                return res({
                     image: (
-                        <div style={{ display: 'flex', background: 'black' }}>
-                            <div style={{ display: 'flex', color: 'white' }}>{response.error}</div>
-                        </div>
+                        <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                            <VStack gap="4">
+                                <Text color="text200" size="20">
+                                    {error}
+                                </Text>
+                            </VStack>
+                        </Box>
                     ),
                     intents: [<Button.Reset>Reset</Button.Reset>]
                 });
@@ -106,31 +125,36 @@ app.frame('/confirm/:address', async c => {
     }
 
     const r = await fetch(origin + '/api/profile?wallet_address=' + fromAddress);
-    const response = await r.json();
 
-    return c.res({
+    if (r.status === 404) {
+        return res({
+            image: (
+                <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                    <VStack gap="4">
+                        <Text color="text200" size="20">
+                            Connect to BOSS to get your initial budget points!
+                        </Text>
+                    </VStack>
+                </Box>
+            ),
+            intents: [<Button.Reset>Reset</Button.Reset>]
+        });
+    }
+
+    const { boss_budget } = await r.json();
+
+    return res({
         image: (
-            <div
-                style={{
-                    alignItems: 'center',
-                    background: 'black',
-                    backgroundSize: '100% 100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flexWrap: 'nowrap',
-                    height: '100%',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    width: '100%'
-                }}
-            >
-                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>
-                    You will give: {response.my_boss_budget * 0.9} points
-                </div>
-                <div style={{ color: 'white', display: 'flex', fontSize: 30 }}>
-                    You will receive: {response.my_boss_budget * 0.1} points
-                </div>
-            </div>
+            <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                <VStack gap="4">
+                    <Text color="text200" size="20">
+                        You will give: {boss_budget * 0.9} points
+                    </Text>
+                    <Text color="text200" size="20">
+                        You will receive: {boss_budget * 0.1} points
+                    </Text>
+                </VStack>
+            </Box>
         ),
         intents: [<Button value="confirm">Confirm</Button>]
     });
