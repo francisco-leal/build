@@ -1,14 +1,8 @@
 import { Sheet, SheetProps, Table } from '@mui/joy';
+import { LeaderboardUser } from '@/shared/interfaces';
 
 export type RankingsTableProps = {
-    values: Array<{
-        id: number;
-        name: string;
-        score: number;
-        points: number;
-        nominations: number;
-        highlight?: boolean;
-    }>;
+    values: Array<LeaderboardUser>;
 } & SheetProps;
 
 export const RankingsTable = ({ values, variant = 'outlined', ...props }: RankingsTableProps) => (
@@ -32,10 +26,13 @@ export const RankingsTable = ({ values, variant = 'outlined', ...props }: Rankin
             <tbody>
                 {values.map(item => (
                     <tr key={item.id} className={item.highlight ? 'highlight' : ''}>
-                        <td>{item.id}</td>
-                        <td>{item.name}</td>
-                        <td>{item.score}</td>
-                        <td>{item.points}</td>
+                        <td>{item.rank}</td>
+                        <td>
+                            {item.name ||
+                                `${item.wallet.substring(0, 6)}..${item.wallet.substring(item.wallet.length - 4, item.wallet.length)}`}
+                        </td>
+                        <td>{item.builder_score}</td>
+                        <td>{item.boss_score}</td>
                         <td>{item.nominations}</td>
                     </tr>
                 ))}

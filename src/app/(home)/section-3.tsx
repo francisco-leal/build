@@ -1,63 +1,86 @@
-import { Box, Sheet, Stack, Table, Typography } from '@mui/joy';
+import { Stack, Typography } from '@mui/joy';
 import { RankingsTable } from '@/shared/components/rankings-table';
-import { relative } from 'path';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '@/shared/context/user';
+import { LeaderboardData, User, UserStats, LeaderboardUser } from '@/shared/interfaces';
 
-const mockData = [
-    { id: 1, name: 'Tiago', score: 50, points: 2000, nominations: 10, highlight: true },
-    { id: 2, name: 'Leal', score: 150, points: 4000, nominations: 70 },
-    { id: 3, name: 'Filipe', score: 200, points: 10000, nominations: 50 },
-    { id: 4, name: 'Pedro', score: 100, points: 8000, nominations: 30 }
-];
+export const Section3 = () => {
+    const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
+    const { user } = useContext(UserContext);
 
-export const Section3 = () => (
-    <Stack
-        component="section"
-        sx={{
-            py: 10,
-            pl: { xs: 2, sm: 8 },
-            pr: { xs: 0, md: 8 },
-            maxWidth: { xs: 'md', md: 'lg' },
-            justifyContent: 'center',
-            alignItems: 'center',
-            mx: 'auto',
-            position: 'relative',
-            overflowX: 'hidden',
-            textAlign: 'center'
-        }}
-    >
-        <Typography
+    useEffect(() => {
+        fetch('/api/leaderboard')
+            .then(response => response.json())
+            .then(data => {
+                const users: LeaderboardUser[] = data.leaderboard.map((leaderboardUser: LeaderboardData) => {
+                    const lUser = data.users.find((u: User) => u.id === leaderboardUser.user_id);
+                    const stats = data.userStats.find((s: UserStats) => s.user_id === leaderboardUser.user_id);
+                    return {
+                        id: leaderboardUser.user_id,
+                        name: lUser.username,
+                        wallet: lUser.wallet_address,
+                        boss_score: stats.boss_score,
+                        builder_score: stats.builder_score,
+                        nominations: stats.nominations,
+                        rank: leaderboardUser.rank,
+                        highlight: lUser.wallet_address === user?.wallet_address
+                    };
+                });
+
+                setLeaderboardData(users);
+            });
+    }, []);
+
+    return (
+        <Stack
+            component="section"
             sx={{
-                color: 'common.white',
-                fontSize: { xs: 30, md: '40px' },
-                pr: { xs: 2, sm: 0 },
-                fontWeight: 'bold'
+                py: 10,
+                pl: { xs: 2, sm: 8 },
+                pr: { xs: 0, md: 8 },
+                maxWidth: { xs: 'md', md: 'lg' },
+                justifyContent: 'center',
+                alignItems: 'center',
+                mx: 'auto',
+                position: 'relative',
+                overflowX: 'hidden',
+                textAlign: 'center'
             }}
         >
-            Layoff Leaderboard
-        </Typography>
-
-        <Stack sx={{ width: '100%', overflowX: 'scroll', display: { md: 'none' } }}>
-            <RankingsTable
-                values={mockData}
+            <Typography
                 sx={{
-                    width: { xs: 980 },
-                    mr: { xs: 8 },
+                    color: 'common.white',
+                    fontSize: { xs: 30, md: '40px' },
+                    pr: { xs: 2, sm: 0 },
+                    fontWeight: 'bold'
+                }}
+            >
+                Layoff Leaderboard
+            </Typography>
+
+            <Stack sx={{ width: '100%', overflowX: 'scroll', display: { md: 'none' } }}>
+                <RankingsTable
+                    values={leaderboardData}
+                    sx={{
+                        width: { xs: 980 },
+                        mr: { xs: 8 },
+                        my: 4
+                    }}
+                />
+            </Stack>
+
+            <RankingsTable
+                values={leaderboardData}
+                sx={{
+                    display: { xs: 'none', md: 'block' },
+                    width: '100%',
                     my: 4
                 }}
             />
+
+            <Typography sx={{ color: 'common.white', fontSize: '14px', pr: { xs: 2, md: 0 } }}>
+                Last update on May 21st, 4pm UTC. Next update on May 30, 4pm UTC
+            </Typography>
         </Stack>
-
-        <RankingsTable
-            values={mockData}
-            sx={{
-                display: { xs: 'none', md: 'block' },
-                width: '100%',
-                my: 4
-            }}
-        />
-
-        <Typography sx={{ color: 'common.white', fontSize: '14px', pr: { xs: 2, md: 0 } }}>
-            Last update on May 21st, 4pm UTC. Next update on May 30, 4pm UTC
-        </Typography>
-    </Stack>
-);
+    );
+};
