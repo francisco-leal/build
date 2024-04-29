@@ -1,5 +1,6 @@
 'use client';
 import { extendTheme } from '@mui/joy/styles';
+import { ThemeLink } from './theme-link';
 
 const colors = {
     blue: '#0142F5',
@@ -36,13 +37,18 @@ export const theme = extendTheme({
     },
     typography: {},
     components: {
+        JoyLink: {
+            defaultProps: {
+                component: ThemeLink,
+            },
+        },
         JoyButton: {
             styleOverrides: {
                 root: {
                     height: 40,
                     borderRadius: '0'
                 }
-            }
+            },
         },
         JoySheet: {
             styleOverrides: {
