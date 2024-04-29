@@ -30,11 +30,12 @@ export const Section4 = () => {
                                 color: 'common.white',
                                 fontSize: '18px',
                                 textAlign: 'center',
-                                lineHeight: '1'
+                                fontWeight: 400,
+                                lineHeight: '155%'
                             }}
                         >
-                            Claim your Talent Passport and increase your Builder Score before the first snapshot, on May
-                            7th at 17:59 UTC. The bigger your Builder Score, the higher your daily budget.
+                            Claim your Talent Passport, and increase your Builder Score before the first snapshot, on
+                            May 7th at 17:59 UTC.
                         </Typography>
                     </Stack>
 
@@ -55,11 +56,12 @@ export const Section4 = () => {
                                 color: 'common.white',
                                 fontSize: '18px',
                                 textAlign: 'center',
-                                lineHeight: '1'
+                                fontWeight: 400,
+                                lineHeight: '155%'
                             }}
                         >
-                            Join us on party.app until May 7th, to help us raise LP funds and launch the $BOSS token
-                            together on May 8th! Read more in the Bossenomics.
+                            Join on party.app until May 7th, to help us raise LP funds and launch the $BOSS token
+                            together! More info in Bossnomics.
                         </Typography>
                     </Stack>
 

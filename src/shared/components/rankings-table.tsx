@@ -20,7 +20,7 @@ export const RankingsTable = ({ values, variant = 'outlined', ...props }: Rankin
                     <th>Name</th>
                     <th>Builder Score</th>
                     <th>BOSS Points</th>
-                    <th style={{ width: 164 }}>Nominations Received</th>
+                    <th style={{ width: 164 }}>Nominations</th>
                 </tr>
             </thead>
             <tbody>

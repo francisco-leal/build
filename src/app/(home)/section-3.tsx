@@ -19,9 +19,9 @@ export const Section3 = () => {
                         id: leaderboardUser.user_id,
                         name: lUser.username,
                         wallet: lUser.wallet_address,
-                        boss_score: stats.boss_score,
-                        builder_score: stats.builder_score,
-                        nominations: stats.nominations,
+                        boss_score: stats?.boss_score,
+                        builder_score: stats?.builder_score,
+                        nominations: stats?.nominations,
                         rank: leaderboardUser.rank,
                         highlight: lUser.wallet_address === user?.wallet_address
                     } as LeaderboardUser;
@@ -55,7 +55,7 @@ export const Section3 = () => {
                     fontWeight: 'bold'
                 }}
             >
-                Layoff Leaderboard
+                Leaderboard
             </Typography>
 
             <Stack sx={{ width: '100%', overflowX: 'scroll', display: { md: 'none' } }}>
@@ -78,9 +78,10 @@ export const Section3 = () => {
                 }}
             />
 
-            <Typography sx={{ color: 'common.white', fontSize: '14px', pr: { xs: 2, md: 0 } }}>
+            {/* @TODO: Add leaderboard schedule */}
+            {/* <Typography sx={{ color: 'common.white', fontSize: '14px', pr: { xs: 2, md: 0 } }}>
                 Last update on May 21st, 4pm UTC. Next update on May 30, 4pm UTC
-            </Typography>
+            </Typography> */}
         </Stack>
     );
 };

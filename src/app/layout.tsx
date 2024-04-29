@@ -7,6 +7,7 @@ import { Box } from '@mui/joy';
 import { UserProvider } from '@/shared/context/user';
 import { Web3Auth } from '@/shared/components/web3-auth';
 import { ThemeRegistry } from '@/shared/theme/theme-registry';
+import '@fontsource-variable/bricolage-grotesque';
 
 export const metadata: Metadata = {
     title: '$BOSS',

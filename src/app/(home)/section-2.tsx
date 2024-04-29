@@ -1,9 +1,11 @@
 import { Button, Link, Sheet, Stack, Typography } from '@mui/joy';
 import { Eye, Terminal } from '@/shared/icons';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { useAccount } from 'wagmi';
 
 export const Section2 = () => {
     const { open } = useWeb3Modal();
+    const { address } = useAccount();
     return (
         <Stack
             component="section"
@@ -45,7 +47,8 @@ export const Section2 = () => {
                         py: 2,
                         fontSize: '18px',
                         textAlign: 'center',
-                        lineHeight: '1'
+                        lineHeight: '155%',
+                        fontWeight: '400'
                     }}
                 >
                     BOSS is a meme, a token of appreciation and a social game designed to reward builders via onchain
@@ -85,15 +88,20 @@ export const Section2 = () => {
                         py: 2,
                         fontSize: '18px',
                         textAlign: 'center',
-                        lineHeight: '1'
+                        lineHeight: '155%',
+                        fontWeight: '400'
                     }}
                 >
-                    SocialFi users will have a daily budget of BOSS points, and can nominate 1 builder per day to
-                    receive it. Read more in the FAQ.
+                    Players have a daily budget of BOSS points to donate to 1 builder a day. Points will convert to
+                    $BOSS tokens in June.
                 </Typography>
 
-                <Button variant="solid" sx={{ mt: 'auto' }} onClick={() => open()}>
-                    Connect Wallet
+                <Button
+                    variant="solid"
+                    sx={{ mt: 'auto' }}
+                    onClick={() => (address ? (window.location.href = 'https://passport.talentprotocol.com') : open())}
+                >
+                    {address ? 'Increase allowance' : 'Connect Wallet'}
                 </Button>
             </Sheet>
         </Stack>

@@ -5,7 +5,7 @@ import { Section2 } from './section-2';
 import { Section3 } from './section-3';
 import { Stack } from '@mui/joy';
 
-export default function Bossenomics() {
+export default function Bossnomics() {
     return (
         <>
             <Header />

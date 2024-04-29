@@ -8,3 +8,4 @@ export { LogoShort } from './logo-short';
 export { Terminal } from './terminal';
 export { UserShield } from './user-shield';
 export { Hamburger } from './hamburger';
+export { Interface } from './interface';

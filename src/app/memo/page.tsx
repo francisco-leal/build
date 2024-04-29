@@ -3,17 +3,20 @@
 import { Sheet, Stack, Typography } from '@mui/joy';
 import { Header } from '@/shared/components/header';
 import { Footer } from '@/shared/components/footer';
+import Signature from '../../../public/images/signature.png';
+import Image from 'next/image';
 
 const content = [
     'Dear builder,',
     "If you could go ahead and read this letter, that'd be great.",
-    "I hope this memo finds you... doing whatever it is you do. Look, I'll cut to the chase - you're fired. Yeah, sorry about that.",
-    "I mean, don't get me wrong, your whole permissionless thing is fascinating and all.",
-    "I know you're all about your autonomy, decentralization and whatnot, but that's just not how we do things around here, okay? We like our hierarchies and red tape, thank you very much.",
-    "And all this talk about meritocracy, impactful work and equal opportunity? Yeah, that's gonna be a no from us. We prefer to keep things nice and cozy for the folks at the top.",
-    'So, yeah, consider this your official notice. Mmmkay?',
-    "Your services are no longer required, effective immediately. You may think you're all hot stuff with your web3 dreams, but let's face it - there's no room for rebels and troublemakers in the corporate world.",
-    'Best regards,'
+    'I hope this memo finds you... doing whatever it is you do.',
+    "Look, I'll cut to the chase - we're letting you go. Yeah, sorry about that.",
+    "I mean, don't get me wrong, your whole decentralized thing is intriguing and all, but let's face it - there's no room for onchain troublemakers in the corporate workplace.",
+    "I know you're all about your autonomy, transparency and whatnot, but that's just not how we do things around here, okay? We like our hierarchies and nine-to-fives, thank you very much.",
+    "And all this talk about meritocracy, innovation and equal opportunity? Yeah, that's gonna be a no from us. We prefer to keep things nice and cozy for the folks at the top.",
+    'So, yeah, consider this your official termination notice. Mmmkay?',
+    'You may think you\'re all cutting-edge with your web3 dreams, but the real world runs on a different kind of "blockchain" - it\'s called the corporate ladder. And it takes more than just talent and passion to climb it.',
+    'Kind regards,'
 ];
 
 export default function Memo() {
@@ -51,6 +54,7 @@ export default function Memo() {
                                     {line}
                                 </Typography>
                             ))}
+                            <Image src={Signature} alt="signature" />
                         </Stack>
                     </Sheet>
                 </Stack>

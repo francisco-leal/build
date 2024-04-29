@@ -35,6 +35,10 @@ export const theme = extendTheme({
     shadow: {
         md: '12px 12px 0px 0px #0B0D0E'
     },
+    fontFamily: {
+        display: 'Bricolage Grotesque, sans-serif',
+        body: 'Bricolage Grotesque, sans-serif'
+    },
     typography: {},
     components: {
         JoyLink: {
