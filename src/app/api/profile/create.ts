@@ -1,9 +1,13 @@
 import { supabase } from '@/db';
-import { generateRandomSequence } from '@/services';
+import { generateRandomSequence, searchSocialUser } from '@/services';
 import { getBalance } from '@/services/boss-tokens';
 import { getBuilderScore } from '@/services/talent-protocol';
 
 export async function createProfile(wallet_address: string) {
+    const socialProfiles = await searchSocialUser(wallet_address);
+    if (socialProfiles.length === 0) {
+        return { error: 'user not found', data: null };
+    }
     // get builder score and  boss tokens
     const [builder_score, boss_tokens] = await Promise.all([
         getBuilderScore(wallet_address),
@@ -16,12 +20,14 @@ export async function createProfile(wallet_address: string) {
         wallet_address,
         referral_code: generateRandomSequence(16),
         boss_score: 0,
-        boss_budget
+        boss_budget,
+        builder_score,
+        social_profiles: socialProfiles
     });
 
     if (error_write) {
         return { error: error_write, data: null };
     }
 
-    return { error: null, data };
+    return { error: null, data: data };
 }

@@ -19,23 +19,34 @@ CREATE OR REPLACE FUNCTION insert_user(
   wallet_address varchar,
   referral_code varchar,
   boss_score int,
-  boss_budget int
+  boss_budget int,
+  builder_score int,
+  social_profiles jsonb
 )
-RETURNS setof app_user
+RETURNS setof app_user_and_stats
 AS $$
   declare
-  user_id int;
+  user_id_new int;
 begin
   INSERT into app_user
-    (wallet_address, referral_code)
-    values (wallet_address, referral_code)
+    (wallet_address, referral_code, social_profiles)
+    values (wallet_address, referral_code, social_profiles)
     returning id
-    into user_id;
+    into user_id_new;
   INSERT into app_user_stats
-    (user_id, boss_score, boss_budget)
-     values (user_id, boss_score, boss_budget);
-RETURN query select * from app_user where id = user_id;
+    (user_id, boss_score, boss_budget, builder_score)
+     values (user_id_new, boss_score, boss_budget, builder_score);
+RETURN query select * from app_user_and_stats where user_id = user_id_new;
 END $$ language plpgsql;
+```
+
+### [VIEW] App user and user stats
+
+```sql
+CREATE VIEW app_user_and_stats AS
+SELECT aus.*, u.username, u.wallet_address, u.created_at, u.social_profiles, u.referral_code, u.max_nominations
+FROM app_user u
+JOIN app_user_stats aus ON u.id = aus.user_id
 ```
 
 ### [VIEW] Daily nominations by user's limit
@@ -118,9 +129,17 @@ GROUP BY
 
 ```sql
 CREATE OR REPLACE VIEW app_leaderboard_current AS
-SELECT *
-    FROM app_leaderboard
-    WHERE day_id = (SELECT MAX(day_id) FROM app_leaderboard);
+SELECT
+    un.id AS user_id,
+    un.wallet_address AS wallet_address,
+    un.username AS username,
+    lb.day_id AS day_id,
+    lb.rank AS user_rank,
+    aus.boss_score AS user_boss_points
+FROM app_leaderboard lb
+JOIN app_user un ON lb.user_id = un.id
+LEFT JOIN app_user_stats aus ON un.id = aus.user_id
+WHERE lb.day_id = (SELECT MAX(day_id) FROM app_leaderboard);
 ```
 
 ### [VIEW] app leaderboard v1

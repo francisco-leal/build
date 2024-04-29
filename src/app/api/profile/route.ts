@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
         return Response.json({ error }, { status: 404 });
     }
 
-    let { data: app_user, error: error_find } = await supabase
-        .from('app_user')
+    let { data: app_user_and_stats, error: error_find } = await supabase
+        .from('app_user_and_stats')
         .select('*')
         .eq('wallet_address', wallet_address);
 
@@ -35,19 +35,23 @@ export async function POST(request: NextRequest) {
         return Response.json({ error: error_find }, { status: 404 });
     }
 
-    if (!app_user || app_user.length === 0) {
+    if (!app_user_and_stats || app_user_and_stats.length === 0) {
         const { data, error: error_write } = await createProfile(wallet_address);
 
         if (error_write) {
             return Response.json({ error: error_write }, { status: 404 });
         }
 
-        app_user = data;
+        app_user_and_stats = data;
+    }
+
+    if (!app_user_and_stats || app_user_and_stats.length === 0) {
+        return Response.json({ error: 'user not found' }, { status: 404 });
     }
 
     await setSession({
-        userId: app_user[0].id,
-        userWalletAddress: app_user[0].wallet_address,
+        userId: app_user_and_stats[0].user_id!,
+        userWalletAddress: app_user_and_stats[0].wallet_address!,
         siwe: {
             address: message.address,
             nonce: message.nonce,
@@ -55,7 +59,7 @@ export async function POST(request: NextRequest) {
             expirationTime: message.expirationTime
         }
     });
-    return Response.json(app_user[0]);
+    return Response.json(app_user_and_stats[0]);
 }
 
 export async function PUT(request: NextRequest) {

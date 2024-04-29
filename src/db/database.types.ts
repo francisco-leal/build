@@ -236,6 +236,38 @@ export type Database = {
         }
         Relationships: []
       }
+      app_user_and_stats: {
+        Row: {
+          boss_budget: number | null
+          boss_score: number | null
+          boss_token_balance: number | null
+          bpe_first_nominator: number | null
+          bpe_nominations: number | null
+          bpe_regular_nominator: number | null
+          builder_score: number | null
+          created_at: string | null
+          id: number | null
+          max_nominations: number | null
+          nominated: number | null
+          nomination_streak: number | null
+          nominations: number | null
+          nominations_unique: number | null
+          referral_code: string | null
+          social_profiles: Json | null
+          user_id: number | null
+          username: string | null
+          wallet_address: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_app_user_stats_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "app_user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       daily_nominations_view: {
         Row: {
           created_at: string | null
@@ -315,6 +347,7 @@ export type Database = {
           total_boss_points_earned: number | null
           total_nominations_received: number | null
           user_id: number | null
+          username: string | null
           wallet_address: string | null
         }
         Relationships: [
@@ -335,15 +368,29 @@ export type Database = {
           referral_code: string
           boss_score: number
           boss_budget: number
+          builder_score: number
+          social_profiles: Json
         }
         Returns: {
-          created_at: string
-          id: number
-          max_nominations: number
+          boss_budget: number | null
+          boss_score: number | null
+          boss_token_balance: number | null
+          bpe_first_nominator: number | null
+          bpe_nominations: number | null
+          bpe_regular_nominator: number | null
+          builder_score: number | null
+          created_at: string | null
+          id: number | null
+          max_nominations: number | null
+          nominated: number | null
+          nomination_streak: number | null
+          nominations: number | null
+          nominations_unique: number | null
           referral_code: string | null
           social_profiles: Json | null
+          user_id: number | null
           username: string | null
-          wallet_address: string
+          wallet_address: string | null
         }[]
       }
       update_leaderboard: {
