@@ -72,12 +72,9 @@ export const Section1 = () => {
                         textAlign: 'center'
                     }}
                 >
-                    Read the{' '}
-                    <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>
-                        memo
-                    </Link>
-                    : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination
-                    game, and earn BOSS.
+                    Read the {" "}
+                    <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>memo</Link>
+                    : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination game, and earn BOSS.
                 </Typography>
 
                 <Stack
