@@ -9,8 +9,11 @@ import {
   ModalClose,
   Button,
   Sheet,
+<<<<<<< HEAD
   ModalDialog,
   ModalOverflow,
+=======
+>>>>>>> 2c2d162 (start homepage v2)
 } from "@mui/joy";
 import { Interface, MusicHeadeset } from "@/shared/icons";
 import { useMediaQuery } from "@/shared/hooks/use-media-query";
@@ -21,9 +24,12 @@ export const Section1 = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
+<<<<<<< HEAD
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
 
+=======
+>>>>>>> 2c2d162 (start homepage v2)
   const handleUserSelect = (user: SetStateAction<string | null>) => {
     setSelectedUser(user);
     setOpen(true);
@@ -133,6 +139,7 @@ export const Section1 = () => {
             alignItems: "center",
           }}
         >
+<<<<<<< HEAD
           <ModalOverflow>
             <ModalDialog layout={isMediumScreen ? "center" : "fullscreen"}>
               <Sheet
@@ -252,6 +259,106 @@ export const Section1 = () => {
               </Sheet>
             </ModalDialog>
           </ModalOverflow>
+=======
+          <Sheet
+            variant="plain"
+            sx={{
+              borderRadius: 0,
+              display: "flex",
+              flexDirection: "column",
+              width: "600px",
+              p: 3,
+              gap: 3,
+            }}
+          >
+            <ModalClose variant="plain" sx={{ m: 1 }} />
+
+            <Typography level="h4">Confirm Nomination</Typography>
+
+            <Stack sx={{ alignItems: "center" }}>
+              <Typography>{selectedUser}</Typography>
+            </Stack>
+
+            <Stack sx={{ gap: 2, width: "100%" }}>
+              <Box
+                sx={{
+                  backgroundColor: "common.black",
+                  opacity: "0.3",
+                  height: "1px",
+                  width: "100%",
+                }}
+              />
+
+              <Stack
+                sx={{ flexDirection: "row", justifyContent: "space-between" }}
+              >
+                <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                  Date
+                </Typography>
+                <Typography sx={{ fontSize: "14px" }}>May 09</Typography>
+              </Stack>
+
+              <Stack
+                sx={{ flexDirection: "row", justifyContent: "space-between" }}
+              >
+                <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                  My Daily Budget
+                </Typography>
+                <Typography sx={{ fontSize: "14px" }}>100</Typography>
+              </Stack>
+
+              <Stack
+                sx={{ flexDirection: "row", justifyContent: "space-between" }}
+              >
+                <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                  BOSS Points Sent
+                </Typography>
+                <Typography sx={{ fontSize: "14px" }}>90</Typography>
+              </Stack>
+
+              <Stack
+                sx={{ flexDirection: "row", justifyContent: "space-between" }}
+              >
+                <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                  BOSS Points Earned
+                </Typography>
+                <Typography sx={{ fontSize: "14px" }}>10</Typography>
+              </Stack>
+
+              <Box
+                sx={{
+                  backgroundColor: "common.black",
+                  opacity: "0.3",
+                  height: "1px",
+                  width: "100%",
+                }}
+              />
+
+              <Stack
+                sx={{ flexDirection: "row", justifyContent: "space-between" }}
+              >
+                <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                  My BOSS Points
+                </Typography>
+                <Typography sx={{ fontSize: "16px", fontWeight: "600" }}>
+                  1.150
+                </Typography>
+              </Stack>
+            </Stack>
+
+            <Stack sx={{ flexDirection: "row", justifyContent: "end", gap: 1 }}>
+              <Button
+                variant="outlined"
+                color="neutral"
+                onClick={handleCancel}
+                sx={{ color: "neutral.500", borderColor: "neutral.500" }}
+              >
+                Cancel
+              </Button>
+              <Button variant="solid">Connect wallet</Button>
+            </Stack>
+          </Sheet>
+>>>>>>> 2c2d162 (start homepage v2)
         </Modal>
 
         <Stack
