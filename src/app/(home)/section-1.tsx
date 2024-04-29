@@ -54,8 +54,8 @@ export const Section1 = () => (
                     textAlign: 'center'
                 }}
             >
-                There&apos;s no room for builders in the corporate world. Read the memo and help us keep the status quo:
-                nominate the builders you know.
+                Read the <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>memo</Link>
+                : there's no room for builders in the corporate world! Stand for builders, play the nomination game, and earn BOSS.
             </Typography>
 
             <Stack
