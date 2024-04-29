@@ -19,9 +19,9 @@ export const Section3 = () => {
                         id: leaderboardUser.user_id,
                         name: lUser.username,
                         wallet: lUser.wallet_address,
-                        boss_score: stats.boss_score,
-                        builder_score: stats.builder_score,
-                        nominations: stats.nominations,
+                        boss_score: stats?.boss_score,
+                        builder_score: stats?.builder_score,
+                        nominations: stats?.nominations,
                         rank: leaderboardUser.rank,
                         highlight: lUser.wallet_address === user?.wallet_address
                     } as LeaderboardUser;
