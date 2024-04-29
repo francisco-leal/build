@@ -13,16 +13,24 @@ export const Section1 = () => {
             <Typography
                 sx={{
                     color: 'common.white',
-                    fontSize: { xs: '32px', md: '56px' },
+                    fontSize: { xs: '32px', md: '48px' },
                     textAlign: 'center',
-                    fontWeight: 'bold',
-                    lineHeight: '1'
+                    fontWeight: '700',
+                    lineHeight: '115%'
                 }}
             >
-                The Builder <br /> Memecoin on Base
+                The Memecoin for Builders
             </Typography>
 
-            <Typography sx={{ color: 'common.white', fontSize: '18px', textAlign: 'center', fontWeight: '600' }}>
+            <Typography
+                sx={{
+                    color: 'common.white',
+                    fontSize: '18px',
+                    textAlign: 'center',
+                    fontWeight: '600',
+                    lineHeight: '166%'
+                }}
+            >
                 $BOSS is an ERC-20 token on Base with a total supply of a 404,404,404,404. It launched on May 2024, with
                 a 7-day crowdfund on party.app, followed by a Community Airdrop to onchain builders.
             </Typography>

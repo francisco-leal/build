@@ -24,7 +24,7 @@ export const Footer = () => {
                     gap: 3
                 }}
             >
-                <Link href="#" sx={{ color: 'common.white' }}>
+                <Link href="#" disabled={true} sx={{ color: 'common.white' }}>
                     Buy
                 </Link>
                 <Link href="#" sx={{ color: 'common.white' }}>
@@ -45,11 +45,7 @@ export const Footer = () => {
             </Stack>
 
             <Typography sx={{ color: 'common.white', textAlign: 'center' }}>
-                BOSS is an experimental community project, not directly owned by{' '}
-                <Link href="#" sx={{ color: 'common.white', textDecoration: 'underline' }}>
-                    Talent Protocol
-                </Link>
-                . Not Financial Advice. DYOR.
+                BOSS is an experimental community project. Not Financial Advice. DYOR.
             </Typography>
         </Stack>
     );

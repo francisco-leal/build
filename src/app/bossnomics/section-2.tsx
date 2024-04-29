@@ -25,7 +25,8 @@ export const Section2 = () => {
                         color: 'common.white',
                         fontSize: { xs: '30px', md: '40px' },
                         textAlign: 'center',
-                        fontWeight: 'bold'
+                        fontWeight: '700',
+                        lineHeight: '133%'
                     }}
                 >
                     Tokenomics
@@ -36,16 +37,17 @@ export const Section2 = () => {
                         color: 'common.white',
                         fontSize: '18px',
                         textAlign: 'center',
-                        fontWeight: '600'
+                        fontWeight: '600',
+                        lineHeight: '166%'
                     }}
                 >
                     60% of tokens are intended for the community and ecosystem. The other 40% are related with the
                     initial liquidity pool on Uniswap and liquidity mining rewards.
                 </Typography>
 
-                <Typography sx={{ color: 'common.white', fontSize: '18px', textAlign: 'center' }}>
+                {/* <Typography sx={{ color: 'common.white', fontSize: '18px', textAlign: 'center' }}>
                     0xf4ec...eEc64F
-                </Typography>
+                </Typography> */}
             </Stack>
 
             <Sheet variant="outlined" sx={{ width: '100%' }}>

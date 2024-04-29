@@ -37,10 +37,10 @@ export const Section1 = () => (
                 level="h1"
                 sx={{
                     color: 'common.white',
-                    fontSize: { xs: '37px', sm: '64px' },
-                    fontWeight: 'bold',
+                    fontSize: { xs: '32px', md: '59px' },
                     textAlign: 'center',
-                    lineHeight: '1'
+                    lineHeight: '115%',
+                    fontWeight: '700'
                 }}
             >
                 Nominate <Interface /> the best
@@ -53,12 +53,14 @@ export const Section1 = () => (
                     pt: { xs: 2, sm: 5 },
                     color: 'common.white',
                     fontSize: '18px',
-                    fontWeight: 'bold',
-                    textAlign: 'center'
+                    fontWeight: '600',
+                    lineHeight: '166%',
+                    textAlign: 'center',
+                    maxWidth: '644px'
                 }}
             >
-                There&apos;s no room for builders in the corporate world. Read the memo and help us keep the status quo:
-                nominate the builders you know.
+                Read the memo: there&apos;s no room for builders in the corporate world! Stand for builders, play the
+                nomination game, and earn $BOSS.
             </Typography>
 
             <Stack

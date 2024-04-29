@@ -55,7 +55,7 @@ export const Section3 = () => {
                     fontWeight: 'bold'
                 }}
             >
-                Layoff Leaderboard
+                Leaderboard
             </Typography>
 
             <Stack sx={{ width: '100%', overflowX: 'scroll', display: { md: 'none' } }}>
@@ -78,9 +78,10 @@ export const Section3 = () => {
                 }}
             />
 
-            <Typography sx={{ color: 'common.white', fontSize: '14px', pr: { xs: 2, md: 0 } }}>
+            {/* @TODO: Add leaderboard schedule */}
+            {/* <Typography sx={{ color: 'common.white', fontSize: '14px', pr: { xs: 2, md: 0 } }}>
                 Last update on May 21st, 4pm UTC. Next update on May 30, 4pm UTC
-            </Typography>
+            </Typography> */}
         </Stack>
     );
 };
