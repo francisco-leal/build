@@ -631,6 +631,11 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.1.tgz#16308cea045f0fc777b6ff20a9f25474dd8293d2"
   integrity sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==
 
+"@fontsource-variable/bricolage-grotesque@^5.0.6":
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/bricolage-grotesque/-/bricolage-grotesque-5.0.6.tgz#d15819982a26950b7eba9a7aeb6a80e3e4fcacd9"
+  integrity sha512-vA/FxigkyVJ5s1La0iseED268UPdDfvb9HcCn+pivWsrVcZoPtyNvu3/IGB+l6NvgZP4YuwCEtB7ViyKgc3isg==
+
 "@fontsource/inter@^5.0.18":
   version "5.0.18"
   resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-5.0.18.tgz#eaddac790ee74b70932030f37ebaa9fc76decbd8"

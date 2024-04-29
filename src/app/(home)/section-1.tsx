@@ -1,4 +1,5 @@
 import { Box, Button, Link, Stack, Typography } from '@mui/joy';
+import { Interface, MusicHeadeset } from '@/shared/icons';
 
 export const Section1 = () => (
     <Stack
@@ -20,12 +21,13 @@ export const Section1 = () => (
                 backgroundImage: { lg: 'url(/images/homepage.png)' },
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
+                zIndex: -1
             }}
         />
         <Stack
             sx={{
-                maxWidth: 'sm',
+                maxWidth: 'md',
                 px: 2,
                 justifyContent: 'center',
                 alignItems: 'center'
@@ -41,8 +43,9 @@ export const Section1 = () => (
                     lineHeight: '1'
                 }}
             >
-                Dear builder,
-                <br /> you&apos;re fired.
+                Nominate <Interface /> the best
+                <br />
+                builders <MusicHeadeset /> you know.
             </Typography>
 
             <Typography
