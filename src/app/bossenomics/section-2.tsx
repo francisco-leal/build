@@ -1,18 +1,23 @@
-import { Sheet, Stack, Typography } from '@mui/joy';
+import { Sheet, Stack, Typography, Box } from '@mui/joy';
+import DESKTOP_GRAPH from "../../../public/images/bossenomics-graph.png"
+import MOBILE_GRAPH from "../../../public/images/bossenomics-graph-mobile.png"
+import Image from 'next/image';
 
 export const Section2 = () => {
     return (
         <Stack
             component="section"
             sx={{
+                mx: "auto",
+                maxWidth: { xs: 'sm', md: 'lg' },
+                px: { xs: 2, sm: 8 },
                 py: 5,
-                px: { xs: 2, md: 0 },
                 gap: 5
             }}
         >
             <Stack
                 sx={{
-                    maxWidth: { xs: 'sm', md: 'md' },
+
                     gap: 2
                 }}
             >
@@ -45,12 +50,19 @@ export const Section2 = () => {
             </Stack>
 
             <Sheet
-                variant="outlined"
-                sx={{
-                    maxWidth: { xs: 'md', md: 'lg' },
-                    height: 372 // -> this will be removed when the graphic is added
-                }}
-            ></Sheet>
+                variant='outlined'
+                sx={{ width: "100%" }}
+            >
+                <Stack sx={{ py: { xs: 5, md: 5 }, px: { xs: 5, md: 20 } }}>
+                    <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                        <Image src={DESKTOP_GRAPH} alt="graph" style={{ width: '100%', height: 'auto' }} />
+                    </Box>
+
+                    <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                        <Image src={MOBILE_GRAPH} alt="graph" style={{ width: '100%', height: 'auto' }} />
+                    </Box>
+                </Stack>
+            </Sheet>
         </Stack>
     );
 };
