@@ -7,6 +7,7 @@ import { handle } from 'frog/next';
 import { neynar } from 'frog/middlewares';
 import { serveStatic } from 'frog/serve-static';
 import { createSystem } from 'frog/ui';
+import { getAddress } from 'viem';
 
 export const { Box, Heading, Text, VStack, vars } = createSystem();
 
@@ -124,7 +125,7 @@ app.frame('/confirm/:address', async c => {
         }
     }
 
-    const r = await fetch(origin + '/api/profile?wallet_address=' + fromAddress);
+    const r = await fetch(origin + '/api/profile?wallet_address=' + getAddress(fromAddress));
 
     if (r.status === 404) {
         return res({
@@ -148,10 +149,10 @@ app.frame('/confirm/:address', async c => {
             <Box grow alignVertical="center" backgroundColor="background" padding="32">
                 <VStack gap="4">
                     <Text color="text200" size="20">
-                        You will give: {boss_budget * 0.9} points
+                        You will give: {Math.round(boss_budget * 0.9 * 100) / 100} points
                     </Text>
                     <Text color="text200" size="20">
-                        You will receive: {boss_budget * 0.1} points
+                        You will receive: {Math.round(boss_budget * 0.1 * 100) / 100} points
                     </Text>
                 </VStack>
             </Box>
