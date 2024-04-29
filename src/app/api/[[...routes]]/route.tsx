@@ -9,7 +9,7 @@ import { serveStatic } from 'frog/serve-static';
 import { createSystem } from 'frog/ui';
 import { getAddress } from 'viem';
 
-export const { Box, Heading, Text, VStack, vars } = createSystem();
+const { Box, Heading, Text, VStack, vars } = createSystem();
 
 type CVarInteractor = {
     custodyAddress?: string;
