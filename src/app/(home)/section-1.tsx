@@ -41,13 +41,19 @@ export const Section1 = () => (
                 builders <MusicHeadeset /> you know.
             </Typography>
 
-            <Typography level="body-lg" sx={{ maxWidth: 'sm' }}>
-                Read the{' '}
-                <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>
-                    memo
-                </Link>
-                : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination
-                game, and earn $BOSS.
+            <Typography
+                sx={{
+                    pt: { xs: 2, sm: 5 },
+                    color: 'common.white',
+                    fontSize: '18px',
+                    fontWeight: '600',
+                    lineHeight: '166%',
+                    textAlign: 'center',
+                    maxWidth: '644px'
+                }}
+            >
+                Read the <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>memo</Link>
+                : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination game, and earn BOSS.
             </Typography>
 
             <Stack direction={{ xs: 'column-reverse', sm: 'row' }} gap={2} pt={5}>
