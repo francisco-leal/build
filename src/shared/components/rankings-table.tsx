@@ -2,7 +2,7 @@ import { Sheet, SheetProps, Table } from '@mui/joy';
 import { LeaderboardUser } from '@/shared/interfaces';
 
 export type RankingsTableProps = {
-    values: Array<LeaderboardUser>;
+    values: LeaderboardUser[];
 } & SheetProps;
 
 export const RankingsTable = ({ values, variant = 'outlined', ...props }: RankingsTableProps) => (

@@ -24,12 +24,12 @@ export const Section3 = () => {
                         nominations: stats.nominations,
                         rank: leaderboardUser.rank,
                         highlight: lUser.wallet_address === user?.wallet_address
-                    };
+                    } as LeaderboardUser;
                 });
 
                 setLeaderboardData(users);
             });
-    }, []);
+    }, [user?.wallet_address]);
 
     return (
         <Stack

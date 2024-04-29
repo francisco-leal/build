@@ -1,12 +1,49 @@
 import { Typography, Stack } from '@mui/joy';
 import { RankingsTable } from '@/shared/components/rankings-table';
+import { LeaderboardUser } from '@/shared/interfaces';
 
 export const Section3 = () => {
-    const mockData = [
-        { id: 1, name: 'Tiago', score: 50, points: 2000, nominations: 10 },
-        { id: 2, name: 'Leal', score: 150, points: 4000, nominations: 70 },
-        { id: 3, name: 'Filipe', score: 200, points: 10000, nominations: 50 },
-        { id: 4, name: 'Pedro', score: 100, points: 8000, nominations: 30 }
+    const mockData: LeaderboardUser[] = [
+        {
+            id: 1,
+            name: 'Tiago',
+            builder_score: 50,
+            boss_score: 2000,
+            nominations: 10,
+            rank: 1,
+            highlight: false,
+            wallet: '0x33041027dd8F4dC82B6e825FB37ADf8f15d44053'
+        },
+        {
+            id: 2,
+            name: 'Leal',
+            builder_score: 150,
+            boss_score: 4000,
+            nominations: 70,
+            rank: 1,
+            highlight: false,
+            wallet: '0x33041027dd8F4dC82B6e825FB37ADf8f15d44053'
+        },
+        {
+            id: 3,
+            name: 'Filipe',
+            builder_score: 200,
+            boss_score: 10000,
+            nominations: 50,
+            rank: 1,
+            highlight: false,
+            wallet: '0x33041027dd8F4dC82B6e825FB37ADf8f15d44053'
+        },
+        {
+            id: 4,
+            name: 'Pedro',
+            builder_score: 100,
+            boss_score: 8000,
+            nominations: 30,
+            rank: 1,
+            highlight: false,
+            wallet: '0x33041027dd8F4dC82B6e825FB37ADf8f15d44053'
+        }
     ];
 
     return (
