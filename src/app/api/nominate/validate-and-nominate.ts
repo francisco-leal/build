@@ -35,8 +35,6 @@ export async function validateAndNominate(user_nominator: { userId: number }, no
     toDate.setHours(0, 0, 0, 0);
     toDate.setDate(toDate.getDate() + 1);
 
-    console.log();
-
     const [
         { data: user_nominated_user, error: error_user_nominated_user },
         { data: user_daily_nominated_users, error: error_user_daily_nominated_users }
@@ -61,8 +59,6 @@ export async function validateAndNominate(user_nominator: { userId: number }, no
     if (error_user_daily_nominated_users) {
         return { error: error_user_daily_nominated_users, data: null };
     }
-
-    console.log(user_daily_nominated_users, fromDate, toDate);
 
     if (
         user_daily_nominated_users &&
