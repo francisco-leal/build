@@ -9,7 +9,10 @@ export async function createProfile(wallet_address: string) {
         return { error: 'user not found', data: null };
     }
 
-    const username = socialProfiles.find(profile => !!profile.username)?.username;
+    let username = socialProfiles.find(profile => !!profile.username)?.username;
+    if (!!username && username.includes('lens/@')) {
+        username = username.split('lens/@')[1];
+    }
 
     // get builder score and  boss tokens
     const [builder_score, boss_tokens] = await Promise.all([
