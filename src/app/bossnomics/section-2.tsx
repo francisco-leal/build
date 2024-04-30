@@ -21,31 +21,28 @@ export const Section2 = () => {
                 0xf4ec...eEc64F
             </Typography> */}
 
-      <Sheet
-        variant="outlined"
-        sx={{ width: "100%", py: { xs: 5, md: 5 }, px: { xs: 5, md: 20 } }}
-      >
-        <Box
-          component={Image}
-          src={DESKTOP_GRAPH}
-          alt="graph"
-          sx={{
-            width: "100%",
-            height: "auto",
-            display: { xs: "none", sm: "block" },
-          }}
-        />
-        <Box
-          component={Image}
-          src={MOBILE_GRAPH}
-          alt="graph"
-          sx={{
-            width: "100%",
-            height: "auto",
-            display: { xs: "block", sm: "none" },
-          }}
-        />
-      </Sheet>
-    </HeroSection>
-  );
+            <Sheet variant="outlined" sx={{ width: '100%', py: { xs: 5, md: 5 }, px: { xs: 5, md: 20 } }}>
+                <Box
+                    component={Image}
+                    src={DESKTOP_GRAPH}
+                    alt="graph"
+                    sx={{
+                        width: '100%',
+                        height: 'auto',
+                        display: { xs: 'none', sm: 'block' }
+                    }}
+                />
+                <Box
+                    component={Image}
+                    src={MOBILE_GRAPH}
+                    alt="graph"
+                    sx={{
+                        width: '100%',
+                        height: 'auto',
+                        display: { xs: 'block', sm: 'none' }
+                    }}
+                />
+            </Sheet>
+        </HeroSection>
+    );
 };

@@ -19,7 +19,11 @@ export const Header = () => {
   const drawerHeight = `calc(100vh - ${headerHeight}px)`;
 
     return (
-        <Box ref={headerRef} component="header" sx={{ py: 2, px: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.3)' }}>
+        <Box
+            ref={headerRef}
+            component="header"
+            sx={{ py: 2, px: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.3)' }}
+        >
             <Stack direction="row" spacing={2} maxWidth="lg" justifyContent="space-between" mx="auto">
                 <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
                     <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
@@ -130,3 +134,4 @@ export const Header = () => {
     </Box>
   );
 };
+

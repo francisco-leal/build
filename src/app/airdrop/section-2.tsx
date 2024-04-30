@@ -1,4 +1,4 @@
-import { Sheet, Stack, Typography } from '@mui/joy';
+import { Sheet, Stack, Typography, Link } from '@mui/joy';
 
 export const Section2 = () => {
     return (
@@ -23,13 +23,13 @@ export const Section2 = () => {
                     alignItems: 'center',
                     p: 5,
                     minHeight: 250,
-                    gap: 1,
+                    gap: 1
                 }}
             >
                 <Typography
                     textColor="primary.500"
                     sx={{
-                        fontSize: '18px',
+                        fontSize: '18px'
                     }}
                 >
                     Daily Budget
@@ -47,10 +47,19 @@ export const Section2 = () => {
                     textColor="neutral.500"
                     sx={{
                         fontSize: '18px',
-                        textAlign: 'center',
+                        textAlign: 'center'
                     }}
                 >
-                    Recalculated daily at 00:00 UTC, based on your BOSS Points, Builder Score, and Streak. Read more in FAQ.
+                    Recalculated daily at 00:00 UTC, based on your BOSS Points, Builder Score, and Streak. Read more in{' '}
+                    <Link
+                        href="https://bosscommunity.notion.site/BOSS-FAQ-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
+                        target="_blank"
+                        textColor="neutral.500"
+                        sx={{ textDecoration: 'underline' }}
+                    >
+                        FAQ
+                    </Link>
+                    .
                 </Typography>
             </Sheet>
 
@@ -63,13 +72,13 @@ export const Section2 = () => {
                     alignItems: 'center',
                     p: 5,
                     minHeight: 250,
-                    gap: 1,
+                    gap: 1
                 }}
             >
                 <Typography
                     textColor="primary.500"
                     sx={{
-                        fontSize: '18px',
+                        fontSize: '18px'
                     }}
                 >
                     Nomination Streak
@@ -87,7 +96,7 @@ export const Section2 = () => {
                     textColor="neutral.500"
                     sx={{
                         fontSize: '18px',
-                        textAlign: 'center',
+                        textAlign: 'center'
                     }}
                 >
                     Consecutive days you nominated someone.

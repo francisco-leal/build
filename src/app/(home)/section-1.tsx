@@ -81,64 +81,64 @@ export const Section1 = () => {
           on May 8th.
         </Typography>
 
-        <Stack
-          sx={{
-            flexDirection: { xs: "column-reverse", sm: "row" },
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <Autocomplete
-            placeholder="Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
-            type="search"
-            freeSolo
-            disableClearable
-            options={mockdata}
-            sx={{ borderRadius: 0, width: "100%" }}
-            renderOption={(props, option) => (
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  py: 1,
-                  px: 2,
-                }}
-              >
-                <Typography {...props}>{option}</Typography>
-                <Button
-                  variant="solid"
-                  onClick={() => handleUserSelect(option)}
-                  sx={{ py: "2px", px: "12px" }}
+                <Stack
+                    sx={{
+                        flexDirection: { xs: 'column-reverse', sm: 'row' },
+                        alignItems: 'center',
+                        width: '100%'
+                    }}
                 >
-                  Nominate
-                </Button>
-              </Stack>
-            )}
-          />
-        </Stack>
+                    <Autocomplete
+                        placeholder="Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
+                        type="search"
+                        freeSolo
+                        disableClearable
+                        options={mockdata}
+                        sx={{ borderRadius: 0, width: '100%' }}
+                        renderOption={(props, option) => (
+                            <Stack
+                                sx={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    py: 1,
+                                    px: 2
+                                }}
+                            >
+                                <Typography {...props}>{option}</Typography>
+                                <Button
+                                    variant="solid"
+                                    onClick={() => handleUserSelect(option)}
+                                    sx={{ py: '2px', px: '12px' }}
+                                >
+                                    Nominate
+                                </Button>
+                            </Stack>
+                        )}
+                    />
+                </Stack>
 
-        <Modal
-          open={open}
-          onClose={() => setOpen(false)}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Sheet
-            variant="plain"
-            sx={{
-              borderRadius: 0,
-              display: "flex",
-              flexDirection: "column",
-              width: "600px",
-              p: 3,
-              gap: 3,
-            }}
-          >
-            <ModalClose variant="plain" sx={{ m: 1 }} />
+                <Modal
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Sheet
+                        variant="plain"
+                        sx={{
+                            borderRadius: 0,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            width: '600px',
+                            p: 3,
+                            gap: 3
+                        }}
+                    >
+                        <ModalClose variant="plain" sx={{ m: 1 }} />
 
             <Typography level="h4">Confirm Nomination</Typography>
 
@@ -146,15 +146,15 @@ export const Section1 = () => {
               <Typography>{selectedUser}</Typography>
             </Stack>
 
-            <Stack sx={{ gap: 2, width: "100%" }}>
-              <Box
-                sx={{
-                  backgroundColor: "common.black",
-                  opacity: "0.3",
-                  height: "1px",
-                  width: "100%",
-                }}
-              />
+                        <Stack sx={{ gap: 2, width: '100%' }}>
+                            <Box
+                                sx={{
+                                    backgroundColor: 'common.black',
+                                    opacity: '0.3',
+                                    height: '1px',
+                                    width: '100%'
+                                }}
+                            />
 
               <Stack
                 sx={{ flexDirection: "row", justifyContent: "space-between" }}
@@ -192,14 +192,14 @@ export const Section1 = () => {
                 <Typography sx={{ fontSize: "14px" }}>10</Typography>
               </Stack>
 
-              <Box
-                sx={{
-                  backgroundColor: "common.black",
-                  opacity: "0.3",
-                  height: "1px",
-                  width: "100%",
-                }}
-              />
+                            <Box
+                                sx={{
+                                    backgroundColor: 'common.black',
+                                    opacity: '0.3',
+                                    height: '1px',
+                                    width: '100%'
+                                }}
+                            />
 
               <Stack
                 sx={{ flexDirection: "row", justifyContent: "space-between" }}
@@ -227,32 +227,32 @@ export const Section1 = () => {
           </Sheet>
         </Modal>
 
-        <Stack
-          sx={{
-            flexDirection: "row",
-            alignItems: "center",
-            width: "100%",
-            gap: "16px",
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: "common.white",
-              opacity: "0.3",
-              height: "1px",
-              width: "50%",
-            }}
-          />
-          <Typography sx={{ color: "common.white" }}>Or</Typography>
-          <Box
-            sx={{
-              backgroundColor: "common.white",
-              opacity: "0.3",
-              height: "1px",
-              width: "50%",
-            }}
-          />
-        </Stack>
+                <Stack
+                    sx={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        width: '100%',
+                        gap: '16px'
+                    }}
+                >
+                    <Box
+                        sx={{
+                            backgroundColor: 'common.white',
+                            opacity: '0.3',
+                            height: '1px',
+                            width: '50%'
+                        }}
+                    />
+                    <Typography sx={{ color: 'common.white' }}>Or</Typography>
+                    <Box
+                        sx={{
+                            backgroundColor: 'common.white',
+                            opacity: '0.3',
+                            height: '1px',
+                            width: '50%'
+                        }}
+                    />
+                </Stack>
 
         <Link
           href="#"
