@@ -18,7 +18,7 @@ export const theme = extendTheme({
                     500: colors.blue,
                     outlinedColor: colors.white,
                     outlinedHoverBg: '#1A54F6',
-                    solidHoverBg:  '#51D7D0',
+                    solidHoverBg: '#51D7D0'
                 },
                 neutral: {
                     500: colors.grey,
