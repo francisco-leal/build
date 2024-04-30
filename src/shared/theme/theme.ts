@@ -39,7 +39,53 @@ export const theme = extendTheme({
         display: 'Bricolage Grotesque, sans-serif',
         body: 'Bricolage Grotesque, sans-serif'
     },
-    typography: {},
+    typography: {
+        h1: {
+            textAlign: 'center',
+            color: 'inherit',
+            fontSize: '32px',
+            lineHeight: '115%',
+            fontWeight: '700',
+            marginTop: 6 * 8,
+            marginBottom: 2 * 8,
+            ['@media (min-width: 600px)']: {
+                fontSize: '59px'
+            }
+        },
+        h2: {
+            fontSize: '30px',
+            fontWeight: 'bold',
+            lineHeight: '166%',
+            textAlign: 'center',
+            color: 'inherit',
+            marginTop: 4 * 8,
+            marginBottom: 2 * 8,
+            ['@media (min-width: 900px)']: {
+                fontSize: '40px'
+            }
+        },
+        h3: {
+            fontSize: '24px',
+            fontWeight: 'bold',
+            color: 'inherit',
+            marginTop: 1 * 8,
+            marginBottom: 2 * 8
+        },
+        'body-lg': {
+            fontSize: '18px',
+            fontWeight: '600',
+            lineHeight: '166%',
+            color: 'inherit',
+            marginTop: 1 * 8,
+            marginBottom: 1 * 8
+        },
+        'body-md': {
+            fontSize: '18px',
+            lineHeight: '155%',
+            fontWeight: '400',
+            color: 'inherit'
+        }
+    },
     components: {
         JoyLink: {
             defaultProps: {

@@ -5,7 +5,7 @@ export const Section1 = () => (
     <Stack
         component="section"
         sx={{
-            pt: { xs: 10, lg: 18 },
+            pt: { xs: 10, lg: 14 },
             pb: 10,
             justifyContent: 'center',
             alignItems: 'center',
@@ -30,35 +30,18 @@ export const Section1 = () => (
                 maxWidth: 'md',
                 px: 2,
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                textAlign: 'center',
+                color: 'common.white'
             }}
         >
-            <Typography
-                level="h1"
-                sx={{
-                    color: 'common.white',
-                    fontSize: { xs: '32px', md: '59px' },
-                    textAlign: 'center',
-                    lineHeight: '115%',
-                    fontWeight: '700'
-                }}
-            >
+            <Typography level="h1">
                 Nominate <Interface /> the best
                 <br />
                 builders <MusicHeadeset /> you know.
             </Typography>
 
-            <Typography
-                sx={{
-                    pt: { xs: 2, sm: 5 },
-                    color: 'common.white',
-                    fontSize: '18px',
-                    fontWeight: '600',
-                    lineHeight: '166%',
-                    textAlign: 'center',
-                    maxWidth: '644px'
-                }}
-            >
+            <Typography level="body-lg" sx={{ maxWidth: 'sm' }}>
                 Read the{' '}
                 <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>
                     memo
@@ -67,15 +50,8 @@ export const Section1 = () => (
                 game, and earn $BOSS.
             </Typography>
 
-            <Stack
-                sx={{
-                    flexDirection: { xs: 'column-reverse', sm: 'row' },
-                    alignItems: 'center',
-                    gap: 2,
-                    pt: 5
-                }}
-            >
-                <Button variant="outlined" component={Link} href="/memo">
+            <Stack direction={{ xs: 'column-reverse', sm: 'row' }} gap={2} pt={5}>
+                <Button variant="outlined" component={Link} href="/memo" underline="none">
                     Read BOSS Memo
                 </Button>
 

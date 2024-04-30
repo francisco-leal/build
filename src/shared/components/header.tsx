@@ -19,14 +19,23 @@ export const Header = () => {
     const drawerHeight = `calc(100vh - ${headerHeight}px)`;
 
     return (
-        <Box ref={headerRef} component="header" sx={{ py: 2, px: 2, borderBottom: 1, borderColor: 'common.white' }}>
-            <Stack direction="row" spacing={2} maxWidth="lg" justifyContent="space-between" mx="auto">
-                <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
-                    <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
-                    <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
-                </Link>
+        <Box ref={headerRef} component="header" sx={{ py: 2, borderBottom: 1, borderColor: 'common.white' }}>
+            <Stack direction="row" maxWidth={{ xs: 'md', md: 'lg' }} px={2} mx="auto">
+                <Stack direction="row" flex={1}>
+                    <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
+                        <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
+                        <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
+                    </Link>
+                </Stack>
 
-                <Box sx={{ gap: '24px', display: DESKTOP_ONLY }} component="nav">
+                <Stack
+                    direction="row"
+                    flex={1}
+                    component="nav"
+                    gap={2}
+                    justifyContent={'center'}
+                    display={DESKTOP_ONLY}
+                >
                     <Link sx={{ color: 'common.white' }} href="/memo">
                         Memo
                     </Link>
@@ -48,11 +57,12 @@ export const Header = () => {
                             Soon
                         </Typography>
                     </Stack>
-                </Box>
+                </Stack>
 
-                <Stack direction={'row'} spacing={2}>
-                    <ConnectWalletButton />
-
+                <Stack direction={'row'} flex={1} justifyContent={'flex-end'}>
+                    {!drawer.isOpen && (
+                        <ConnectWalletButton sx={{ flex: { xs: 1, md: 'initial', justifyContent: 'center' } }} />
+                    )}
                     <IconButton
                         onClick={drawer.toggle}
                         sx={{

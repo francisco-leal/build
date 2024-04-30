@@ -1,11 +1,11 @@
 import { Sheet, SheetProps, Table } from '@mui/joy';
 import { LeaderboardUser } from '@/shared/interfaces';
 
-export type RankingsTableProps = {
+export type TableRankingsProps = {
     values: LeaderboardUser[];
 } & SheetProps;
 
-export const RankingsTable = ({ values, variant = 'outlined', ...props }: RankingsTableProps) => (
+export const TableRankings = ({ values, variant = 'outlined', ...props }: TableRankingsProps) => (
     <Sheet {...props} variant={variant} sx={props.sx}>
         <Table
             sx={{

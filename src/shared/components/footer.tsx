@@ -9,7 +9,8 @@ export const Footer = () => {
                 pb: 4,
                 px: 2,
                 gap: 3,
-                alignItems: 'center'
+                alignItems: 'center',
+                width: '100%'
             }}
         >
             <Link href="/" sx={{ '& svg': { color: 'common.white' } }}>
@@ -21,12 +22,15 @@ export const Footer = () => {
                     flexDirection: { md: 'row' },
                     justifyContent: 'center',
                     alignItems: 'center',
-                    gap: 3
+                    gap: 3,
+                    width: '100%',
+                    maxWidth: 'sm',
+                    '& a': {
+                        color: 'common.white'
+                    }
                 }}
             >
-                <Link href="#" disabled={true} sx={{ color: 'common.white' }}>
-                    Buy
-                </Link>
+                <Typography sx={{ color: '#D0D2D5' }}>Buy</Typography>
                 <Link href="https://warpcast.com/~/channel/boss" target="_blank" sx={{ color: 'common.white' }}>
                     Farcaster
                 </Link>
