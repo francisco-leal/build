@@ -96,7 +96,8 @@ export const Section1 = () => {
           }}
         >
           <Autocomplete
-            placeholder="<SearchFilled /> Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
+            startDecorator={<SearchFilled sx={{ color: "primary.500", opacity: "0.64" }} />}
+            placeholder="Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
             type="search"
             freeSolo
             disableClearable
