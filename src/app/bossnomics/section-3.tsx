@@ -1,56 +1,30 @@
 import { Typography, Stack } from '@mui/joy';
-import { GrantsTable } from '@/shared/components/grants-table';
+import { HeroSectionWithOverflow } from '@/shared/components/hero-section-with-overflow';
+import { TableGrants } from '@/shared/components/table-grants';
+
+const grantsData = [
+    {
+        id: '1',
+        description: 'Website & Brand Grant',
+        status: 'Vesting',
+        supplyPercentage: 2
+    }
+];
 
 export const Section3 = () => {
     return (
-        <Stack
-            component="section"
-            sx={{
-                py: 10,
-                pl: { xs: 2, sm: 8 },
-                pr: { xs: 0, md: 8 },
-                maxWidth: { xs: 'md', md: 'lg' },
-                justifyContent: 'center',
-                alignItems: 'center',
-                mx: 'auto',
-                position: 'relative',
-                overflowX: 'hidden',
-                textAlign: 'center',
-                gap: 2
-            }}
-        >
-            <Typography
-                sx={{
-                    color: 'common.white',
-                    fontSize: { xs: 30, md: '40px' },
-                    pr: { xs: 2, sm: 0 },
-                    fontWeight: 'bold'
-                }}
-            >
+        <HeroSectionWithOverflow>
+            <Typography level="h2" className="no-overflow" textColor={'common.white'}>
                 Ecosystem
             </Typography>
 
-            <Typography sx={{ color: 'common.white', fontSize: '18px', fontWeight: '600' }}>
+            <Typography className="no-overflow" level="title-lg" sx={{ color: 'common.white' }}>
                 2% of the funds have been distributed.
             </Typography>
 
-            <Stack sx={{ width: '100%', overflowX: 'scroll', display: { md: 'none' } }}>
-                <GrantsTable
-                    sx={{
-                        width: { xs: 980 },
-                        mr: { xs: 8 },
-                        my: 4
-                    }}
-                />
+            <Stack className="overflow">
+                <TableGrants values={grantsData} />
             </Stack>
-
-            <GrantsTable
-                sx={{
-                    display: { xs: 'none', md: 'block' },
-                    width: '100%',
-                    my: 4
-                }}
-            />
-        </Stack>
+        </HeroSectionWithOverflow>
     );
 };

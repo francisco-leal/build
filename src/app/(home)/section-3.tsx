@@ -1,8 +1,9 @@
 import { Stack, Typography } from '@mui/joy';
-import { RankingsTable } from '@/shared/components/rankings-table';
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '@/shared/context/user';
 import { LeaderboardData, User, UserStats, LeaderboardUser } from '@/shared/interfaces';
+import { HeroSectionWithOverflow } from '@/shared/components/hero-section-with-overflow';
+import { TableRankings } from '@/shared/components/table-rankings';
 
 export const Section3 = () => {
     const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
@@ -32,56 +33,21 @@ export const Section3 = () => {
     }, [user?.wallet_address]);
 
     return (
-        <Stack
-            component="section"
-            sx={{
-                py: 10,
-                pl: { xs: 2, sm: 8 },
-                pr: { xs: 0, md: 8 },
-                maxWidth: { xs: 'md', md: 'lg' },
-                justifyContent: 'center',
-                alignItems: 'center',
-                mx: 'auto',
-                position: 'relative',
-                overflowX: 'hidden',
-                textAlign: 'center'
-            }}
-        >
-            <Typography
-                sx={{
-                    color: 'common.white',
-                    fontSize: { xs: 30, md: '40px' },
-                    pr: { xs: 2, sm: 0 },
-                    fontWeight: 'bold'
-                }}
-            >
-                Leaderboard
+        <HeroSectionWithOverflow>
+            <Typography level="h2" className="no-overflow" textColor={'common.white'}>
+                Layoff Leaderboard
             </Typography>
 
-            <Stack sx={{ width: '100%', overflowX: 'scroll', display: { md: 'none' } }}>
-                <RankingsTable
-                    values={leaderboardData}
-                    sx={{
-                        width: { xs: 980 },
-                        mr: { xs: 8 },
-                        my: 4
-                    }}
-                />
+            <Stack className="overflow">
+                <TableRankings values={leaderboardData} />
             </Stack>
 
-            <RankingsTable
-                values={leaderboardData}
-                sx={{
-                    display: { xs: 'none', md: 'block' },
-                    width: '100%',
-                    my: 4
-                }}
-            />
-
             {/* @TODO: Add leaderboard schedule */}
-            {/* <Typography sx={{ color: 'common.white', fontSize: '14px', pr: { xs: 2, md: 0 } }}>
-                Last update on May 21st, 4pm UTC. Next update on May 30, 4pm UTC
-            </Typography> */}
-        </Stack>
+            {/*
+            <Typography  className="no-overflow" sx={{ color: 'common.white', fontSize: '14px' }}>
+                Last update on Apr 30th, 4pm UTC. Next update on May 1st, 4pm UTC
+            </Typography> 
+            */}
+        </HeroSectionWithOverflow>
     );
 };

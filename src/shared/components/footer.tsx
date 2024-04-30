@@ -9,7 +9,8 @@ export const Footer = () => {
                 pb: 4,
                 px: 2,
                 gap: 3,
-                alignItems: 'center'
+                alignItems: 'center',
+                width: '100%'
             }}
         >
             <Link href="/" sx={{ '& svg': { color: 'common.white' } }}>
@@ -21,31 +22,31 @@ export const Footer = () => {
                     flexDirection: { md: 'row' },
                     justifyContent: 'center',
                     alignItems: 'center',
-                    gap: 3
+                    gap: 3,
+                    width: '100%',
+                    maxWidth: 'sm',
+                    '& a': {
+                        color: 'common.white'
+                    },
+                    '& p': {
+                        color: 'common.white',
+                        opacity: 0.5
+                    }
                 }}
             >
-                <Link href="#" disabled={true} sx={{ color: 'common.white' }}>
-                    Buy
-                </Link>
+                <Typography>Buy</Typography>
                 <Link href="https://warpcast.com/~/channel/boss" target="_blank" sx={{ color: 'common.white' }}>
                     Farcaster
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
-                    Telegram
-                </Link>
-                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
-                    Party.app
-                </Link>
+                <Typography>Telegram</Typography>
+                <Typography>Party.app</Typography>
                 <Link
                     href="https://bosscommunity.notion.site/BOSS-FAQ-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
                     target="_blank"
-                    sx={{ color: 'common.white' }}
                 >
                     FAQ
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
-                    Meme templates
-                </Link>
+                <Typography>Meme templates</Typography>
             </Stack>
 
             <Typography sx={{ color: 'common.white', textAlign: 'center' }}>
