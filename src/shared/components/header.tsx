@@ -59,7 +59,7 @@ export const Header = () => {
                     </Stack>
                 </Stack>
 
-                <Stack direction={'row'} flex={1} justifyContent={'flex-end'}>
+                <Stack direction={'row'} flex={1} justifyContent={'flex-end'} alignItems={"center"}>
                     {!drawer.isOpen && (
                         <ConnectWalletButton sx={{ flex: { xs: 1, md: 'initial', justifyContent: 'center' } }} />
                     )}
