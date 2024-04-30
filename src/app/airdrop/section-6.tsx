@@ -1,6 +1,6 @@
 'use client'
 import { Stack, Typography } from '@mui/joy';
-import { RankingsTable } from '@/shared/components/rankings-table';
+import { TableRankings } from '@/shared/components/table-rankings';
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '@/shared/context/user';
 import { LeaderboardData, User, UserStats, LeaderboardUser } from '@/shared/interfaces';
@@ -60,7 +60,7 @@ export const Section6 = () => {
             </Typography>
 
             <Stack sx={{ width: '100%', overflowX: 'scroll', display: { md: 'none' } }}>
-                <RankingsTable
+                <TableRankings
                     values={leaderboardData}
                     sx={{
                         width: { xs: 980 },
@@ -70,7 +70,7 @@ export const Section6 = () => {
                 />
             </Stack>
 
-            <RankingsTable
+            <TableRankings
                 values={leaderboardData}
                 sx={{
                     display: { xs: 'none', md: 'block' },
