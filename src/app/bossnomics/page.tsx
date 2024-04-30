@@ -2,7 +2,6 @@ import { Header } from "@/shared/components/header";
 import { Footer } from "@/shared/components/footer";
 import { Section1 } from "./section-1";
 import { Section2 } from "./section-2";
-import { Section3 } from "./section-3";
 import { Stack } from "@mui/joy";
 
 export default function Bossnomics() {
@@ -13,7 +12,8 @@ export default function Bossnomics() {
       <Stack component="main" sx={{ alignItems: "center" }}>
         <Section1 />
         <Section2 />
-        <Section3 />
+        {/* hide section 3 for now */}
+        {/* <Section3 /> */}
       </Stack>
 
       <Footer />

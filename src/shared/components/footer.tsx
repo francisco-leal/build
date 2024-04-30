@@ -42,15 +42,27 @@ export const Footer = () => {
         >
           Farcaster
         </Link>
-        <Typography>Telegram</Typography>
-        <Typography>Party.app</Typography>
+        <Link href="https://t.me/bosstokenofficial" target="_blank">
+          Telegram
+        </Link>
+        <Link
+          href="https://base.party.app/party/0x04483a3F6435bB96c9dcD3C1eDAF4482f7367bA5"
+          target="_blank"
+        >
+          Party.app
+        </Link>
         <Link
           href="https://bosscommunity.notion.site/BOSS-FAQ-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
           target="_blank"
         >
           FAQ
         </Link>
-        <Typography>Meme templates</Typography>
+        <Link
+          href="https://www.figma.com/file/sSlPPPR0XdJztdqZaImV6Z/%24BOSS---Community?type=design&node-id=2001%3A38&mode=design&t=8SasWWiTJVaNS6av-1"
+          target="_blank"
+        >
+          Meme templates
+        </Link>
       </Stack>
 
       <Typography sx={{ color: "common.white", textAlign: "center" }}>
