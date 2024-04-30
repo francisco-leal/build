@@ -37,7 +37,7 @@ export async function GET() {
         userIds.push(user.userId);
     }
 
-    let { data: users, error: userError } = await supabase
+    const { data: users, error: userError } = await supabase
         .from('app_user')
         .select('id, wallet_address, username')
         .in('id', userIds);
@@ -46,7 +46,7 @@ export async function GET() {
         return Response.json({ error: userError }, { status: 404 });
     }
 
-    let { data: userStats, error: statsError } = await supabase
+    const { data: userStats, error: statsError } = await supabase
         .from('app_user_stats')
         .select('user_id, boss_score, nominations, builder_score')
         .in('user_id', userIds);
