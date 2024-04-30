@@ -13,6 +13,14 @@ export const metadata: Metadata = {
   title: "BOSS",
   description:
     "BOSS is a meme and a social game designed to reward builders via onchain nominations.",
+  openGraph: {
+    title: "BOSS",
+    description:
+      "BOSS is a meme and a social game designed to reward builders via onchain nominations.",
+    type: "website",
+    url: "https://boss.community",
+    images: ["https://boss.community/BOSS-thumbnail.png"],
+  },
 };
 
 export default function RootLayout({
