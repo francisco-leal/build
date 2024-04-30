@@ -73,47 +73,42 @@ export async function searchSocialUser(querySearch: string) {
     return f.length === 1 ? f[0] : userAddress;
   };
 
-  // format results
-  const result: {
-    address: string;
-    username: string;
-    profile_image: string;
-    dapp: string;
-  }[] = [];
-  return result
-    .concat(
-      airstackData.Socials.Social
-        ? airstackData.Socials.Social.map(
-            (s: {
-              userAddress: string;
-              profileName: string;
-              dappName: string;
-              profileImage: string;
-              userAssociatedAddresses: string[];
-            }) => ({
-              address: filterFarcasterAddress(
-                s.userAddress,
-                s.userAssociatedAddresses,
-              ),
-              username: s.profileName,
-              profile_image: s.profileImage,
-              dapp: s.dappName,
-            }),
-          )
-        : [],
-    )
-    .concat(
-      talentProtocolData
-        ? talentProtocolData.map((t) => ({
-            address: "",
-            username: t.user ? t.user.username : t.passport_profile!.name,
-            profile_image: t.user
-              ? t.user.profile_picture_url
-              : t.passport_profile!.image_url,
-            dapp: "talent-protocol",
-          }))
-        : [],
-    );
+    // format results
+    const result: {
+        address: string;
+        username: string;
+        profile_image: string;
+        dapp: string;
+    }[] = [];
+    return result
+        .concat(
+            airstackData.Socials.Social
+                ? airstackData.Socials.Social.map(
+                      (s: {
+                          userAddress: string;
+                          profileName: string;
+                          dappName: string;
+                          profileImage: string;
+                          userAssociatedAddresses: string[];
+                      }) => ({
+                          address: filterFarcasterAddress(s.userAddress, s.userAssociatedAddresses),
+                          username: s.profileName,
+                          profile_image: s.profileImage,
+                          dapp: s.dappName
+                      })
+                  )
+                : []
+        )
+        .concat(
+            talentProtocolData
+                ? talentProtocolData.map(t => ({
+                      address: '',
+                      username: t.user ? t.user.username : t.passport_profile!.name,
+                      profile_image: t.user ? t.user.profile_picture_url : t.passport_profile!.image_url,
+                      dapp: 'talent-protocol'
+                  }))
+                : []
+        );
 }
 
 export async function getNominationsFromFarcaster() {

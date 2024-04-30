@@ -7,23 +7,23 @@ export const Section4 = () => {
     <HeroSection sx={{ color: "common.white" }}>
       <Typography level="h2">Become a BOSS</Typography>
 
-      <Stack
-        sx={{
-          flexDirection: { xs: "column", md: "row" },
-          alignItems: "center",
-          gap: 3,
-        }}
-      >
-        <Stack
-          sx={{
-            height: "100%",
-            flex: 1,
-            alignItems: "center",
-            minHeight: 320,
-            py: 5,
-          }}
-        >
-          <UserShield sx={{ width: 48, height: 48, color: "common.white" }} />
+            <Stack
+                sx={{
+                    flexDirection: { xs: 'column', md: 'row' },
+                    alignItems: 'center',
+                    gap: 3
+                }}
+            >
+                <Stack
+                    sx={{
+                        height: '100%',
+                        flex: 1,
+                        alignItems: 'center',
+                        minHeight: 320,
+                        py: 5
+                    }}
+                >
+                    <UserShield sx={{ width: 48, height: 48, color: 'common.white' }} />
 
           <Typography level="h3">Step 1</Typography>
 
@@ -44,43 +44,36 @@ export const Section4 = () => {
           </Button>
         </Stack>
 
-        <Stack
-          sx={{
-            height: "100%",
-            flex: 1,
-            alignItems: "center",
-            minHeight: 320,
-            py: 5,
-          }}
-        >
-          <Coin sx={{ width: 48, height: 48, color: "common.white" }} />
+                <Stack
+                    sx={{
+                        height: '100%',
+                        flex: 1,
+                        alignItems: 'center',
+                        minHeight: 320,
+                        py: 5
+                    }}
+                >
+                    <Coin sx={{ width: 48, height: 48, color: 'common.white' }} />
 
           <Typography level="h3">Step 2</Typography>
 
-          <Typography>
-            Join on party.app until May 7th, to help us raise LP funds and
-            launch the $BOSS token together! More info in{" "}
-            <Link
-              href="/bossnomics"
-              sx={{ color: "common.white", textDecoration: "underline" }}
-            >
-              Bossnomics
-            </Link>
-            .
-          </Typography>
+                    <Typography>
+                        Nominate the best builders you know by searching for their web3 username or by sending them your
+                        personal link.
+                    </Typography>
 
-          <Button
-            variant="solid"
-            color="neutral"
-            component={Link}
-            href="https://base.party.app/party/0x04483a3F6435bB96c9dcD3C1eDAF4482f7367bA5"
-            underline="none"
-            sx={{ mt: "auto" }}
-          >
-            Join Party
-          </Button>
-        </Stack>
-      </Stack>
-    </HeroSection>
-  );
+                    <Button
+                        variant="solid"
+                        color="neutral"
+                        component={Link}
+                        href="/"
+                        underline="none"
+                        sx={{ mt: 'auto' }}
+                    >
+                        Share Link
+                    </Button>
+                </Stack>
+            </Stack>
+        </HeroSection>
+    );
 };

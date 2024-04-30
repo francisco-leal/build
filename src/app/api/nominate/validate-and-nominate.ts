@@ -89,12 +89,12 @@ export async function validateAndNominate(
     return { error: "can not nominate yourself", data: null };
   }
 
-  // insert nomination
-  return await supabase
-    .from("app_daily_nominations")
-    .insert({
-      user_id_from: user_nominator.userId,
-      user_id_nominated: nominated_user[0].id,
-    })
-    .select();
+    // insert nomination
+    return await supabase
+        .from('app_daily_nominations')
+        .insert({
+            user_id_from: user_nominator.userId,
+            user_id_nominated: nominated_user[0].id
+        })
+        .select();
 }
