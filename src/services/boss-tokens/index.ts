@@ -8,13 +8,13 @@
 // });
 
 export async function getBalance(wallet: string) {
-    // const contract = getContract({
-    //     address: 'to-be-deployed-address',
-    //     abi: erc20Abi,
-    //     client: publicClient
-    // });
+  // const contract = getContract({
+  //     address: 'to-be-deployed-address',
+  //     abi: erc20Abi,
+  //     client: publicClient
+  // });
 
-    // const result = await contract.read.balanceOf(wallet);
+  // const result = await contract.read.balanceOf(wallet);
 
-    return 0;
+  return 0;
 }

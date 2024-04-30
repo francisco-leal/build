@@ -1,49 +1,49 @@
 {
-    "name": "boss-token",
-    "version": "0.1.0",
-    "private": true,
-    "engines": {
-        "node": ">=20.0.0"
-    },
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint",
-        "prettier": "prettier --write .",
-        "types": "tsc --noEmit",
-        "supabase-types": "supabase gen types typescript --project-id \"$SUPABASE_BOSS_PROJECT\" --schema public > src/db/database.types.ts"
-    },
-    "dependencies": {
-        "@airstack/node": "0.0.6",
-        "@emotion/react": "^11.11.4",
-        "@emotion/styled": "^11.11.5",
-        "@fontsource-variable/bricolage-grotesque": "^5.0.6",
-        "@fontsource/inter": "^5.0.18",
-        "@mui/joy": "^5.0.0-beta.36",
-        "@supabase/supabase-js": "2.42.4",
-        "@tanstack/react-query": "^5.32.0",
-        "@web3modal/wagmi": "^4.1.11",
-        "encoding": "^0.1.13",
-        "ethers": "^5.6",
-        "frog": "0.8.6",
-        "hono": "4.2.7",
-        "iron-session": "8.0.1",
-        "next": "14.2.1",
-        "pino-pretty": "^11.0.0",
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
-        "siwe": "2.3.2",
-        "viem": "^2.9.26",
-        "wagmi": "^2.5.21"
-    },
-    "devDependencies": {
-        "@types/node": "20.12.7",
-        "@types/react": "18.2.79",
-        "@types/react-dom": "18.2.25",
-        "eslint": "8.57.0",
-        "eslint-config-next": "14.2.1",
-        "prettier": "3.2.5",
-        "typescript": "5.4.5"
-    }
+  "name": "boss-token",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prettier": "prettier --write .",
+    "types": "tsc --noEmit",
+    "supabase-types": "supabase gen types typescript --project-id \"$SUPABASE_BOSS_PROJECT\" --schema public > src/db/database.types.ts"
+  },
+  "dependencies": {
+    "@airstack/node": "0.0.6",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource-variable/bricolage-grotesque": "^5.0.6",
+    "@fontsource/inter": "^5.0.18",
+    "@mui/joy": "^5.0.0-beta.36",
+    "@supabase/supabase-js": "2.42.4",
+    "@tanstack/react-query": "^5.32.0",
+    "@web3modal/wagmi": "^4.1.11",
+    "encoding": "^0.1.13",
+    "ethers": "^5.6",
+    "frog": "0.8.6",
+    "hono": "4.2.7",
+    "iron-session": "8.0.1",
+    "next": "14.2.1",
+    "pino-pretty": "^11.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "siwe": "2.3.2",
+    "viem": "^2.9.26",
+    "wagmi": "^2.5.21"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.7",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.25",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.1",
+    "prettier": "3.2.5",
+    "typescript": "5.4.5"
+  }
 }

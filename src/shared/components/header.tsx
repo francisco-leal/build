@@ -1,147 +1,175 @@
-'use client';
-import { Box, Drawer, IconButton, Link, Stack, Typography } from '@mui/joy';
-import { Cross, Hamburger, LogoLong, LogoShort } from '../icons';
-import { useRef } from 'react';
-import { useDisclose } from '../hooks/use-disclose';
-import { ConnectWalletButton } from './connect-wallet-button';
+"use client";
+import { Box, Drawer, IconButton, Link, Stack, Typography } from "@mui/joy";
+import { Cross, Hamburger, LogoLong, LogoShort } from "../icons";
+import { useRef } from "react";
+import { useDisclose } from "../hooks/use-disclose";
+import { ConnectWalletButton } from "./connect-wallet-button";
 
-const MOBILE_BREAKPOINT = 'md' as const;
-const MOBILE_ONLY = { xs: 'block', [MOBILE_BREAKPOINT]: 'none' } as const;
-const DESKTOP_ONLY = { xs: 'none', [MOBILE_BREAKPOINT]: 'flex' } as const;
+const MOBILE_BREAKPOINT = "md" as const;
+const MOBILE_ONLY = { xs: "block", [MOBILE_BREAKPOINT]: "none" } as const;
+const DESKTOP_ONLY = { xs: "none", [MOBILE_BREAKPOINT]: "flex" } as const;
 
 export const Header = () => {
-    // UI
-    const drawer = useDisclose();
-    const headerRef = useRef<HTMLDivElement>(null);
+  // UI
+  const drawer = useDisclose();
+  const headerRef = useRef<HTMLDivElement>(null);
 
-    // FIXME this could lead to leaky styles if the header size becomes dynamic.
-    const headerHeight = headerRef.current?.clientHeight ?? 0;
-    const drawerHeight = `calc(100vh - ${headerHeight}px)`;
+  // FIXME this could lead to leaky styles if the header size becomes dynamic.
+  const headerHeight = headerRef.current?.clientHeight ?? 0;
+  const drawerHeight = `calc(100vh - ${headerHeight}px)`;
 
-    return (
-        <Box ref={headerRef} component="header" sx={{ py: 2, borderBottom: 1, borderColor: 'common.white' }}>
-            <Stack direction="row" maxWidth={{ xs: 'md', md: 'lg' }} px={{ xs: 2, md: 4, lg: 8 }} mx="auto">
-                <Stack direction="row" flex={1}>
-                    <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
-                        <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
-                        <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
-                    </Link>
-                </Stack>
+  return (
+    <Box
+      ref={headerRef}
+      component="header"
+      sx={{ py: 2, borderBottom: 1, borderColor: "common.white" }}
+    >
+      <Stack
+        direction="row"
+        maxWidth={{ xs: "md", md: "lg" }}
+        px={{ xs: 2, md: 4, lg: 8 }}
+        mx="auto"
+      >
+        <Stack direction="row" flex={1}>
+          <Link
+            href="/"
+            sx={{ "& svg": { color: "common.white", height: 40 } }}
+          >
+            <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
+            <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
+          </Link>
+        </Stack>
 
-                <Stack
-                    direction="row"
-                    flex={1}
-                    component="nav"
-                    gap={2}
-                    justifyContent={'center'}
-                    display={DESKTOP_ONLY}
-                >
-                    <Link sx={{ color: 'common.white' }} href="/memo">
-                        Memo
-                    </Link>
-                    <Link sx={{ color: 'common.white' }} href="/bossnomics">
-                        Bossnomics
-                    </Link>
-                    <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
-                        <Typography sx={{ color: 'common.white', opacity: '0.5' }}>Airdrop</Typography>
-                        <Typography
-                            sx={{
-                                color: 'primary',
-                                bgcolor: 'common.white',
-                                fontWeight: '500',
-                                px: 1,
-                                borderRadius: '24px',
-                                fontSize: '12px'
-                            }}
-                        >
-                            Soon
-                        </Typography>
-                    </Stack>
-                </Stack>
-
-                <Stack direction={'row'} flex={1} justifyContent={'flex-end'} alignItems={'center'}>
-                    {!drawer.isOpen && (
-                        <ConnectWalletButton sx={{ flex: { xs: 1, md: 'initial', justifyContent: 'center' } }} />
-                    )}
-                    <IconButton
-                        onClick={drawer.toggle}
-                        sx={{
-                            display: MOBILE_ONLY,
-                            '& svg': {
-                                color: 'common.white',
-                                width: '40px',
-                                height: '40px'
-                            },
-                            ':hover': {
-                                background: 'transparent',
-                                '& svg': {
-                                    color: 'neutral.solidHoverBg'
-                                }
-                            }
-                        }}
-                    >
-                        {drawer.isOpen ? <Cross /> : <Hamburger />}
-                    </IconButton>
-                </Stack>
-            </Stack>
-            <Drawer
-                anchor={'bottom'}
-                open={drawer.isOpen}
-                onClose={drawer.close}
-                hideBackdrop
-                disableEnforceFocus
-                slotProps={{
-                    root: {
-                        sx: {
-                            display: MOBILE_ONLY,
-                            height: drawerHeight,
-                            bottom: 0,
-                            top: headerHeight
-                        }
-                    },
-                    content: {
-                        sx: {
-                            backgroundColor: 'primary.500',
-                            borderTop: 1,
-                            borderColor: 'common.white',
-                            height: drawerHeight,
-                            px: 2,
-                            pt: 6,
-                            pb: 3,
-
-                            [`& a`]: {
-                                color: 'common.white',
-                                pb: 5,
-                                fontSize: '32px',
-                                fontWeight: '700',
-                                lineHeight: '115%'
-                            }
-                        }
-                    }
-                }}
+        <Stack
+          direction="row"
+          flex={1}
+          component="nav"
+          gap={2}
+          justifyContent={"center"}
+          display={DESKTOP_ONLY}
+        >
+          <Link sx={{ color: "common.white" }} href="/memo">
+            Memo
+          </Link>
+          <Link sx={{ color: "common.white" }} href="/bossnomics">
+            Bossnomics
+          </Link>
+          <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 0.5 }}>
+            <Typography sx={{ color: "common.white", opacity: "0.5" }}>
+              Airdrop
+            </Typography>
+            <Typography
+              sx={{
+                color: "primary",
+                bgcolor: "common.white",
+                fontWeight: "500",
+                px: 1,
+                borderRadius: "24px",
+                fontSize: "12px",
+              }}
             >
-                <Link href="/memo">Memo</Link>
-                <Link href="/bossnomics">Bossnomics</Link>
-                <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
-                    <Typography sx={{ color: 'common.white', opacity: '0.5', fontSize: '32px' }}>Airdrop</Typography>
-                    <Typography
-                        sx={{
-                            color: 'primary',
-                            bgcolor: 'common.white',
-                            fontWeight: '500',
-                            px: 1,
-                            borderRadius: '24px',
-                            fontSize: '14px'
-                        }}
-                    >
-                        Soon
-                    </Typography>
-                </Stack>
+              Soon
+            </Typography>
+          </Stack>
+        </Stack>
 
-                <Typography sx={{ color: 'neutral.50', mt: 'auto', textAlign: 'center' }} level="body-md">
-                    BOSS is an experimental community project. Not Financial Advice. DYOR.
-                </Typography>
-            </Drawer>
-        </Box>
-    );
+        <Stack
+          direction={"row"}
+          flex={1}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+        >
+          {!drawer.isOpen && (
+            <ConnectWalletButton
+              sx={{ flex: { xs: 1, md: "initial", justifyContent: "center" } }}
+            />
+          )}
+          <IconButton
+            onClick={drawer.toggle}
+            sx={{
+              display: MOBILE_ONLY,
+              "& svg": {
+                color: "common.white",
+                width: "40px",
+                height: "40px",
+              },
+              ":hover": {
+                background: "transparent",
+                "& svg": {
+                  color: "neutral.solidHoverBg",
+                },
+              },
+            }}
+          >
+            {drawer.isOpen ? <Cross /> : <Hamburger />}
+          </IconButton>
+        </Stack>
+      </Stack>
+      <Drawer
+        anchor={"bottom"}
+        open={drawer.isOpen}
+        onClose={drawer.close}
+        hideBackdrop
+        disableEnforceFocus
+        slotProps={{
+          root: {
+            sx: {
+              display: MOBILE_ONLY,
+              height: drawerHeight,
+              bottom: 0,
+              top: headerHeight,
+            },
+          },
+          content: {
+            sx: {
+              backgroundColor: "primary.500",
+              borderTop: 1,
+              borderColor: "common.white",
+              height: drawerHeight,
+              px: 2,
+              pt: 6,
+              pb: 3,
+
+              [`& a`]: {
+                color: "common.white",
+                pb: 5,
+                fontSize: "32px",
+                fontWeight: "700",
+                lineHeight: "115%",
+              },
+            },
+          },
+        }}
+      >
+        <Link href="/memo">Memo</Link>
+        <Link href="/bossnomics">Bossnomics</Link>
+        <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 0.5 }}>
+          <Typography
+            sx={{ color: "common.white", opacity: "0.5", fontSize: "32px" }}
+          >
+            Airdrop
+          </Typography>
+          <Typography
+            sx={{
+              color: "primary",
+              bgcolor: "common.white",
+              fontWeight: "500",
+              px: 1,
+              borderRadius: "24px",
+              fontSize: "14px",
+            }}
+          >
+            Soon
+          </Typography>
+        </Stack>
+
+        <Typography
+          sx={{ color: "neutral.50", mt: "auto", textAlign: "center" }}
+          level="body-md"
+        >
+          BOSS is an experimental community project. Not Financial Advice. DYOR.
+        </Typography>
+      </Drawer>
+    </Box>
+  );
 };
