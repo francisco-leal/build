@@ -2,7 +2,11 @@ import { supabase } from '@/db';
 
 export const revalidate = 0;
 export async function GET() {
-    let { data: app_leaderboard, error } = await supabase.from('app_leaderboard_current').select('*');
+    let { data: app_leaderboard, error } = await supabase
+        .from('app_leaderboard_current')
+        .select('*')
+        .order('rank', { ascending: true })
+        .limit(10);
 
     if (error || !app_leaderboard) {
         return Response.json({ error }, { status: 404 });

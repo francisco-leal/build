@@ -92,7 +92,7 @@ export const Section2 = () => {
                         fontWeight: '400'
                     }}
                 >
-                    Players have a daily budget of BOSS points to donate to 1 builder a day. Points will convert to
+                    Players have a daily budget of BOSS points to donate to 3 builders a day. Points will convert to
                     $BOSS tokens in June.
                 </Typography>
 

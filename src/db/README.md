@@ -21,7 +21,8 @@ CREATE OR REPLACE FUNCTION insert_user(
   boss_score int,
   boss_budget int,
   builder_score int,
-  social_profiles jsonb
+  social_profiles jsonb,
+  username varchar
 )
 RETURNS setof app_user_and_stats
 AS $$
@@ -29,8 +30,8 @@ AS $$
   user_id_new int;
 begin
   INSERT into app_user
-    (wallet_address, referral_code, social_profiles)
-    values (wallet_address, referral_code, social_profiles)
+    (wallet_address, referral_code, social_profiles, username)
+    values (wallet_address, referral_code, social_profiles, username)
     returning id
     into user_id_new;
   INSERT into app_user_stats

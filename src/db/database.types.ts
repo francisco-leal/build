@@ -370,6 +370,7 @@ export type Database = {
           boss_budget: number
           builder_score: number
           social_profiles: Json
+          username: string | undefined
         }
         Returns: {
           boss_budget: number | null
