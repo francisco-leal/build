@@ -1,4 +1,4 @@
-import { Sheet, Stack, Typography } from '@mui/joy';
+import { Sheet, Stack, Typography, Button } from '@mui/joy';
 
 export const Section5 = () => {
     return (
@@ -23,35 +23,44 @@ export const Section5 = () => {
                     alignItems: 'center',
                     p: 5,
                     minHeight: 250,
-                    gap: 1,
+                    gap: 5
                 }}
             >
-                <Typography
-                    textColor="primary.500"
+                <Stack
                     sx={{
-                        fontSize: '18px',
+                        alignItems: 'center',
+                        gap: 1
                     }}
                 >
-                    Daily Budget
-                </Typography>
-                <Typography
-                    textColor="common.black"
-                    sx={{
-                        fontSize: '36px',
-                        fontWeight: 'bold'
-                    }}
-                >
-                    100
-                </Typography>
-                <Typography
-                    textColor="neutral.500"
-                    sx={{
-                        fontSize: '18px',
-                        textAlign: 'center',
-                    }}
-                >
-                    Recalculated daily at 00:00 UTC, based on your BOSS Points, Builder Score, and Streak. Read more in FAQ.
-                </Typography>
+                    <Typography
+                        textColor="primary.500"
+                        sx={{
+                            fontSize: '18px'
+                        }}
+                    >
+                        BOSS Points
+                    </Typography>
+                    <Typography
+                        textColor="common.black"
+                        sx={{
+                            fontSize: '36px',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        11.450
+                    </Typography>
+                    <Typography
+                        textColor="neutral.500"
+                        sx={{
+                            fontSize: '18px',
+                            textAlign: 'center'
+                        }}
+                    >
+                        Total BOSS points earned from nominations received and made.
+                    </Typography>
+                </Stack>
+
+                <Button>How it works</Button>
             </Sheet>
 
             <Sheet
@@ -63,35 +72,93 @@ export const Section5 = () => {
                     alignItems: 'center',
                     p: 5,
                     minHeight: 250,
-                    gap: 1,
+                    gap: 5
                 }}
             >
-                <Typography
-                    textColor="primary.500"
+                <Stack
                     sx={{
-                        fontSize: '18px',
+                        alignItems: 'center',
+                        gap: 1
                     }}
                 >
-                    Nomination Streak
-                </Typography>
-                <Typography
-                    textColor="common.black"
+                    <Typography
+                        textColor="primary.500"
+                        sx={{
+                            fontSize: '18px'
+                        }}
+                    >
+                        $BOSS Tokens
+                    </Typography>
+                    <Typography
+                        textColor="common.black"
+                        sx={{
+                            fontSize: '36px',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        1.145
+                    </Typography>
+                    <Typography
+                        textColor="neutral.500"
+                        sx={{
+                            fontSize: '18px',
+                            textAlign: 'center'
+                        }}
+                    >
+                        $BOSS is an ERC-20 token on Base, tradable on Uniswap.
+                    </Typography>
+                </Stack>
+
+                <Button>Buy $BOSS</Button>
+            </Sheet>
+
+            <Sheet
+                variant="outlined"
+                sx={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    p: 5,
+                    minHeight: 250,
+                    gap: 5
+                }}
+            >
+                <Stack
                     sx={{
-                        fontSize: '36px',
-                        fontWeight: 'bold'
+                        alignItems: 'center',
+                        gap: 1
                     }}
                 >
-                    5 days
-                </Typography>
-                <Typography
-                    textColor="neutral.500"
-                    sx={{
-                        fontSize: '18px',
-                        textAlign: 'center',
-                    }}
-                >
-                    Consecutive days you nominated someone.
-                </Typography>
+                    <Typography
+                        textColor="primary.500"
+                        sx={{
+                            fontSize: '18px'
+                        }}
+                    >
+                        Builder Score
+                    </Typography>
+                    <Typography
+                        textColor="common.black"
+                        sx={{
+                            fontSize: '36px',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        63
+                    </Typography>
+                    <Typography
+                        textColor="neutral.500"
+                        sx={{
+                            fontSize: '18px',
+                            textAlign: 'center'
+                        }}
+                    >
+                        The proficiency of Talent Passport users as onchain builders (0-100).
+                    </Typography>
+                </Stack>
+
+                <Button>Refresh Score</Button>
             </Sheet>
         </Stack>
     );
