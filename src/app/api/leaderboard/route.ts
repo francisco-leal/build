@@ -1,4 +1,5 @@
 import { supabase } from '@/db';
+import { getSession } from '@/services/authentication/cookie-session';
 
 export const revalidate = 0;
 export async function GET() {
@@ -12,7 +13,29 @@ export async function GET() {
         return Response.json({ error }, { status: 404 });
     }
 
-    const userIds = app_leaderboard.map(user => user.user_id);
+    const user = await getSession();
+
+    if (!!user) {
+        const { data: currentUserRank } = await supabase
+            .from('app_leaderboard_current')
+            .select('*')
+            .eq('user_id', user.userId)
+            .single();
+
+        if (
+            !!currentUserRank &&
+            !!app_leaderboard &&
+            !app_leaderboard.find(leaderboardPosition => leaderboardPosition.user_id === user.userId)
+        ) {
+            app_leaderboard = [...app_leaderboard, currentUserRank];
+        }
+    }
+
+    let userIds = app_leaderboard.map(user => user.user_id);
+
+    if (!!user) {
+        userIds.push(user.userId);
+    }
 
     const { data: users, error: userError } = await supabase
         .from('app_user')
