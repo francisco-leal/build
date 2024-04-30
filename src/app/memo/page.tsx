@@ -5,6 +5,7 @@ import { Header } from "@/shared/components/header";
 import { Footer } from "@/shared/components/footer";
 import Signature from "../../../public/images/signature.png";
 import Image from "next/image";
+import { HeroSection } from "@/shared/components/hero-section";
 
 const content = [
   "Dear builder,",
@@ -21,24 +22,17 @@ const content = [
 
 export default function Memo() {
   return (
-    <main>
+    <>
       <Header />
-
-      <Stack sx={{ alignItems: "center" }}>
-        <Stack
-          component="section"
-          sx={{
-            maxWidth: { md: "lg" },
-            py: 10,
-            px: { xs: 2, md: 0 },
-          }}
-        >
+      <Stack component="main">
+        <HeroSection>
           <Sheet
             variant="outlined"
             sx={{
               flex: 1,
               display: "flex",
               flexDirection: "column",
+              textAlign: "left",
               py: { xs: 5, md: 15 },
               px: { xs: 2, md: 21 },
               gap: 5,
@@ -62,10 +56,9 @@ export default function Memo() {
               <Image src={Signature} alt="signature" />
             </Stack>
           </Sheet>
-        </Stack>
+        </HeroSection>
       </Stack>
-
       <Footer />
-    </main>
+    </>
   );
 }
