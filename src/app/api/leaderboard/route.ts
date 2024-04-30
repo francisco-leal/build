@@ -5,7 +5,7 @@ export async function GET() {
     let { data: app_leaderboard, error } = await supabase
         .from('app_leaderboard_current')
         .select('*')
-        .order('rank')
+        .order('rank', { ascending: true })
         .limit(10);
 
     if (error || !app_leaderboard) {
