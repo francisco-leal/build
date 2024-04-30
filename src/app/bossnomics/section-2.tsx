@@ -1,8 +1,8 @@
-import { Sheet, Stack, Typography, Box } from "@mui/joy";
-import DESKTOP_GRAPH from "../../../public/images/bossenomics-graph.png";
-import MOBILE_GRAPH from "../../../public/images/bossenomics-graph-mobile.png";
-import Image from "next/image";
-import { HeroSection } from "@/shared/components/hero-section";
+import { Sheet, Stack, Typography, Box } from '@mui/joy';
+import DESKTOP_GRAPH from '../../../public/images/bossnomics-graph.png';
+import MOBILE_GRAPH from '../../../public/images/bossnomics-graph-mobile.png';
+import Image from 'next/image';
+import { HeroSection } from '@/shared/components/hero-section';
 
 export const Section2 = () => {
   return (
