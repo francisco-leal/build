@@ -41,6 +41,7 @@ export const Section1 = () => {
                     sx={{
                         color: 'common.white',
                         fontSize: { xs: '37px', sm: '64px' },
+                        m: 0,
                         fontWeight: 'bold',
                         textAlign: 'center',
                         lineHeight: '1'
