@@ -71,11 +71,17 @@ export const Section1 = () => (
                     pt: 5
                 }}
             >
-                <Button variant="outlined" component={Link} href="/memo" underline="none">
+                <Button variant="outlined" component={Link} href="/memo">
                     Read BOSS Memo
                 </Button>
 
-                <Button variant="solid" color="neutral" component={Link} href="/" underline="none">
+                <Button
+                    variant="solid"
+                    color="neutral"
+                    component={Link}
+                    href="https://zora.co/collect/base:0x91ce2a53e54c79845e391ae81dd6c9b669e9164d/1"
+                    target="_blank"
+                >
                     Mint Builders Manifesto
                 </Button>
             </Stack>

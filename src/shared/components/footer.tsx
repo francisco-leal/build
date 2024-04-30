@@ -27,7 +27,7 @@ export const Footer = () => {
                 <Link href="#" disabled={true} sx={{ color: 'common.white' }}>
                     Buy
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }}>
+                <Link href="https://warpcast.com/~/channel/boss" target="_blank" sx={{ color: 'common.white' }}>
                     Farcaster
                 </Link>
                 <Link href="#" sx={{ color: 'common.white' }}>
@@ -36,7 +36,11 @@ export const Footer = () => {
                 <Link href="#" sx={{ color: 'common.white' }}>
                     Party.app
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }}>
+                <Link
+                    href="https://bosscommunity.notion.site/BOSS-FAQ-WIP-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
+                    target="_blank"
+                    sx={{ color: 'common.white' }}
+                >
                     FAQ
                 </Link>
                 <Link href="#" sx={{ color: 'common.white' }}>
