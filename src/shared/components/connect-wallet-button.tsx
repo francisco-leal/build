@@ -15,7 +15,7 @@ export const ConnectWalletButton = ({ hideIfConnected, ...props }: ConnectWallet
     if (hideIfConnected && address) return null;
 
     return (
-        <NoSsr fallback={<Button disabled>Connect Wallet</Button>}>
+        <NoSsr fallback={<Button disabled>Connect&nbsp;Wallet</Button>}>
             <Stack
                 {...props}
                 sx={{
