@@ -58,7 +58,7 @@ export const Footer = () => {
           FAQ
         </Link>
         <Link
-          href="https://www.figma.com/file/sSlPPPR0XdJztdqZaImV6Z/%24BOSS---Community?type=design&node-id=2001%3A38&mode=design&t=8SasWWiTJVaNS6av-1"
+          href="https://www.figma.com/file/sSlPPPR0XdJztdqZaImV6Z/%24BOSS---Community?type=design&node-id=2005-2166&mode=design&t=LxazggdeJ4F2pRFk-0"
           target="_blank"
         >
           Meme templates
