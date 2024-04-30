@@ -1,47 +1,37 @@
-### [CONSTRAINT] Unique nominations
+If executed on the Order on this file, this queries should all be successful and create the necessary constraints, views and functions for the app.
+
+## Content
+
+- [Contraints](/constaints)
+- [Views](/views)
+- [Functions](/functions)
+
+## Constraints
+
+<details>
+<summary><b>[CONSTRAINT] Unique nominations</b></summary>
 
 ```sql
 ALTER TABLE app_nominations
 ADD CONSTRAINT unique_nomination_entry UNIQUE (user_id_from, user_id_nominated);
 ```
 
-### [CONSTRAINT] Unique daily leaderboard
+</details>
+
+<details>
+<summary><b>[CONSTRAINT] Unique daily leaderboard</b></summary>
 
 ```sql
 ALTER TABLE app_leaderboard
 ADD CONSTRAINT unique_daily_leaderboard_entry UNIQUE (user_id, day_id);
 ```
 
-### [FUNCTION] Insert new user
+</details>
 
-```sql
-CREATE OR REPLACE FUNCTION insert_user(
-  wallet_address varchar,
-  referral_code varchar,
-  boss_score int,
-  boss_budget int,
-  builder_score int,
-  social_profiles jsonb,
-  username varchar
-)
-RETURNS setof app_user_and_stats
-AS $$
-  declare
-  user_id_new int;
-begin
-  INSERT into app_user
-    (wallet_address, referral_code, social_profiles, username)
-    values (wallet_address, referral_code, social_profiles, username)
-    returning id
-    into user_id_new;
-  INSERT into app_user_stats
-    (user_id, boss_score, boss_budget, builder_score)
-     values (user_id_new, boss_score, boss_budget, builder_score);
-RETURN query select * from app_user_and_stats where user_id = user_id_new;
-END $$ language plpgsql;
-```
+## Views
 
-### [VIEW] App user and user stats
+<details>
+<summary><b>[VIEW] App user and user stats</b></summary>
 
 ```sql
 CREATE VIEW app_user_and_stats AS
@@ -50,7 +40,10 @@ FROM app_user u
 JOIN app_user_stats aus ON u.id = aus.user_id
 ```
 
-### [VIEW] Daily nominations by user's limit
+</details>
+
+<details>
+<summary><b>[VIEW] Daily nominations by user's limit</b></summary>
 
 ```sql
 CREATE VIEW daily_nominations_view AS
@@ -68,7 +61,10 @@ FROM (
 WHERE nomination_rank <= max_nominations;
 ```
 
-### [VIEW] User's personal stats
+</details>
+
+<details>
+<summary><b>[VIEW] User's personal stats</b></summary>
 
 ```sql
 CREATE VIEW user_personal_stats AS
@@ -88,7 +84,10 @@ LEFT JOIN app_leaderboard lb ON aus.user_id = lb.user_id
 LEFT JOIN app_user u ON aus.user_id = u.id;
 ```
 
-### [VIEW] User's nominations
+</details>
+
+<details>
+<summary><b>[VIEW] User's nominations</b></summary>
 
 ```sql
 CREATE VIEW user_nominations AS
@@ -103,11 +102,14 @@ SELECT
 FROM app_user_stats aus
 JOIN app_nominations an ON aus.user_id = an.user_id_from
 JOIN app_user u ON an.user_id_nominated = u.id
-JOIN app_user un ON an.user_id = u.id
+JOIN app_user un ON aus.user_id = un.id
 LEFT JOIN app_leaderboard lb ON u.id = lb.user_id;
 ```
 
-### [VIEW] User's nominations streak
+</details>
+
+<details>
+<summary><b>[VIEW] User's nominations streak</b></summary>
 
 ```sql
 CREATE OR REPLACE VIEW user_nomination_streak AS
@@ -127,7 +129,10 @@ GROUP BY
     user_id_from, group_id;
 ```
 
-### [VIEW] app leaderboard current
+</details>
+
+<details>
+<summary><b>[VIEW] app leaderboard current</b></summary>
 
 ```sql
 CREATE OR REPLACE VIEW app_leaderboard_current AS
@@ -145,7 +150,10 @@ LEFT JOIN app_user_stats aus ON un.id = aus.user_id
 WHERE lb.day_id = (SELECT MAX(day_id) FROM app_leaderboard);
 ```
 
-### [VIEW] app leaderboard v1
+</details>
+
+<details>
+<summary><b>[VIEW] app leaderboard v1</b></summary>
 
 ```sql
 CREATE OR REPLACE VIEW app_leaderboard_v1 AS
@@ -153,7 +161,45 @@ SELECT u.wallet_address, u.social_profiles, u.username, us.builder_score
     FROM app_user u JOIN app_user_stats us ON u.id = us.user_id ORDER BY us.builder_score DESC
 ```
 
-### [FUNCTION] Update nominations
+</details>
+
+## Functions
+
+<details>
+<summary><b>[FUNCTION] Insert new user</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION insert_user_v2(
+  wallet_address varchar,
+  referral_code varchar,
+  boss_score int,
+  boss_budget int,
+  builder_score int,
+  social_profiles jsonb,
+  username varchar,
+  manifesto_nft boolean
+)
+RETURNS setof app_user_and_stats
+AS $$
+  declare
+  user_id_new int;
+begin
+  INSERT into app_user
+    (wallet_address, referral_code, social_profiles, username, manifesto_nft)
+    values (wallet_address, referral_code, social_profiles, username, manifesto_nft)
+    returning id
+    into user_id_new;
+  INSERT into app_user_stats
+    (user_id, boss_score, boss_budget, builder_score)
+     values (user_id_new, boss_score, boss_budget, builder_score);
+RETURN query select * from app_user_and_stats where user_id = user_id_new;
+END $$ language plpgsql;
+```
+
+</details>
+
+<details>
+<summary><b>[FUNCTION] Update nominations</b></summary>
 
 ```sql
 CREATE OR REPLACE FUNCTION update_nominations()
@@ -168,7 +214,10 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-### [FUNCTION] Update user stats
+</details>
+
+<details>
+<summary><b>[FUNCTION] Update user stats</b></summary>
 
 ```sql
 CREATE OR REPLACE FUNCTION update_user_stats()
@@ -213,7 +262,10 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-### [FUNCTION] Update boss score
+</details>
+
+<details>
+<summary><b>[FUNCTION] Update boss score</b></summary>
 
 ```sql
 CREATE OR REPLACE FUNCTION update_user_boss_score()
@@ -242,22 +294,62 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-### [FUNCTION] Update boss_budget
+</details>
+
+<details>
+<summary><b>[FUNCTION] Update boss_budget</b></summary>
 
 ```sql
 CREATE OR REPLACE FUNCTION update_user_boss_budget()
 RETURNS VOID AS $$
 BEGIN
+    -- Update boss_budget to 500 if builder_score is zero and profileTokenId > 20000
     UPDATE app_user_stats AS aus
     SET
-        boss_budget = aus.builder_score * 20 + (aus.builder_score + aus.boss_token_balance) * 0.2 + aus.nomination_streak * 10 + aus.boss_token_balance * 0.01
-    -- to prevent pg-safeupdate error
-    WHERE TRUE;
+        boss_budget = 500 * CASE WHEN au.manifesto_nft THEN 1.2 ELSE 1 END
+    FROM app_user au
+    WHERE aus.builder_score = 0
+    AND EXISTS (
+        SELECT 1
+        FROM jsonb_array_elements(au.social_profile) sp
+        WHERE au.id = aus.user_id
+        AND sp->>'dapp' = 'farcaster'
+        AND (sp->>'profileTokenId')::int > 20000
+    );
+
+    -- Update boss_budget to 1000 if builder_score is zero and profileTokenId <= 20000
+    UPDATE app_user_stats AS aus
+    SET
+        boss_budget = 1000 * CASE WHEN au.manifesto_nft THEN 1.2 ELSE 1 END
+    FROM app_user au
+    WHERE aus.builder_score = 0
+    AND EXISTS (
+        SELECT 1
+        FROM jsonb_array_elements(au.social_profile) sp
+        WHERE au.id = aus.user_id
+        AND sp->>'dapp' = 'farcaster'
+        AND (sp->>'profileTokenId')::int <= 20000
+    );
+
+    -- Update boss_budget using the existing formula for all other cases
+    UPDATE app_user_stats AS aus
+    SET
+        boss_budget = (
+            aus.builder_score * 20 +
+            (aus.builder_score + aus.boss_token_balance) * 0.2 +
+            aus.nomination_streak * 10 +
+            aus.boss_token_balance * 0.01
+        ) * CASE WHEN au.manifesto_nft THEN 1.2 ELSE 1 END
+    FROM app_user au
+    WHERE aus.builder_score <> 0;
 END;
 $$ LANGUAGE plpgsql;
 ```
 
-### [FUNCTION] Update leaderboard
+</details>
+
+<details>
+<summary><b>[FUNCTION] Update leaderboard</b></summary>
 
 ```sql
 CREATE OR REPLACE FUNCTION update_leaderboard()
@@ -277,3 +369,5 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
+
+</details>
