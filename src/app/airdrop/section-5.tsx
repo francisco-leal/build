@@ -60,7 +60,7 @@ export const Section5 = () => {
                     </Typography>
                 </Stack>
 
-                <Button>How it works</Button>
+                <Button disabled>How it works</Button>
             </Sheet>
 
             <Sheet
@@ -109,7 +109,7 @@ export const Section5 = () => {
                     </Typography>
                 </Stack>
 
-                <Button>Buy $BOSS</Button>
+                <Button disabled>Buy $BOSS</Button>
             </Sheet>
 
             <Sheet
@@ -158,7 +158,7 @@ export const Section5 = () => {
                     </Typography>
                 </Stack>
 
-                <Button>Refresh Score</Button>
+                <Button disabled>Refresh Score</Button>
             </Sheet>
         </Stack>
     );

@@ -89,81 +89,62 @@ app.frame("/confirm/:address", async (c) => {
     });
   }
 
-  if (
-    status === "response" &&
-    previousButtonValues &&
-    previousButtonValues[0] === "confirm"
-  ) {
-    if (verified) {
-      const r = await fetch(origin + "/api/nominate/frame", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // TODO: add api key
-        },
-        body: JSON.stringify({
-          nominated_user_address: userAddress,
-          from_user_address: fromAddress,
-        }),
-      });
-      if (r.status === 200) {
-        return res({
-          image: (
-            <Box
-              grow
-              alignVertical="center"
-              backgroundColor="background"
-              padding="32"
-            >
-              <VStack gap="4">
-                <Heading>Nominated !!1 🥳</Heading>
-              </VStack>
-            </Box>
-          ),
-          intents: [<Button.Reset>Reset</Button.Reset>],
-        });
-      }
-      if (r.status === 401) {
-        return res({
-          image: (
-            <Box
-              grow
-              alignVertical="center"
-              backgroundColor="background"
-              padding="32"
-            >
-              <VStack gap="4">
-                <Text color="text200" size="20">
-                  Connect first!
-                </Text>
-              </VStack>
-            </Box>
-          ),
-          intents: [<Button.Reset>Reset</Button.Reset>],
-        });
-      }
-      if (r.status === 400) {
-        const { error } = await r.json();
-        return res({
-          image: (
-            <Box
-              grow
-              alignVertical="center"
-              backgroundColor="background"
-              padding="32"
-            >
-              <VStack gap="4">
-                <Text color="text200" size="20">
-                  {error}
-                </Text>
-              </VStack>
-            </Box>
-          ),
-          intents: [<Button.Reset>Reset</Button.Reset>],
-        });
-      }
+    if (status === 'response' && previousButtonValues && previousButtonValues[0] === 'confirm') {
+        if (verified) {
+            const r = await fetch(origin + '/api/nominate/frame', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // TODO: add api key
+                },
+                body: JSON.stringify({
+                    nominated_user_address: userAddress,
+                    from_user_address: fromAddress
+                })
+            });
+            if (r.status === 200) {
+                return res({
+                    image: (
+                        <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                            <VStack gap="4">
+                                <Heading>Nominated !!1 🥳</Heading>
+                            </VStack>
+                        </Box>
+                    ),
+                    intents: [<Button.Reset>Reset</Button.Reset>]
+                });
+            }
+            if (r.status === 401) {
+                return res({
+                    image: (
+                        <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                            <VStack gap="4">
+                                <Text color="text200" size="20">
+                                    Connect first!
+                                </Text>
+                            </VStack>
+                        </Box>
+                    ),
+                    intents: [<Button.Reset>Reset</Button.Reset>]
+                });
+            }
+            if (r.status === 400) {
+                const { error } = await r.json();
+                return res({
+                    image: (
+                        <Box grow alignVertical="center" backgroundColor="background" padding="32">
+                            <VStack gap="4">
+                                <Text color="text200" size="20">
+                                    {error}
+                                </Text>
+                            </VStack>
+                        </Box>
+                    ),
+                    intents: [<Button.Reset>Reset</Button.Reset>]
+                });
+            }
+        }
     }
-  }
 
   const r = await fetch(
     origin + "/api/profile?wallet_address=" + getAddress(fromAddress),

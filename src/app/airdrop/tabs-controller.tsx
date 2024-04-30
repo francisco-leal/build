@@ -8,8 +8,13 @@ import { Section6 } from './section-6';
 
 export const TabsController = () => {
     return (
-        <Tabs aria-label="Basic tabs" defaultValue={0} sx={{ pt: 1, backgroundColor: 'transparent' }}>
-            <TabList sx={{ justifyContent: 'center', borderBottom: '1px solid rgba(255, 255, 255, 0.3)' }}>
+        <Tabs defaultValue={0} sx={{ p: 0, backgroundColor: 'transparent' }}>
+            <TabList
+                sx={{
+                    justifyContent: 'center',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.3)'
+                }}
+            >
                 <Tab
                     variant="plain"
                     sx={{
@@ -31,13 +36,13 @@ export const TabsController = () => {
                     My Stats
                 </Tab>
             </TabList>
-            <TabPanel value={0}>
+            <TabPanel value={0} sx={{ p: 0 }}>
                 <Section1 />
                 <Section2 />
                 <Section3 />
                 <Section4 />
             </TabPanel>
-            <TabPanel value={1}>
+            <TabPanel value={1} sx={{ p: 0 }}>
                 <Section5 />
                 <Section6 />
                 <Section4 />

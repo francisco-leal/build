@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { Stack, Typography } from '@mui/joy';
 import { TableRankings } from '@/shared/components/table-rankings';
 import { useEffect, useState, useContext } from 'react';
@@ -51,7 +51,7 @@ export const Section6 = () => {
             <Typography
                 sx={{
                     color: 'common.white',
-                    fontSize: { xs: "30px", md: '32px' },
+                    fontSize: { xs: '30px', md: '32px' },
                     pr: { xs: 2, sm: 0 },
                     fontWeight: 'bold'
                 }}
