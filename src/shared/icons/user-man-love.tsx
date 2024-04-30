@@ -1,6 +1,6 @@
 import { SvgIcon, SvgIconProps } from "@mui/joy";
 
-export const Terminal = (props: SvgIconProps) => {
+export const UserManLove = (props: SvgIconProps) => {
   return (
     <SvgIcon {...props}>
       <svg
@@ -8,7 +8,7 @@ export const Terminal = (props: SvgIconProps) => {
         width="48"
         height="48"
         viewBox="0 0 48 48"
-        fill="none"
+        fill="currentColor"
       >
         <path d="M30.8624 11.43H33.1424V13.71H35.4224V15.99H37.7174V13.71H39.9974V11.43H42.2924V9.135H44.5724V4.56H42.2924V2.28H39.9974V4.56H37.7174V6.855H35.4224V4.56H33.1424V2.28H30.8624V4.56H28.5674V9.135H30.8624V11.43Z" />
         <path d="M24.0074 22.845H21.7124V36.57H24.0074V22.845Z" />
