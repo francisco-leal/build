@@ -59,7 +59,14 @@ export const Section4 = () => {
 
           <Typography>
             Join on party.app until May 7th, to help us raise LP funds and
-            launch the $BOSS token together! More info in Bossnomics.
+            launch the $BOSS token together! More info in{" "}
+            <Link
+              href="/bossnomics"
+              sx={{ color: "common.white", textDecoration: "underline" }}
+            >
+              Bossnomics
+            </Link>
+            .
           </Typography>
 
           <Button

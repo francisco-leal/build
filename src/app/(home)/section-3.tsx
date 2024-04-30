@@ -46,7 +46,7 @@ export const Section3 = () => {
   return (
     <HeroSectionWithOverflow>
       <Typography level="h2" className="no-overflow" textColor={"common.white"}>
-        Layoff Leaderboard
+        Leaderboard
       </Typography>
 
       <Stack className="overflow">

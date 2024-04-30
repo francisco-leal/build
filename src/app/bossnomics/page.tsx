@@ -13,7 +13,8 @@ export default function Bossnomics() {
       <Stack component="main" sx={{ alignItems: "center" }}>
         <Section1 />
         <Section2 />
-        <Section3 />
+        {/* hide section 3 for now */}
+        {/* <Section3 /> */}
       </Stack>
 
       <Footer />
