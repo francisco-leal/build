@@ -129,8 +129,7 @@ export const Header = () => {
                 </Stack>
 
                 <Typography sx={{ color: 'neutral.50', mt: 'auto', textAlign: 'center' }} level="body-md">
-                    BOSS is an experimental community project, not owned by <u>Talent Protocol</u>. Not Financial
-                    Advice. DYOR.
+                    BOSS is an experimental community project. Not Financial Advice. DYOR.
                 </Typography>
             </Drawer>
         </Box>

@@ -54,7 +54,7 @@ export const Section2 = () => {
                     BOSS is a meme, a token of appreciation and a social game designed to reward builders via onchain
                     nominations.
                 </Typography>
-                <Button variant="solid" sx={{ mt: 'auto' }} component={Link} href="/">
+                <Button variant="solid" sx={{ mt: 'auto' }} component={Link} href="/" disabled={true}>
                     Get $BOSS
                 </Button>
             </Sheet>

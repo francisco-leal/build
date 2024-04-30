@@ -30,10 +30,10 @@ export const Footer = () => {
                 <Link href="https://warpcast.com/~/channel/boss" target="_blank" sx={{ color: 'common.white' }}>
                     Farcaster
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }}>
+                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
                     Telegram
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }}>
+                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
                     Party.app
                 </Link>
                 <Link
@@ -43,7 +43,7 @@ export const Footer = () => {
                 >
                     FAQ
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }}>
+                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
                     Meme templates
                 </Link>
             </Stack>

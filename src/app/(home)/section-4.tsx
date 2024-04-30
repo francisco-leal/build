@@ -71,7 +71,7 @@ export const Section4 = () => {
                         </Typography>
                     </Stack>
 
-                    <Button variant="solid" color="neutral" component={Link} href="/">
+                    <Button variant="solid" color="neutral" component={Link} href="/" disabled={true}>
                         Join Party
                     </Button>
                 </Stack>
