@@ -34,12 +34,8 @@ export const Footer = () => {
                 <Link href="https://warpcast.com/~/channel/boss" target="_blank" sx={{ color: 'common.white' }}>
                     Farcaster
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
-                    Telegram
-                </Link>
-                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
-                    Party.app
-                </Link>
+                <Typography sx={{ color: '#D0D2D5' }}>Telegram</Typography>
+                <Typography sx={{ color: '#D0D2D5' }}>Party.app</Typography>
                 <Link
                     href="https://bosscommunity.notion.site/BOSS-FAQ-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
                     target="_blank"
@@ -47,9 +43,7 @@ export const Footer = () => {
                 >
                     FAQ
                 </Link>
-                <Link href="#" sx={{ color: 'common.white' }} disabled={true}>
-                    Meme templates
-                </Link>
+                <Typography sx={{ color: '#D0D2D5' }}>Meme templates</Typography>
             </Stack>
 
             <Typography sx={{ color: 'common.white', textAlign: 'center' }}>
