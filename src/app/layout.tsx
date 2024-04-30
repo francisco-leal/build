@@ -10,8 +10,8 @@ import { ThemeRegistry } from '@/shared/theme/theme-registry';
 import '@fontsource-variable/bricolage-grotesque';
 
 export const metadata: Metadata = {
-    title: '$BOSS',
-    description: '$boss'
+    title: 'BOSS',
+    description: 'BOSS is a meme and a social game designed to reward builders via onchain nominations.'
 };
 
 export default function RootLayout({

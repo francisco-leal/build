@@ -39,7 +39,13 @@ export const Section4 = () => {
                         </Typography>
                     </Stack>
 
-                    <Button variant="solid" color="neutral" component={Link} href="/" underline="none">
+                    <Button
+                        variant="solid"
+                        color="neutral"
+                        component={Link}
+                        href="https://passport.talentprotocol.com"
+                        target="_blank"
+                    >
                         Claim Talent Passport
                     </Button>
                 </Stack>
@@ -65,7 +71,7 @@ export const Section4 = () => {
                         </Typography>
                     </Stack>
 
-                    <Button variant="solid" color="neutral" component={Link} href="/" underline="none">
+                    <Button variant="solid" color="neutral" component={Link} href="/">
                         Join Party
                     </Button>
                 </Stack>
