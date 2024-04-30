@@ -1,5 +1,5 @@
-import { Coin } from '@/shared/icons';
 import { Typography, Stack } from '@mui/joy';
+import { FingerNominate, Coin, DroneCameraAirdrop } from "@/shared/icons"
 
 export const Section4 = () => {
     return (
@@ -28,7 +28,7 @@ export const Section4 = () => {
             >
                 <Stack sx={{ height: '100%', flex: 1, p: 5, gap: 5, alignItems: 'center' }}>
                     <Stack sx={{ alignItems: 'center', gap: 1 }}>
-                        <Coin sx={{ color: 'common.white', fontSize: '64px' }} />
+                        <FingerNominate sx={{ color: 'common.white', fontSize: '64px' }} />
                         <Typography
                             sx={{
                                 color: 'common.white',
@@ -80,7 +80,7 @@ export const Section4 = () => {
 
                 <Stack sx={{ height: '100%', flex: 1, p: 5, gap: 5, alignItems: 'center' }}>
                     <Stack sx={{ alignItems: 'center', gap: 1 }}>
-                        <Coin sx={{ color: 'common.white', fontSize: '64px' }} />
+                        <DroneCameraAirdrop sx={{ color: 'common.white', fontSize: '64px' }} />
                         <Typography
                             sx={{
                                 color: 'common.white',

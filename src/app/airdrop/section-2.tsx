@@ -1,4 +1,5 @@
 import { Sheet, Stack, Typography, Link } from '@mui/joy';
+import { EyeDailyBudget, FireNominationStreak } from '@/shared/icons';
 
 export const Section2 = () => {
     return (
@@ -34,15 +35,20 @@ export const Section2 = () => {
                 >
                     Daily Budget
                 </Typography>
-                <Typography
-                    textColor="common.black"
-                    sx={{
-                        fontSize: '36px',
-                        fontWeight: 'bold'
-                    }}
-                >
-                    100
-                </Typography>
+
+                <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+                    <EyeDailyBudget sx={{ width: 48, height: 48, color: 'primary.500' }} />
+                    <Typography
+                        textColor="common.black"
+                        sx={{
+                            fontSize: '36px',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        100
+                    </Typography>
+                </Stack>
+
                 <Typography
                     textColor="neutral.500"
                     sx={{
@@ -83,15 +89,20 @@ export const Section2 = () => {
                 >
                     Nomination Streak
                 </Typography>
-                <Typography
-                    textColor="common.black"
-                    sx={{
-                        fontSize: '36px',
-                        fontWeight: 'bold'
-                    }}
-                >
-                    5 days
-                </Typography>
+
+                <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+                    <FireNominationStreak sx={{ width: 32, height: 32, color: 'primary.500' }} />
+                    <Typography
+                        textColor="common.black"
+                        sx={{
+                            fontSize: '36px',
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        5 days
+                    </Typography>
+                </Stack>
+
                 <Typography
                     textColor="neutral.500"
                     sx={{

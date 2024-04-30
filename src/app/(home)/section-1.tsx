@@ -12,7 +12,7 @@ import {
   ModalDialog,
   ModalOverflow,
 } from "@mui/joy";
-import { Interface, MusicHeadeset } from "@/shared/icons";
+import { Interface, MusicHeadeset, SearchFilled } from "@/shared/icons";
 import { useMediaQuery } from "@/shared/hooks/use-media-query";
 import { useTheme } from "@mui/joy";
 
@@ -75,18 +75,18 @@ export const Section1 = () => {
           builders <MusicHeadeset /> you know.
         </Typography>
 
-      <Typography level="body-lg" sx={{ maxWidth: "sm" }}>
-        Read the{" "}
-        <Link
-          href="/memo"
-          sx={{ color: "common.white", textDecoration: "underline" }}
-        >
-          memo
-        </Link>
-        : there&apos;s no room for builders in the corporate world! Stand for
-        builders, play the nomination game, and earn $BOSS. Nominations start on
-        May 8th.
-      </Typography>
+        <Typography level="body-lg" sx={{ maxWidth: "sm" }}>
+          Read the{" "}
+          <Link
+            href="/memo"
+            sx={{ color: "common.white", textDecoration: "underline" }}
+          >
+            memo
+          </Link>
+          : there&apos;s no room for builders in the corporate world! Stand for
+          builders, play the nomination game, and earn $BOSS. Nominations start on
+          May 8th.
+        </Typography>
 
         <Stack
           sx={{
@@ -96,12 +96,22 @@ export const Section1 = () => {
           }}
         >
           <Autocomplete
-            placeholder="Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
+            placeholder="<SearchFilled /> Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
             type="search"
             freeSolo
             disableClearable
             options={mockdata}
-            sx={{ borderRadius: 0, width: "100%" }}
+            sx={{
+              py: 1,
+              px: 2,
+              borderRadius: 0,
+              width: "100%",
+              "& input::placeholder": {
+                color: "primary.500",
+                opacity: "0.64",
+                fontSize: "16px"
+              }
+            }}
             renderOption={(props, option) => (
               <Stack
                 sx={{

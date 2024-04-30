@@ -1,4 +1,5 @@
 import { Sheet, Stack, Typography, Button } from '@mui/joy';
+import { EyeDailyBudget, Coin, UserShield } from '@/shared/icons';
 
 export const Section5 = () => {
     return (
@@ -40,15 +41,20 @@ export const Section5 = () => {
                     >
                         BOSS Points
                     </Typography>
-                    <Typography
-                        textColor="common.black"
-                        sx={{
-                            fontSize: '36px',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        11.450
-                    </Typography>
+
+                    <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+                        <EyeDailyBudget sx={{ width: 32, height: 32, color: 'primary.500' }} />
+                        <Typography
+                            textColor="common.black"
+                            sx={{
+                                fontSize: '36px',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            11.450
+                        </Typography>
+                    </Stack>
+
                     <Typography
                         textColor="neutral.500"
                         sx={{
@@ -89,15 +95,20 @@ export const Section5 = () => {
                     >
                         $BOSS Tokens
                     </Typography>
-                    <Typography
-                        textColor="common.black"
-                        sx={{
-                            fontSize: '36px',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        1.145
-                    </Typography>
+
+                    <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+                        <Coin sx={{ width: 32, height: 32, color: 'primary.500' }} />
+                        <Typography
+                            textColor="common.black"
+                            sx={{
+                                fontSize: '36px',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            1.145
+                        </Typography>
+                    </Stack>
+
                     <Typography
                         textColor="neutral.500"
                         sx={{
@@ -138,15 +149,20 @@ export const Section5 = () => {
                     >
                         Builder Score
                     </Typography>
-                    <Typography
-                        textColor="common.black"
-                        sx={{
-                            fontSize: '36px',
-                            fontWeight: 'bold'
-                        }}
-                    >
-                        63
-                    </Typography>
+
+                    <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+                        <UserShield sx={{ width: 32, height: 32, color: 'primary.500' }} />
+                        <Typography
+                            textColor="common.black"
+                            sx={{
+                                fontSize: '36px',
+                                fontWeight: 'bold'
+                            }}
+                        >
+                            63
+                        </Typography>
+                    </Stack>
+
                     <Typography
                         textColor="neutral.500"
                         sx={{
