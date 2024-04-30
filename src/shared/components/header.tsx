@@ -103,26 +103,8 @@ export const Header = () => {
         }}
       >
         <Link href="/memo">Memo</Link>
+        <Link href="/airdrop">Airdrop</Link>
         <Link href="/bossnomics">Bossnomics</Link>
-        <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 0.5 }}>
-          <Typography
-            sx={{ color: "common.white", opacity: "0.5", fontSize: "32px" }}
-          >
-            Airdrop
-          </Typography>
-          <Typography
-            sx={{
-              color: "primary",
-              bgcolor: "common.white",
-              fontWeight: "500",
-              px: 1,
-              borderRadius: "24px",
-              fontSize: "14px",
-            }}
-          >
-            Soon
-          </Typography>
-        </Stack>
 
         <Typography
           sx={{ color: "neutral.50", mt: "auto", textAlign: "center" }}
