@@ -73,7 +73,7 @@ export const Section4 = () => {
             variant="solid"
             color="neutral"
             component={Link}
-            href="/"
+            href="https://base.party.app/party/0x04483a3F6435bB96c9dcD3C1eDAF4482f7367bA5"
             underline="none"
             sx={{ mt: "auto" }}
           >
