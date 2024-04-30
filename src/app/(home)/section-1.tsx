@@ -37,12 +37,13 @@ export const Section1 = () => {
                     backgroundImage: { lg: 'url(/images/homepage.png)' },
                     backgroundSize: 'contain',
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center'
+                    backgroundPosition: 'center',
+                    zIndex: -1
                 }}
             />
             <Stack
                 sx={{
-                    maxWidth: 'sm',
+                    maxWidth: 'md',
                     px: 2,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -69,19 +70,24 @@ export const Section1 = () => {
                         color: 'common.white',
                         fontSize: '18px',
                         fontWeight: '600',
-                        textAlign: 'center'
+                        lineHeight: '166%',
+                        textAlign: 'center',
+                        maxWidth: '644px'
                     }}
                 >
-                    Read the {" "}
-                    <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>memo</Link>
-                    : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination game, and earn BOSS.
+                    Read the{' '}
+                    <Link href="/memo" sx={{ color: 'common.white', textDecoration: 'underline' }}>
+                        memo
+                    </Link>
+                    : there&apos;s no room for builders in the corporate world! Stand for builders, play the nomination
+                    game, and earn $BOSS.
                 </Typography>
 
                 <Stack
                     sx={{
                         flexDirection: { xs: 'column-reverse', sm: 'row' },
                         alignItems: 'center',
-                        width: '100%'
+                        width: '100%',
                     }}
                 >
                     <Autocomplete
