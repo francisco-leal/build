@@ -99,7 +99,7 @@ export const Section2 = () => {
                 <Button
                     variant="solid"
                     sx={{ mt: 'auto' }}
-                    onClick={() => (address ? (window.location.href = 'https://passport.talentprotocol.com') : open())}
+                    onClick={() => (address ? window.open('https://passport.talentprotocol.com') : open())}
                 >
                     {address ? 'Increase allowance' : 'Connect Wallet'}
                 </Button>
