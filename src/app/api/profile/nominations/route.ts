@@ -1,6 +1,8 @@
 import type { NextRequest } from 'next/server';
 import { supabase } from '@/db';
 
+export const revalidate = 0;
+
 export async function GET(request: NextRequest) {
     let { data: user_nominations, error } = await supabase
         .from('user_nominations')
