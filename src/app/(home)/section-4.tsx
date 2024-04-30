@@ -1,5 +1,5 @@
 import { HeroSection } from "@/shared/components/hero-section";
-import { Coin, UserShield } from "@/shared/icons";
+import { UserManLove, UserShield } from "@/shared/icons";
 import { Typography, Button, Box, Link, Table, Stack } from "@mui/joy";
 
 export const Section4 = () => {
@@ -53,7 +53,7 @@ export const Section4 = () => {
                         py: 5
                     }}
                 >
-                    <Coin sx={{ width: 48, height: 48, color: 'common.white' }} />
+                    <UserManLove sx={{ width: 48, height: 48, color: 'common.white' }} />
 
           <Typography level="h3">Step 2</Typography>
 

@@ -9,3 +9,4 @@ export { Terminal } from "./terminal";
 export { UserShield } from "./user-shield";
 export { Hamburger } from "./hamburger";
 export { Interface } from "./interface";
+export { UserManLove } from "./user-man-love";
