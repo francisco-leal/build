@@ -12,7 +12,8 @@ export const TabsController = () => {
             <TabList
                 sx={{
                     justifyContent: 'center',
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.3)'
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+                    mt: 1
                 }}
             >
                 <Tab
@@ -39,12 +40,14 @@ export const TabsController = () => {
             <TabPanel value={0} sx={{ p: 0 }}>
                 <Section1 />
                 <Section2 />
-                <Section3 />
+                {/* hide section 3 for now */}
+                {/* <Section3 /> */}
                 <Section4 />
             </TabPanel>
             <TabPanel value={1} sx={{ p: 0 }}>
                 <Section5 />
-                <Section6 />
+                {/* hide section 6 for now */}
+                {/* <Section6 /> */}
                 <Section4 />
             </TabPanel>
         </Tabs>

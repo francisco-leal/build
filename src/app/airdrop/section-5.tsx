@@ -8,7 +8,7 @@ export const Section5 = () => {
                 maxWidth: { xs: 'md', md: 'lg' },
                 flexDirection: { xs: 'column', md: 'row' },
                 px: { xs: 2, sm: 8 },
-                pt: { xs: 6, sm: 5 },
+                pt: { xs: 6, sm: 10 },
                 pb: 2,
                 mx: 'auto',
                 gap: 5
