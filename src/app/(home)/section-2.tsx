@@ -62,7 +62,7 @@ export const Section2 = () => {
                     sx={{ mt: 'auto' }}
                     onClick={() => (address ? window.open('https://passport.talentprotocol.com') : open())}
                 >
-                    {address ? 'Increase allowance' : 'Connect Wallet'}
+                    {address ? 'Increase budget' : 'Connect Wallet'}
                 </Button>
             </Sheet>
         </HeroSection>

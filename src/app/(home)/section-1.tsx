@@ -61,6 +61,7 @@ export const Section1 = () => (
                     component={Link}
                     href="https://zora.co/collect/base:0x91ce2a53e54c79845e391ae81dd6c9b669e9164d/1"
                     target="_blank"
+                    underline="none"
                 >
                     Mint Builders Manifesto
                 </Button>

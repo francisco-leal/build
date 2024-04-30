@@ -34,6 +34,7 @@ export const ConnectWalletButton = ({ hideIfConnected, ...props }: ConnectWallet
                         '--wui-color-fg-200': t => t.vars.palette.common.white,
                         '--wui-gray-glass-002': t => t.vars.palette.primary[500],
                         '--wui-gray-glass-005': t => t.vars.palette.primary[500],
+                        '--wui-ease-inout-power-1': 'none',
                         '&:hover': {
                             '--wui-gray-glass-005': t => t.vars.palette.primary.outlinedHoverBg
                         }

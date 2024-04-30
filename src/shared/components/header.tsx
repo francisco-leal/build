@@ -20,7 +20,7 @@ export const Header = () => {
 
     return (
         <Box ref={headerRef} component="header" sx={{ py: 2, borderBottom: 1, borderColor: 'common.white' }}>
-            <Stack direction="row" maxWidth={{ xs: 'md', md: 'lg' }} px={2} mx="auto">
+            <Stack direction="row" maxWidth={{ xs: 'md', md: 'lg' }} px={{ xs: 2, md: 4, lg: 8 }} mx="auto">
                 <Stack direction="row" flex={1}>
                     <Link href="/" sx={{ '& svg': { color: 'common.white', height: 40 } }}>
                         <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
@@ -59,7 +59,7 @@ export const Header = () => {
                     </Stack>
                 </Stack>
 
-                <Stack direction={'row'} flex={1} justifyContent={'flex-end'} alignItems={"center"}>
+                <Stack direction={'row'} flex={1} justifyContent={'flex-end'} alignItems={'center'}>
                     {!drawer.isOpen && (
                         <ConnectWalletButton sx={{ flex: { xs: 1, md: 'initial', justifyContent: 'center' } }} />
                     )}
