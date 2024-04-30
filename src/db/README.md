@@ -262,13 +262,13 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_leaderboard()
 RETURNS VOID AS $$
 BEGIN
-    WITH user_scores AS (SELECT user_id, nominated AS score FROM app_user_stats)
+    WITH user_scores AS (SELECT user_id, boss_score AS score, builder_score FROM app_user_stats)
     INSERT INTO app_leaderboard (user_id, rank, day_id)
     SELECT user_id, rank, (extract(epoch from current_timestamp)::integer / 86400) - 1
     FROM (
         SELECT
             user_id,
-            ROW_NUMBER() OVER (ORDER BY score DESC) AS rank
+            ROW_NUMBER() OVER (ORDER BY score, builder_score DESC) AS rank
         FROM user_scores
     ) AS subquery
     ON CONFLICT (user_id) DO UPDATE
