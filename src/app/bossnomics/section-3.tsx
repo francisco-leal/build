@@ -2,46 +2,10 @@ import { Typography, Stack } from '@mui/joy';
 import { HeroSectionWithOverflow } from '@/shared/components/hero-section-with-overflow';
 import { TableGrants } from '@/shared/components/table-grants';
 
-const investorData = [
+const grantsData = [
     {
         id: '1',
-        description: 'CompanyA',
-        status: 'Vesting',
-        supplyPercentage: 2
-    },
-    {
-        id: '2',
-        description: 'CompanyB',
-        status: 'Vesting',
-        supplyPercentage: 2
-    },
-    {
-        id: '3',
-        description: 'CompanyC',
-        status: 'Vesting',
-        supplyPercentage: 2
-    },
-    {
-        id: '4',
-        description: 'CompanyD',
-        status: 'Vesting',
-        supplyPercentage: 2
-    },
-    {
-        id: '5',
-        description: 'CompanyE',
-        status: 'Vesting',
-        supplyPercentage: 2
-    },
-    {
-        id: '6',
-        description: 'CompanyF',
-        status: 'Vesting',
-        supplyPercentage: 2
-    },
-    {
-        id: '7',
-        description: 'CompanyG',
+        description: 'Website & Brand Grant',
         status: 'Vesting',
         supplyPercentage: 2
     }
@@ -59,7 +23,7 @@ export const Section3 = () => {
             </Typography>
 
             <Stack className="overflow">
-                <TableGrants values={investorData} />
+                <TableGrants values={grantsData} />
             </Stack>
         </HeroSectionWithOverflow>
     );
