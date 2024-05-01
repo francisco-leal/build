@@ -10,8 +10,8 @@ export { UserShield } from "./user-shield";
 export { Hamburger } from "./hamburger";
 export { Interface } from "./interface";
 export { UserManLove } from "./user-man-love";
-export { SearchFilled } from "./search-filled"
-export { EyeDailyBudget } from "./eye-daily-budget"
-export { FireNominationStreak } from "./fire-nomination-streak"
-export { FingerNominate } from "./finger-nominate"
-export { DroneCameraAirdrop } from "./drone-camera-airdrop"
+export { SearchFilled } from "./search-filled";
+export { EyeDailyBudget } from "./eye-daily-budget";
+export { FireNominationStreak } from "./fire-nomination-streak";
+export { FingerNominate } from "./finger-nominate";
+export { DroneCameraAirdrop } from "./drone-camera-airdrop";

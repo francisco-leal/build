@@ -84,8 +84,8 @@ export const Section1 = () => {
             memo
           </Link>
           : there&apos;s no room for builders in the corporate world! Stand for
-          builders, play the nomination game, and earn $BOSS. Nominations start on
-          May 8th.
+          builders, play the nomination game, and earn $BOSS. Nominations start
+          on May 8th.
         </Typography>
 
         <Stack
@@ -96,7 +96,9 @@ export const Section1 = () => {
           }}
         >
           <Autocomplete
-            startDecorator={<SearchFilled sx={{ color: "primary.500", opacity: "0.64" }} />}
+            startDecorator={
+              <SearchFilled sx={{ color: "primary.500", opacity: "0.64" }} />
+            }
             placeholder="Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
             type="search"
             freeSolo
@@ -110,8 +112,8 @@ export const Section1 = () => {
               "& input::placeholder": {
                 color: "primary.500",
                 opacity: "0.64",
-                fontSize: "16px"
-              }
+                fontSize: "16px",
+              },
             }}
             renderOption={(props, option) => (
               <Stack

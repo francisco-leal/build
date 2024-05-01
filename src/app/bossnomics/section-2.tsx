@@ -1,8 +1,8 @@
-import { Sheet, Stack, Typography, Box } from '@mui/joy';
-import DESKTOP_GRAPH from '../../../public/images/bossnomics-graph.png';
-import MOBILE_GRAPH from '../../../public/images/bossnomics-graph-mobile.png';
-import Image from 'next/image';
-import { HeroSection } from '@/shared/components/hero-section';
+import { Sheet, Stack, Typography, Box } from "@mui/joy";
+import DESKTOP_GRAPH from "../../../public/images/bossnomics-graph.png";
+import MOBILE_GRAPH from "../../../public/images/bossnomics-graph-mobile.png";
+import Image from "next/image";
+import { HeroSection } from "@/shared/components/hero-section";
 
 export const Section2 = () => {
   return (
@@ -21,28 +21,31 @@ export const Section2 = () => {
                 0xf4ec...eEc64F
             </Typography> */}
 
-            <Sheet variant="outlined" sx={{ width: '100%', py: { xs: 5, md: 5 }, px: { xs: 5, md: 20 } }}>
-                <Box
-                    component={Image}
-                    src={DESKTOP_GRAPH}
-                    alt="graph"
-                    sx={{
-                        width: '100%',
-                        height: 'auto',
-                        display: { xs: 'none', sm: 'block' }
-                    }}
-                />
-                <Box
-                    component={Image}
-                    src={MOBILE_GRAPH}
-                    alt="graph"
-                    sx={{
-                        width: '100%',
-                        height: 'auto',
-                        display: { xs: 'block', sm: 'none' }
-                    }}
-                />
-            </Sheet>
-        </HeroSection>
-    );
+      <Sheet
+        variant="outlined"
+        sx={{ width: "100%", py: { xs: 5, md: 5 }, px: { xs: 5, md: 20 } }}
+      >
+        <Box
+          component={Image}
+          src={DESKTOP_GRAPH}
+          alt="graph"
+          sx={{
+            width: "100%",
+            height: "auto",
+            display: { xs: "none", sm: "block" },
+          }}
+        />
+        <Box
+          component={Image}
+          src={MOBILE_GRAPH}
+          alt="graph"
+          sx={{
+            width: "100%",
+            height: "auto",
+            display: { xs: "block", sm: "none" },
+          }}
+        />
+      </Sheet>
+    </HeroSection>
+  );
 };
