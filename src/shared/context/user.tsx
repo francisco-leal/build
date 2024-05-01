@@ -25,8 +25,8 @@ interface UserContextType {
 }
 
 export const UserContext = createContext<UserContextType>({
-    user: null,
-    authUser: async () => false
+  user: null,
+  authUser: async () => false,
 });
 
 // Context provider component
@@ -83,17 +83,17 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
 
     const signature = await signMessageAsync({ message });
 
-        const verification = await fetch('/api/profile', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                wallet_address: address,
-                siwe: { message, signature, nonce }
-            }),
-            credentials: 'include'
-        });
+    const verification = await fetch("/api/profile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        wallet_address: address,
+        siwe: { message, signature, nonce },
+      }),
+      credentials: "include",
+    });
 
     const userResponse = await verification.json();
     setUser(userResponse);
