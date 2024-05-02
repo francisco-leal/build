@@ -21,10 +21,10 @@ export const Section3 = () => {
         const users: LeaderboardUser[] = data.leaderboard.map(
           (leaderboardUser: LeaderboardData) => {
             const lUser = data.users.find(
-              (u: User) => u.id === leaderboardUser.user_id
+              (u: User) => u.id === leaderboardUser.user_id,
             );
             const stats = data.userStats.find(
-              (s: UserStats) => s.user_id === leaderboardUser.user_id
+              (s: UserStats) => s.user_id === leaderboardUser.user_id,
             );
             return {
               id: leaderboardUser.user_id,
@@ -36,7 +36,7 @@ export const Section3 = () => {
               rank: leaderboardUser.rank,
               highlight: lUser.wallet_address === user?.wallet_address,
             } as LeaderboardUser;
-          }
+          },
         );
 
         setLeaderboardData(users);
