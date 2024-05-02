@@ -1,4 +1,3 @@
-"use client";
 import { Header } from "@/shared/components/header";
 import { Footer } from "@/shared/components/footer";
 import { Stack } from "@mui/joy";
