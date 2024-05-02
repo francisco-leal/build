@@ -1,5 +1,4 @@
 import { SvgIcon, SvgIconProps } from "@mui/joy";
-import { IconProps } from "./type";
 
 export const Eye = (props: SvgIconProps) => {
   return (
