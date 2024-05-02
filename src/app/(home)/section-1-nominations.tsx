@@ -198,7 +198,8 @@ export const Section1Nominations: FunctionComponent<
                 }}
               />
               <Typography color="neutral" level="body-lg">
-                No results found for &quot;{searchValue}&quot;
+                There are no BOSSes around that go by the name &quot;
+                {searchValue}&quot;
               </Typography>
             </Sheet>
           );
