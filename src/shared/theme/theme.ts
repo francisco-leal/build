@@ -9,6 +9,7 @@ const colors = {
   lighterBlue: "#97C3F0",
   lightBlue: "#CDD7E1",
   black: "#0B0D0E",
+  lighterGray: "rgba(99, 107, 116, 0.30)",
   grey: "#636B74",
   divider: "rgba(255, 255, 255, 0.30)",
 };
@@ -26,6 +27,7 @@ export const theme = extendTheme({
           solidHoverBg: "#51D7D0",
         },
         neutral: {
+          200: colors.lighterGray,
           500: colors.grey,
           solidColor: colors.bossBlue,
           solidBg: colors.white,

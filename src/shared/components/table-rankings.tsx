@@ -1,12 +1,14 @@
-import { Sheet, SheetProps, Table } from "@mui/joy";
+import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { LeaderboardUser } from "@/shared/interfaces";
 
 export type TableRankingsProps = {
-  values: LeaderboardUser[];
+  values?: LeaderboardUser[];
+  loading?: boolean;
 } & SheetProps;
 
 export const TableRankings = ({
-  values,
+  values = [],
+  loading,
   variant = "outlined",
   ...props
 }: TableRankingsProps) => (
@@ -16,6 +18,7 @@ export const TableRankings = ({
         backgroundColor: "common.white",
         tr: { textAlign: "left" },
         "& tr.highlight": { color: "primary.500" },
+        "--TableCell-borderColor": "var(--joy-palette-neutral-200)",
       }}
     >
       <thead>
@@ -28,18 +31,27 @@ export const TableRankings = ({
         </tr>
       </thead>
       <tbody>
-        {values.map((item) => (
-          <tr key={item.id} className={item.highlight ? "highlight" : ""}>
-            <td>{item.rank}</td>
-            <td>
-              {item.name ||
-                `${item.wallet.substring(0, 6)}..${item.wallet.substring(item.wallet.length - 4, item.wallet.length)}`}
-            </td>
-            <td>{item.builder_score}</td>
-            <td>{item.boss_score}</td>
-            <td>{item.nominations}</td>
-          </tr>
-        ))}
+        {!loading &&
+          values.map((item) => (
+            <tr key={item.id} className={item.highlight ? "highlight" : ""}>
+              <td>{item.rank}</td>
+              <td>
+                {item.name ||
+                  `${item.wallet.substring(0, 6)}..${item.wallet.substring(item.wallet.length - 4, item.wallet.length)}`}
+              </td>
+              <td>{item.builder_score}</td>
+              <td>{item.boss_score}</td>
+              <td>{item.nominations}</td>
+            </tr>
+          ))}
+        {loading &&
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+            <tr key={i}>
+              <td colSpan={5}>
+                <Skeleton variant="text" />
+              </td>
+            </tr>
+          ))}
       </tbody>
     </Table>
   </Sheet>

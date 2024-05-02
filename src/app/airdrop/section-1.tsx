@@ -64,8 +64,8 @@ export const Section1 = () => {
           textAlign: "center",
         }}
       >
-        Name the builders breaking the corporate mold, and receive an airdrop
-        of $BOSS. Search their name or share your custom link.
+        Name the builders breaking the corporate mold, and receive an airdrop of
+        $BOSS. Search their name or share your custom link.
       </Typography>
     </Stack>
   );
