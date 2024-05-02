@@ -40,10 +40,10 @@ export async function POST(request: NextRequest) {
 
   const SIWEObject = new SiweMessage(siwe.message);
 
-    const { data: message, error } = await SIWEObject.verify({
-        signature: siwe.signature,
-        nonce: siwe.nonce
-    });
+  const { data: message, error } = await SIWEObject.verify({
+    signature: siwe.signature,
+    nonce: siwe.nonce,
+  });
 
   if (error) {
     return Response.json({ error }, { status: 404 });
