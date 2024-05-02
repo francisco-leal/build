@@ -19,24 +19,14 @@ export const Section3 = () => {
       .then((response) => response.json())
       .then((data) => {
         const users: LeaderboardUser[] = data.leaderboard.map(
-          (leaderboardUser: LeaderboardData) => {
-            const lUser = data.users.find(
-              (u: User) => u.id === leaderboardUser.user_id,
-            );
-            const stats = data.userStats.find(
-              (s: UserStats) => s.user_id === leaderboardUser.user_id,
-            );
+          (leaderboardUser: LeaderboardData, index: number) => {
             return {
-              id: leaderboardUser.user_id,
-              name: lUser.username,
-              wallet: lUser.wallet_address,
-              boss_score: stats.boss_score,
-              builder_score: stats.builder_score,
-              nominations: stats.nominations,
-              rank: leaderboardUser.rank,
-              highlight: lUser.wallet_address === user?.wallet_address,
+              id: index,
+              ...leaderboardUser,
+              highlight:
+                leaderboardUser.wallet_address === user?.wallet_address,
             } as LeaderboardUser;
-          },
+          }
         );
 
         setLeaderboardData(users);
