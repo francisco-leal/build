@@ -22,21 +22,29 @@ export const Header = () => {
     <Box
       ref={headerRef}
       component="header"
-      sx={{ py: 2, px: 2, borderBottom: "1px solid rgba(255, 255, 255, 0.3)" }}
+      sx={{ py: 2, borderBottom: 1, borderColor: "common.white" }}
     >
       <Stack
         direction="row"
-        spacing={2}
-        maxWidth="lg"
-        justifyContent="space-between"
+        maxWidth={{ xs: "md", md: "lg" }}
+        px={{ xs: 2, md: 4, lg: 8 }}
         mx="auto"
       >
-        <Link href="/" sx={{ "& svg": { color: "common.white", height: 40 } }}>
-          <LogoLong sx={{ display: DESKTOP_ONLY, width: 132 }} />
-          <LogoShort sx={{ display: MOBILE_ONLY, width: 40 }} />
-        </Link>
+        <Stack direction="row" flex={1}>
+          <Link href="/" sx={{ "& svg": { color: "common.white" } }}>
+            <LogoLong sx={{ display: DESKTOP_ONLY, width: 132, height: 40 }} />
+            <LogoShort sx={{ display: MOBILE_ONLY, width: 40, height: 40 }} />
+          </Link>
+        </Stack>
 
-        <Box sx={{ gap: "24px", display: DESKTOP_ONLY }} component="nav">
+        <Stack
+          direction="row"
+          flex={1}
+          component="nav"
+          gap={2}
+          justifyContent={"center"}
+          display={DESKTOP_ONLY}
+        >
           <Link sx={{ color: "common.white" }} href="/memo">
             Memo
           </Link>
@@ -46,11 +54,19 @@ export const Header = () => {
           <Link sx={{ color: "common.white" }} href="/bossnomics">
             Bossnomics
           </Link>
-        </Box>
+        </Stack>
 
-        <Stack direction={"row"} spacing={2}>
-          <ConnectWalletButton />
-
+        <Stack
+          direction={"row"}
+          flex={1}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+        >
+          {!drawer.isOpen && (
+            <ConnectWalletButton
+              sx={{ flex: { xs: 1, md: "initial", justifyContent: "center" } }}
+            />
+          )}
           <IconButton
             onClick={drawer.toggle}
             sx={{
