@@ -32,7 +32,7 @@ app.frame("/nominate/:address", async (c) => {
   const userAddress = c.req.param("address");
   const { origin } = new URL(c.url);
   const r = await fetch(origin + "/api/profile?wallet_address=" + userAddress);
-  const { username, rank } = await r.json();
+  const { username, rank } = await r.json() as { username: string; rank: string };
 
   return c.res({
     action: `/confirm/${userAddress}`,
@@ -143,7 +143,7 @@ app.frame("/confirm/:address", async (c) => {
         });
       }
       if (r.status === 400) {
-        const { error } = await r.json();
+        const { error } = await r.json() as { error: string };
         return res({
           image: (
             <Box
@@ -189,7 +189,7 @@ app.frame("/confirm/:address", async (c) => {
     });
   }
 
-  const { boss_budget } = await r.json();
+  const { boss_budget } = await r.json() as { boss_budget: number };
 
   return res({
     image: (

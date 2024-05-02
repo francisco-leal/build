@@ -3,7 +3,10 @@ import { validateAndNominate } from "../validate-and-nominate";
 import { supabase } from "@/db";
 
 export async function POST(request: NextRequest) {
-  const { nominated_user_address, from_user_address } = await request.json();
+  const { nominated_user_address, from_user_address } = await request.json() as {
+    nominated_user_address: string;
+    from_user_address: string;
+  };
 
   const { data: user } = await supabase
     .from("app_user")

@@ -58,7 +58,8 @@ export const SearchNomination: FunctionComponent<SearchNominationProps> = (
       const endpoint = new URL("/api/search", baseUrl);
       const params = { query: debouncedSearchValue };
       endpoint.search = new URLSearchParams(params).toString();
-      return fetch(endpoint.toString()).then((res) => res.json());
+      const data = fetch(endpoint.toString()).then((res) => res.json());
+      return data as Promise<SearchResponseUser[]>;
     },
   });
 
