@@ -311,7 +311,7 @@ BEGIN
     WHERE aus.builder_score = 0
     AND EXISTS (
         SELECT 1
-        FROM jsonb_array_elements(au.social_profile) sp
+        FROM jsonb_array_elements(au.social_profiles) sp
         WHERE au.id = aus.user_id
         AND sp->>'dapp' = 'farcaster'
         AND (sp->>'profileTokenId')::int > 20000
@@ -325,7 +325,7 @@ BEGIN
     WHERE aus.builder_score = 0
     AND EXISTS (
         SELECT 1
-        FROM jsonb_array_elements(au.social_profile) sp
+        FROM jsonb_array_elements(au.social_profiles) sp
         WHERE au.id = aus.user_id
         AND sp->>'dapp' = 'farcaster'
         AND (sp->>'profileTokenId')::int <= 20000
