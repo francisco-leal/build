@@ -1,9 +1,4 @@
-import {
-  Box,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { Box, Link, Stack, Typography } from "@mui/joy";
 import { Interface, MusicHeadeset } from "@/shared/icons";
 import { Section1Nominations } from "./section-1-nominations";
 
@@ -57,11 +52,13 @@ export const Section1 = () => (
           memo
         </Link>
         : there&apos;s no room for builders in the corporate world! Stand for
-        builders, play the nomination game, and earn $BOSS. Nominations start
-        on May 8th.
+        builders, play the nomination game, and earn $BOSS. Nominations start on
+        May 8th.
       </Typography>
 
-      <Section1Nominations sx={{ alignItems: "center", width: "100%", height: 280 }} />
+      <Section1Nominations
+        sx={{ alignItems: "center", width: "100%", height: 280 }}
+      />
     </Stack>
   </Stack>
 );

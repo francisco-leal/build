@@ -118,7 +118,7 @@ export const theme = extendTheme({
     },
     JoyInput: {
       styleOverrides: {
-        root:  ( {theme }) => ({
+        root: ({ theme }) => ({
           height: 40,
           border: "1px solid",
           borderColor: theme.vars.palette.primary[200],
