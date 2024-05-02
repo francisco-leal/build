@@ -32,12 +32,12 @@ export const TableRankings = ({
           <tr key={item.id} className={item.highlight ? "highlight" : ""}>
             <td>{item.rank}</td>
             <td>
-              {item.name ||
-                `${item.wallet.substring(0, 6)}..${item.wallet.substring(item.wallet.length - 4, item.wallet.length)}`}
+              {item.username ||
+                `${item.wallet_address.substring(0, 6)}..${item.wallet_address.substring(item.wallet_address.length - 4, item.wallet_address.length)}`}
             </td>
             <td>{item.builder_score}</td>
-            <td>{item.boss_score}</td>
-            <td>{item.nominations}</td>
+            <td>{item.boss_points}</td>
+            <td>{item.nominated}</td>
           </tr>
         ))}
       </tbody>

@@ -135,9 +135,10 @@ SELECT
     un.id AS user_id,
     lb.rank AS rank,
     un.username AS username,
-    aus.builder_score AS user_builder_score,
-    aus.boss_score AS user_boss_points,
-    aus.nominated AS user_nominated
+    un.wallet_address AS wallet_address,
+    aus.builder_score AS builder_score,
+    aus.boss_score AS boss_points,
+    aus.nominated AS nominated
 FROM app_leaderboard lb
 JOIN app_user un ON lb.user_id = un.id
 LEFT JOIN app_user_stats aus ON un.id = aus.user_id

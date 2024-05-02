@@ -1,5 +1,9 @@
 export interface LeaderboardData {
-  id: number;
   user_id: number;
   rank: number;
+  username: string;
+  wallet_address: string;
+  builder_score: number;
+  boss_points: number;
+  nominated: number;
 }

@@ -1,10 +1,6 @@
-export interface LeaderboardUser {
+import { LeaderboardData } from "./leaderboard-data";
+
+export interface LeaderboardUser extends LeaderboardData {
   id: number;
-  name: string;
-  wallet: string;
-  boss_score: number;
-  builder_score: number;
-  nominations: number;
-  rank: number;
   highlight: boolean;
 }

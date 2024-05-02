@@ -1,12 +1,7 @@
 import { Stack, Typography } from "@mui/joy";
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "@/shared/context/user";
-import {
-  LeaderboardData,
-  User,
-  UserStats,
-  LeaderboardUser,
-} from "@/shared/interfaces";
+import { LeaderboardData, LeaderboardUser } from "@/shared/interfaces";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { TableRankings } from "@/shared/components/table-rankings";
 
@@ -19,24 +14,15 @@ export const Section3 = () => {
       .then((response) => response.json())
       .then((data) => {
         const users: LeaderboardUser[] = data.leaderboard.map(
-          (leaderboardUser: LeaderboardData) => {
-            const lUser = data.users.find(
-              (u: User) => u.id === leaderboardUser.user_id,
-            );
-            const stats = data.userStats.find(
-              (s: UserStats) => s.user_id === leaderboardUser.user_id,
-            );
+          (leaderboardUser: LeaderboardData, index: number) => {
             return {
-              id: leaderboardUser.user_id,
-              name: lUser.username,
-              wallet: lUser.wallet_address,
-              boss_score: stats?.boss_score,
-              builder_score: stats?.builder_score,
-              nominations: stats?.nominations,
-              rank: leaderboardUser.rank,
-              highlight: lUser.wallet_address === user?.wallet_address,
+              id: index,
+              ...leaderboardUser,
+              highlight:
+                leaderboardUser.wallet_address.toLowerCase() ===
+                user?.wallet_address.toLowerCase(),
             } as LeaderboardUser;
-          },
+          }
         );
 
         setLeaderboardData(users);
