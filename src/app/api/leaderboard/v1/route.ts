@@ -6,7 +6,7 @@ export async function GET() {
   let { data: app_leaderboard, error } = await supabase
     .from("app_leaderboard_v1")
     .select("*")
-    .order("builder_score");
+    .order("builder_score", { ascending: false });
 
   if (error || !app_leaderboard) {
     return Response.json({ error }, { status: 404 });
