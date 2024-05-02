@@ -1,6 +1,5 @@
 import { Box, Link, Stack, Typography } from "@mui/joy";
 import { Interface, MusicHeadeset } from "@/shared/icons";
-import { Section1Nominations } from "./section-1-nominations";
 import { SearchNomination } from "@/shared/components/search-nominations";
 
 export const Section1 = () => (
