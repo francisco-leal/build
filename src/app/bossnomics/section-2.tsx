@@ -11,7 +11,7 @@ export const Section2 = () => {
         Tokenomics
       </Typography>
 
-      <Typography level="body-lg" textColor={"common.white"}>
+      <Typography level="title-lg" textColor={"common.white"}>
         60% of tokens are intended for the community and ecosystem. The other
         40% are related with the initial liquidity pool on Uniswap and liquidity
         mining rewards.

@@ -1,13 +1,16 @@
 "use client";
 import { extendTheme } from "@mui/joy/styles";
 import { ThemeLink } from "./theme-link";
+import { inputClasses } from "@mui/joy";
 
 const colors = {
-  blue: "#0142F5",
+  bossBlue: "#0142F5",
   white: "#FBFCFE",
+  lighterBlue: "#97C3F0",
   lightBlue: "#CDD7E1",
   black: "#0B0D0E",
   grey: "#636B74",
+  divider: "rgba(255, 255, 255, 0.30)",
 };
 
 export const theme = extendTheme({
@@ -15,14 +18,16 @@ export const theme = extendTheme({
     light: {
       palette: {
         primary: {
-          500: colors.blue,
+          200: colors.lighterBlue,
+          300: colors.lightBlue,
+          500: colors.bossBlue,
           outlinedColor: colors.white,
           outlinedHoverBg: "#1A54F6",
           solidHoverBg: "#51D7D0",
         },
         neutral: {
           500: colors.grey,
-          solidColor: colors.blue,
+          solidColor: colors.bossBlue,
           solidBg: colors.white,
           solidHoverBg: "#CCD9FD",
         },
@@ -30,6 +35,7 @@ export const theme = extendTheme({
           white: colors.white,
           black: colors.black,
         },
+        divider: colors.divider,
       },
     },
   },
@@ -72,7 +78,7 @@ export const theme = extendTheme({
       marginTop: 1 * 8,
       marginBottom: 2 * 8,
     },
-    "body-lg": {
+    "title-lg": {
       fontSize: "18px",
       fontWeight: "600",
       lineHeight: "166%",
@@ -80,9 +86,18 @@ export const theme = extendTheme({
       marginTop: 1 * 8,
       marginBottom: 1 * 8,
     },
-    "body-md": {
+    "body-lg": {
+      fontFamily: "Inter",
       fontSize: "18px",
+      fontStyle: "normal",
+      fontWeight: "400",
       lineHeight: "155%",
+      marginTop: 1 * 8,
+      marginBottom: 1 * 8,
+    },
+    "body-md": {
+      fontSize: "16px",
+      lineHeight: "150%",
       fontWeight: "400",
       color: "inherit",
     },
@@ -101,6 +116,19 @@ export const theme = extendTheme({
         },
       },
     },
+    JoyInput: {
+      styleOverrides: {
+        root:  ( {theme }) => ({
+          height: 40,
+          border: "1px solid",
+          borderColor: theme.vars.palette.primary[200],
+          color: theme.vars.palette.primary[500],
+          [`&.${inputClasses.focused}`]: {
+            borderColor: theme.vars.palette.primary[200],
+          },
+        }),
+      },
+    },
     JoySheet: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
@@ -109,6 +137,11 @@ export const theme = extendTheme({
             boxSizing: "border-box",
             boxShadow: `12px 12px 0px 0px ${theme.vars.palette.common.black}`,
             border: `4px solid ${theme.vars.palette.common.black}`,
+          }),
+          ...(ownerState.variant === "solid" && {
+            backgroundColor: theme.vars.palette.common.white,
+            border: "1px solid",
+            borderColor: theme.vars.palette.primary[200],
           }),
         }),
       },

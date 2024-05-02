@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
 /**
- *
- * Stolen from:
+ * Copied from:
  * https://usehooks-ts.com/react-hook/use-media-query
  */
 export const useMediaQuery = (query: string): boolean => {
