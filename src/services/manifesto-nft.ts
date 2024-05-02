@@ -48,39 +48,51 @@ export async function updateMintedManifestoNFTUsers() {
   });
 
   // get fromBlock from the database
-  const { data: fromBlock } = await supabase
+  const { data: storedFromBlock } = await supabase
     .from("app_metadata_kv")
     .select("value")
     .eq("key", ManifestoNFTKVMeta)
     .single();
   const currentBlock = await publicClient.getBlockNumber();
 
-  // TODO: break search into smaller block chunks
+  let fromBlock = BigInt(
+    storedFromBlock?.value || (currentBlock - BigInt(1)).toString()
+  );
+  let toBlock = Math.min(
+    parseInt(fromBlock.toString(), 10) + 5000,
+    parseInt(currentBlock.toString(), 10)
+  );
 
-  const logs = await publicClient.getLogs({
-    address: ManifestoNFTContractAddress,
-    event: parseAbiItem(
-      "event Transfer(address indexed, address indexed, uint256)"
-    ),
-    fromBlock: BigInt(
-      fromBlock?.value || (currentBlock - BigInt(1)).toString()
-    ),
-    toBlock: currentBlock,
-  });
+  // search in small chuncks (avoid rpc throw error)
+  while (fromBlock < currentBlock) {
+    const logs = await publicClient.getLogs({
+      address: ManifestoNFTContractAddress,
+      event: parseAbiItem(
+        "event Transfer(address indexed, address indexed, uint256)"
+      ),
+      fromBlock,
+      toBlock: BigInt(toBlock),
+    });
 
-  // update users who have minted the manifesto NFT
-  for (const log of logs) {
-    // update app_user with manifesto_nft = true
-    await supabase
-      .from("app_user")
-      .update({ manifesto_nft: true })
-      .eq("wallet_address", getAddress(log.topics[1]));
+    // update users who have minted the manifesto NFT
+    for (const log of logs) {
+      // update app_user with manifesto_nft = true
+      await supabase
+        .from("app_user")
+        .update({ manifesto_nft: true })
+        .eq("wallet_address", getAddress(log.topics[1]));
+    }
+
+    fromBlock = BigInt(toBlock);
+    toBlock = Math.min(
+      parseInt(fromBlock.toString(), 10) + 5000,
+      parseInt(currentBlock.toString(), 10)
+    );
   }
 
   // save toBlock to the database
-  const toBlock = logs[logs.length - 1].blockNumber;
   await supabase
     .from("app_metadata_kv")
-    .update({ value: toBlock.toString() })
+    .update({ value: currentBlock.toString() })
     .eq("key", ManifestoNFTKVMeta);
 }
