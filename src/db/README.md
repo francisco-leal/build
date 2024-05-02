@@ -133,11 +133,11 @@ GROUP BY
 CREATE OR REPLACE VIEW app_leaderboard_current AS
 SELECT
     un.id AS user_id,
-    un.wallet_address AS wallet_address,
+    lb.rank AS rank,
     un.username AS username,
-    lb.day_id AS day_id,
-    lb.rank AS user_rank,
-    aus.boss_score AS user_boss_points
+    aus.builder_score AS user_builder_score,
+    aus.boss_score AS user_boss_points,
+    aus.nominated AS user_nominated
 FROM app_leaderboard lb
 JOIN app_user un ON lb.user_id = un.id
 LEFT JOIN app_user_stats aus ON un.id = aus.user_id
@@ -271,7 +271,7 @@ BEGIN
             ROW_NUMBER() OVER (ORDER BY score, builder_score DESC) AS rank
         FROM user_scores
     ) AS subquery
-    ON CONFLICT (user_id) DO UPDATE
+    ON CONFLICT (user_id, day_id) DO UPDATE
     SET rank = excluded.rank;
 END;
 $$ LANGUAGE plpgsql;

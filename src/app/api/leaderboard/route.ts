@@ -3,19 +3,21 @@ import { getSession } from "@/services/authentication/cookie-session";
 
 export const revalidate = 0;
 export async function GET() {
-  let { data: app_leaderboard, error } = await supabase
-    .from("app_leaderboard_current")
-    .select("*")
-    .order("rank", { ascending: true })
-    .limit(10);
-
-  if (error || !app_leaderboard) {
-    return Response.json({ error }, { status: 404 });
-  }
-
   const user = await getSession();
 
+  // if user is present, load user first and avoid repeating it
+
   if (!!user) {
+    let { data: app_leaderboard, error } = await supabase
+      .from("app_leaderboard_current")
+      .select("*")
+      .neq("user_id", user.userId)
+      .order("rank", { ascending: true })
+      .limit(10);
+
+    if (error || !app_leaderboard) {
+      return Response.json({ error }, { status: 404 });
+    }
     const { data: currentUserRank } = await supabase
       .from("app_leaderboard_current")
       .select("*")
@@ -26,40 +28,24 @@ export async function GET() {
       !!currentUserRank &&
       !!app_leaderboard &&
       !app_leaderboard.find(
-        (leaderboardPosition) => leaderboardPosition.user_id === user.userId,
+        (leaderboardPosition) => leaderboardPosition.user_id === user.userId
       )
     ) {
-      app_leaderboard = [...app_leaderboard, currentUserRank];
+      app_leaderboard = [currentUserRank, ...app_leaderboard];
     }
+
+    return Response.json({ leaderboard: app_leaderboard });
   }
 
-  let userIds = app_leaderboard.map((user) => user.user_id);
+  const { data: app_leaderboard, error } = await supabase
+    .from("app_leaderboard_current")
+    .select("*")
+    .order("rank", { ascending: true })
+    .limit(10);
 
-  if (!!user) {
-    userIds.push(user.userId);
+  if (error || !app_leaderboard) {
+    return Response.json({ error }, { status: 404 });
   }
 
-  const { data: users, error: userError } = await supabase
-    .from("app_user")
-    .select("id, wallet_address, username")
-    .in("id", userIds);
-
-  if (userError) {
-    return Response.json({ error: userError }, { status: 404 });
-  }
-
-  const { data: userStats, error: statsError } = await supabase
-    .from("app_user_stats")
-    .select("user_id, boss_score, nominations, builder_score")
-    .in("user_id", userIds);
-
-  if (statsError) {
-    return Response.json({ error: statsError }, { status: 404 });
-  }
-
-  return Response.json({
-    leaderboard: app_leaderboard,
-    users,
-    userStats,
-  });
+  return Response.json({ leaderboard: app_leaderboard });
 }
