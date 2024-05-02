@@ -1,6 +1,7 @@
 import { Box, Link, Stack, Typography } from "@mui/joy";
 import { Interface, MusicHeadeset } from "@/shared/icons";
 import { Section1Nominations } from "./section-1-nominations";
+import { SearchNomination } from "@/shared/components/search-nominations";
 
 export const Section1 = () => (
   <Stack
@@ -56,7 +57,7 @@ export const Section1 = () => (
         May 8th.
       </Typography>
 
-      <Section1Nominations
+      <SearchNomination
         sx={{ alignItems: "center", width: "100%", height: 280 }}
       />
     </Stack>

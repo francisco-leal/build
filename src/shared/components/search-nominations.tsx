@@ -4,6 +4,7 @@ import { useDisclose } from "@/shared/hooks/use-disclose";
 import { useMediaQuery } from "@/shared/hooks/use-media-query";
 import { LogoShort, SearchFilled } from "@/shared/icons";
 import {
+  Avatar,
   Box,
   Button,
   CircularProgress,
@@ -27,23 +28,19 @@ import { useQuery } from "@tanstack/react-query";
 
 import { FunctionComponent, useState } from "react";
 
-export type Section1NominationsProps = StackProps;
+export type SearchNominationProps = StackProps;
 
-const mockData = [
-  "gil",
-  "leal",
-  "filipe",
-  "pedro",
-  "pupo",
-  "ricardo",
-  "chouriço",
-  "Alberto",
-];
+export type SearchResponseUser = {
+  address: string;
+  dapp: string;
+  profile_image: string;
+  username: string;
+};
 
-export const Section1Nominations: FunctionComponent<
-  Section1NominationsProps
-> = (props) => {
-  const [selectedUser, setSelectedUser] = useState<string>();
+export const SearchNomination: FunctionComponent<SearchNominationProps> = (
+  props,
+) => {
+  const [selectedUser, setSelectedUser] = useState<SearchResponseUser>();
   const [searchValue, setSearchValue] = useState<string>("");
 
   const debouncedSearchValue = useDebounce(searchValue, 500);
@@ -56,16 +53,16 @@ export const Section1Nominations: FunctionComponent<
     queryKey: ["search", debouncedSearchValue],
     enabled: debouncedSearchValue.length > 2,
     placeholderData: [],
-    queryFn: async (): Promise<string[]> => {
+    queryFn: async (): Promise<SearchResponseUser[]> => {
       const baseUrl = window.location.origin;
       const endpoint = new URL("/api/search", baseUrl);
       const params = { query: debouncedSearchValue };
       endpoint.search = new URLSearchParams(params).toString();
-      return []; //fetch(endpoint.toString()).then((res) => res.json());
+      return fetch(endpoint.toString()).then((res) => res.json());
     },
   });
 
-  const handleUserSelect = (user: string) => {
+  const handleUserSelect = (user: SearchResponseUser) => {
     setSelectedUser(user);
     modal.open();
   };
@@ -100,9 +97,9 @@ export const Section1Nominations: FunctionComponent<
 
       {(() => {
         const isTyping = debouncedSearchValue !== searchValue;
+        const isLoading = searchQuery.isFetching || isTyping;
         const isRetrying =
           searchQuery.isFetching && searchQuery.failureCount > 2;
-        const isLoading = searchQuery.isFetching || isTyping;
         const isError =
           searchQuery.isError || typeof searchQuery.data === "undefined";
 
@@ -212,8 +209,12 @@ export const Section1Nominations: FunctionComponent<
           >
             <List sx={{}}>
               {searchQuery.data.map((user) => (
-                <ListItem key={user} sx={{ justifyContent: "space-between" }}>
-                  <Typography>{user}</Typography>
+                <ListItem
+                  key={user.address}
+                  sx={{ justifyContent: "space-between" }}
+                >
+                  <Avatar src={user.address} alt={user.username} />
+                  <Typography>{user.username}</Typography>
                   <Button
                     variant="solid"
                     sx={{ height: "auto" }}
@@ -255,7 +256,7 @@ export const Section1Nominations: FunctionComponent<
               <Typography level="h4">Confirm Nomination</Typography>
 
               <Stack sx={{ alignItems: "center" }}>
-                <Typography>{selectedUser}</Typography>
+                <Typography>{selectedUser?.username}</Typography>
               </Stack>
 
               <Stack sx={{ gap: 2, width: "100%" }}>
