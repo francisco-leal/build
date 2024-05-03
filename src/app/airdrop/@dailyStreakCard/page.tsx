@@ -1,9 +1,8 @@
-import { wait } from "@/shared/utils/wait";
 import { DailyStreakCardComponent } from "./component";
+import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
 
 export default async function DailyBudgetCard() {
-  // TODO: Implement back end logic here :D
-  await wait(2000);
-
-  return <DailyStreakCardComponent streak={"5 days"} />;
+  const userStats = await getCurrentUserAppStats();
+  const streak = userStats.nomination_streak;
+  return <DailyStreakCardComponent streak={streak} />;
 }

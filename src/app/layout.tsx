@@ -7,6 +7,9 @@ import { Box } from "@mui/joy";
 import { UserProvider } from "@/shared/context/user";
 import { Web3Auth } from "@/shared/components/web3-auth";
 import { ThemeRegistry } from "@/shared/theme/theme-registry";
+import { Footer } from "@/shared/components/footer";
+import { Header } from "@/shared/components/header";
+
 import "@fontsource-variable/bricolage-grotesque";
 
 export const metadata: Metadata = {
@@ -39,7 +42,9 @@ export default function RootLayout({
         >
           <Web3ModalProvider initialState={initialState}>
             <UserProvider>
+              <Header />
               {children}
+              <Footer />
               <Web3Auth />
             </UserProvider>
           </Web3ModalProvider>

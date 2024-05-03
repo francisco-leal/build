@@ -1,2 +1,2 @@
-import { LeadearboardPage } from "@/app/_shared/@leadearboard";
+import { LeadearboardPage } from "@/app/_components/@leadearboard";
 export default LeadearboardPage;

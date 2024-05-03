@@ -1,9 +1,8 @@
-import { wait } from "@/shared/utils/wait";
 import { DailyBudgetCardComponent } from "./component";
+import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
 
 export default async function DailyBudgetCard() {
-  // TODO: Implement back end logic here :D
-  await wait(1500);
-
-  return <DailyBudgetCardComponent budget={100} />;
+  const userStats = await getCurrentUserAppStats();
+  const budget = userStats.boss_budget;
+  return <DailyBudgetCardComponent budget={budget} />;
 }

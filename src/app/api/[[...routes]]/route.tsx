@@ -25,7 +25,7 @@ app.use(
   neynar({
     apiKey: process.env.NEXT_PUBLIC_NEYNAR_API!,
     features: ["interactor"],
-  })
+  }),
 );
 
 app.frame("/nominate/:address", async (c) => {
@@ -171,7 +171,7 @@ app.frame("/confirm/:address", async (c) => {
   }
 
   const r = await fetch(
-    origin + "/api/profile?wallet_address=" + getAddress(fromAddress)
+    origin + "/api/profile?wallet_address=" + getAddress(fromAddress),
   );
 
   if (r.status === 404) {

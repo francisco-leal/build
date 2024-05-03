@@ -1,11 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import { Sheet, Stack, Typography } from "@mui/joy";
-import { Header } from "@/shared/components/header";
-import { Footer } from "@/shared/components/footer";
-import Signature from "../../../public/images/signature.png";
-import Image from "next/image";
 import { HeroSection } from "@/shared/components/hero-section";
+import { default as Image } from "next/image";
+
+import Signature from "../../../public/images/signature.png";
 
 const content = [
   "Dear builder,",
@@ -22,43 +21,39 @@ const content = [
 
 export default function Memo() {
   return (
-    <>
-      <Header />
-      <Stack component="main">
-        <HeroSection>
-          <Sheet
-            variant="outlined"
-            sx={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              textAlign: "left",
-              py: { xs: 5, md: 15 },
-              px: { xs: 2, md: 21 },
-              gap: 5,
-            }}
+    <Stack component="main">
+      <HeroSection>
+        <Sheet
+          variant="outlined"
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "left",
+            py: { xs: 5, md: 15 },
+            px: { xs: 2, md: 21 },
+            gap: 5,
+          }}
+        >
+          <Typography
+            sx={{ fontSize: { xs: "32px", md: "56px" }, fontWeight: "bold" }}
           >
-            <Typography
-              sx={{ fontSize: { xs: "32px", md: "56px" }, fontWeight: "bold" }}
-            >
-              Dear builder, you're fired.
-            </Typography>
+            Dear builder, you're fired.
+          </Typography>
 
-            <Stack sx={{ gap: 4 }}>
-              {content.map((line, index) => (
-                <Typography
-                  key={index}
-                  sx={{ fontSize: "18px", fontWeight: "600" }}
-                >
-                  {line}
-                </Typography>
-              ))}
-              <Image src={Signature} alt="signature" />
-            </Stack>
-          </Sheet>
-        </HeroSection>
-      </Stack>
-      <Footer />
-    </>
+          <Stack sx={{ gap: 4 }}>
+            {content.map((line, index) => (
+              <Typography
+                key={index}
+                sx={{ fontSize: "18px", fontWeight: "600" }}
+              >
+                {line}
+              </Typography>
+            ))}
+            <Image src={Signature} alt="signature" />
+          </Stack>
+        </Sheet>
+      </HeroSection>
+    </Stack>
   );
 }

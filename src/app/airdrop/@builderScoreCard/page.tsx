@@ -1,9 +1,8 @@
+import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
 import { BuilderScoreCardComponent } from "./component";
-import { wait } from "@/shared/utils/wait";
 
 export default async function BuilderScoreCard() {
-  // TODO: Implement back end logic here :D
-  await wait(1700);
-
-  return <BuilderScoreCardComponent score={85} />;
+  const userStats = await getCurrentUserAppStats();
+  const score = userStats.boss_score;
+  return <BuilderScoreCardComponent score={score} />;
 }
