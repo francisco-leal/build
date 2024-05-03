@@ -57,7 +57,7 @@ export async function searchTalentProtocolUser(
         },
       );
 
-      const data = await response.json() as PassportResponse;
+      const data = (await response.json()) as PassportResponse;
 
       if (response.status === 200) {
         return { data: [data.passport], error: null };
@@ -80,7 +80,7 @@ export async function searchTalentProtocolUser(
       },
     );
 
-    const data = await response.json() as PassportsResponse;
+    const data = (await response.json()) as PassportsResponse;
 
     if (response.status === 200) {
       return { error: null, data: data.passports };

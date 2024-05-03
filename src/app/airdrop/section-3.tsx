@@ -10,7 +10,8 @@ import {
   LeaderboardUser,
 } from "@/shared/interfaces";
 
-export const Section3 = () => {/**
+export const Section3 = () => {
+  /**
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
   const { user } = useContext(UserContext);
 

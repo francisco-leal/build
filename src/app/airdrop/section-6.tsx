@@ -10,7 +10,8 @@ import {
   LeaderboardUser,
 } from "@/shared/interfaces";
 
-export const Section6 = () => {/**  const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
+export const Section6 = () => {
+  /**  const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -92,5 +93,4 @@ export const Section6 = () => {/**  const [leaderboardData, setLeaderboardData] 
       />
     </Stack>
   ); */
-
 };

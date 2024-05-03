@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { siwe, wallet_address } = await request.json() as {
+  const { siwe, wallet_address } = (await request.json()) as {
     siwe: {
       message: string;
       signature: string;
