@@ -44,6 +44,7 @@ export async function searchSocialUser(querySearch: string) {
                 profileName
                 profileImage
                 userAssociatedAddresses
+                profileTokenId
             }
         }
     }`;
@@ -64,7 +65,7 @@ export async function searchSocialUser(querySearch: string) {
 
   const filterFarcasterAddress = (
     userAddress: string,
-    userAssociatedAddresses: string[],
+    userAssociatedAddresses: string[]
   ) => {
     if (userAssociatedAddresses.length === 1) {
       return userAddress;
@@ -79,6 +80,7 @@ export async function searchSocialUser(querySearch: string) {
     username: string;
     profile_image: string;
     dapp: string;
+    profileTokenId: number;
   }[] = [];
   return result
     .concat(
@@ -90,17 +92,19 @@ export async function searchSocialUser(querySearch: string) {
               dappName: string;
               profileImage: string;
               userAssociatedAddresses: string[];
+              profileTokenId: string;
             }) => ({
               address: filterFarcasterAddress(
                 s.userAddress,
-                s.userAssociatedAddresses,
+                s.userAssociatedAddresses
               ),
               username: s.profileName,
               profile_image: s.profileImage,
               dapp: s.dappName,
-            }),
+              profileTokenId: parseInt(s.profileTokenId, 10),
+            })
           )
-        : [],
+        : []
     )
     .concat(
       talentProtocolData
@@ -111,8 +115,9 @@ export async function searchSocialUser(querySearch: string) {
               ? t.user.profile_picture_url
               : t.passport_profile!.image_url,
             dapp: "talent-protocol",
+            profileTokenId: 0,
           }))
-        : [],
+        : []
     );
 }
 
@@ -135,14 +140,14 @@ export async function computeUserNominationsAndStats() {
   }
   console.log("calculating user boss score...");
   const { error: error_user_boss_score } = await supabase.rpc(
-    "update_user_boss_score",
+    "update_user_boss_score"
   );
   if (error_user_boss_score) {
     throw error_user_boss_score;
   }
   console.log("calculating user boss budget...");
   const { error: error_user_boss_budget } = await supabase.rpc(
-    "update_user_boss_budget",
+    "update_user_boss_budget"
   );
   if (error_user_boss_budget) {
     throw error_user_boss_budget;
