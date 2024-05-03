@@ -159,8 +159,7 @@ export const theme = extendTheme({
           "& tr.yellow": { color: theme.vars.palette.warning[400] },
           "--TableCell-borderColor": theme.vars.palette.neutral[200],
         }),
-      }
-     
-    }
+      },
+    },
   },
 });

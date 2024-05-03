@@ -4,30 +4,30 @@ import { Stack, Typography } from "@mui/joy";
 import { FunctionComponent } from "react";
 
 export type DailyStreakCardProps = {
-    streak: React.ReactNode;
-}
+  streak: React.ReactNode;
+};
 
-export const DailyStreakCardComponent : FunctionComponent<DailyStreakCardProps> = ({
-    streak
-}) => {
-    return (
-        <BlockyCard>
-            <Typography level="body-lg" textColor="primary.500">
-            Nomination Streak
-            </Typography>
+export const DailyStreakCardComponent: FunctionComponent<
+  DailyStreakCardProps
+> = ({ streak }) => {
+  return (
+    <BlockyCard>
+      <Typography level="body-lg" textColor="primary.500">
+        Nomination Streak
+      </Typography>
 
-            <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
-                <FireNominationStreak />
-                <Typography
-                    sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
-                >
-                    {streak}
-                </Typography>
-            </Stack>
+      <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+        <FireNominationStreak />
+        <Typography
+          sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
+        >
+          {streak}
+        </Typography>
+      </Stack>
 
-            <Typography  textColor="neutral.500">
-                Consecutive days you nominated someone.
-            </Typography>
-        </BlockyCard>
-    )
-}
+      <Typography textColor="neutral.500">
+        Consecutive days you nominated someone.
+      </Typography>
+    </BlockyCard>
+  );
+};

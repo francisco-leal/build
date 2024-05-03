@@ -4,7 +4,9 @@ import { FingerNominate, Coin, DroneCameraAirdrop } from "@/shared/icons";
 export default function HowToPlay() {
   return (
     <>
-      <Typography sx={{ color: "common.white", fontSize: "40px", fontWeight: "bold" }}>
+      <Typography
+        sx={{ color: "common.white", fontSize: "40px", fontWeight: "bold" }}
+      >
         How to play the BOSS game?
       </Typography>
 
@@ -104,4 +106,4 @@ export default function HowToPlay() {
       </Stack>
     </>
   );
-};
+}

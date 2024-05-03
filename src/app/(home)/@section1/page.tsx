@@ -21,8 +21,8 @@ export default function Section1() {
           memo
         </Link>
         : there&apos;s no room for builders in the corporate world! Stand for
-        builders, play the nomination game, and earn $BOSS. Nominations start
-        on May 8th.
+        builders, play the nomination game, and earn $BOSS. Nominations start on
+        May 8th.
       </Typography>
 
       <SearchNomination
@@ -30,7 +30,7 @@ export default function Section1() {
           mt: 1,
           alignItems: "center",
           width: "100%",
-          height: 280
+          height: 280,
         }}
       />
     </HeroSectionSlim>

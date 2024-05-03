@@ -1,5 +1,14 @@
 "use client";
-import { Stack, Tab, TabList, TabPanel, Tabs, Typography, tabClasses, tabPanelClasses } from "@mui/joy";
+import {
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  Typography,
+  tabClasses,
+  tabPanelClasses,
+} from "@mui/joy";
 import { Header } from "@/shared/components/header";
 import { Footer } from "@/shared/components/footer";
 import { HeroSection } from "@/shared/components/hero-section";
@@ -15,7 +24,7 @@ export default function AirdropPageLayout({
   leaderboardTable,
   myNominationsTable,
   nominateBuilder,
-  howToPlay
+  howToPlay,
 }: {
   bossPointsCard: React.ReactNode;
   bossTokensCard: React.ReactNode;
@@ -52,8 +61,7 @@ export default function AirdropPageLayout({
             [`&.${tabClasses.selected}`]: {
               color: "primary.700",
               backgroundColor: "transparent",
-            }
-
+            },
           },
           [`& .${tabPanelClasses.root}`]: {
             p: 0,
@@ -66,14 +74,12 @@ export default function AirdropPageLayout({
         </TabList>
 
         <TabPanel value={0} component={Stack}>
-          <HeroSectionSlim>
-            {nominateBuilder}
-          </HeroSectionSlim>
+          <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
           <HeroSection
             sx={{
               flexDirection: { xs: "column", md: "row" },
               "& > *": { height: 240, width: "100%" },
-              gap: 3
+              gap: 3,
             }}
           >
             {dailyBudgetCard}
@@ -83,16 +89,13 @@ export default function AirdropPageLayout({
             <Typography
               level="h2"
               className="no-overflow"
-              textColor={"common.white"}>
+              textColor={"common.white"}
+            >
               My Nominations
             </Typography>
-            <Stack className="overflow">
-              {myNominationsTable}
-            </Stack>
+            <Stack className="overflow">{myNominationsTable}</Stack>
           </HeroSectionWithOverflow>
-          <HeroSection>
-            {howToPlay}
-          </HeroSection>
+          <HeroSection>{howToPlay}</HeroSection>
         </TabPanel>
 
         <TabPanel value={1} component={Stack}>
@@ -100,7 +103,7 @@ export default function AirdropPageLayout({
             sx={{
               flexDirection: { xs: "column", md: "row" },
               "& > *": { minHeight: 240, width: "100%" },
-              gap: 3
+              gap: 3,
             }}
           >
             {bossPointsCard}
@@ -108,19 +111,16 @@ export default function AirdropPageLayout({
             {builderScoreCard}
           </HeroSection>
           <HeroSectionWithOverflow>
-          <Typography
+            <Typography
               level="h2"
               className="no-overflow"
-              textColor={"common.white"}>
-                Leadearboard
+              textColor={"common.white"}
+            >
+              Leadearboard
             </Typography>
-            <Stack className="overflow">
-              {leaderboardTable}
-            </Stack>
+            <Stack className="overflow">{leaderboardTable}</Stack>
           </HeroSectionWithOverflow>
-          <HeroSection>
-            {howToPlay}
-          </HeroSection>
+          <HeroSection>{howToPlay}</HeroSection>
         </TabPanel>
       </Tabs>
       <Footer />

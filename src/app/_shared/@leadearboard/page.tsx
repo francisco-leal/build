@@ -1,7 +1,10 @@
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { makeMap } from "@/shared/utils/make-map";
-import { LeadearboardTableComponent, LeadearboardTableValue } from "./component";
+import {
+  LeadearboardTableComponent,
+  LeadearboardTableValue,
+} from "./component";
 
 export default async function BossPoints() {
   const user = await getSession();
@@ -15,10 +18,10 @@ export default async function BossPoints() {
 
   const { data: currentUserData } = user
     ? await supabase
-      .from("app_leaderboard_current")
-      .select("*")
-      .eq("user_id", user.userId)
-      .single()
+        .from("app_leaderboard_current")
+        .select("*")
+        .eq("user_id", user.userId)
+        .single()
     : { data: null };
 
   const leaderboard = [
@@ -39,7 +42,7 @@ export default async function BossPoints() {
     .in("user_id", userIds)
     .throwOnError();
 
-  const userStatsMap = makeMap(userStats ?? [], (u) => u.user_id.toString());
+  const userStatsMap = makeMap(userStats ?? [], (u) => u.user_id?.toString() ?? "");
   const userDataMap = makeMap(usersData ?? [], (u) => u.id.toString());
 
   const prettyData = leaderboard.map((entry): LeadearboardTableValue => {
@@ -57,7 +60,5 @@ export default async function BossPoints() {
     };
   });
 
-  return (
-    <LeadearboardTableComponent values={prettyData} />
-  )
+  return <LeadearboardTableComponent values={prettyData} />;
 }
