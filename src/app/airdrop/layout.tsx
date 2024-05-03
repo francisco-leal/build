@@ -1,20 +1,44 @@
 "use client";
-import { Tab, TabList, TabPanel, Tabs, tabClasses } from "@mui/joy";
+import {
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  Typography,
+  tabClasses,
+  tabPanelClasses,
+} from "@mui/joy";
 import { Header } from "@/shared/components/header";
 import { Footer } from "@/shared/components/footer";
-import { Stack } from "@mui/joy";
+import { HeroSection } from "@/shared/components/hero-section";
+import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
+import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 
 export default function AirdropPageLayout({
-  myStats,
-  nominations,
+  bossPointsCard,
+  bossTokensCard,
+  builderScoreCard,
+  dailyBudgetCard,
+  dailyStreakCard,
+  leaderboardTable,
+  myNominationsTable,
+  nominateBuilder,
+  howToPlay,
 }: {
-  myStats: React.ReactNode;
-  nominations: React.ReactNode;
+  bossPointsCard: React.ReactNode;
+  bossTokensCard: React.ReactNode;
+  builderScoreCard: React.ReactNode;
+  dailyBudgetCard: React.ReactNode;
+  dailyStreakCard: React.ReactNode;
+  leaderboardTable: React.ReactNode;
+  howToPlay: React.ReactNode;
+  myNominationsTable: React.ReactNode;
+  nominateBuilder: React.ReactNode;
 }) {
   return (
     <>
       <Header />
-
       <Tabs
         component={"main"}
         defaultValue={0}
@@ -30,13 +54,17 @@ export default function AirdropPageLayout({
             "&::after": {
               color: "common.white",
             },
+            [`&:not(.${tabClasses.selected}, [aria-selected="true"]):hover`]: {
+              color: "primary.700",
+              backgroundColor: "transparent",
+            },
+            [`&.${tabClasses.selected}`]: {
+              color: "primary.700",
+              backgroundColor: "transparent",
+            },
           },
-          [`& .${tabClasses.selected}`]: {
-            color: "primary.700",
-          },
-          [`& .${tabClasses.root}:hover`]: {
-            backgroundColor: "transparent !important",
-            color: "primary.700",
+          [`& .${tabPanelClasses.root}`]: {
+            p: 0,
           },
         }}
       >
@@ -44,14 +72,57 @@ export default function AirdropPageLayout({
           <Tab variant="plain">My Nominations</Tab>
           <Tab variant="plain">My Stats</Tab>
         </TabList>
-        <TabPanel value={0} sx={{ p: 0 }}>
-          {nominations}
+
+        <TabPanel value={0} component={Stack}>
+          <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
+          <HeroSection
+            sx={{
+              flexDirection: { xs: "column", md: "row" },
+              "& > *": { height: 240, width: "100%" },
+              gap: 3,
+            }}
+          >
+            {dailyBudgetCard}
+            {dailyStreakCard}
+          </HeroSection>
+          <HeroSectionWithOverflow>
+            <Typography
+              level="h2"
+              className="no-overflow"
+              textColor={"common.white"}
+            >
+              My Nominations
+            </Typography>
+            <Stack className="overflow">{myNominationsTable}</Stack>
+          </HeroSectionWithOverflow>
+          <HeroSection>{howToPlay}</HeroSection>
         </TabPanel>
-        <TabPanel value={1} sx={{ p: 0 }}>
-          {myStats}
+
+        <TabPanel value={1} component={Stack}>
+          <HeroSection
+            sx={{
+              flexDirection: { xs: "column", md: "row" },
+              "& > *": { minHeight: 240, width: "100%" },
+              gap: 3,
+            }}
+          >
+            {bossPointsCard}
+            {bossTokensCard}
+            {builderScoreCard}
+          </HeroSection>
+          <HeroSectionWithOverflow>
+            <Typography
+              level="h2"
+              className="no-overflow"
+              textColor={"common.white"}
+            >
+              Leadearboard
+            </Typography>
+            <Stack className="overflow">{leaderboardTable}</Stack>
+          </HeroSectionWithOverflow>
+          <HeroSection>{howToPlay}</HeroSection>
         </TabPanel>
       </Tabs>
-
       <Footer />
     </>
   );

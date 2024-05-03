@@ -35,7 +35,7 @@ export default async function Section3() {
       !!currentUserRank &&
       !!data &&
       !data.find(
-        (leaderboardPosition) => leaderboardPosition.user_id === user.userId
+        (leaderboardPosition) => leaderboardPosition.user_id === user.userId,
       )
     ) {
       data = [currentUserRank, ...data];
@@ -65,7 +65,7 @@ export default async function Section3() {
       ...entry,
       id: entry.user_id ?? 0,
       highlight: entry.user_id === user?.userId,
-    })
+    }),
   );
 
   const now = DateTime.utc();

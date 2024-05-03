@@ -17,7 +17,8 @@ export const TableRankings = ({
       sx={{
         backgroundColor: "common.white",
         tr: { textAlign: "left" },
-        "& tr.highlight": { color: "primary.500" },
+        "& tr.blue": { color: "primary.500" },
+        "& tr.yellow": { color: "warning.400" },
         "--TableCell-borderColor": "var(--joy-palette-neutral-200)",
       }}
     >

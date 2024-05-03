@@ -72,7 +72,7 @@ export const theme = extendTheme({
       textAlign: "center",
       color: "inherit",
       marginTop: 4 * 8,
-      marginBottom: 2 * 8,
+      marginBottom: 1 * 8,
       ["@media (min-width: 900px)"]: {
         fontSize: "40px",
       },
@@ -82,7 +82,7 @@ export const theme = extendTheme({
       fontWeight: "bold",
       color: "inherit",
       marginTop: 1 * 8,
-      marginBottom: 2 * 8,
+      marginBottom: 1 * 8,
     },
     "title-lg": {
       fontSize: "18px",
@@ -98,8 +98,6 @@ export const theme = extendTheme({
       fontStyle: "normal",
       fontWeight: "400",
       lineHeight: "155%",
-      marginTop: 1 * 8,
-      marginBottom: 1 * 8,
     },
     "body-md": {
       fontSize: "16px",
@@ -149,6 +147,17 @@ export const theme = extendTheme({
             border: "1px solid",
             borderColor: theme.vars.palette.primary[200],
           }),
+        }),
+      },
+    },
+    JoyTable: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.vars.palette.common.white,
+          tr: { textAlign: "left" },
+          "& tr.blue": { color: theme.vars.palette.primary[500] },
+          "& tr.yellow": { color: theme.vars.palette.warning[400] },
+          "--TableCell-borderColor": theme.vars.palette.neutral[200],
         }),
       },
     },
