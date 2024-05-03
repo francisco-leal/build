@@ -68,7 +68,7 @@ export type Database = {
           {
             foreignKeyName: "public_app_leaderboard_user_id_fkey";
             columns: ["user_id"];
-            isOneToOne: true;
+            isOneToOne: false;
             referencedRelation: "app_user";
             referencedColumns: ["id"];
           },
@@ -221,7 +221,7 @@ export type Database = {
           {
             foreignKeyName: "public_app_leaderboard_user_id_fkey";
             columns: ["user_id"];
-            isOneToOne: true;
+            isOneToOne: false;
             referencedRelation: "app_user";
             referencedColumns: ["id"];
           },
@@ -362,38 +362,70 @@ export type Database = {
       };
     };
     Functions: {
-      insert_user: {
-        Args: {
-          wallet_address: string;
-          referral_code: string;
-          boss_score: number;
-          boss_budget: number;
-          builder_score: number;
-          social_profiles: Json;
-          username: string | undefined;
-        };
-        Returns: {
-          boss_budget: number | null;
-          boss_score: number | null;
-          boss_token_balance: number | null;
-          bpe_first_nominator: number | null;
-          bpe_nominations: number | null;
-          bpe_regular_nominator: number | null;
-          builder_score: number | null;
-          created_at: string | null;
-          id: number | null;
-          max_nominations: number | null;
-          nominated: number | null;
-          nomination_streak: number | null;
-          nominations: number | null;
-          nominations_unique: number | null;
-          referral_code: string | null;
-          social_profiles: Json | null;
-          user_id: number | null;
-          username: string | null;
-          wallet_address: string | null;
-        }[];
-      };
+      insert_user:
+        | {
+            Args: {
+              wallet_address: string;
+              referral_code: string;
+              boss_score: number;
+              boss_budget: number;
+              builder_score: number;
+              social_profiles: Json;
+            };
+            Returns: {
+              boss_budget: number | null;
+              boss_score: number | null;
+              boss_token_balance: number | null;
+              bpe_first_nominator: number | null;
+              bpe_nominations: number | null;
+              bpe_regular_nominator: number | null;
+              builder_score: number | null;
+              created_at: string | null;
+              id: number | null;
+              max_nominations: number | null;
+              nominated: number | null;
+              nomination_streak: number | null;
+              nominations: number | null;
+              nominations_unique: number | null;
+              referral_code: string | null;
+              social_profiles: Json | null;
+              user_id: number | null;
+              username: string | null;
+              wallet_address: string | null;
+            }[];
+          }
+        | {
+            Args: {
+              wallet_address: string;
+              referral_code: string;
+              boss_score: number;
+              boss_budget: number;
+              builder_score: number;
+              social_profiles: Json;
+              username: string;
+            };
+            Returns: {
+              boss_budget: number | null;
+              boss_score: number | null;
+              boss_token_balance: number | null;
+              bpe_first_nominator: number | null;
+              bpe_nominations: number | null;
+              bpe_regular_nominator: number | null;
+              builder_score: number | null;
+              created_at: string | null;
+              id: number | null;
+              max_nominations: number | null;
+              nominated: number | null;
+              nomination_streak: number | null;
+              nominations: number | null;
+              nominations_unique: number | null;
+              referral_code: string | null;
+              social_profiles: Json | null;
+              user_id: number | null;
+              username: string | null;
+              wallet_address: string | null;
+            }[];
+          };
       update_leaderboard: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
