@@ -133,11 +133,12 @@ GROUP BY
 CREATE OR REPLACE VIEW app_leaderboard_current AS
 SELECT
     un.id AS user_id,
-    un.wallet_address AS wallet_address,
+    lb.rank AS rank,
     un.username AS username,
-    lb.day_id AS day_id,
-    lb.rank AS user_rank,
-    aus.boss_score AS user_boss_points
+    un.wallet_address AS wallet_address,
+    aus.builder_score AS builder_score,
+    aus.boss_score AS boss_points,
+    aus.nominations AS nominations
 FROM app_leaderboard lb
 JOIN app_user un ON lb.user_id = un.id
 LEFT JOIN app_user_stats aus ON un.id = aus.user_id

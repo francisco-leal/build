@@ -5,66 +5,68 @@ import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-o
 import { TableRankings } from "@/shared/components/table-rankings";
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
-
-import { makeMap } from "@/shared/utils/make-map";
+import { Tables } from "@/db/database.types";
 
 export const revalidate = 3600;
 
 export default async function Section3() {
   const user = await getSession();
 
-  const { data: leaderboardData } = await supabase
-    .from("app_leaderboard_current")
-    .select("*")
-    .order("rank", { ascending: true })
-    .limit(10)
-    .throwOnError();
+  let app_leaderboard: Tables<"app_leaderboard_current">[] | null = [];
 
-  const { data: currentUserData } = user
-    ? await supabase
-        .from("app_leaderboard_current")
-        .select("*")
-        .eq("user_id", user.userId)
-        .single()
-    : { data: null };
+  if (!!user) {
+    let { data, error } = await supabase
+      .from("app_leaderboard_current")
+      .select("*")
+      .neq("user_id", user.userId)
+      .order("rank", { ascending: true })
+      .limit(10);
 
-  const leaderboard = [
-    ...new Set([...(leaderboardData ?? []), currentUserData].filter(Boolean)),
-  ];
+    if (error || !data) {
+      throw new Error("Error fetching leaderboard data");
+    }
+    const { data: currentUserRank } = await supabase
+      .from("app_leaderboard_current")
+      .select("*")
+      .eq("user_id", user.userId)
+      .single();
 
-  const userIds = leaderboard.map((p) => p.user_id);
+    if (
+      !!currentUserRank &&
+      !!data &&
+      !data.find(
+        (leaderboardPosition) => leaderboardPosition.user_id === user.userId
+      )
+    ) {
+      data = [currentUserRank, ...data];
+    }
 
-  const { data: usersData } = await supabase
-    .from("app_user")
-    .select("id, wallet_address, username")
-    .in("id", userIds)
-    .throwOnError();
+    app_leaderboard = data;
+  } else {
+    const { data, error } = await supabase
+      .from("app_leaderboard_current")
+      .select("*")
+      .order("rank", { ascending: true })
+      .limit(10);
 
-  const { data: userStats, error: statsError } = await supabase
-    .from("app_user_stats")
-    .select("user_id, boss_score, nominations, builder_score")
-    .in("user_id", userIds)
-    .throwOnError();
+    if (error) {
+      throw new Error("Error fetching leaderboard data");
+    }
 
-  const userStatsMap = makeMap(userStats ?? [], (u) => u.user_id.toString());
-  const userDataMap = makeMap(usersData ?? [], (u) => u.id.toString());
+    app_leaderboard = data;
+  }
 
-  const prettyData = leaderboard.map((entry): LeaderboardUser => {
-    const sId = entry.user_id?.toString() ?? "";
-    const userData = userDataMap[sId];
-    const stats = userStatsMap[sId];
+  if (!app_leaderboard) {
+    throw new Error("No leaderboard data found");
+  }
 
-    return {
+  const prettyData = app_leaderboard.map(
+    (entry): LeaderboardUser => ({
+      ...entry,
       id: entry.user_id ?? 0,
-      name: userData.username ?? "",
-      wallet: userData.wallet_address,
-      boss_score: stats?.boss_score,
-      builder_score: stats?.builder_score,
-      nominations: stats?.nominations,
-      rank: entry.rank ?? 0,
       highlight: entry.user_id === user?.userId,
-    };
-  });
+    })
+  );
 
   const now = DateTime.utc();
   const format = "LLL dd, hh:mm a 'UTC'";

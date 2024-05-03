@@ -28,7 +28,7 @@ export async function createProfile(wallet_address: string) {
     boss_score: 0,
     boss_budget,
     builder_score,
-    username,
+    username: username || "",
     social_profiles: socialProfiles,
   });
 
