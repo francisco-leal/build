@@ -5,12 +5,14 @@ import { useContext, useEffect } from "react";
 import { useAccount } from "wagmi";
 
 export const Web3Auth = () => {
-  const { user, authUser } = useContext(UserContext);
-  const { address } = useAccount();
+  const { user, authUser, logout } = useContext(UserContext);
+  const { address, isDisconnected } = useAccount();
 
   useEffect(() => {
     if (address && !user) {
       authUser();
+    } else if (isDisconnected && user) {
+      logout();
     }
   }, [address]);
 

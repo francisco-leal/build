@@ -3,7 +3,10 @@ import { supabase } from "@/db";
 import { setSession } from "@/services/authentication/cookie-session";
 import { createProfile } from "./create";
 import { SiweMessage } from "siwe";
-import { getSession } from "@/services/authentication/cookie-session";
+import {
+  getSession,
+  clearSession,
+} from "@/services/authentication/cookie-session";
 
 export async function GET(request: NextRequest) {
   // if it contains a query parameter wallet_address, we will search for the user by wallet_address
@@ -95,4 +98,10 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const res = await request.json();
   return Response.json({ res });
+}
+
+export async function DELETE() {
+  await clearSession();
+
+  return Response.json({ message: "session cleared" });
 }
