@@ -47,7 +47,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
       return false;
     }
 
-    const userResponse = await res.json();
+    const userResponse = (await res.json()) as User;
     setUser(userResponse);
     return true;
   };
@@ -69,7 +69,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
       return false;
     }
 
-    const { nonce } = await res.json();
+    const { nonce } = (await res.json()) as { nonce: string };
 
     const message = new SiweMessage({
       domain: window.location.host,
@@ -95,7 +95,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
       credentials: "include",
     });
 
-    const userResponse = await verification.json();
+    const userResponse = (await verification.json()) as User;
     setUser(userResponse);
     setAuthingUser(false);
     return true;

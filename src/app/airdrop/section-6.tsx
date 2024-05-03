@@ -11,7 +11,7 @@ import {
 } from "@/shared/interfaces";
 
 export const Section6 = () => {
-  const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
+  /**  const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -92,5 +92,5 @@ export const Section6 = () => {
         }}
       />
     </Stack>
-  );
+  ); */
 };

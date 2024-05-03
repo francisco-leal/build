@@ -2,7 +2,7 @@ import { HeroSection } from "@/shared/components/hero-section";
 import { UserManLove, UserShield } from "@/shared/icons";
 import { Typography, Button, Link, Stack } from "@mui/joy";
 
-export const Section4 = () => {
+export default function Section4() {
   return (
     <HeroSection sx={{ color: "common.white" }}>
       <Typography level="h2">Become a BOSS</Typography>
@@ -76,4 +76,4 @@ export const Section4 = () => {
       </Stack>
     </HeroSection>
   );
-};
+}

@@ -4,7 +4,7 @@ import { validateAndNominate } from "@/app/api/nominate/validate-and-nominate";
 import { getSession } from "@/services/authentication/cookie-session";
 
 export async function POST(request: NextRequest) {
-  const { referral } = await request.json();
+  const { referral } = (await request.json()) as { referral: string };
   const user = await getSession();
 
   if (!user) {

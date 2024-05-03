@@ -36,7 +36,14 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { siwe, wallet_address } = await request.json();
+  const { siwe, wallet_address } = (await request.json()) as {
+    siwe: {
+      message: string;
+      signature: string;
+      nonce: string;
+    };
+    wallet_address: string;
+  };
 
   const SIWEObject = new SiweMessage(siwe.message);
 

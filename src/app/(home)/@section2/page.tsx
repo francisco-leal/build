@@ -2,7 +2,7 @@ import { Sheet, Typography } from "@mui/joy";
 import { Eye, Terminal } from "@/shared/icons";
 import { HeroSection } from "@/shared/components/hero-section";
 
-export const Section2 = () => {
+export default function Section2() {
   return (
     <HeroSection sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
       <Sheet
@@ -52,4 +52,4 @@ export const Section2 = () => {
       </Sheet>
     </HeroSection>
   );
-};
+}

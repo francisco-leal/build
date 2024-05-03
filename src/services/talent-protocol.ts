@@ -9,6 +9,17 @@ type PassportResult = {
     name: string;
   } | null;
 };
+
+type PassportResponse = {
+  passport: PassportResult;
+  error?: string;
+};
+
+type PassportsResponse = {
+  passports: PassportResult[];
+  error?: string;
+};
+
 export async function getBuilderScore(wallet: string): Promise<number> {
   const { data, error } = await searchTalentProtocolUser(wallet);
 
@@ -46,7 +57,7 @@ export async function searchTalentProtocolUser(
         },
       );
 
-      const data = await response.json();
+      const data = (await response.json()) as PassportResponse;
 
       if (response.status === 200) {
         return { data: [data.passport], error: null };
@@ -69,7 +80,7 @@ export async function searchTalentProtocolUser(
       },
     );
 
-    const data = await response.json();
+    const data = (await response.json()) as PassportsResponse;
 
     if (response.status === 200) {
       return { error: null, data: data.passports };

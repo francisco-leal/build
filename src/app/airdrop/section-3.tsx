@@ -11,13 +11,14 @@ import {
 } from "@/shared/interfaces";
 
 export const Section3 = () => {
+  /**
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardUser[]>([]);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     fetch("/api/leaderboard")
       .then((response) => response.json())
-      .then((data) => {
+      .then((data ) => {
         const users: LeaderboardUser[] = data.leaderboard.map(
           (leaderboardUser: LeaderboardData) => {
             const lUser = data.users.find(
@@ -92,5 +93,5 @@ export const Section3 = () => {
         }}
       />
     </Stack>
-  );
+  ); */
 };

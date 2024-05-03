@@ -3,7 +3,9 @@ import { type NextRequest } from "next/server";
 import { validateAndNominate } from "./validate-and-nominate";
 
 export async function POST(request: NextRequest) {
-  const { nominated_user_address } = await request.json();
+  const { nominated_user_address } = (await request.json()) as {
+    nominated_user_address: string;
+  };
   const user = await getSession();
 
   if (!user) {
