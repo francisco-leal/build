@@ -68,11 +68,11 @@ export const Section1 = () => (
           variant="solid"
           color="neutral"
           component={Link}
-          href="https://zora.co/collect/base:0x91ce2a53e54c79845e391ae81dd6c9b669e9164d/1"
           target="_blank"
           underline="none"
+          href="https://base.party.app/party/0x04483a3F6435bB96c9dcD3C1eDAF4482f7367bA5"
         >
-          Mint Builders Manifesto
+          Join Party
         </Button>
       </Stack>
     </Stack>
