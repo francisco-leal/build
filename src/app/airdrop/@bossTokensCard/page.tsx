@@ -1,9 +1,8 @@
-import { wait } from "@/shared/utils/wait";
 import { BossTokensCardComponent } from "./component";
+import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
 
 export default async function BossTokensCard() {
-  // TODO: Implement back end logic here :D
-  await wait(1700);
-
-  return <BossTokensCardComponent tokens={12.241} />;
+  const userStats = await getCurrentUserAppStats();
+  const tokens = userStats.boss_token_balance;
+  return <BossTokensCardComponent tokens={tokens} />;
 }

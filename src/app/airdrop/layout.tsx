@@ -8,12 +8,18 @@ import {
   Typography,
   tabClasses,
   tabPanelClasses,
+  Link,
 } from "@mui/joy";
 import { Header } from "@/shared/components/header";
 import { Footer } from "@/shared/components/footer";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
+import { usePathname, useSearchParams } from "next/navigation";
+
+
+type Tab = "nominations" | "stats";
+
 
 export default function AirdropPageLayout({
   bossPointsCard,
@@ -41,7 +47,7 @@ export default function AirdropPageLayout({
       <Header />
       <Tabs
         component={"main"}
-        defaultValue={0}
+        value={val}
         sx={{
           p: 0,
           mt: 1,
@@ -73,7 +79,7 @@ export default function AirdropPageLayout({
           <Tab variant="plain">My Stats</Tab>
         </TabList>
 
-        <TabPanel value={0} component={Stack}>
+        <TabPanel value={"nominations"} component={Stack}>
           <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
           <HeroSection
             sx={{
