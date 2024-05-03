@@ -42,7 +42,10 @@ export default async function BossPoints() {
     .in("user_id", userIds)
     .throwOnError();
 
-  const userStatsMap = makeMap(userStats ?? [], (u) => u.user_id?.toString() ?? "");
+  const userStatsMap = makeMap(
+    userStats ?? [],
+    (u) => u.user_id?.toString() ?? "",
+  );
   const userDataMap = makeMap(usersData ?? [], (u) => u.id.toString());
 
   const prettyData = leaderboard.map((entry): LeadearboardTableValue => {
