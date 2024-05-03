@@ -4,7 +4,7 @@ import { createProfile } from "@/app/api/profile/create";
 // TODO: maybe this can be improved somehow
 export async function validateAndNominate(
   user_nominator: { userId: number },
-  nominated_user_address: string,
+  nominated_user_address: string
 ) {
   // find user and limits
   const [
@@ -13,7 +13,7 @@ export async function validateAndNominate(
   ] = await Promise.all([
     supabase
       .from("app_user")
-      .select("*")
+      .select("id")
       .eq("wallet_address", nominated_user_address),
     supabase
       .from("app_user")
@@ -81,7 +81,12 @@ export async function validateAndNominate(
     return { error: "user has reached the daily nomination limit", data: null };
   }
 
-  if (user_nominated_user && user_nominated_user.length > 0) {
+  if (
+    (user_nominated_user && user_nominated_user.length > 0) ||
+    user_daily_nominated_users.filter(
+      (n) => n.user_id_nominated === nominated_user[0].id
+    ).length > 0
+  ) {
     return { error: "can not nominate same user twice", data: null };
   }
 
