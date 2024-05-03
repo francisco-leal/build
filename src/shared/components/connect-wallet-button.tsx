@@ -23,7 +23,7 @@ export const ConnectWalletButton = ({
         {...props}
         sx={{
           "& > w3m-button": {
-            height: 40,
+            height: 38,
             display: "flex",
             alignItems: "center",
             // colors for the button before loggin
