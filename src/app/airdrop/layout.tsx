@@ -1,27 +1,11 @@
-"use client";
-import {
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  Tabs,
-  Typography,
-  tabClasses,
-  tabPanelClasses,
-  Link,
-} from "@mui/joy";
-import { Header } from "@/shared/components/header";
-import { Footer } from "@/shared/components/footer";
+import { Stack, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
-import { usePathname, useSearchParams } from "next/navigation";
+import { isUserConnected } from "../_api/get-app-user-stats";
+import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 
-
-type Tab = "nominations" | "stats";
-
-
-export default function AirdropPageLayout({
+export default async function AirdropPageLayout({
   bossPointsCard,
   bossTokensCard,
   builderScoreCard,
@@ -42,94 +26,79 @@ export default function AirdropPageLayout({
   myNominationsTable: React.ReactNode;
   nominateBuilder: React.ReactNode;
 }) {
+  const isConnected = await isUserConnected();
+
+  if (!isConnected) {
+    return (
+      <Stack component="main">
+        <HeroSectionSlim>
+          <Typography level="h1">Becoming a BOSS is one click away</Typography>
+          <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
+            Connect your wallet to start nominating builders and earning $BOSS.
+          </Typography>
+          <ConnectWalletButton sx={{ my: 2 }} />
+        </HeroSectionSlim>
+        <HeroSection>{howToPlay}</HeroSection>
+      </Stack>
+    );
+  }
+
   return (
-    <>
-      <Header />
-      <Tabs
-        component={"main"}
-        value={val}
-        sx={{
-          p: 0,
-          mt: 1,
-          backgroundColor: "transparent",
-          "--Tab-indicatorThickness": "1px",
+    <Tabs component={"main"} defaultValue={0}>
+      <TabList sx={{ justifyContent: "center" }}>
+        <Tab variant="plain">My Nominations</Tab>
+        <Tab variant="plain">My Stats</Tab>
+      </TabList>
 
-          [`& .${tabClasses.root}`]: {
-            color: "common.white",
-            backgroundColor: "transparent",
-            "&::after": {
-              color: "common.white",
-            },
-            [`&:not(.${tabClasses.selected}, [aria-selected="true"]):hover`]: {
-              color: "primary.700",
-              backgroundColor: "transparent",
-            },
-            [`&.${tabClasses.selected}`]: {
-              color: "primary.700",
-              backgroundColor: "transparent",
-            },
-          },
-          [`& .${tabPanelClasses.root}`]: {
-            p: 0,
-          },
-        }}
-      >
-        <TabList sx={{ justifyContent: "center" }}>
-          <Tab variant="plain">My Nominations</Tab>
-          <Tab variant="plain">My Stats</Tab>
-        </TabList>
-
-        <TabPanel value={"nominations"} component={Stack}>
-          <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
-          <HeroSection
-            sx={{
-              flexDirection: { xs: "column", md: "row" },
-              "& > *": { height: 240, width: "100%" },
-              gap: 3,
-            }}
+      <TabPanel value={0} component={Stack}>
+        <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
+        <HeroSection
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+            "& > *": { height: 240, width: "100%" },
+            gap: 3,
+          }}
+        >
+          {dailyBudgetCard}
+          {dailyStreakCard}
+        </HeroSection>
+        <HeroSectionWithOverflow>
+          <Typography
+            level="h2"
+            className="no-overflow"
+            textColor={"common.white"}
           >
-            {dailyBudgetCard}
-            {dailyStreakCard}
-          </HeroSection>
-          <HeroSectionWithOverflow>
-            <Typography
-              level="h2"
-              className="no-overflow"
-              textColor={"common.white"}
-            >
-              My Nominations
-            </Typography>
-            <Stack className="overflow">{myNominationsTable}</Stack>
-          </HeroSectionWithOverflow>
-          <HeroSection>{howToPlay}</HeroSection>
-        </TabPanel>
+            My Nominations
+          </Typography>
+          <Stack className="overflow">{myNominationsTable}</Stack>
+        </HeroSectionWithOverflow>
+        <HeroSection>{howToPlay}</HeroSection>
+      </TabPanel>
 
-        <TabPanel value={1} component={Stack}>
-          <HeroSection
-            sx={{
-              flexDirection: { xs: "column", md: "row" },
-              "& > *": { minHeight: 240, width: "100%" },
-              gap: 3,
-            }}
+      <TabPanel value={1} component={Stack}>
+        <HeroSection
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+            "& > *": { minHeight: 240, width: "100%" },
+            gap: 3,
+          }}
+        >
+          {bossPointsCard}
+          {bossTokensCard}
+          {builderScoreCard}
+        </HeroSection>
+        <HeroSectionWithOverflow>
+          <Typography
+            level="h2"
+            className="no-overflow"
+            textColor={"common.white"}
           >
-            {bossPointsCard}
-            {bossTokensCard}
-            {builderScoreCard}
-          </HeroSection>
-          <HeroSectionWithOverflow>
-            <Typography
-              level="h2"
-              className="no-overflow"
-              textColor={"common.white"}
-            >
-              Leadearboard
-            </Typography>
-            <Stack className="overflow">{leaderboardTable}</Stack>
-          </HeroSectionWithOverflow>
-          <HeroSection>{howToPlay}</HeroSection>
-        </TabPanel>
-      </Tabs>
-      <Footer />
-    </>
+            Leadearboard
+          </Typography>
+          <Stack className="overflow">{leaderboardTable}</Stack>
+        </HeroSectionWithOverflow>
+        <HeroSection>{howToPlay}</HeroSection>
+      </TabPanel>
+    </Tabs>
   );
 }

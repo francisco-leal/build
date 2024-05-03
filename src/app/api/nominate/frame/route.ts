@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   const { data: nominated_result, error } = await validateAndNominate(
     { userId: user.id },
-    nominated_user_address
+    nominated_user_address,
   );
 
   if (error || !nominated_result || nominated_result.length === 0) {
