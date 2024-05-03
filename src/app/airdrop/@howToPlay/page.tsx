@@ -1,23 +1,10 @@
 import { Typography, Stack } from "@mui/joy";
 import { FingerNominate, Coin, DroneCameraAirdrop } from "@/shared/icons";
 
-export const Section4 = () => {
+export default function HowToPlay() {
   return (
-    <Stack
-      component="section"
-      sx={{
-        maxWidth: { xs: "md", md: "lg" },
-        px: { xs: 2, sm: 8 },
-        pt: { xs: 6, sm: 10 },
-        pb: 10,
-        mx: "auto",
-        textAlign: "center",
-        gap: 5,
-      }}
-    >
-      <Typography
-        sx={{ color: "common.white", fontSize: "40px", fontWeight: "bold" }}
-      >
+    <>
+      <Typography sx={{ color: "common.white", fontSize: "40px", fontWeight: "bold" }}>
         How to play the BOSS game?
       </Typography>
 
@@ -115,6 +102,6 @@ export const Section4 = () => {
           </Stack>
         </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 };
