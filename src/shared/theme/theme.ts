@@ -5,11 +5,13 @@ import { inputClasses } from "@mui/joy";
 
 const colors = {
   bossBlue: "#0142F5",
+  bossMint: "#51D7D0",
   white: "#FBFCFE",
   lighterBlue: "#97C3F0",
   lightBlue: "#CDD7E1",
   black: "#0B0D0E",
   lighterGray: "rgba(99, 107, 116, 0.30)",
+  lightGray: "rgba(251, 252, 254, 0.30);",
   grey: "#636B74",
   divider: "rgba(255, 255, 255, 0.30)",
 };
@@ -22,12 +24,14 @@ export const theme = extendTheme({
           200: colors.lighterBlue,
           300: colors.lightBlue,
           500: colors.bossBlue,
+          700: colors.bossMint,
           outlinedColor: colors.white,
           outlinedHoverBg: "#1A54F6",
-          solidHoverBg: "#51D7D0",
+          solidHoverBg: colors.bossMint,
         },
         neutral: {
           200: colors.lighterGray,
+          300: colors.lightGray,
           500: colors.grey,
           solidColor: colors.bossBlue,
           solidBg: colors.white,

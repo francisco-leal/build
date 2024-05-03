@@ -1,18 +1,29 @@
 "use client";
-import { Box, Drawer, IconButton, Link, Stack, Typography } from "@mui/joy";
+import {
+  Box,
+  Drawer,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+  linkClasses,
+} from "@mui/joy";
 import { Cross, Hamburger, LogoLong, LogoShort } from "../icons";
-import { useRef } from "react";
+import { FunctionComponent, useRef } from "react";
 import { useDisclose } from "../hooks/use-disclose";
 import { ConnectWalletButton } from "./connect-wallet-button";
+import { usePathname } from "next/navigation";
 
 const MOBILE_BREAKPOINT = "md" as const;
 const MOBILE_ONLY = { xs: "block", [MOBILE_BREAKPOINT]: "none" } as const;
 const DESKTOP_ONLY = { xs: "none", [MOBILE_BREAKPOINT]: "flex" } as const;
 
-export const Header = () => {
-  // UI
+export const Header: FunctionComponent = () => {
+  const pathname = usePathname();
   const drawer = useDisclose();
   const headerRef = useRef<HTMLDivElement>(null);
+  const activePath = pathname.split("/")[1];
+  const getActivePathClass = (path: string) => activePath === path;
 
   // FIXME this could lead to leaky styles if the header size becomes dynamic.
   const headerHeight = headerRef.current?.clientHeight ?? 0;
@@ -22,7 +33,7 @@ export const Header = () => {
     <Box
       ref={headerRef}
       component="header"
-      sx={{ py: 2, borderBottom: 1, borderColor: "common.white" }}
+      sx={{ py: 1, borderBottom: 1, borderColor: "neutral.300" }}
     >
       <Stack
         direction="row"
@@ -44,14 +55,22 @@ export const Header = () => {
           gap={2}
           justifyContent={"center"}
           display={DESKTOP_ONLY}
+          sx={{
+            "& a": {
+              color: "common.white",
+            },
+            [`& a.${linkClasses.disabled}`]: {
+              color: "primary.700",
+            },
+          }}
         >
-          <Link sx={{ color: "common.white" }} href="/memo">
+          <Link disabled={activePath === "memo"} href="/memo">
             Memo
           </Link>
-          <Link sx={{ color: "common.white" }} href="/airdrop">
+          <Link disabled={activePath === "airdrop"} href="/airdrop">
             Airdrop
           </Link>
-          <Link sx={{ color: "common.white" }} href="/bossnomics">
+          <Link disabled={activePath === "bossnomics"} href="/bossnomics">
             Bossnomics
           </Link>
         </Stack>
@@ -73,8 +92,8 @@ export const Header = () => {
               display: MOBILE_ONLY,
               "& svg": {
                 color: "common.white",
-                width: "40px",
-                height: "40px",
+                width: "36px",
+                height: "36px",
               },
               ":hover": {
                 background: "transparent",
