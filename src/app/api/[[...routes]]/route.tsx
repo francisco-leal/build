@@ -25,7 +25,7 @@ app.use(
   neynar({
     apiKey: process.env.NEXT_PUBLIC_NEYNAR_API!,
     features: ["interactor"],
-  }),
+  })
 );
 
 app.frame("/nominate/:address", async (c) => {
@@ -97,16 +97,18 @@ app.frame("/confirm/:address", async (c) => {
     previousButtonValues &&
     previousButtonValues[0] === "confirm"
   ) {
-    if (verified) {
+    // in dev mode, it is not updated!
+    if (verified || process.env.NODE_ENV === "development") {
       const r = await fetch(origin + "/api/nominate/frame", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // TODO: add api key
+          "x-api-key": process.env.FRAME_API_SECRET!,
         },
+        // use checksumed addresses
         body: JSON.stringify({
-          nominated_user_address: userAddress,
-          from_user_address: fromAddress,
+          nominated_user_address: getAddress(userAddress),
+          from_user_address: getAddress(fromAddress),
         }),
       });
       if (r.status === 200) {
@@ -169,7 +171,7 @@ app.frame("/confirm/:address", async (c) => {
   }
 
   const r = await fetch(
-    origin + "/api/profile?wallet_address=" + getAddress(fromAddress),
+    origin + "/api/profile?wallet_address=" + getAddress(fromAddress)
   );
 
   if (r.status === 404) {

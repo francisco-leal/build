@@ -3,6 +3,11 @@ import { validateAndNominate } from "../validate-and-nominate";
 import { supabase } from "@/db";
 
 export async function POST(request: NextRequest) {
+  const authKey = request.headers.get("x-api-key");
+  if (authKey !== process.env.FRAME_API_SECRET) {
+    return Response.json({ error: "Unauthorized!" }, { status: 401 });
+  }
+
   const { nominated_user_address, from_user_address } =
     (await request.json()) as {
       nominated_user_address: string;
@@ -21,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   const { data: nominated_result, error } = await validateAndNominate(
     { userId: user.id },
-    nominated_user_address,
+    nominated_user_address
   );
 
   if (error || !nominated_result || nominated_result.length === 0) {
