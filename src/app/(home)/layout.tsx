@@ -1,5 +1,3 @@
-import { Header } from "@/shared/components/header";
-import { Footer } from "@/shared/components/footer";
 import { Button, Link, Stack, Typography } from "@mui/joy";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import {
@@ -10,11 +8,11 @@ import {
   UserManLove,
   UserShield,
 } from "@/shared/icons";
-import { SearchNomination } from "@/shared/components/search-nominations";
 import { HeroSection } from "@/shared/components/hero-section";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { DateTime } from "luxon";
+import { SearchNominations } from "../_components/@searchNominations";
 
 export default function HomePageLayout({
   leaderboardTable,
@@ -48,7 +46,7 @@ export default function HomePageLayout({
           on May 8th.
         </Typography>
 
-        <SearchNomination
+        <SearchNominations
           sx={{
             mt: 1,
             alignItems: "center",

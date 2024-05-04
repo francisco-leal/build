@@ -1,4 +1,5 @@
-import { SearchNomination } from "@/shared/components/search-nominations";
+
+import { SearchNominations } from "@/app/_components/@searchNominations";
 import { Typography } from "@mui/joy";
 
 export default function NominateBuilder() {
@@ -11,7 +12,7 @@ export default function NominateBuilder() {
         $BOSS. Search their name or share your custom link.
       </Typography>
 
-      <SearchNomination
+      <SearchNominations
         sx={{
           alignItems: "center",
           width: "100%",

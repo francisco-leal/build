@@ -2,11 +2,11 @@ import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { makeMap } from "@/shared/utils/make-map";
 import {
-  LeadearboardTableComponent,
-  LeadearboardTableValue,
+  LeaderboardTable,
+  LeaderboardTableValue,
 } from "./component";
 
-export default async function BossPoints() {
+export default async function Leadearboard() {
   const user = await getSession();
 
   const { data: leaderboardData } = await supabase
@@ -48,7 +48,7 @@ export default async function BossPoints() {
   );
   const userDataMap = makeMap(usersData ?? [], (u) => u.id.toString());
 
-  const prettyData = leaderboard.map((entry): LeadearboardTableValue => {
+  const prettyData = leaderboard.map((entry): LeaderboardTableValue => {
     const sId = entry.user_id?.toString() ?? "";
     const userData = userDataMap[sId];
     const stats = userStatsMap[sId];
@@ -63,5 +63,5 @@ export default async function BossPoints() {
     };
   });
 
-  return <LeadearboardTableComponent values={prettyData} />;
+  return <LeaderboardTable values={prettyData} />;
 }

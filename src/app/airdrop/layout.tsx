@@ -93,7 +93,7 @@ export default async function AirdropPageLayout({
             className="no-overflow"
             textColor={"common.white"}
           >
-            Leadearboard
+            Leaderboard
           </Typography>
           <Stack className="overflow">{leaderboardTable}</Stack>
         </HeroSectionWithOverflow>

@@ -28,7 +28,14 @@ import { useQuery } from "@tanstack/react-query";
 
 import { FunctionComponent, useState } from "react";
 
-export type SearchNominationProps = StackProps;
+export type SearchNominationComponentProps = {
+  shareLink?: string;
+  date?: string;
+  dailyBudget?: string;
+  bossPointsSent?: string;
+  bossPointsEarned?: string;
+  totalBossPoints?: string;
+} & StackProps;
 
 export type SearchResponseUser = {
   address: string;
@@ -37,9 +44,15 @@ export type SearchResponseUser = {
   username: string;
 };
 
-export const SearchNomination: FunctionComponent<SearchNominationProps> = (
-  props,
-) => {
+export const SearchNominationsComponent: FunctionComponent<SearchNominationComponentProps> = ({
+  shareLink,
+  date,
+  dailyBudget,
+  bossPointsEarned,
+  bossPointsSent,
+  totalBossPoints,
+  ...props
+}) => {
   const [selectedUser, setSelectedUser] = useState<SearchResponseUser>();
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -112,13 +125,18 @@ export const SearchNomination: FunctionComponent<SearchNominationProps> = (
                   Or
                 </Typography>
               </Divider>
-
-              <Link
-                href="#"
-                sx={{ color: "common.white", textDecoration: "underline" }}
-              >
-                Share your nomination link
-              </Link>
+              {shareLink ? (
+                <Link
+                  href={shareLink}
+                  sx={{ color: "common.white", textDecoration: "underline" }}
+                >
+                  Share your nomination link
+                </Link>
+              ) : (
+                <Typography level="body-lg" sx={{ color: "common.white" }}>
+                  Connect your wallet to share your nomination link
+                </Typography>
+              )}
             </>
           );
         }
@@ -206,16 +224,33 @@ export const SearchNomination: FunctionComponent<SearchNominationProps> = (
         return (
           <Sheet
             variant="solid"
-            sx={{ flex: 1, width: "100%", mt: 2, overflowY: "auto" }}
+            sx={{ flex: 1, width: "100%", mt: 2, overflowY: "auto", color: "neutral.500" }}
           >
             <List sx={{}}>
               {searchQuery.data.map((user) => (
                 <ListItem
                   key={user.address}
-                  sx={{ justifyContent: "space-between" }}
+                  sx={{ width: "100%" }}
                 >
                   <Avatar src={user.address} alt={user.username} />
-                  <Typography>{user.username}</Typography>
+                  <Stack sx={{
+                    alignItems: "flex-start",
+                    flexGrow: 1,
+                    minWidth: 0,
+                  }}>
+                    <Typography>{user.username}</Typography>
+                    <Typography
+                      level="body-sm"
+                      sx={{
+                        textAlign: "left",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        width: "100%",
+                      }}
+                    >
+                      {user.address}
+                    </Typography>
+                  </Stack>
                   <Button
                     variant="solid"
                     sx={{ height: "auto" }}
@@ -229,7 +264,7 @@ export const SearchNomination: FunctionComponent<SearchNominationProps> = (
           </Sheet>
         );
       })()}
-
+    
       <Modal
         open={modal.isOpen}
         onClose={() => modal.close()}
@@ -240,105 +275,68 @@ export const SearchNomination: FunctionComponent<SearchNominationProps> = (
         }}
       >
         <ModalOverflow>
-          <ModalDialog layout={isMediumScreen ? "center" : "fullscreen"}>
-            <Sheet
-              variant="plain"
-              sx={{
-                borderRadius: 0,
-                display: "flex",
-                flexDirection: "column",
-                width: { sx: "100%", md: "600px" },
-                p: 3,
-                gap: 3,
-              }}
-            >
+          <ModalDialog 
+            variant="solid"
+            sx={{ width: "100%", maxWidth: "sm", color: "neutral.500" }}
+            layout={isMediumScreen ? "center" : "fullscreen"} 
+          >
               <ModalClose variant="plain" sx={{ m: 1 }} />
 
               <Typography level="h4">Confirm Nomination</Typography>
-
+              
               <Stack sx={{ alignItems: "center" }}>
-                <Typography>{selectedUser?.username}</Typography>
+                <Avatar 
+                  sx={{ width: "48px", height: "48px", mb: 1 }}
+                  src={selectedUser?.profile_image} 
+                  alt={selectedUser?.username} 
+                />
+                <Typography level="title-lg" textColor="common.black">{selectedUser?.username}</Typography>
+                <Typography level="body-sm">{selectedUser?.address}</Typography>
               </Stack>
 
-              <Stack sx={{ gap: 2, width: "100%" }}>
-                <Box
-                  sx={{
-                    backgroundColor: "common.black",
-                    opacity: "0.3",
-                    height: "1px",
-                    width: "100%",
-                  }}
-                />
+              <Stack sx={{ gap: 1.5, width: "100%", my: 3 }}>
+                <Divider sx={{ backgroundColor: "neutral.400" }} />
 
-                <Stack
-                  sx={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                <Stack direction="row">
+                  <Typography level="body-sm">
                     Date
                   </Typography>
-                  <Typography sx={{ fontSize: "14px" }}>May 09</Typography>
+                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
+                  <Typography level="body-sm" textColor="common.black">{date ?? "--"}</Typography>
                 </Stack>
 
-                <Stack
-                  sx={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                <Stack direction="row">
+                  <Typography level="body-sm">
                     My Daily Budget
                   </Typography>
-                  <Typography sx={{ fontSize: "14px" }}>100</Typography>
+                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
+                  <Typography level="body-sm" textColor="common.black">{dailyBudget ?? "--"}</Typography>
                 </Stack>
 
-                <Stack
-                  sx={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                <Stack direction="row">
+                  <Typography level="body-sm">
                     BOSS Points Sent
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px" }}>90</Typography>
+                    </Typography>
+                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
+                  <Typography level="body-sm" textColor="common.black">{bossPointsSent ?? "--"}</Typography>
                 </Stack>
 
-                <Stack
-                  sx={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                <Stack direction="row">
+                  <Typography level="body-sm">
                     BOSS Points Earned
                   </Typography>
-                  <Typography sx={{ fontSize: "14px" }}>10</Typography>
+                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
+                  <Typography level="body-sm" textColor="common.black">{bossPointsEarned ?? "--"}</Typography>
                 </Stack>
 
-                <Box
-                  sx={{
-                    backgroundColor: "common.black",
-                    opacity: "0.3",
-                    height: "1px",
-                    width: "100%",
-                  }}
-                />
+                <Divider sx={{ backgroundColor: "neutral.400" }} />
 
-                <Stack
-                  sx={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography sx={{ fontSize: "14px", color: "neutral.500" }}>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography level="body-sm">
                     My BOSS Points
                   </Typography>
-                  <Typography sx={{ fontSize: "16px", fontWeight: "600" }}>
-                    1.150
-                  </Typography>
+                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
+                  <Typography level="title-md" textColor="common.black">{totalBossPoints ?? "--"}</Typography>
                 </Stack>
               </Stack>
 
@@ -355,7 +353,6 @@ export const SearchNomination: FunctionComponent<SearchNominationProps> = (
                 </Button>
                 <Button variant="solid">Connect wallet</Button>
               </Stack>
-            </Sheet>
           </ModalDialog>
         </ModalOverflow>
       </Modal>
