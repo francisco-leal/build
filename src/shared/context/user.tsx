@@ -22,11 +22,13 @@ export interface User {
 interface UserContextType {
   user: User | null;
   authUser: () => Promise<boolean>;
+  logout: () => Promise<boolean>;
 }
 
 export const UserContext = createContext<UserContextType>({
   user: null,
   authUser: async () => false,
+  logout: async () => false,
 });
 
 // Context provider component
@@ -101,8 +103,22 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
     return true;
   };
 
+  const logout = async () => {
+    const res = await fetch("/api/profile", {
+      method: "DELETE",
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      return false;
+    }
+
+    setUser(null);
+    return true;
+  };
+
   return (
-    <UserContext.Provider value={{ user, authUser }}>
+    <UserContext.Provider value={{ user, authUser, logout }}>
       {children}
     </UserContext.Provider>
   );

@@ -1,18 +1,21 @@
 "use client";
 
 import { UserContext } from "@/shared/context/user";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
 
 export const Web3Auth = () => {
-  const { user, authUser } = useContext(UserContext);
-  const { address } = useAccount();
+  const { user, authUser, logout } = useContext(UserContext);
+  const { address, isDisconnected } = useAccount();
+  const adressRef = useRef<`0x${string}` | null>();
 
   useEffect(() => {
-    if (address && !user) {
-      authUser();
-    }
-  }, [address]);
+    if (adressRef.current === address) return;
+
+    adressRef.current = address;
+    if (address && !user) authUser();
+    if (isDisconnected && user) logout();
+  });
 
   return null;
 };

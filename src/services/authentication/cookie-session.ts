@@ -40,3 +40,7 @@ export async function setSession(user: User): Promise<void> {
     path: "/",
   });
 }
+
+export async function clearSession(): Promise<void> {
+  cookies().delete("auth_session");
+}
