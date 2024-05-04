@@ -15,7 +15,7 @@ export const Web3Auth = () => {
     adressRef.current = address;
     if (address && !user) authUser();
     if (isDisconnected && user) logout();
-  }, [address]);
+  });
 
   return null;
 };
