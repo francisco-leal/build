@@ -1,2 +1,2 @@
-import { LeadearboardPage } from "@/app/_components/@leadearboard";
-export default LeadearboardPage;
+import { Leaderboard } from "@/app/_components/@leaderboard";
+export default Leaderboard;

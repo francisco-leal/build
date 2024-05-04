@@ -1,2 +1,2 @@
-import { LeadearboardLoading } from "@/app/_components/@leadearboard";
-export default LeadearboardLoading;
+import { LeaderboardLoading } from "@/app/_components/@leaderboard";
+export default LeaderboardLoading;

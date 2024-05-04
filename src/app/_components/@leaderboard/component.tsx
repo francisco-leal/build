@@ -1,7 +1,7 @@
 import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { FunctionComponent } from "react";
 
-export type LeadearboardTableValue = {
+export type LeaderboardTableValue = {
   id: string;
   rank: string;
   name: string;
@@ -10,13 +10,13 @@ export type LeadearboardTableValue = {
   highlight: boolean;
 };
 
-export type LeadearboardTableProps = {
-  values?: LeadearboardTableValue[];
+export type LeaderboardTableProps = {
+  values?: LeaderboardTableValue[];
   loading?: boolean;
 } & SheetProps;
 
-export const LeadearboardTableComponent: FunctionComponent<
-  LeadearboardTableProps
+export const LeaderboardTable: FunctionComponent<
+  LeaderboardTableProps
 > = ({ values = [], loading, variant = "outlined", ...props }) => (
   <Sheet {...props} variant={variant} sx={props.sx}>
     <Table>

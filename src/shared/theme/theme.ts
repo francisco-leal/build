@@ -10,8 +10,9 @@ const colors = {
   lighterBlue: "#97C3F0",
   lightBlue: "#CDD7E1",
   black: "#0B0D0E",
-  lighterGray: "rgba(99, 107, 116, 0.30)",
-  lightGray: "rgba(251, 252, 254, 0.30);",
+  lighterGrey: "rgba(99, 107, 116, 0.30)",
+  lightGrey: "rgba(251, 252, 254, 0.30)",
+  mehGrey: "rgba(99, 107, 116, 0.3)",
   grey: "#636B74",
   divider: "rgba(255, 255, 255, 0.30)",
 };
@@ -30,8 +31,9 @@ export const theme = extendTheme({
           solidHoverBg: colors.bossMint,
         },
         neutral: {
-          200: colors.lighterGray,
-          300: colors.lightGray,
+          200: colors.lighterGrey,
+          300: colors.lightGrey,
+          400: colors.mehGrey,
           500: colors.grey,
           solidColor: colors.bossBlue,
           solidBg: colors.white,
@@ -44,9 +46,6 @@ export const theme = extendTheme({
         divider: colors.divider,
       },
     },
-  },
-  shadow: {
-    md: "12px 12px 0px 0px #0B0D0E",
   },
   fontFamily: {
     display: "Bricolage Grotesque, sans-serif",
@@ -133,6 +132,17 @@ export const theme = extendTheme({
         }),
       },
     },
+    JoyModalDialog: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.vars.palette.common.white,
+          borderRadius: 0,
+          border: "1px solid",
+          borderColor: theme.vars.palette.neutral[300],
+          padding: theme.spacing(3),
+        }),
+      },
+    },
     JoySheet: {
       styleOverrides: {
         root: ({ ownerState, theme }) => ({
@@ -163,7 +173,7 @@ export const theme = extendTheme({
     },
     JoyTabs: {
       styleOverrides: {
-        root: ({ theme }) => ({
+        root: ({ theme  }) => ({
           padding: 0,
           marginTop: 1,
           backgroundColor: "transparent",
