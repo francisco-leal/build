@@ -6,6 +6,7 @@ export type LeaderboardTableValue = {
   rank: string;
   name: string;
   builderScore: number;
+  bossScore: number;
   nominationsReceived: number;
   highlight: boolean;
 };
@@ -34,10 +35,10 @@ export const LeaderboardTableComponent: FunctionComponent<
           values.map((val) => (
             <tr key={val.id} className={val.highlight ? "blue" : ""}>
               <td>{val.rank}</td>
-              <td>{val.name ?? "Missed"}</td>
-              <td>{val.builderScore ?? "Missed"}</td>
+              <td>{val.name}</td>
+              <td>{val.builderScore}</td>
+              <td>{val.bossScore}</td>
               <td>{val.nominationsReceived ?? "Missed"}</td>
-              <td>{val.highlight}</td>
             </tr>
           ))}
         {loading &&

@@ -1,7 +1,7 @@
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
-import { makeMap } from "@/shared/utils/make-map";
 import { LeaderboardTableComponent, LeaderboardTableValue } from "./component";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 
 export default async function LeaderboardTable() {
   const user = await getSession();
@@ -13,52 +13,32 @@ export default async function LeaderboardTable() {
     .limit(10)
     .throwOnError();
 
-  const { data: currentUserData } = user
-    ? await supabase
-        .from("app_leaderboard_current")
-        .select("*")
-        .eq("user_id", user.userId)
-        .single()
-    : { data: null };
+  const leaderboard = leaderboardData ?? [];
+  const currentUserId = user?.userId;
+  const containsUser = leaderboard.some((l) => l.user_id === currentUserId);
 
-  const leaderboard = [
-    ...new Set([...(leaderboardData ?? []), currentUserData].filter(Boolean)),
-  ];
+  if (!containsUser && currentUserId) {
+    const { data: currentUserData } = await supabase
+      .from("app_leaderboard_current")
+      .select("*")
+      .eq("user_id", currentUserId)
+      .single();
+    if (currentUserData) leaderboard.push(currentUserData);
+  }
 
-  const userIds = leaderboard.map((p) => p.user_id);
-
-  const { data: usersData } = await supabase
-    .from("app_user")
-    .select("id, wallet_address, username")
-    .in("id", userIds)
-    .throwOnError();
-
-  const { data: userStats } = await supabase
-    .from("app_user_stats")
-    .select("user_id, boss_score, nominations, builder_score")
-    .in("user_id", userIds)
-    .throwOnError();
-
-  const userStatsMap = makeMap(
-    userStats ?? [],
-    (u) => u.user_id?.toString() ?? "",
-  );
-  const userDataMap = makeMap(usersData ?? [], (u) => u.id.toString());
-
-  const prettyData = leaderboard.map((entry): LeaderboardTableValue => {
-    const sId = entry.user_id?.toString() ?? "";
-    const userData = userDataMap[sId];
-    const stats = userStatsMap[sId];
-
+  const values = leaderboard.map((entry): LeaderboardTableValue => {
     return {
-      id: entry.user_id?.toString() ?? "123",
-      name: userData.username ?? "",
+      id:
+        entry.user_id?.toString() ??
+        abbreviateWalletAddress(entry.wallet_address ?? ""),
+      name: entry.username ?? "",
       highlight: entry.user_id === user?.userId,
-      builderScore: stats?.builder_score ?? 0,
-      nominationsReceived: stats?.nominations ?? 0,
+      builderScore: entry?.builder_score ?? 0,
+      bossScore: entry?.boss_points ?? 0,
+      nominationsReceived: entry?.nominations ?? 0,
       rank: entry.rank?.toString() ?? "0",
     };
   });
 
-  return <LeaderboardTableComponent values={prettyData} />;
+  return <LeaderboardTableComponent values={values} />;
 }

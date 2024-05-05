@@ -15,3 +15,4 @@ export { EyeDailyBudget } from "./eye-daily-budget";
 export { FireNominationStreak } from "./fire-nomination-streak";
 export { FingerNominate } from "./finger-nominate";
 export { DroneCameraAirdrop } from "./drone-camera-airdrop";
+export { ExternalLink } from "./external-link";

@@ -1,6 +1,5 @@
-import { Typography, Stack } from "@mui/joy";
+import { Typography, Stack, Sheet, Table } from "@mui/joy";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
-import { TableGrants } from "@/shared/components/table-grants";
 
 const grantsData = [
   {
@@ -27,7 +26,26 @@ export const Section3 = () => {
       </Typography>
 
       <Stack className="overflow">
-        <TableGrants values={grantsData} />
+        <Sheet variant="outlined">
+          <Table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Supply %</th>
+              </tr>
+            </thead>
+            <tbody>
+              {grantsData.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.description}</td>
+                  <td>{item.status}</td>
+                  <td>{item.supplyPercentage.toFixed(2)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Sheet>
       </Stack>
     </HeroSectionWithOverflow>
   );

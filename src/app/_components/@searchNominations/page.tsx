@@ -1,6 +1,4 @@
-import {
-  getCurrentUserAppStats,
-} from "@/app/_api/get-app-user-stats";
+import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
 import {
   SearchNominationComponentProps,
   SearchNominationsComponent,

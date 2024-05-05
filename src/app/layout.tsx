@@ -11,6 +11,7 @@ import { Footer } from "@/shared/components/footer";
 import { Header } from "@/shared/components/header";
 
 import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/inter";
 
 export const metadata: Metadata = {
   title: "BOSS",

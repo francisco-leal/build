@@ -16,8 +16,9 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = ({
       alignItems: "center",
       justifyContent: "center",
       textAlign: "center",
+      width: "100%",
       maxWidth: { xs: "md", md: "lg" },
-      px: { xs: 2, md: 4, lg: 8 },
+      px: { xs: 2, md: 3.5 },
       my: { xs: 2, md: 5 },
       ...sx,
     }}
