@@ -70,7 +70,7 @@ export const Section1 = () => (
           component={Link}
           target="_blank"
           underline="none"
-          href="https://base.party.app/party/0x04483a3F6435bB96c9dcD3C1eDAF4482f7367bA5"
+          href="https://opensea.io/collection/boss-121"
         >
           Join Party
         </Button>
