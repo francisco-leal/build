@@ -1,4 +1,3 @@
-
 import { SearchNominations } from "@/app/_components/@searchNominations";
 import { Typography } from "@mui/joy";
 

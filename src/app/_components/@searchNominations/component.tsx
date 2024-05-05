@@ -13,7 +13,6 @@ import {
   Link,
   List,
   ListItem,
-  ListItemButton,
   Modal,
   ModalClose,
   ModalDialog,
@@ -44,7 +43,9 @@ export type SearchResponseUser = {
   username: string;
 };
 
-export const SearchNominationsComponent: FunctionComponent<SearchNominationComponentProps> = ({
+export const SearchNominationsComponent: FunctionComponent<
+  SearchNominationComponentProps
+> = ({
   shareLink,
   date,
   dailyBudget,
@@ -224,20 +225,25 @@ export const SearchNominationsComponent: FunctionComponent<SearchNominationCompo
         return (
           <Sheet
             variant="solid"
-            sx={{ flex: 1, width: "100%", mt: 2, overflowY: "auto", color: "neutral.500" }}
+            sx={{
+              flex: 1,
+              width: "100%",
+              mt: 2,
+              overflowY: "auto",
+              color: "neutral.500",
+            }}
           >
             <List sx={{}}>
               {searchQuery.data.map((user) => (
-                <ListItem
-                  key={user.address}
-                  sx={{ width: "100%" }}
-                >
+                <ListItem key={user.address} sx={{ width: "100%" }}>
                   <Avatar src={user.address} alt={user.username} />
-                  <Stack sx={{
-                    alignItems: "flex-start",
-                    flexGrow: 1,
-                    minWidth: 0,
-                  }}>
+                  <Stack
+                    sx={{
+                      alignItems: "flex-start",
+                      flexGrow: 1,
+                      minWidth: 0,
+                    }}
+                  >
                     <Typography>{user.username}</Typography>
                     <Typography
                       level="body-sm"
@@ -264,7 +270,7 @@ export const SearchNominationsComponent: FunctionComponent<SearchNominationCompo
           </Sheet>
         );
       })()}
-    
+
       <Modal
         open={modal.isOpen}
         onClose={() => modal.close()}
@@ -275,84 +281,99 @@ export const SearchNominationsComponent: FunctionComponent<SearchNominationCompo
         }}
       >
         <ModalOverflow>
-          <ModalDialog 
+          <ModalDialog
             variant="solid"
             sx={{ width: "100%", maxWidth: "sm", color: "neutral.500" }}
-            layout={isMediumScreen ? "center" : "fullscreen"} 
+            layout={isMediumScreen ? "center" : "fullscreen"}
           >
-              <ModalClose variant="plain" sx={{ m: 1 }} />
+            <ModalClose variant="plain" sx={{ m: 1 }} />
 
-              <Typography level="h4">Confirm Nomination</Typography>
-              
-              <Stack sx={{ alignItems: "center" }}>
-                <Avatar 
-                  sx={{ width: "48px", height: "48px", mb: 1 }}
-                  src={selectedUser?.profile_image} 
-                  alt={selectedUser?.username} 
+            <Typography level="h4">Confirm Nomination</Typography>
+
+            <Stack sx={{ alignItems: "center" }}>
+              <Avatar
+                sx={{ width: "48px", height: "48px", mb: 1 }}
+                src={selectedUser?.profile_image}
+                alt={selectedUser?.username}
+              />
+              <Typography level="title-lg" textColor="common.black">
+                {selectedUser?.username}
+              </Typography>
+              <Typography level="body-sm">{selectedUser?.address}</Typography>
+            </Stack>
+
+            <Stack sx={{ gap: 1.5, width: "100%", my: 3 }}>
+              <Divider sx={{ backgroundColor: "neutral.400" }} />
+
+              <Stack direction="row">
+                <Typography level="body-sm">Date</Typography>
+                <LogoShort
+                  sx={{ ml: "auto", mr: 0.5 }}
+                  color={date ? "primary" : "neutral"}
                 />
-                <Typography level="title-lg" textColor="common.black">{selectedUser?.username}</Typography>
-                <Typography level="body-sm">{selectedUser?.address}</Typography>
+                <Typography level="body-sm" textColor="common.black">
+                  {date ?? "--"}
+                </Typography>
               </Stack>
 
-              <Stack sx={{ gap: 1.5, width: "100%", my: 3 }}>
-                <Divider sx={{ backgroundColor: "neutral.400" }} />
-
-                <Stack direction="row">
-                  <Typography level="body-sm">
-                    Date
-                  </Typography>
-                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
-                  <Typography level="body-sm" textColor="common.black">{date ?? "--"}</Typography>
-                </Stack>
-
-                <Stack direction="row">
-                  <Typography level="body-sm">
-                    My Daily Budget
-                  </Typography>
-                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
-                  <Typography level="body-sm" textColor="common.black">{dailyBudget ?? "--"}</Typography>
-                </Stack>
-
-                <Stack direction="row">
-                  <Typography level="body-sm">
-                    BOSS Points Sent
-                    </Typography>
-                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
-                  <Typography level="body-sm" textColor="common.black">{bossPointsSent ?? "--"}</Typography>
-                </Stack>
-
-                <Stack direction="row">
-                  <Typography level="body-sm">
-                    BOSS Points Earned
-                  </Typography>
-                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
-                  <Typography level="body-sm" textColor="common.black">{bossPointsEarned ?? "--"}</Typography>
-                </Stack>
-
-                <Divider sx={{ backgroundColor: "neutral.400" }} />
-
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography level="body-sm">
-                    My BOSS Points
-                  </Typography>
-                  <LogoShort sx={{ ml: "auto", mr: 0.5 }} color={date ? "primary" : "neutral"} />
-                  <Typography level="title-md" textColor="common.black">{totalBossPoints ?? "--"}</Typography>
-                </Stack>
+              <Stack direction="row">
+                <Typography level="body-sm">My Daily Budget</Typography>
+                <LogoShort
+                  sx={{ ml: "auto", mr: 0.5 }}
+                  color={dailyBudget ? "primary" : "neutral"}
+                />
+                <Typography level="body-sm" textColor="common.black">
+                  {dailyBudget ?? "--"}
+                </Typography>
               </Stack>
 
-              <Stack
-                sx={{ flexDirection: "row", justifyContent: "end", gap: 1 }}
+              <Stack direction="row">
+                <Typography level="body-sm">BOSS Points Sent</Typography>
+                <LogoShort
+                  sx={{ ml: "auto", mr: 0.5 }}
+                  color={bossPointsSent ? "primary" : "neutral"}
+                />
+                <Typography level="body-sm" textColor="common.black">
+                  {bossPointsSent ?? "--"}
+                </Typography>
+              </Stack>
+
+              <Stack direction="row">
+                <Typography level="body-sm">BOSS Points Earned</Typography>
+                <LogoShort
+                  sx={{ ml: "auto", mr: 0.5 }}
+                  color={bossPointsEarned ? "primary" : "neutral"}
+                />
+                <Typography level="body-sm" textColor="common.black">
+                  {bossPointsEarned ?? "--"}
+                </Typography>
+              </Stack>
+
+              <Divider sx={{ backgroundColor: "neutral.400" }} />
+
+              <Stack direction="row" justifyContent="space-between">
+                <Typography level="body-sm">My BOSS Points</Typography>
+                <LogoShort
+                  sx={{ ml: "auto", mr: 0.5 }}
+                  color={totalBossPoints ? "primary" : "neutral"}
+                />
+                <Typography level="title-md" textColor="common.black">
+                  {totalBossPoints ?? "--"}
+                </Typography>
+              </Stack>
+            </Stack>
+
+            <Stack sx={{ flexDirection: "row", justifyContent: "end", gap: 1 }}>
+              <Button
+                variant="outlined"
+                color="neutral"
+                onClick={handleCancel}
+                sx={{ color: "neutral.500", borderColor: "neutral.500" }}
               >
-                <Button
-                  variant="outlined"
-                  color="neutral"
-                  onClick={handleCancel}
-                  sx={{ color: "neutral.500", borderColor: "neutral.500" }}
-                >
-                  Cancel
-                </Button>
-                <Button variant="solid">Connect wallet</Button>
-              </Stack>
+                Cancel
+              </Button>
+              <Button variant="solid">Connect wallet</Button>
+            </Stack>
           </ModalDialog>
         </ModalOverflow>
       </Modal>
