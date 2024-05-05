@@ -15,7 +15,7 @@ export type LeaderboardTableProps = {
   loading?: boolean;
 } & SheetProps;
 
-export const LeaderboardTable: FunctionComponent<
+export const LeaderboardTableComponent: FunctionComponent<
   LeaderboardTableProps
 > = ({ values = [], loading, variant = "outlined", ...props }) => (
   <Sheet {...props} variant={variant} sx={props.sx}>
@@ -43,7 +43,7 @@ export const LeaderboardTable: FunctionComponent<
         {loading &&
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
             <tr key={i}>
-              <td colSpan={4}>
+              <td colSpan={5}>
                 <Skeleton variant="text" />
               </td>
             </tr>

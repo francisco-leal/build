@@ -1,2 +1,2 @@
-import { Leaderboard } from "@/app/_components/@leaderboard";
-export default Leaderboard;
+import { LeaderboardTable } from "@/app/_components/@leaderboardTable";
+export default LeaderboardTable;

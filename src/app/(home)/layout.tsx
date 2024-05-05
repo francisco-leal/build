@@ -1,23 +1,17 @@
 import { Button, Link, Stack, Typography } from "@mui/joy";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import {
-  Eye,
-  Interface,
-  MusicHeadeset,
-  Terminal,
-  UserManLove,
-  UserShield,
-} from "@/shared/icons";
+import { Eye, Terminal, UserManLove, UserShield } from "@/shared/icons";
 import { HeroSection } from "@/shared/components/hero-section";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { DateTime } from "luxon";
-import { SearchNominations } from "../_components/@searchNominations";
 
-export default function HomePageLayout({
+export default async function HomePageLayout({
   leaderboardTable,
+  nominateBuilder,
 }: {
   leaderboardTable: React.ReactNode;
+  nominateBuilder: React.ReactNode;
 }) {
   const now = DateTime.utc().startOf("hour");
   const format = "LLL dd, hh:mm a 'UTC'";
@@ -26,35 +20,7 @@ export default function HomePageLayout({
 
   return (
     <Stack component="main">
-      <HeroSectionSlim>
-        <Typography level="h1">
-          Nominate <Interface /> the best
-          <br />
-          builders <MusicHeadeset /> you know.
-        </Typography>
-
-        <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Read the{" "}
-          <Link
-            href="/memo"
-            sx={{ color: "common.white", textDecoration: "underline" }}
-          >
-            memo
-          </Link>
-          : there&apos;s no room for builders in the corporate world! Stand for
-          builders, play the nomination game, and earn $BOSS. Nominations start
-          on May 8th.
-        </Typography>
-
-        <SearchNominations
-          sx={{
-            mt: 1,
-            alignItems: "center",
-            width: "100%",
-            height: 280,
-          }}
-        />
-      </HeroSectionSlim>
+      <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
       <HeroSection sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
         <BlockyCard sx={{ minHeight: 250 }}>
           <Eye />

@@ -173,7 +173,7 @@ export const theme = extendTheme({
     },
     JoyTabs: {
       styleOverrides: {
-        root: ({ theme  }) => ({
+        root: ({ theme }) => ({
           padding: 0,
           marginTop: 1,
           backgroundColor: "transparent",

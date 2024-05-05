@@ -1,12 +1,9 @@
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { makeMap } from "@/shared/utils/make-map";
-import {
-  LeaderboardTable,
-  LeaderboardTableValue,
-} from "./component";
+import { LeaderboardTableComponent, LeaderboardTableValue } from "./component";
 
-export default async function Leadearboard() {
+export default async function LeaderboardTable() {
   const user = await getSession();
 
   const { data: leaderboardData } = await supabase
@@ -63,5 +60,5 @@ export default async function Leadearboard() {
     };
   });
 
-  return <LeaderboardTable values={prettyData} />;
+  return <LeaderboardTableComponent values={prettyData} />;
 }
