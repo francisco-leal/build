@@ -6,11 +6,11 @@ import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { DateTime } from "luxon";
 
-export default function HomePageLayout({
-  LeaderboardTable,
+export default async function HomePageLayout({
+  leaderboardTable,
   nominateBuilder,
 }: {
-  LeaderboardTable: React.ReactNode;
+  leaderboardTable: React.ReactNode;
   nominateBuilder: React.ReactNode;
 }) {
   const now = DateTime.utc().startOf("hour");
@@ -51,7 +51,7 @@ export default function HomePageLayout({
         >
           Leaderboard
         </Typography>
-        <Stack className="overflow">{LeaderboardTable}</Stack>
+        <Stack className="overflow">{leaderboardTable}</Stack>
 
         <Typography
           className="no-overflow"
