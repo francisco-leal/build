@@ -26,9 +26,7 @@ export default async function NominateBuilder({
       nominatedBossUsername={nominatedBuilder.username}
       nominatedBossAddress={nominatedBuilder.address}
       currentUserDailyBudget={currentUser?.boss_budget}
-      currentUserBossPointsSent={currentUser?.boss_budget}
-      currentUserBossPointsEarned={currentUser?.builder_score}
-      currentUserTotalBossPoints={currentUser?.boss_token_balance}
+      currentUserTotalBossPoints={currentUser?.boss_score}
     />
   );
 }

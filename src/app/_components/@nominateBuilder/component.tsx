@@ -14,8 +14,9 @@ import {
   Typography,
   useTheme,
 } from "@mui/joy";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FunctionComponent } from "react";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 
 export type NominateBuilderComponentProps = {
   connected?: boolean;
@@ -25,8 +26,6 @@ export type NominateBuilderComponentProps = {
   nominatedBossUsername?: string;
   nominatedBossAddress?: string;
   currentUserDailyBudget?: number;
-  currentUserBossPointsSent?: number;
-  currentUserBossPointsEarned?: number;
   currentUserTotalBossPoints?: number;
 };
 
@@ -40,8 +39,6 @@ export const NominateBuilderComponent: FunctionComponent<
   nominatedBossUsername: username,
   nominatedBossAddress: address,
   currentUserDailyBudget,
-  currentUserBossPointsSent,
-  currentUserBossPointsEarned,
   currentUserTotalBossPoints,
 }) => {
   const router = useRouter();
@@ -54,6 +51,9 @@ export const NominateBuilderComponent: FunctionComponent<
     if (document.referrer.includes(appUrl)) router.back();
     else window.location.href = "/";
   };
+
+  const currentUserBossPointsSent = (currentUserDailyBudget ?? 0) * 0.9;
+  const currentUserBossPointsEarned = (currentUserDailyBudget ?? 0) * 0.1;
 
   return (
     <Modal open onClose={goBack}>
@@ -76,7 +76,9 @@ export const NominateBuilderComponent: FunctionComponent<
             <Typography level="title-lg" textColor="common.black">
               {username}
             </Typography>
-            <Typography level="body-sm">{address}</Typography>
+            <Typography level="body-sm">
+              {abbreviateWalletAddress(address ?? "")}
+            </Typography>
           </Stack>
 
           <Stack sx={{ gap: 1.5, width: "100%", my: 3 }}>
@@ -84,59 +86,65 @@ export const NominateBuilderComponent: FunctionComponent<
 
             <Stack direction="row">
               <Typography level="body-sm">Date</Typography>
-              <LogoShort
+              <Typography
+                level="body-sm"
+                textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={!isLoading ? "primary" : "neutral"}
-              />
-              <Typography level="body-sm" textColor="common.black">
+              >
                 {date}
               </Typography>
+              <LogoShort color={!isLoading ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row">
               <Typography level="body-sm">My Daily Budget</Typography>
-              <LogoShort
+              <Typography
+                level="body-sm"
+                textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={!isLoading ? "primary" : "neutral"}
-              />
-              <Typography level="body-sm" textColor="common.black">
+              >
                 {currentUserDailyBudget ?? "--"}
               </Typography>
+              <LogoShort color={!isLoading ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row">
               <Typography level="body-sm">BOSS Points Sent</Typography>
-              <LogoShort
+              <Typography
+                level="body-sm"
+                textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={!isLoading ? "primary" : "neutral"}
-              />
-              <Typography level="body-sm" textColor="common.black">
+              >
                 {currentUserBossPointsSent ?? "--"}
               </Typography>
+              <LogoShort color={!isLoading ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row">
               <Typography level="body-sm">BOSS Points Earned</Typography>
-              <LogoShort
+              <Typography
+                level="body-sm"
+                textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={!isLoading ? "primary" : "neutral"}
-              />
-              <Typography level="body-sm" textColor="common.black">
+              >
                 {currentUserBossPointsEarned ?? "--"}
               </Typography>
+              <LogoShort color={!isLoading ? "primary" : "neutral"} />
             </Stack>
 
             <Divider sx={{ backgroundColor: "neutral.400" }} />
 
             <Stack direction="row" justifyContent="space-between">
               <Typography level="body-sm">My BOSS Points</Typography>
-              <LogoShort
+              <Typography
+                level="title-md"
+                textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={!isLoading ? "primary" : "neutral"}
-              />
-              <Typography level="title-md" textColor="common.black">
-                {currentUserTotalBossPoints ?? "--"}
+              >
+                {(currentUserTotalBossPoints ?? 0) +
+                  currentUserBossPointsEarned ?? "--"}
               </Typography>
+              <LogoShort color={!isLoading ? "primary" : "neutral"} />
             </Stack>
           </Stack>
 
