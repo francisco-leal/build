@@ -15,8 +15,13 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "airdrop/nominate",
+        destination: "/airdrop",
+        permanent: true,
+      }
     ];
-  }
+  },
 };
 
 export default nextConfig;

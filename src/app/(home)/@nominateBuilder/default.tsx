@@ -1,3 +1,3 @@
-export default function Nothing () {
-    return null;
+export default function Nothing() {
+  return null;
 }

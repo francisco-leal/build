@@ -17,18 +17,18 @@ export type SearchBuildersProps = Omit<
 >;
 
 export default async function SearchBuilders(props: SearchBuildersProps) {
-  const user = await getCurrentUserAppStats().catch(() => undefined);
+  const user = await getCurrentUserAppStats().catch(() => null);
   const date = DateTime.now().toFormat("LLL dd");
 
-
-
-  const shareLink = new URL("/", process.env.APP_HREF);
-  shareLink.searchParams.append("nominate",  user?.id);
+  const shareLink = user
+    ? // TODO missing wallet address here!!!
+      `${process.env.NEXT_PUBLIC_APP_URL}/nominate/${user.boss_budget}`
+    : undefined;
 
   return (
     <SearchBuilderComponent
       isConnected={!!user}
-      shareLink={shareLink.toString()}
+      shareLink={shareLink}
       date={date}
       // TODO: map the correct values here!
       dailyBudget={user?.boss_budget}
