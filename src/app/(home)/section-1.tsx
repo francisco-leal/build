@@ -50,8 +50,7 @@ export const Section1 = () => (
           memo
         </Link>
         : there&apos;s no room for builders in the corporate world! Stand for
-        builders, play the nomination game, and earn $BOSS. Nominations start on
-        May 8th.
+        builders, play the nomination game, and earn $BOSS.
       </Typography>
 
       <Stack direction={{ xs: "column-reverse", sm: "row" }} gap={2} pt={5}>
