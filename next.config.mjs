@@ -19,7 +19,7 @@ const nextConfig = {
         source: "/airdrop/nominate",
         destination: "/airdrop",
         permanent: true,
-      }
+      },
     ];
   },
 };
