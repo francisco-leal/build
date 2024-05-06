@@ -86,7 +86,7 @@ export const NominateBuilderComponent: FunctionComponent<
               <Typography level="body-sm">Date</Typography>
               <LogoShort
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={isLoading ? "primary" : "neutral"}
+                color={!isLoading ? "primary" : "neutral"}
               />
               <Typography level="body-sm" textColor="common.black">
                 {date}
@@ -97,7 +97,7 @@ export const NominateBuilderComponent: FunctionComponent<
               <Typography level="body-sm">My Daily Budget</Typography>
               <LogoShort
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={isLoading ? "primary" : "neutral"}
+                color={!isLoading ? "primary" : "neutral"}
               />
               <Typography level="body-sm" textColor="common.black">
                 {currentUserDailyBudget ?? "--"}
@@ -108,7 +108,7 @@ export const NominateBuilderComponent: FunctionComponent<
               <Typography level="body-sm">BOSS Points Sent</Typography>
               <LogoShort
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={isLoading ? "primary" : "neutral"}
+                color={!isLoading ? "primary" : "neutral"}
               />
               <Typography level="body-sm" textColor="common.black">
                 {currentUserBossPointsSent ?? "--"}
@@ -119,7 +119,7 @@ export const NominateBuilderComponent: FunctionComponent<
               <Typography level="body-sm">BOSS Points Earned</Typography>
               <LogoShort
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={isLoading ? "primary" : "neutral"}
+                color={!isLoading ? "primary" : "neutral"}
               />
               <Typography level="body-sm" textColor="common.black">
                 {currentUserBossPointsEarned ?? "--"}
@@ -132,7 +132,7 @@ export const NominateBuilderComponent: FunctionComponent<
               <Typography level="body-sm">My BOSS Points</Typography>
               <LogoShort
                 sx={{ ml: "auto", mr: 0.5 }}
-                color={isLoading ? "primary" : "neutral"}
+                color={!isLoading ? "primary" : "neutral"}
               />
               <Typography level="title-md" textColor="common.black">
                 {currentUserTotalBossPoints ?? "--"}
