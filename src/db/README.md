@@ -176,7 +176,7 @@ RETURNS VOID AS $$
 BEGIN
     -- Update boss balances in app_user_stats using a single UPDATE statement
     UPDATE app_user_stats AS aus
-    SET boss_balance = (wallet_balances->>au.wallet_address)::numeric
+    SET boss_token_balance = (wallet_balances->>au.wallet_address)::numeric
     FROM app_user AS au
     WHERE aus.user_id = au.id
     AND au.wallet_address = (wallet_balances->>au.wallet_address)::text;
