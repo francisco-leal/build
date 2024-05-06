@@ -166,6 +166,35 @@ SELECT u.wallet_address, u.social_profiles, u.username, us.builder_score
 ## Functions
 
 <details>
+<summary><b>[FUNCTION] Update boss token balance</b></summary>
+
+This function is used to avoid querying the user ids from a large list of wallet addresses, then match two arrays (the result of a query to the database (user_id, wallet_address) and a query to an external service (wallet_address, new_token_balance)) and then an update to the database.
+
+```sql
+CREATE OR REPLACE FUNCTION update_boss_balances(wallet_balances jsonb)
+RETURNS VOID AS $$
+BEGIN
+    -- Update boss balances in app_user_stats using a single UPDATE statement
+    UPDATE app_user_stats AS aus
+    SET boss_balance = (wallet_balances->>au.wallet_address)::numeric
+    FROM app_user AS au
+    WHERE aus.user_id = au.id
+    AND au.wallet_address = (wallet_balances->>au.wallet_address)::text;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+Example
+
+```sql
+SELECT update_boss_balances('{
+    "address1": 100,
+    "address2": 200,
+    "address3": 300
+}');
+```
+
+<details>
 <summary><b>[FUNCTION] Insert new user</b></summary>
 
 ```sql

@@ -521,6 +521,12 @@ export type Database = {
           wallet_address: string | null;
         }[];
       };
+      update_boss_balances: {
+        Args: {
+          wallet_balances: Json;
+        };
+        Returns: undefined;
+      };
       update_leaderboard: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;

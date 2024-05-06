@@ -3,12 +3,15 @@ import {
   computeUserNominationsAndStats,
   getNominationsFromFarcaster,
 } from "@/services";
+import { updateBossTokenBalances } from "@/services/boss-tokens";
 import { updateMintedManifestoNFTUsers } from "@/services/manifesto-nft";
 
 export async function GET() {
   // cron job endpoint
-  await updateMintedManifestoNFTUsers();
-  // TODO: update boss token balance
+  await Promise.all([
+    updateMintedManifestoNFTUsers(),
+    updateBossTokenBalances(),
+  ]);
   //
   await getNominationsFromFarcaster();
   await computeUserNominationsAndStats();
