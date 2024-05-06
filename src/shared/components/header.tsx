@@ -9,7 +9,7 @@ import {
   linkClasses,
 } from "@mui/joy";
 import { Cross, Hamburger, LogoLong, LogoShort } from "../icons";
-import { FunctionComponent, useRef } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import { useDisclose } from "../hooks/use-disclose";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import { usePathname } from "next/navigation";
@@ -23,7 +23,6 @@ export const Header: FunctionComponent = () => {
   const drawer = useDisclose();
   const headerRef = useRef<HTMLDivElement>(null);
   const activePath = pathname.split("/")[1];
-  const getActivePathClass = (path: string) => activePath === path;
 
   // FIXME this could lead to leaky styles if the header size becomes dynamic.
   const headerHeight = headerRef.current?.clientHeight ?? 0;
@@ -42,7 +41,11 @@ export const Header: FunctionComponent = () => {
         mx="auto"
       >
         <Stack direction="row" flex={1}>
-          <Link href="/" sx={{ "& svg": { color: "common.white" } }}>
+          <Link
+            href="/"
+            sx={{ "& svg": { color: "common.white" } }}
+            onClick={drawer.close}
+          >
             <LogoLong sx={{ display: DESKTOP_ONLY, width: 132, height: 40 }} />
             <LogoShort sx={{ display: MOBILE_ONLY, width: 40, height: 40 }} />
           </Link>
@@ -143,9 +146,15 @@ export const Header: FunctionComponent = () => {
           },
         }}
       >
-        <Link href="/memo">Memo</Link>
-        <Link href="/airdrop">Airdrop</Link>
-        <Link href="/bossnomics">Bossnomics</Link>
+        <Link href="/memo" onClick={drawer.close}>
+          Memo
+        </Link>
+        <Link href="/airdrop" onClick={drawer.close}>
+          Airdrop
+        </Link>
+        <Link href="/bossnomics" onClick={drawer.close}>
+          Bossnomics
+        </Link>
 
         <Typography
           sx={{ color: "neutral.50", mt: "auto", textAlign: "center" }}

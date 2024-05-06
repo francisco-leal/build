@@ -9,5 +9,5 @@ export const ThemeLink = forwardRef<
   HTMLAnchorElement,
   ComponentProps<typeof NextLink>
 >(function Link(props, ref) {
-  return <NextLink ref={ref} {...props} />;
+  return <NextLink ref={ref} {...props} prefetch />;
 });

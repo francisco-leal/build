@@ -1,8 +1,12 @@
-import { Sheet, Typography, Box } from "@mui/joy";
-import DESKTOP_GRAPH from "../../../public/images/bossnomics-graph.png";
-import MOBILE_GRAPH from "../../../public/images/bossnomics-graph-mobile.png";
 import Image from "next/image";
+import { Typography, Box, Link } from "@mui/joy";
 import { HeroSection } from "@/shared/components/hero-section";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { ExternalLink } from "@/shared/icons";
+import { BlockyCard } from "@/shared/components/blocky-card";
+
+import DESKTOP_GRAPH from "./_images/bossnomics-graph.png";
+import MOBILE_GRAPH from "./_images/bossnomics-graph-mobile.png";
 
 export const Section2 = () => {
   return (
@@ -11,20 +15,25 @@ export const Section2 = () => {
         Tokenomics
       </Typography>
 
-      <Typography level="title-lg" textColor={"common.white"}>
+      <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
         60% of tokens are intended for the community and ecosystem. The other
         40% are related with the initial liquidity pool on Uniswap and liquidity
         mining rewards.
       </Typography>
 
-      {/* <Typography sx={{ color: 'common.white', fontSize: '18px', textAlign: 'center' }}>
-                0xf4ec...eEc64F
-            </Typography> */}
-
-      <Sheet
-        variant="outlined"
-        sx={{ width: "100%", py: { xs: 5, md: 5 }, px: { xs: 5, md: 20 } }}
+      <Link
+        href="#"
+        level="body-lg"
+        textColor={"common.white"}
+        underline="hover"
       >
+        {abbreviateWalletAddress(
+          "0xf4ecthisisaplceholderThatdoesnotshowupeEc64F",
+        )}
+        <ExternalLink sx={{ pl: 1 }} />
+      </Link>
+
+      <BlockyCard sx={{ my: 5, width: "100%" }}>
         <Box
           component={Image}
           src={DESKTOP_GRAPH}
@@ -45,7 +54,7 @@ export const Section2 = () => {
             display: { xs: "block", sm: "none" },
           }}
         />
-      </Sheet>
+      </BlockyCard>
     </HeroSection>
   );
 };

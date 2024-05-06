@@ -2,6 +2,7 @@
 import { extendTheme } from "@mui/joy/styles";
 import { ThemeLink } from "./theme-link";
 import { inputClasses, tabClasses, tabPanelClasses } from "@mui/joy";
+import { SystemProps } from "@mui/joy/styles/types";
 
 const colors = {
   bossBlue: "#0142F5",
@@ -48,8 +49,8 @@ export const theme = extendTheme({
     },
   },
   fontFamily: {
-    display: "Bricolage Grotesque, sans-serif",
-    body: "Bricolage Grotesque, sans-serif",
+    display: "Bricolage Grotesque, sans-serif, Inter Variable",
+    body: "Bricolage Grotesque, sans-serif, Inter Variable",
   },
   typography: {
     h1: {
@@ -84,15 +85,17 @@ export const theme = extendTheme({
       marginBottom: 1 * 8,
     },
     "title-lg": {
+      fontFamily: "Inter Variable",
       fontSize: "18px",
-      fontWeight: "600",
+      fontStyle: "normal",
+      fontWeight: "700",
       lineHeight: "166%",
       color: "inherit",
       marginTop: 1 * 8,
       marginBottom: 1 * 8,
     },
     "body-lg": {
-      fontFamily: "Inter",
+      fontFamily: "Inter Variable",
       fontSize: "18px",
       fontStyle: "normal",
       fontWeight: "400",
