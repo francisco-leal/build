@@ -46,10 +46,8 @@ export const NominateBuilderComponent: FunctionComponent<
 }) => {
   const router = useRouter();
   const theme = useTheme();
-  const pathname = usePathname();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const isLoading = loading || !connected;
-  const backPath = pathname.split("/").slice(0, -2).join("/");
 
   const goBack = () => {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
@@ -151,10 +149,10 @@ export const NominateBuilderComponent: FunctionComponent<
             >
               Cancel
             </Button>
-            {isLoading ? (
+            {!isLoading ? (
               <Button
                 variant="solid"
-                disabled={(currentUserDailyBudget ?? 0) > 0}
+                disabled={(currentUserDailyBudget ?? 0) <= 0}
                 onClick={() => {}}
               >
                 Confirm
