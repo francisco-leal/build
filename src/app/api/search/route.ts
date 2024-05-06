@@ -1,13 +1,16 @@
-import { searchSocialUser } from "@/services";
+import { searchBuilders } from "@/app/_api/search-builders";
 import { type NextRequest } from "next/server";
+import { z } from "zod";
+
+const searchParamsSchema = z.object({
+  query: z.string().min(3),
+});
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get("query");
+  const searchParams = searchParamsSchema.safeParse({
+    query: request.nextUrl.searchParams.get("query"),
+  });
 
-  if (!query || query.length < 3) {
-    return Response.json({}, { status: 400 });
-  }
-
-  return Response.json(await searchSocialUser(query));
+  if (!searchParams.success) return Response.json({}, { status: 400 });
+  return Response.json(await searchBuilders(searchParams.data.query));
 }

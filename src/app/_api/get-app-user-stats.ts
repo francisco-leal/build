@@ -4,7 +4,7 @@ import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 
 export const getAppUserStats = unstable_cache(
-  async (id) => {
+  async (id: number) => {
     const { data } = await supabase
       .from("app_user_stats")
       .select("*")
