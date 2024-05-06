@@ -6,6 +6,7 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import { default as CssBaseline } from "@mui/joy/CssBaseline";
 import { ReactNode, useState } from "react";
 import { theme } from "./theme";
+import { ForceLightColorMode } from "./theme-force-light-color-mode";
 
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902
@@ -54,8 +55,9 @@ export const ThemeRegistry = (props: { children: ReactNode; options: any }) => {
 
   return (
     <CacheProvider value={cache}>
-      <CssVarsProvider theme={theme}>
+      <CssVarsProvider theme={theme} defaultMode="light">
         <CssBaseline />
+        <ForceLightColorMode />
         {children}
       </CssVarsProvider>
     </CacheProvider>
