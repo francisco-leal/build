@@ -16,7 +16,7 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "airdrop/nominate",
+        source: "/airdrop/nominate",
         destination: "/airdrop",
         permanent: true,
       }
