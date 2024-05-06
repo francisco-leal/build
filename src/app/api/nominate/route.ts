@@ -9,7 +9,10 @@ export async function POST(request: NextRequest) {
   const user = await getSession();
 
   if (!user) {
-    return Response.json({}, { status: 401 });
+    return Response.json(
+      { message: "User needs to be authenticated to vote" },
+      { status: 401 },
+    );
   }
 
   const { data: nominated_result, error } = await validateAndNominate(
