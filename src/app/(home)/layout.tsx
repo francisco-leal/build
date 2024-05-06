@@ -8,9 +8,12 @@ import { DateTime } from "luxon";
 
 export default async function HomePageLayout({
   leaderboardTable,
+  searchBuilder,
   nominateBuilder,
 }: {
   leaderboardTable: React.ReactNode;
+  searchBuilder: React.ReactNode;
+  children: React.ReactNode;
   nominateBuilder: React.ReactNode;
 }) {
   const now = DateTime.utc().startOf("hour");
@@ -20,7 +23,7 @@ export default async function HomePageLayout({
 
   return (
     <Stack component="main">
-      <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
+      <HeroSectionSlim>{searchBuilder}</HeroSectionSlim>
       <HeroSection sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
         <BlockyCard sx={{ minHeight: 250 }}>
           <Eye />
@@ -133,6 +136,7 @@ export default async function HomePageLayout({
           </Stack>
         </Stack>
       </HeroSection>
+      {nominateBuilder}
     </Stack>
   );
 }

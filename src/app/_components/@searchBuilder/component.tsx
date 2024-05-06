@@ -1,11 +1,8 @@
 "use client";
 import { useDebounce } from "@/shared/hooks/use-debounce";
-import { useDisclose } from "@/shared/hooks/use-disclose";
-import { useMediaQuery } from "@/shared/hooks/use-media-query";
 import { LogoShort, SearchFilled } from "@/shared/icons";
 import {
   Avatar,
-  Box,
   Button,
   CircularProgress,
   Divider,
@@ -13,27 +10,24 @@ import {
   Link,
   List,
   ListItem,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  ModalOverflow,
   Sheet,
   Stack,
   StackProps,
   Typography,
-  useTheme,
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
-
+import { usePathname } from "next/navigation";
 import { FunctionComponent, useState } from "react";
 
-export type SearchNominationComponentProps = {
+export type SearchBuilderComponentProps = {
+  isConnected: boolean;
+  date: string;
+
   shareLink?: string;
-  date?: string;
-  dailyBudget?: string;
-  bossPointsSent?: string;
-  bossPointsEarned?: string;
-  totalBossPoints?: string;
+  dailyBudget?: number;
+  bossPointsSent?: number;
+  bossPointsEarned?: number;
+  totalBossPoints?: number;
 } & StackProps;
 
 export type SearchResponseUser = {
@@ -43,25 +37,21 @@ export type SearchResponseUser = {
   username: string;
 };
 
-export const SearchNominationsComponent: FunctionComponent<
-  SearchNominationComponentProps
+export const SearchBuilderComponent: FunctionComponent<
+  SearchBuilderComponentProps
 > = ({
-  shareLink,
+  isConnected,
   date,
+  shareLink,
   dailyBudget,
   bossPointsEarned,
   bossPointsSent,
   totalBossPoints,
   ...props
 }) => {
-  const [selectedUser, setSelectedUser] = useState<SearchResponseUser>();
   const [searchValue, setSearchValue] = useState<string>("");
-
   const debouncedSearchValue = useDebounce(searchValue, 500);
-
-  const theme = useTheme();
-  const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
-  const modal = useDisclose();
+  const pathname = usePathname();
 
   const searchQuery = useQuery({
     queryKey: ["search", debouncedSearchValue],
@@ -76,16 +66,6 @@ export const SearchNominationsComponent: FunctionComponent<
       return data as Promise<SearchResponseUser[]>;
     },
   });
-
-  const handleUserSelect = (user: SearchResponseUser) => {
-    setSelectedUser(user);
-    modal.open();
-  };
-
-  const handleCancel = () => {
-    setSelectedUser(undefined);
-    modal.close();
-  };
 
   return (
     <Stack {...props}>
@@ -236,7 +216,7 @@ export const SearchNominationsComponent: FunctionComponent<
             <List sx={{}}>
               {searchQuery.data.map((user) => (
                 <ListItem key={user.address} sx={{ width: "100%" }}>
-                  <Avatar src={user.address} alt={user.username} />
+                  <Avatar src={user.profile_image} alt={user.username} />
                   <Stack
                     sx={{
                       alignItems: "flex-start",
@@ -258,9 +238,13 @@ export const SearchNominationsComponent: FunctionComponent<
                     </Typography>
                   </Stack>
                   <Button
+                    component={Link}
+                    href={(pathname + `/nominate/${user.address}`).replace(
+                      "//",
+                      "/",
+                    )}
                     variant="solid"
                     sx={{ height: "auto" }}
-                    onClick={() => handleUserSelect(user)}
                   >
                     Nominate
                   </Button>
@@ -270,113 +254,6 @@ export const SearchNominationsComponent: FunctionComponent<
           </Sheet>
         );
       })()}
-
-      <Modal
-        open={modal.isOpen}
-        onClose={() => modal.close()}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <ModalOverflow>
-          <ModalDialog
-            variant="solid"
-            sx={{ width: "100%", maxWidth: "sm", color: "neutral.500" }}
-            layout={isMediumScreen ? "center" : "fullscreen"}
-          >
-            <ModalClose variant="plain" sx={{ m: 1 }} />
-
-            <Typography level="h4">Confirm Nomination</Typography>
-
-            <Stack sx={{ alignItems: "center" }}>
-              <Avatar
-                sx={{ width: "48px", height: "48px", mb: 1 }}
-                src={selectedUser?.profile_image}
-                alt={selectedUser?.username}
-              />
-              <Typography level="title-lg" textColor="common.black">
-                {selectedUser?.username}
-              </Typography>
-              <Typography level="body-sm">{selectedUser?.address}</Typography>
-            </Stack>
-
-            <Stack sx={{ gap: 1.5, width: "100%", my: 3 }}>
-              <Divider sx={{ backgroundColor: "neutral.400" }} />
-
-              <Stack direction="row">
-                <Typography level="body-sm">Date</Typography>
-                <LogoShort
-                  sx={{ ml: "auto", mr: 0.5 }}
-                  color={date ? "primary" : "neutral"}
-                />
-                <Typography level="body-sm" textColor="common.black">
-                  {date ?? "--"}
-                </Typography>
-              </Stack>
-
-              <Stack direction="row">
-                <Typography level="body-sm">My Daily Budget</Typography>
-                <LogoShort
-                  sx={{ ml: "auto", mr: 0.5 }}
-                  color={dailyBudget ? "primary" : "neutral"}
-                />
-                <Typography level="body-sm" textColor="common.black">
-                  {dailyBudget ?? "--"}
-                </Typography>
-              </Stack>
-
-              <Stack direction="row">
-                <Typography level="body-sm">BOSS Points Sent</Typography>
-                <LogoShort
-                  sx={{ ml: "auto", mr: 0.5 }}
-                  color={bossPointsSent ? "primary" : "neutral"}
-                />
-                <Typography level="body-sm" textColor="common.black">
-                  {bossPointsSent ?? "--"}
-                </Typography>
-              </Stack>
-
-              <Stack direction="row">
-                <Typography level="body-sm">BOSS Points Earned</Typography>
-                <LogoShort
-                  sx={{ ml: "auto", mr: 0.5 }}
-                  color={bossPointsEarned ? "primary" : "neutral"}
-                />
-                <Typography level="body-sm" textColor="common.black">
-                  {bossPointsEarned ?? "--"}
-                </Typography>
-              </Stack>
-
-              <Divider sx={{ backgroundColor: "neutral.400" }} />
-
-              <Stack direction="row" justifyContent="space-between">
-                <Typography level="body-sm">My BOSS Points</Typography>
-                <LogoShort
-                  sx={{ ml: "auto", mr: 0.5 }}
-                  color={totalBossPoints ? "primary" : "neutral"}
-                />
-                <Typography level="title-md" textColor="common.black">
-                  {totalBossPoints ?? "--"}
-                </Typography>
-              </Stack>
-            </Stack>
-
-            <Stack sx={{ flexDirection: "row", justifyContent: "end", gap: 1 }}>
-              <Button
-                variant="outlined"
-                color="neutral"
-                onClick={handleCancel}
-                sx={{ color: "neutral.500", borderColor: "neutral.500" }}
-              >
-                Cancel
-              </Button>
-              <Button variant="solid">Connect wallet</Button>
-            </Stack>
-          </ModalDialog>
-        </ModalOverflow>
-      </Modal>
     </Stack>
   );
 };

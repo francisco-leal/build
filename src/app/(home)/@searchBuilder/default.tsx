@@ -1,4 +1,4 @@
-import { SearchNominations } from "@/app/_components/@searchNominations";
+import { SearchBuilder } from "@/app/_components/@searchBuilder";
 import { Interface, MusicHeadeset } from "@/shared/icons";
 import { Link, Typography } from "@mui/joy";
 
@@ -24,7 +24,7 @@ export default function NominateBuilder() {
         May 8th.
       </Typography>
 
-      <SearchNominations
+      <SearchBuilder
         sx={{
           mt: 1,
           alignItems: "center",

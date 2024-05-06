@@ -119,6 +119,9 @@ export const theme = extendTheme({
         root: {
           height: 40,
           borderRadius: "0",
+          "&:hover": {
+            textDecoration: "none",
+          },
         },
       },
     },
