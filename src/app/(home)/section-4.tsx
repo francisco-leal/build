@@ -58,8 +58,8 @@ export const Section4 = () => {
           <Typography level="h3">Step 2</Typography>
 
           <Typography>
-            Join on party.app until May 7th, to help us raise LP funds and
-            launch the $BOSS token together! More info in{" "}
+            We raised +72 ETH on party.app to create an LP and launch the $BOSS
+            token together! More info in{" "}
             <Link
               href="/bossnomics"
               sx={{ color: "common.white", textDecoration: "underline" }}
@@ -78,7 +78,7 @@ export const Section4 = () => {
             sx={{ mt: "auto" }}
             target="_blank"
           >
-            Join Party
+            See on OpenSea
           </Button>
         </Stack>
       </Stack>

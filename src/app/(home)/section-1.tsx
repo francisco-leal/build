@@ -72,7 +72,7 @@ export const Section1 = () => (
           underline="none"
           href="https://opensea.io/collection/boss-121"
         >
-          Join Party
+          See on OpenSea
         </Button>
       </Stack>
     </Stack>
