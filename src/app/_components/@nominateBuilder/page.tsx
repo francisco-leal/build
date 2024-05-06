@@ -12,6 +12,7 @@ export default async function NominateBuilder({
 }) {
   const currentUser = await getCurrentUserAppStats().catch(() => null);
   const nominatedBuilder = await getBuilderProfile(params.userId);
+
   const date = DateTime.now().toFormat("LLL dd");
 
   if (!nominatedBuilder) notFound();

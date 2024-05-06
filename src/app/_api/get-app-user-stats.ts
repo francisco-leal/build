@@ -11,16 +11,18 @@ export const getAppUserStats = unstable_cache(
       .eq("user_id", id)
       .throwOnError()
       .single();
-    if (!data) throw notFound();
+
+    if (!data) throw notFound(); // TODO: replace with null object
     return data;
   },
   ["app-user-stats"],
-  { revalidate: 60 },
+  { revalidate: 60 }
 );
 
 export const getCurrentUserAppStats = async () => {
   const user = await getSession();
-  if (!user) return notFound();
+
+  if (!user) return notFound(); // TODO: replace with null object
   return getAppUserStats(user.userId);
 };
 
