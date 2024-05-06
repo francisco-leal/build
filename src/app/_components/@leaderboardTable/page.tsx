@@ -26,6 +26,7 @@ export default async function LeaderboardTable() {
     if (currentUserData) leaderboard.push(currentUserData);
   }
 
+
   const values = leaderboard.map((entry): LeaderboardTableValue => {
     return {
       id:

@@ -13,6 +13,7 @@ export default async function AirdropPageLayout({
   dailyStreakCard,
   leaderboardTable,
   myNominationsTable,
+  searchBuilder,
   nominateBuilder,
   howToPlay,
 }: {
@@ -25,6 +26,7 @@ export default async function AirdropPageLayout({
   howToPlay: React.ReactNode;
   myNominationsTable: React.ReactNode;
   nominateBuilder: React.ReactNode;
+  searchBuilder: React.ReactNode;
 }) {
   const isConnected = await isUserConnected();
 
@@ -51,7 +53,7 @@ export default async function AirdropPageLayout({
       </TabList>
 
       <TabPanel value={0} component={Stack}>
-        <HeroSectionSlim>{nominateBuilder}</HeroSectionSlim>
+        <HeroSectionSlim>{searchBuilder}</HeroSectionSlim>
         <HeroSection
           sx={{
             flexDirection: { xs: "column", md: "row" },
@@ -99,6 +101,7 @@ export default async function AirdropPageLayout({
         </HeroSectionWithOverflow>
         <HeroSection>{howToPlay}</HeroSection>
       </TabPanel>
+      {nominateBuilder}
     </Tabs>
   );
 }
