@@ -1,7 +1,6 @@
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { unstable_cache } from "next/cache";
-import { notFound } from "next/navigation";
 
 export type User = {
   boss_budget: number;

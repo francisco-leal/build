@@ -6,27 +6,33 @@ import {
   Avatar,
   Button,
   Divider,
+  Link,
   Modal,
   ModalClose,
   ModalDialog,
   ModalOverflow,
+  Skeleton,
   Stack,
   Typography,
   useTheme,
 } from "@mui/joy";
 import { useRouter } from "next/navigation";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { wait } from "@/shared/utils/wait";
 
 export type NominateBuilderComponentProps = {
   connected?: boolean;
   loading?: boolean;
   date: string;
-  nominatedBossProfileImage?: string;
-  nominatedBossUsername?: string;
-  nominatedBossAddress?: string;
+  builderImage?: string;
+  builderUsername?: string;
+  builderWallet?: string;
+
   currentUserDailyBudget?: number;
   currentUserTotalBossPoints?: number;
+  previouslyNominatedBossUsername?: string;
+  previouslyNominatedBossWallet?: string;
 };
 
 export const NominateBuilderComponent: FunctionComponent<
@@ -35,16 +41,18 @@ export const NominateBuilderComponent: FunctionComponent<
   connected,
   loading,
   date,
-  nominatedBossProfileImage: profileImage,
-  nominatedBossUsername: username,
-  nominatedBossAddress: address,
+  builderImage,
+  builderUsername,
+  builderWallet,
+  previouslyNominatedBossUsername,
+  previouslyNominatedBossWallet,
   currentUserDailyBudget,
   currentUserTotalBossPoints,
 }) => {
+  const [isNominating, setIsNominating] = useState(false);
   const router = useRouter();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
-  const isLoading = loading || !connected;
 
   const goBack = () => {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
@@ -55,19 +63,29 @@ export const NominateBuilderComponent: FunctionComponent<
   const currentUserBossPointsSent = (currentUserDailyBudget ?? 0) * 0.9;
   const currentUserBossPointsEarned = (currentUserDailyBudget ?? 0) * 0.1;
 
-  const nominateUser = () => {
-    fetch("/api/nominate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nominated_user_address: address,
-      }),
-    }).then(() => {
-      // TODO: HANDLE SUCCESS & FAILURE
-      console.log("Success");
-    });
+  const isReadyToNominate =
+    !loading && !connected && !previouslyNominatedBossUsername;
+
+  const nominateUser = async () => {
+    setIsNominating(true);
+    try {
+      const reponse = fetch("/api/nominate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nominated_user_address: builderWallet,
+        }),
+      });
+
+      // TODO convert to a throw if error occurs in server
+      // TODO set up a reaction for success
+    } catch (e) {
+      // TODO handle errors.
+    } finally {
+      setIsNominating(false);
+    }
   };
 
   return (
@@ -83,16 +101,23 @@ export const NominateBuilderComponent: FunctionComponent<
           <Typography level="h4">Confirm Nomination</Typography>
 
           <Stack sx={{ alignItems: "center" }}>
-            <Avatar
-              sx={{ width: "48px", height: "48px", mb: 1 }}
-              src={profileImage}
-              alt={username}
-            />
+            {loading ? (
+              <Skeleton
+                variant="circular"
+                sx={{ width: "48px", height: "48px", mb: 1 }}
+              />
+            ) : (
+              <Avatar
+                sx={{ width: "48px", height: "48px", mb: 1 }}
+                src={builderImage}
+                alt={builderUsername}
+              />
+            )}
             <Typography level="title-lg" textColor="common.black">
-              {username}
+              {loading ? "---" : builderUsername}
             </Typography>
             <Typography level="body-sm">
-              {abbreviateWalletAddress(address ?? "")}
+              {loading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
             </Typography>
           </Stack>
 
@@ -108,7 +133,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {date}
               </Typography>
-              <LogoShort color={!isLoading ? "primary" : "neutral"} />
+              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row">
@@ -120,7 +145,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {currentUserDailyBudget ?? "--"}
               </Typography>
-              <LogoShort color={!isLoading ? "primary" : "neutral"} />
+              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row">
@@ -132,7 +157,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {currentUserBossPointsSent ?? "--"}
               </Typography>
-              <LogoShort color={!isLoading ? "primary" : "neutral"} />
+              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row">
@@ -144,7 +169,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {currentUserBossPointsEarned ?? "--"}
               </Typography>
-              <LogoShort color={!isLoading ? "primary" : "neutral"} />
+              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
 
             <Divider sx={{ backgroundColor: "neutral.400" }} />
@@ -159,11 +184,22 @@ export const NominateBuilderComponent: FunctionComponent<
                 {(currentUserTotalBossPoints ?? 0) +
                   currentUserBossPointsEarned ?? "--"}
               </Typography>
-              <LogoShort color={!isLoading ? "primary" : "neutral"} />
+              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
           </Stack>
 
           <Stack sx={{ flexDirection: "row", justifyContent: "end", gap: 1 }}>
+            {previouslyNominatedBossWallet && (
+              <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }}>
+                {"You have nominated "}
+                <Link href={`/nominate/${previouslyNominatedBossWallet}`}>
+                  {previouslyNominatedBossUsername}
+                </Link>
+                {" as a BOSS today."}
+                <br />
+                {"Come back tomorrow to nominate a different BOSS."}
+              </Typography>
+            )}
             <Button
               variant="outlined"
               color="neutral"
@@ -172,17 +208,22 @@ export const NominateBuilderComponent: FunctionComponent<
             >
               Cancel
             </Button>
-            {!isLoading ? (
+            {loading && (
+              <Button variant="solid" disabled>
+                Confirm
+              </Button>
+            )}
+            {isReadyToNominate && (
               <Button
                 variant="solid"
                 disabled={(currentUserDailyBudget ?? 0) <= 0}
+                loading={isNominating}
                 onClick={() => nominateUser()}
               >
                 Confirm
               </Button>
-            ) : (
-              <ConnectWalletButton />
             )}
+            {!connected && !loading && <ConnectWalletButton />}
           </Stack>
         </ModalDialog>
       </ModalOverflow>

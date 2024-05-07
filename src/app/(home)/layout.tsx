@@ -1,6 +1,13 @@
 import { Button, Link, Stack, Typography } from "@mui/joy";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import { Eye, Terminal, UserManLove, UserShield } from "@/shared/icons";
+import {
+  Eye,
+  Interface,
+  MusicHeadeset,
+  Terminal,
+  UserManLove,
+  UserShield,
+} from "@/shared/icons";
 import { HeroSection } from "@/shared/components/hero-section";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
@@ -23,7 +30,27 @@ export default async function HomePageLayout({
 
   return (
     <Stack component="main">
-      <HeroSectionSlim>{searchBuilder}</HeroSectionSlim>
+      <HeroSectionSlim>
+        <Typography level="h1">
+          Nominate <Interface /> the best
+          <br />
+          builders <MusicHeadeset /> you know.
+        </Typography>
+
+        <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
+          Read the{" "}
+          <Link
+            href="/memo"
+            sx={{ color: "common.white", textDecoration: "underline" }}
+          >
+            memo
+          </Link>
+          : there&apos;s no room for builders in the corporate world! Stand for
+          builders, play the nomination game, and earn $BOSS. Nominations start
+          on May 8th.
+        </Typography>
+        {searchBuilder}
+      </HeroSectionSlim>
       <HeroSection sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
         <BlockyCard sx={{ minHeight: 250 }}>
           <Eye />
