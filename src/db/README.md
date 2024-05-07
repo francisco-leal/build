@@ -371,3 +371,26 @@ $$ LANGUAGE plpgsql;
 ```
 
 </details>
+
+## NEW DATABASE STRUCTURE
+
+<details>
+<summary><b>[UNIQUENESS CONSTRAINTS]</b></summary>
+
+```SQL
+CREATE UNIQUE INDEX idx_unique_wallets ON boss_nominations (wallet_origin, wallet_destination);
+```
+
+</details>
+
+<details>
+<summary><b>[INDEXES]</b></summary>
+
+```SQL
+CREATE INDEX idx_wallet_origin ON boss_nominations (wallet_origin);
+CREATE INDEX idx_wallet_destination ON boss_nominations (wallet_destination);
+CREATE INDEX idx_rank ON boss_leaderboard (rank);
+CREATE INDEX idx_referral_code ON users (referral_code);
+```
+
+</details>
