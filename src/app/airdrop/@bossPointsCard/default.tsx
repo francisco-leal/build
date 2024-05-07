@@ -1,8 +1,9 @@
+import { notFound } from "next/navigation";
 import { BossPointsCardComponent } from "./component";
-import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
+import { getCurrentUser } from "@/app/_api/get-user";
 
 export default async function BossPoints() {
-  const user = await getCurrentUserAppStats();
-  const points = user.boss_score ?? 0;
-  return <BossPointsCardComponent points={points} />;
+  const user = await getCurrentUser();
+  if (!user) return notFound();
+  return <BossPointsCardComponent points={user.boss_score} />;
 }

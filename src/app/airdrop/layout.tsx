@@ -2,7 +2,7 @@ import { Stack, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
-import { isUserConnected } from "../_api/get-app-user-stats";
+import { isUserConnected } from "../_api/get-user";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 
 export default async function AirdropPageLayout({

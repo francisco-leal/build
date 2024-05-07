@@ -1,8 +1,9 @@
-import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
+import { getCurrentUser } from "@/app/_api/get-user";
 import { BuilderScoreCardComponent } from "./component";
+import { notFound } from "next/navigation";
 
 export default async function BuilderScoreCard() {
-  const userStats = await getCurrentUserAppStats();
-  const score = userStats.boss_score;
-  return <BuilderScoreCardComponent score={score} />;
+  const user = await getCurrentUser();
+  if (!user) return notFound();
+  return <BuilderScoreCardComponent score={user.passport_builder_score} />;
 }

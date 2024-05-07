@@ -1,43 +1,23 @@
-import { supabase } from "@/db";
-import { getSession } from "@/services/authentication/cookie-session";
-import { LeaderboardTableComponent, LeaderboardTableValue } from "./component";
+import { LeaderboardTableComponent } from "./component";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { getLeaderboard } from "@/app/_api/get-leaderboard";
+import { getCurrentUser } from "@/app/_api/get-user";
 
 export default async function LeaderboardTable() {
-  const user = await getSession();
+  const leaderboard = await getLeaderboard();
+  const currentUser = await getCurrentUser();
 
-  const { data: leaderboardData } = await supabase
-    .from("boss_leaderboard")
-    .select("*")
-    .order("rank", { ascending: true })
-    .limit(10)
-    .throwOnError();
-
-  const leaderboard = leaderboardData ?? [];
-  const currentUserWallet = user?.wallet;
-  const containsUser = leaderboard.some((l) => l.wallet === currentUserWallet);
-
-  if (!containsUser && currentUserWallet) {
-    const { data: currentUserData } = await supabase
-      .from("boss_leaderboard")
-      .select("*")
-      .eq("wallet", currentUserWallet)
-      .single();
-    if (currentUserData) leaderboard.push(currentUserData);
-  }
-
-  const values = leaderboard.map((entry): LeaderboardTableValue => {
-    return {
-      id:
-        entry.wallet?.toString() ?? abbreviateWalletAddress(entry.wallet ?? ""),
-      name: entry.username ?? "",
-      highlight: entry.wallet === user?.wallet,
-      builderScore: entry?.passport_builder_score ?? 0,
-      bossScore: entry?.boss_score ?? 0,
-      nominationsReceived: entry?.boss_nominations_received ?? 0,
-      rank: entry.rank?.toString() ?? "0",
-    };
-  });
-
-  return <LeaderboardTableComponent values={values} />;
+  return (
+    <LeaderboardTableComponent
+      values={leaderboard.map((entry) => ({
+        id: entry.wallet,
+        name: entry.username ?? abbreviateWalletAddress(entry.wallet),
+        highlight: entry.wallet === currentUser?.wallet,
+        builderScore: entry.passport_builder_score,
+        bossScore: entry.boss_score,
+        nominationsReceived: entry.boss_nominations_received,
+        rank: entry.rank?.toString() ?? "---",
+      }))}
+    />
+  );
 }

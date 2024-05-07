@@ -19,7 +19,7 @@ type PassportResponse = {
   error?: string;
 };
 
-type BuilderProfile = {
+type Builder = {
   image: string;
   username: string;
   address: string;
@@ -27,7 +27,7 @@ type BuilderProfile = {
 
 const getFarcasterBuilderProfile = async (
   walletId: string,
-): Promise<BuilderProfile | null> => {
+): Promise<Builder | null> => {
   const query = `query QueryUserOnLensAndFarcaster {
     Socials(
         input: {
@@ -72,7 +72,7 @@ const getFarcasterBuilderProfile = async (
 
 const getTalentProtocolBuilderProfile = async (
   walledId: string,
-): Promise<BuilderProfile | null> => {
+): Promise<Builder | null> => {
   const api_url = process.env.PASSPORT_API_URL;
   const api_token = process.env.PASSPORT_API_TOKEN;
 
@@ -97,9 +97,7 @@ const getTalentProtocolBuilderProfile = async (
   }
 };
 
-export const getBuilderProfile = async (
-  walledId: string,
-): Promise<BuilderProfile | null> => {
+export const getBuilder = async (walledId: string): Promise<Builder | null> => {
   return (
     (await getFarcasterBuilderProfile(walledId)) ??
     (await getTalentProtocolBuilderProfile(walledId)) ??
