@@ -4,8 +4,9 @@ import { cookies } from "next/headers";
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
 
-export type User = {
-  wallet: string;
+export type SessionUser = {
+  userId: number;
+  userWalletAddress: string;
   siwe?: {
     nonce: string;
     address: string;
@@ -14,7 +15,7 @@ export type User = {
   };
 };
 
-export async function getSession(): Promise<User | null> {
+export async function getSession(): Promise<SessionUser | null> {
   const encryptedSession = cookies().get("auth_session")?.value;
 
   const session = encryptedSession
@@ -23,10 +24,10 @@ export async function getSession(): Promise<User | null> {
       })) as string)
     : null;
 
-  return session ? (JSON.parse(session) as User) : null;
+  return session ? (JSON.parse(session) as SessionUser) : null;
 }
 
-export async function setSession(user: User): Promise<void> {
+export async function setSession(user: SessionUser): Promise<void> {
   const encryptedSession = await sealData(JSON.stringify(user), {
     password: sessionPassword,
   });

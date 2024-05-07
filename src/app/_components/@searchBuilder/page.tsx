@@ -1,4 +1,4 @@
-import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
+import { getCurrentUser } from "@/app/_api/get-user";
 import {
   SearchBuilderComponentProps,
   SearchBuilderComponent,
@@ -11,7 +11,7 @@ export type SearchBuildersProps = Omit<
 >;
 
 export default async function SearchBuilders(props: SearchBuildersProps) {
-  const user = await getCurrentUserAppStats().catch(() => null);
+  const user = await getCurrentUser();
   const date = DateTime.now().toFormat("LLL dd");
 
   const shareLink = user
@@ -26,6 +26,8 @@ export default async function SearchBuilders(props: SearchBuildersProps) {
       date={date}
       // TODO: map the correct values here!
       dailyBudget={user?.boss_budget}
+      bossPointsEarned={user?.passport_builder_score}
+      bossPointsSent={user?.boss_budget}
       totalBossPoints={user?.boss_score}
       {...props}
     />

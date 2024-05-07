@@ -1,8 +1,10 @@
-import { getCurrentUserAppStats } from "@/app/_api/get-app-user-stats";
+import { getCurrentUser } from "@/app/_api/get-user";
 import { BuilderScoreCardComponent } from "./component";
+import { notFound } from "next/navigation";
 
 export default async function BuilderScoreCard() {
-  const userStats = await getCurrentUserAppStats();
-  const score = userStats.boss_score;
+  const userStats = await getCurrentUser();
+  if (!userStats) return notFound();
+  const score = userStats.boss_token_balance;
   return <BuilderScoreCardComponent score={score} />;
 }
