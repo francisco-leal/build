@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
   let { data: app_user, error: error_find } = await supabase
     .from("users")
-    .select("wallet")
+    .select("wallet, boss_budget")
     .eq("referral_code", referral)
     .single();
 

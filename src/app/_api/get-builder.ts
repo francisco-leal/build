@@ -12,6 +12,7 @@ type PassportResult = {
     image_url: string;
     name: string;
   } | null;
+  verified_wallets: Array<string>;
 };
 
 type PassportResponse = {
@@ -52,7 +53,7 @@ const getFarcasterBuilderProfile = async (
   if (result.error) throw new Error(result.error);
 
   const socials = result.data.Socials.Social;
-  if (socials.length === 0) return null;
+  if (!socials || socials.length === 0) return null;
 
   const farcasterSocial = socials.find(
     (social: any) => social.dappName === "farcaster",

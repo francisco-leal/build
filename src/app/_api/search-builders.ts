@@ -1,6 +1,8 @@
 import { searchTalentProtocolUser } from "@/services/talent-protocol";
-import { fetchQuery } from "@airstack/node";
+import { init, fetchQuery } from "@airstack/node";
 import { unstable_cache } from "next/cache";
+
+init(process.env.AIRSTACK_API_KEY!);
 
 type FarcasterSearchResult = {
   userAddress: string;
@@ -75,7 +77,11 @@ export const searchBuilders = unstable_cache(
         if (res.error) throw new Error(res.error);
         return (
           res.data?.map((t) => ({
-            address: "",
+            address: isAdressSearch
+              ? query
+              : t.verified_wallets?.length > 0
+                ? t.verified_wallets[0]
+                : "",
             username: t.user ? t.user.username : t.passport_profile!.name,
             profile_image: t.user
               ? t.user.profile_picture_url
