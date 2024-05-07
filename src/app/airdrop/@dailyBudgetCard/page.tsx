@@ -3,8 +3,7 @@ import { DailyBudgetCardComponent } from "./component";
 import { getCurrentUser } from "@/app/_api/get-user";
 
 export default async function DailyBudgetCard() {
-  const userStats = await getCurrentUser();
-  if (!userStats) return notFound();
-  const budget = userStats.boss_budget;
-  return <DailyBudgetCardComponent budget={budget} />;
+  const user = await getCurrentUser();
+  if (!user) return notFound();
+  return <DailyBudgetCardComponent budget={user.boss_budget} />;
 }

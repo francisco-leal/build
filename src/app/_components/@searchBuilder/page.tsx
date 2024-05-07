@@ -15,8 +15,7 @@ export default async function SearchBuilders(props: SearchBuildersProps) {
   const date = DateTime.now().toFormat("LLL dd");
 
   const shareLink = user
-    ? // TODO missing wallet address here!!!
-      `${process.env.NEXT_PUBLIC_APP_URL}/nominate/${user.boss_budget}`
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/nominate/${user.wallet}`
     : undefined;
 
   return (
@@ -24,10 +23,7 @@ export default async function SearchBuilders(props: SearchBuildersProps) {
       isConnected={!!user}
       shareLink={shareLink}
       date={date}
-      // TODO: map the correct values here!
       dailyBudget={user?.boss_budget}
-      bossPointsEarned={user?.passport_builder_score}
-      bossPointsSent={user?.boss_budget}
       totalBossPoints={user?.boss_score}
       {...props}
     />

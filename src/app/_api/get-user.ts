@@ -17,7 +17,7 @@ export type User = {
 };
 
 export const getUser = unstable_cache(
-  async (wallet: string) : Promise<User | null>  => {
+  async (wallet: string): Promise<User | null> => {
     const { data } = await supabase
       .from("users")
       .select("*")
@@ -30,11 +30,11 @@ export const getUser = unstable_cache(
   { revalidate: 60 },
 );
 
-export const getCurrentUser = async () : Promise<User | null> => {
+export const getCurrentUser = async (): Promise<User | null> => {
   const user = await getSession();
-  return user ? getUser(user.userWalletAddress) : null;
+  return user ? getUser(user.wallet) : null;
 };
 
 export const isUserConnected = async () => {
-  return !!(await getCurrentUser())
+  return !!(await getCurrentUser());
 };
