@@ -1,5 +1,5 @@
 import { supabase } from "@/db";
-import { generateRandomSequence, searchSocialUser } from "@/services";
+import { searchSocialUser } from "@/services";
 import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getBuilderScore } from "@/services/talent-protocol";
@@ -26,6 +26,7 @@ export async function createProfile(wallet_address: string) {
   const fid = socialProfiles.filter(
     (profile) => profile.dapp === "farcaster",
   )?.[0]?.profileTokenId;
+
   const boss_budget =
     builder_score === 0
       ? fid > 20_000
@@ -33,19 +34,24 @@ export async function createProfile(wallet_address: string) {
         : 1000
       : (builder_score * 20 + boss_tokens * 0.01) *
         (has_manifesto_nft ? 1.2 : 1);
-  const { error: error_write, data } = await supabase.rpc("insert_user_v2", {
-    wallet_address,
-    referral_code: generateRandomSequence(16),
+
+  const randomString = Buffer.from(crypto.randomUUID()).toString("base64");
+  const inviteCode = randomString.slice(0, 8);
+
+  // @TODO: check if user did any nominations before being created to add the correct boss_score
+  const { data, error } = await supabase.from("users").insert({
+    wallet: wallet_address,
+    referral_code: inviteCode,
+    username: username,
+    manifesto_nft: has_manifesto_nft,
     boss_score: 0,
     boss_budget,
-    builder_score,
-    username: username || "",
-    social_profiles: socialProfiles,
-    manifesto_nft: has_manifesto_nft,
+    passport_builder_score: builder_score,
+    boss_token_balance: boss_tokens,
   });
 
-  if (error_write) {
-    return { error: error_write, data: null };
+  if (error) {
+    return { error, data: null };
   }
 
   return { error: null, data: data };

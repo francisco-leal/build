@@ -59,32 +59,36 @@ export async function POST(request: NextRequest) {
     return Response.json({ error }, { status: 404 });
   }
 
-  let { data: app_user_and_stats, error: error_find } = await supabase
-    .from("app_user_and_stats")
-    .select("*")
-    .eq("wallet_address", wallet_address);
+  let user = null;
 
-  if (error_find) {
-    return Response.json({ error: error_find }, { status: 404 });
+  const { data: userAlreadyExists, error: error_user } = await supabase
+    .from("users")
+    .select("*")
+    .eq("wallet", wallet_address)
+    .single();
+
+  if (error_user) {
+    return Response.json({ error: error_user }, { status: 404 });
   }
 
-  if (!app_user_and_stats || app_user_and_stats.length === 0) {
-    const { data, error: error_write } = await createProfile(wallet_address);
+  if (!userAlreadyExists) {
+    const { data: userCreated, error: error_write } =
+      await createProfile(wallet_address);
 
     if (error_write) {
       return Response.json({ error: error_write }, { status: 404 });
     }
-
-    app_user_and_stats = data;
+    user = userCreated;
+  } else {
+    user = userAlreadyExists;
   }
 
-  if (!app_user_and_stats || app_user_and_stats.length === 0) {
-    return Response.json({ error: "user not found" }, { status: 404 });
+  if (!user) {
+    return Response.json({ error: "Unable to create user." }, { status: 401 });
   }
 
   await setSession({
-    userId: app_user_and_stats[0].user_id!,
-    userWalletAddress: app_user_and_stats[0].wallet_address!,
+    wallet: user.wallet!,
     siwe: {
       address: message.address,
       nonce: message.nonce,
@@ -92,7 +96,8 @@ export async function POST(request: NextRequest) {
       expirationTime: message.expirationTime,
     },
   });
-  return Response.json(app_user_and_stats[0]);
+
+  return Response.json(user, { status: 200 });
 }
 
 export async function PUT(request: NextRequest) {
