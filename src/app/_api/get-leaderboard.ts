@@ -2,10 +2,8 @@ import { supabase } from "@/db";
 import { getCurrentUser } from "./get-user";
 import { unstable_cache } from "next/cache";
 
-export const getLeaderboard = unstable_cache(
+const getLeaderboardTop10 = unstable_cache(
   async () => {
-    const user = await getCurrentUser();
-
     const { data: leaderboardData } = await supabase
       .from("boss_leaderboard")
       .select("*")
@@ -13,23 +11,34 @@ export const getLeaderboard = unstable_cache(
       .limit(10)
       .throwOnError();
 
-    const leaderboard = leaderboardData ?? [];
-    const currentUserWallet = user?.wallet;
-    const containsUser = leaderboard.some(
-      (l) => l.wallet === currentUserWallet,
-    );
-
-    if (!containsUser && currentUserWallet) {
-      const { data: currentUserData } = await supabase
-        .from("boss_leaderboard")
-        .select("*")
-        .eq("wallet", currentUserWallet)
-        .single();
-      if (currentUserData) leaderboard.push(currentUserData);
-    }
-
-    return leaderboard;
+    return leaderboardData ?? [];
   },
-  ["leaderboard"],
-  { revalidate: 60 },
+  ["leaderboard_top_10"],
+  { revalidate: 60 * 5 },
 );
+
+const getLeaderboardUser = unstable_cache(
+  async (wallet: string) => {
+    const { data: leaderboardData } = await supabase
+      .from("boss_leaderboard")
+      .select("*")
+      .eq("wallet", wallet)
+      .single();
+    return leaderboardData;
+  },
+  ["leaderboard_user"],
+  { revalidate: 60 * 5 },
+);
+
+export const getLeaderboard = async () => {
+  const user = await getCurrentUser();
+  const leaderboard = await getLeaderboardTop10();
+  const containsUser = leaderboard.some((l) => l.wallet === user?.wallet);
+
+  if (!containsUser && user?.wallet) {
+    const currentUserData = await getLeaderboardUser(user.wallet);
+    if (currentUserData) leaderboard.push(currentUserData);
+  }
+
+  return leaderboard;
+};
