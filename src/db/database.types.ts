@@ -82,14 +82,14 @@ export type Database = {
           {
             foreignKeyName: "app_leaderboard_user_id_fkey";
             columns: ["user_id"];
-            isOneToOne: true;
+            isOneToOne: false;
             referencedRelation: "app_leaderboard_current";
             referencedColumns: ["user_id"];
           },
           {
             foreignKeyName: "app_leaderboard_user_id_fkey";
             columns: ["user_id"];
-            isOneToOne: true;
+            isOneToOne: false;
             referencedRelation: "app_user";
             referencedColumns: ["id"];
           },
@@ -258,6 +258,120 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      boss_leaderboard: {
+        Row: {
+          boss_nominations_received: number;
+          boss_score: number;
+          created_at: string;
+          passport_builder_score: number;
+          rank: number | null;
+          wallet: string;
+        };
+        Insert: {
+          boss_nominations_received: number;
+          boss_score: number;
+          created_at?: string;
+          passport_builder_score: number;
+          rank?: number | null;
+          wallet: string;
+        };
+        Update: {
+          boss_nominations_received?: number;
+          boss_score?: number;
+          created_at?: string;
+          passport_builder_score?: number;
+          rank?: number | null;
+          wallet?: string;
+        };
+        Relationships: [];
+      };
+      boss_nominations: {
+        Row: {
+          boss_points_earned: number;
+          boss_points_given: number;
+          created_at: string;
+          id: number;
+          wallet_destination: string;
+          wallet_origin: string;
+        };
+        Insert: {
+          boss_points_earned: number;
+          boss_points_given: number;
+          created_at?: string;
+          id?: number;
+          wallet_destination: string;
+          wallet_origin: string;
+        };
+        Update: {
+          boss_points_earned?: number;
+          boss_points_given?: number;
+          created_at?: string;
+          id?: number;
+          wallet_destination?: string;
+          wallet_origin?: string;
+        };
+        Relationships: [];
+      };
+      scheduled_updates: {
+        Row: {
+          finished_at: string | null;
+          id: number;
+          job_type: string;
+          started_at: string;
+        };
+        Insert: {
+          finished_at?: string | null;
+          id?: number;
+          job_type: string;
+          started_at?: string;
+        };
+        Update: {
+          finished_at?: string | null;
+          id?: number;
+          job_type?: string;
+          started_at?: string;
+        };
+        Relationships: [];
+      };
+      users: {
+        Row: {
+          boss_budget: number;
+          boss_nomination_streak: number;
+          boss_score: number;
+          boss_token_balance: number;
+          created_at: string;
+          manifesto_nft: boolean;
+          passport_builder_score: number;
+          referral_code: string;
+          username: string | null;
+          wallet: string;
+        };
+        Insert: {
+          boss_budget?: number;
+          boss_nomination_streak?: number;
+          boss_score?: number;
+          boss_token_balance?: number;
+          created_at?: string;
+          manifesto_nft?: boolean;
+          passport_builder_score?: number;
+          referral_code: string;
+          username?: string | null;
+          wallet: string;
+        };
+        Update: {
+          boss_budget?: number;
+          boss_nomination_streak?: number;
+          boss_score?: number;
+          boss_token_balance?: number;
+          created_at?: string;
+          manifesto_nft?: boolean;
+          passport_builder_score?: number;
+          referral_code?: string;
+          username?: string | null;
+          wallet?: string;
+        };
+        Relationships: [];
       };
     };
     Views: {
@@ -520,6 +634,12 @@ export type Database = {
           username: string | null;
           wallet_address: string | null;
         }[];
+      };
+      update_boss_balances: {
+        Args: {
+          wallet_balances: Json;
+        };
+        Returns: undefined;
       };
       update_leaderboard: {
         Args: Record<PropertyKey, never>;
