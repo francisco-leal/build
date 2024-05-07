@@ -406,14 +406,15 @@ BEGIN
         SELECT u.wallet, u.boss_score, u.passport_builder_score, u.username,
                COALESCE(COUNT(bn.id), 0) AS boss_nominations_received
         FROM users u
-        LEFT JOIN boss_nominations bn ON u.wallet = bn.destination_wallet
+        LEFT JOIN boss_nominations bn ON u.wallet = bn.wallet_destination
+        GROUP BY u.wallet
     )
     INSERT INTO boss_leaderboard (wallet, rank, boss_score, passport_builder_score, username, boss_nominations_received)
     SELECT wallet, rank, boss_score, passport_builder_score, username, boss_nominations_received
     FROM (
         SELECT
             wallet, boss_score, passport_builder_score, username, boss_nominations_received,
-            ROW_NUMBER() OVER (ORDER BY score, builder_score DESC) AS rank
+            ROW_NUMBER() OVER (ORDER BY boss_score, passport_builder_score DESC) AS rank
         FROM user_scores
     ) AS subquery
     ON CONFLICT (wallet) DO UPDATE

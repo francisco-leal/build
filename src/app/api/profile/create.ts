@@ -63,7 +63,7 @@ export async function createProfile(wallet_address: string) {
         }, 0)
       : 0;
 
-  const { data, error } = await supabase.from("users").insert({
+  const user = {
     wallet: wallet_address,
     referral_code: inviteCode,
     username: username,
@@ -72,11 +72,21 @@ export async function createProfile(wallet_address: string) {
     boss_budget,
     passport_builder_score: builder_score,
     boss_token_balance: boss_tokens,
+  };
+  const { error } = await supabase.from("users").insert(user);
+
+  await supabase.from("boss_leaderboard").insert({
+    rank: null,
+    wallet: user.wallet,
+    username: user.username,
+    boss_score: user.boss_score,
+    passport_builder_score: user.passport_builder_score,
+    boss_nominations_received: past_earned_nominations?.length ?? 0,
   });
 
   if (error) {
     return { error, data: null };
   }
 
-  return { error: null, data: data };
+  return { error, data: user };
 }

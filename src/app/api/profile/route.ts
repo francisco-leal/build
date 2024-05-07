@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     .eq("wallet", wallet_address)
     .single();
 
-  if (error_user) {
+  if (error_user && error_user.details !== "The result contains 0 rows") {
     return Response.json({ error: error_user }, { status: 404 });
   }
 
@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
     if (error_write) {
       return Response.json({ error: error_write }, { status: 404 });
     }
+
     user = userCreated;
   } else {
     user = userAlreadyExists;
