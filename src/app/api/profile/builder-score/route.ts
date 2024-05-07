@@ -8,11 +8,11 @@ export async function PATCH() {
   if (!user) {
     return Response.json({ error: "user not connected!" }, { status: 401 });
   }
-  const builderScore = await getBuilderScore(user.userWalletAddress);
+  const builderScore = await getBuilderScore(user.wallet);
   const { data: user_personal_stats, error } = await supabase
-    .from("app_user_stats")
-    .update({ builder_score: builderScore })
-    .eq("user_id", user.userId)
+    .from("users")
+    .update({ passport_builder_score: builderScore })
+    .eq("wallet", user.wallet)
     .select()
     .single();
 

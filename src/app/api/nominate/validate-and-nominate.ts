@@ -3,32 +3,19 @@ import { createProfile } from "@/app/api/profile/create";
 
 // TODO: maybe this can be improved somehow
 export async function validateAndNominate(
-  user_nominator: { userId: number },
+  user_nominator: { wallet: string },
   nominated_user_address: string,
 ) {
   // find user and limits
-  const [
-    { data: nominated_user, error: error_find },
-    { data: user_max_nominations, error: error_user_max_nominations },
-  ] = await Promise.all([
-    supabase
-      .from("app_user")
-      .select("id")
-      .eq("wallet_address", nominated_user_address),
-    supabase
-      .from("app_user")
-      .select("max_nominations")
-      .eq("id", user_nominator.userId)
-      .single(),
+  const [{ data: nominated_user, error: error_find }] = await Promise.all([
+    supabase.from("users").select("*").eq("wallet", nominated_user_address),
   ]);
 
   if (error_find) {
     return { error: error_find, data: null };
   }
 
-  if (error_user_max_nominations) {
-    return { error: error_user_max_nominations, data: null };
-  }
+  // @TODO: Add logic to check if user already nominated more than 3 builders
 
   if (!nominated_user || nominated_user.length === 0) {
     const { error: error_write } = await createProfile(nominated_user_address);
@@ -45,61 +32,22 @@ export async function validateAndNominate(
   toDate.setHours(0, 0, 0, 0);
   toDate.setDate(toDate.getDate() + 1);
 
-  const [
-    { data: user_nominated_user, error: error_user_nominated_user },
-    {
-      data: user_daily_nominated_users,
-      error: error_user_daily_nominated_users,
-    },
-  ] = await Promise.all([
-    supabase
-      .from("app_nominations")
-      .select("id")
-      .eq("user_id_from", user_nominator.userId)
-      .eq("user_id_nominated", nominated_user[0].id),
-    supabase
-      .from("app_daily_nominations")
-      .select("user_id_nominated")
-      .eq("user_id_from", user_nominator.userId)
-      .gte("created_at", fromDate.toISOString())
-      .lte("created_at", toDate.toISOString()),
-  ]);
+  const [{ data: user_nominated_user, error: error_user_nominated_user }] =
+    await Promise.all([
+      supabase
+        .from("boss_nominations")
+        .select("*")
+        .eq("wallet_origin", user_nominator.wallet)
+        .eq("wallet_destination", nominated_user[0].wallet),
+    ]);
 
   if (error_user_nominated_user) {
     return { error: error_user_nominated_user, data: null };
   }
 
-  if (error_user_daily_nominated_users) {
-    return { error: error_user_daily_nominated_users, data: null };
-  }
-
-  if (
-    user_daily_nominated_users &&
-    user_max_nominations &&
-    user_daily_nominated_users.length >= user_max_nominations.max_nominations
-  ) {
-    return { error: "user has reached the daily nomination limit", data: null };
-  }
-
-  if (
-    (user_nominated_user && user_nominated_user.length > 0) ||
-    user_daily_nominated_users.filter(
-      (n) => n.user_id_nominated === nominated_user[0].id,
-    ).length > 0
-  ) {
-    return { error: "can not nominate same user twice", data: null };
-  }
-
-  if (nominated_user[0].id === user_nominator.userId) {
+  if (nominated_user[0].wallet === user_nominator.wallet) {
     return { error: "can not nominate yourself", data: null };
   }
 
-  // insert nomination
-  return await supabase
-    .from("app_daily_nominations")
-    .insert({
-      user_id_from: user_nominator.userId,
-      user_id_nominated: nominated_user[0].id,
-    })
-    .select();
+  return { error: null, data: nominated_user[0] };
 }

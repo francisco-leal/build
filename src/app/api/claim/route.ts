@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
   }
 
   let { data: app_user, error: error_find } = await supabase
-    .from("app_user")
-    .select("id")
+    .from("users")
+    .select("wallet")
     .eq("referral_code", referral)
     .single();
 
@@ -26,13 +26,13 @@ export async function POST(request: NextRequest) {
   }
 
   const { data: nominated_result, error } = await validateAndNominate(
-    { userId: app_user.id },
-    user.userWalletAddress,
+    { wallet: app_user.wallet },
+    user.wallet,
   );
 
-  if (error || !nominated_result || nominated_result.length === 0) {
+  if (error || !nominated_result) {
     return Response.json({ error }, { status: 400 });
   }
 
-  return Response.json(nominated_result[0]);
+  return Response.json(nominated_result);
 }

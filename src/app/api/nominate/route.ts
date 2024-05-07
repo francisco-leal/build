@@ -20,9 +20,9 @@ export async function POST(request: NextRequest) {
     nominated_user_address,
   );
 
-  if (error || !nominated_result || nominated_result.length === 0) {
+  if (error || !nominated_result) {
     return Response.json({ error }, { status: 400 });
   }
 
-  return Response.json(nominated_result[0]);
+  return Response.json(nominated_result);
 }
