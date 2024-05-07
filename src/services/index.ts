@@ -4,19 +4,6 @@ import { searchTalentProtocolUser } from "./talent-protocol";
 
 init(process.env.AIRSTACK_API_KEY!);
 
-export function generateRandomSequence(length: number) {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
-}
-
 export async function searchSocialUser(querySearch: string) {
   let addressToSearch = "";
   let username = "";
@@ -65,7 +52,7 @@ export async function searchSocialUser(querySearch: string) {
 
   const filterFarcasterAddress = (
     userAddress: string,
-    userAssociatedAddresses: string[],
+    userAssociatedAddresses: string[]
   ) => {
     if (userAssociatedAddresses.length === 1) {
       return userAddress;
@@ -96,15 +83,15 @@ export async function searchSocialUser(querySearch: string) {
             }) => ({
               address: filterFarcasterAddress(
                 s.userAddress,
-                s.userAssociatedAddresses,
+                s.userAssociatedAddresses
               ),
               username: s.profileName,
               profile_image: s.profileImage,
               dapp: s.dappName,
               profileTokenId: parseInt(s.profileTokenId, 10),
-            }),
+            })
           )
-        : [],
+        : []
     )
     .concat(
       talentProtocolData
@@ -117,41 +104,8 @@ export async function searchSocialUser(querySearch: string) {
             dapp: "talent-protocol",
             profileTokenId: 0,
           }))
-        : [],
+        : []
     );
-}
-
-export async function getNominationsFromFarcaster() {
-  // TODO: inject into app_daily_nominations
-}
-
-export async function computeUserNominationsAndStats() {
-  console.log("calculating user nominations and stats...");
-  const { error: error_update_nominations } =
-    await supabase.rpc("update_nominations");
-  if (error_update_nominations) {
-    throw error_update_nominations;
-  }
-  console.log("calculating user stats...");
-  const { error: error_update_user_stats } =
-    await supabase.rpc("update_user_stats");
-  if (error_update_user_stats) {
-    throw error_update_user_stats;
-  }
-  console.log("calculating user boss score...");
-  const { error: error_user_boss_score } = await supabase.rpc(
-    "update_user_boss_score",
-  );
-  if (error_user_boss_score) {
-    throw error_user_boss_score;
-  }
-  console.log("calculating user boss budget...");
-  const { error: error_user_boss_budget } = await supabase.rpc(
-    "update_user_boss_budget",
-  );
-  if (error_user_boss_budget) {
-    throw error_user_boss_budget;
-  }
 }
 
 export async function computeLeaderboard() {

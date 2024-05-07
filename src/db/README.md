@@ -394,3 +394,37 @@ CREATE INDEX idx_referral_code ON users (referral_code);
 ```
 
 </details>
+
+<details>
+<summary><b>[FUNCTION] Update leaderboard</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION update_leaderboard()
+RETURNS VOID AS $$
+BEGIN
+    WITH user_scores AS (
+        SELECT u.wallet, u.boss_score, u.passport_builder_score, u.username,
+               COALESCE(COUNT(bn.id), 0) AS boss_nominations_received
+        FROM users u
+        LEFT JOIN boss_nominations bn ON u.wallet = bn.destination_wallet
+    )
+    INSERT INTO boss_leaderboard (wallet, rank, boss_score, passport_builder_score, username, boss_nominations_received)
+    SELECT wallet, rank, boss_score, passport_builder_score, username, boss_nominations_received
+    FROM (
+        SELECT
+            wallet, boss_score, passport_builder_score, username, boss_nominations_received,
+            ROW_NUMBER() OVER (ORDER BY score, builder_score DESC) AS rank
+        FROM user_scores
+    ) AS subquery
+    ON CONFLICT (wallet) DO UPDATE
+    SET
+        rank = excluded.rank,
+        boss_score = excluded.boss_score,
+        passport_builder_score = excluded.passport_builder_score,
+        username = excluded.username,
+        boss_nominations_received = excluded.boss_nominations_received;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>
