@@ -55,6 +55,21 @@ export const NominateBuilderComponent: FunctionComponent<
   const currentUserBossPointsSent = (currentUserDailyBudget ?? 0) * 0.9;
   const currentUserBossPointsEarned = (currentUserDailyBudget ?? 0) * 0.1;
 
+  const nominateUser = () => {
+    fetch("/api/nominate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nominated_user_address: address,
+      }),
+    }).then(() => {
+      // TODO: HANDLE SUCCESS & FAILURE
+      console.log("Success");
+    });
+  };
+
   return (
     <Modal open onClose={goBack}>
       <ModalOverflow>
@@ -161,7 +176,7 @@ export const NominateBuilderComponent: FunctionComponent<
               <Button
                 variant="solid"
                 disabled={(currentUserDailyBudget ?? 0) <= 0}
-                onClick={() => {}}
+                onClick={() => nominateUser()}
               >
                 Confirm
               </Button>

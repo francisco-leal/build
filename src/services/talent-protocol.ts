@@ -8,6 +8,7 @@ type PassportResult = {
     image_url: string;
     name: string;
   } | null;
+  verified_wallets: Array<string>;
 };
 
 type PassportResponse = {
