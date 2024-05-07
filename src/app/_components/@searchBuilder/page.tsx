@@ -7,13 +7,7 @@ import { DateTime } from "luxon";
 
 export type SearchBuildersProps = Omit<
   SearchBuilderComponentProps,
-  | "shareLink"
-  | "date"
-  | "dailyBudget"
-  | "bossPointsEarned"
-  | "bossPointsSent"
-  | "totalBossPoints"
-  | "isConnected"
+  "shareLink" | "date" | "dailyBudget" | "totalBossPoints" | "isConnected"
 >;
 
 export default async function SearchBuilders(props: SearchBuildersProps) {
@@ -32,8 +26,6 @@ export default async function SearchBuilders(props: SearchBuildersProps) {
       date={date}
       // TODO: map the correct values here!
       dailyBudget={user?.boss_budget}
-      bossPointsEarned={user?.nominated}
-      bossPointsSent={user?.boss_budget}
       totalBossPoints={user?.boss_score}
       {...props}
     />

@@ -15,9 +15,9 @@ export async function POST(request: NextRequest) {
     };
 
   const { data: user } = await supabase
-    .from("app_user")
-    .select("id")
-    .eq("wallet_address", from_user_address)
+    .from("users")
+    .select("wallet")
+    .eq("wallet", from_user_address)
     .single();
 
   if (!user) {
@@ -25,13 +25,13 @@ export async function POST(request: NextRequest) {
   }
 
   const { data: nominated_result, error } = await validateAndNominate(
-    { userId: user.id },
+    { wallet: user.wallet },
     nominated_user_address,
   );
 
-  if (error || !nominated_result || nominated_result.length === 0) {
+  if (error || !nominated_result) {
     return Response.json({ error }, { status: 400 });
   }
 
-  return Response.json(nominated_result[0]);
+  return Response.json(nominated_result);
 }

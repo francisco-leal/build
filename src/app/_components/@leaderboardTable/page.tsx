@@ -7,21 +7,21 @@ export default async function LeaderboardTable() {
   const user = await getSession();
 
   const { data: leaderboardData } = await supabase
-    .from("app_leaderboard_current")
+    .from("boss_leaderboard")
     .select("*")
     .order("rank", { ascending: true })
     .limit(10)
     .throwOnError();
 
   const leaderboard = leaderboardData ?? [];
-  const currentUserId = user?.userId;
-  const containsUser = leaderboard.some((l) => l.user_id === currentUserId);
+  const currentUserWallet = user?.wallet;
+  const containsUser = leaderboard.some((l) => l.wallet === currentUserWallet);
 
-  if (!containsUser && currentUserId) {
+  if (!containsUser && currentUserWallet) {
     const { data: currentUserData } = await supabase
-      .from("app_leaderboard_current")
+      .from("boss_leaderboard")
       .select("*")
-      .eq("user_id", currentUserId)
+      .eq("wallet", currentUserWallet)
       .single();
     if (currentUserData) leaderboard.push(currentUserData);
   }
@@ -29,13 +29,12 @@ export default async function LeaderboardTable() {
   const values = leaderboard.map((entry): LeaderboardTableValue => {
     return {
       id:
-        entry.user_id?.toString() ??
-        abbreviateWalletAddress(entry.wallet_address ?? ""),
+        entry.wallet?.toString() ?? abbreviateWalletAddress(entry.wallet ?? ""),
       name: entry.username ?? "",
-      highlight: entry.user_id === user?.userId,
-      builderScore: entry?.builder_score ?? 0,
-      bossScore: entry?.boss_points ?? 0,
-      nominationsReceived: entry?.nominations ?? 0,
+      highlight: entry.wallet === user?.wallet,
+      builderScore: entry?.passport_builder_score ?? 0,
+      bossScore: entry?.boss_score ?? 0,
+      nominationsReceived: entry?.boss_nominations_received ?? 0,
       rank: entry.rank?.toString() ?? "0",
     };
   });

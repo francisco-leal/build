@@ -5,8 +5,7 @@ const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
 
 export type User = {
-  userId: number;
-  userWalletAddress: string;
+  wallet: string;
   siwe?: {
     nonce: string;
     address: string;

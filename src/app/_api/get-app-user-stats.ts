@@ -4,11 +4,11 @@ import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 
 export const getAppUserStats = unstable_cache(
-  async (id: number) => {
+  async (wallet: string) => {
     const { data } = await supabase
-      .from("app_user_stats")
+      .from("users")
       .select("*")
-      .eq("user_id", id)
+      .eq("wallet", wallet)
       .throwOnError()
       .single();
 
@@ -23,7 +23,7 @@ export const getCurrentUserAppStats = async () => {
   const user = await getSession();
 
   if (!user) return notFound(); // TODO: replace with null object
-  return getAppUserStats(user.userId);
+  return getAppUserStats(user.wallet);
 };
 
 export const isUserConnected = async () => {

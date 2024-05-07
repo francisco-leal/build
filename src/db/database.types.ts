@@ -266,6 +266,7 @@ export type Database = {
           created_at: string;
           passport_builder_score: number;
           rank: number | null;
+          username: string | null;
           wallet: string;
         };
         Insert: {
@@ -274,6 +275,7 @@ export type Database = {
           created_at?: string;
           passport_builder_score: number;
           rank?: number | null;
+          username?: string | null;
           wallet: string;
         };
         Update: {
@@ -282,6 +284,7 @@ export type Database = {
           created_at?: string;
           passport_builder_score?: number;
           rank?: number | null;
+          username?: string | null;
           wallet?: string;
         };
         Relationships: [];

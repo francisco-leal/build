@@ -25,8 +25,6 @@ export type SearchBuilderComponentProps = {
 
   shareLink?: string;
   dailyBudget?: number;
-  bossPointsSent?: number;
-  bossPointsEarned?: number;
   totalBossPoints?: number;
 } & StackProps;
 
@@ -44,8 +42,6 @@ export const SearchBuilderComponent: FunctionComponent<
   date,
   shareLink,
   dailyBudget,
-  bossPointsEarned,
-  bossPointsSent,
   totalBossPoints,
   ...props
 }) => {
