@@ -50,7 +50,7 @@ export default async function HowToPlay() {
               component={Link}
               href="/"
               underline="none"
-              sx={{ mt: "auto" }}
+              sx={{ mt: "16px" }}
             >
               Share Link
             </Button>
@@ -90,7 +90,7 @@ export default async function HowToPlay() {
               component={Link}
               href="https://passport.talentprotocol.com"
               underline="none"
-              sx={{ mt: "auto" }}
+              sx={{ mt: "16px" }}
             >
               Talent Passport
             </Button>
@@ -131,7 +131,7 @@ export default async function HowToPlay() {
               component={Link}
               href="/tokenomics"
               underline="none"
-              sx={{ mt: "auto" }}
+              sx={{ mt: "16px" }}
             >
               Tokenomics
             </Button>
