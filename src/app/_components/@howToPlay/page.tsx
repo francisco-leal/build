@@ -48,11 +48,11 @@ export default async function HowToPlay() {
               variant="solid"
               color="neutral"
               component={Link}
-              href="https://passport.talentprotocol.com"
+              href="/"
               underline="none"
               sx={{ mt: "auto" }}
             >
-              Talent Passport
+              Share Link
             </Button>
           </Stack>
         </Stack>
@@ -88,11 +88,11 @@ export default async function HowToPlay() {
               variant="solid"
               color="neutral"
               component={Link}
-              href="/"
+              href="https://passport.talentprotocol.com"
               underline="none"
               sx={{ mt: "auto" }}
             >
-              Share Link
+              Talent Passport
             </Button>
           </Stack>
         </Stack>
