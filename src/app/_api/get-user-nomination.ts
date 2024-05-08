@@ -1,45 +1,46 @@
 import { supabase } from "@/db";
 import { unstable_cache } from "next/cache";
-import { User, getUser } from "./get-user";
 import { getSession } from "@/services/authentication/cookie-session";
+import { makeMap } from "@/shared/utils/make-map";
 
 export type UserNomination = {
   id: number;
   bossPointsEarned: number;
   bossPointsGiven: number;
   destinationWallet: string;
-  destinationUsername: string;
+  destinationUsername: string | null;
   destinationRank: number | null;
   createdAt: string;
 };
 
 export const getUserNominations = unstable_cache(
   async (wallet: string): Promise<UserNomination[]> => {
-    const { data } = await supabase
+    const { data: nominations } = await supabase
       .from("boss_nominations")
-      .select(
-        `
-        id,
-        wallet_destination,
-        boss_points_earned,
-        boss_points_given,
-        created_at,
-        users:wallet_destination ( 
-          username
-        )
-      `,
-      )
+      .select("*")
       .order("created_at", { ascending: false })
       .limit(50)
-      .eq("wallet_origin", wallet);
+      .eq("wallet_origin", wallet.toLowerCase());
 
-    return (data ?? []).map((nomination) => ({
+    if (!nominations) return [];
+
+    const { data: users } = await supabase
+      .from("boss_leaderboard")
+      .select("*")
+      .in(
+        "wallet",
+        nominations.map((n) => n.wallet_destination),
+      );
+
+    const usersMap = makeMap(users ?? [], (u) => u.wallet);
+
+    return nominations.map((nomination) => ({
       id: nomination.id,
       bossPointsEarned: nomination.boss_points_earned,
       bossPointsGiven: nomination.boss_points_given,
-      // FIX ME !!!
-      destinationUsername: "", //nomination.boss_leaderboard.username,
-      destinationRank: null, // nomination.boss_leaderboard.rank,
+      destinationWallet: nomination.wallet_destination,
+      destinationUsername: usersMap[nomination.wallet_destination]?.username,
+      destinationRank: usersMap[nomination.wallet_destination]?.rank,
       createdAt: nomination.created_at,
     }));
   },
