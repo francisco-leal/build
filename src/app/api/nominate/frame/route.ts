@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const { data: user } = await supabase
     .from("users")
     .select("wallet")
-    .eq("wallet", from_user_address)
+    .eq("wallet", from_user_address.toLowerCase())
     .single();
 
   if (!user) {
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   const { data: nominated_result, error } = await validateAndNominate(
     { wallet: user.wallet },
-    nominated_user_address,
+    nominated_user_address
   );
 
   if (error || !nominated_result) {

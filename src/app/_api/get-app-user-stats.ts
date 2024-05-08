@@ -8,7 +8,7 @@ export const getAppUserStats = unstable_cache(
     const { data } = await supabase
       .from("users")
       .select("*")
-      .eq("wallet", wallet)
+      .eq("wallet", wallet.toLowerCase())
       .throwOnError()
       .single();
 
@@ -16,7 +16,7 @@ export const getAppUserStats = unstable_cache(
     return data;
   },
   ["app-user-stats"],
-  { revalidate: 60 },
+  { revalidate: 60 }
 );
 
 export const getCurrentUserAppStats = async () => {

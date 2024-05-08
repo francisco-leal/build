@@ -24,7 +24,7 @@ export async function createProfile(wallet_address: string) {
   // calculate boss_budget
   // we ignore the boss points and nomination streak at this point, given both are zero!
   const fid = socialProfiles.filter(
-    (profile) => profile.dapp === "farcaster",
+    (profile) => profile.dapp === "farcaster"
   )?.[0]?.profileTokenId;
 
   const boss_budget =
@@ -41,7 +41,7 @@ export async function createProfile(wallet_address: string) {
   const { data: past_given_nominations } = await supabase
     .from("boss_nominations")
     .select("*")
-    .eq("wallet_origin", wallet_address);
+    .eq("wallet_origin", wallet_address.toLowerCase());
 
   let boss_score = 0;
   boss_score +=
@@ -54,7 +54,7 @@ export async function createProfile(wallet_address: string) {
   const { data: past_earned_nominations } = await supabase
     .from("boss_nominations")
     .select("*")
-    .eq("wallet_destination", wallet_address);
+    .eq("wallet_destination", wallet_address.toLowerCase());
 
   boss_score +=
     past_earned_nominations && past_earned_nominations.length > 0
@@ -64,7 +64,7 @@ export async function createProfile(wallet_address: string) {
       : 0;
 
   const user = {
-    wallet: wallet_address,
+    wallet: wallet_address.toLowerCase(),
     referral_code: inviteCode,
     username: username,
     manifesto_nft: has_manifesto_nft,

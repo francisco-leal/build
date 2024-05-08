@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     let { data: user_personal_stats, error } = await supabase
       .from("user_personal_stats")
       .select("*")
-      .eq("wallet_address", walletAddressSearch)
+      .eq("wallet_address", walletAddressSearch.toLowerCase())
       .single();
 
     if (error || !user_personal_stats) {
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
   const { data: userAlreadyExists, error: error_user } = await supabase
     .from("users")
     .select("*")
-    .eq("wallet", wallet_address)
+    .eq("wallet", wallet_address.toLowerCase())
     .single();
 
   if (error_user && error_user.details !== "The result contains 0 rows") {

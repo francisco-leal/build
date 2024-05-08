@@ -20,13 +20,13 @@ export const getUser = unstable_cache(
     const { data } = await supabase
       .from("users")
       .select("*")
-      .eq("wallet", wallet)
+      .eq("wallet", wallet.toLowerCase())
       .single();
     if (!data) return null;
     return data;
   },
   ["user"],
-  { revalidate: 60 },
+  { revalidate: 60 }
 );
 
 export const getCurrentUser = async (): Promise<User | null> => {

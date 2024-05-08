@@ -11,7 +11,7 @@ export const getUserNomination = unstable_cache(
     const { data } = await supabase
       .from("boss_nominations")
       .select("*")
-      .eq("wallet_origin", wallet)
+      .eq("wallet_origin", wallet.toLowerCase())
       // TODO: this will for sure cause issues. The idea is to retrive
       // the nomination the user has made today.
       .gte("created_at", new Date().toISOString().split("T")[0]);
@@ -21,7 +21,7 @@ export const getUserNomination = unstable_cache(
     return getUser(nominatedWallet);
   },
   ["user_nomination"],
-  { revalidate: 30 },
+  { revalidate: 30 }
 );
 
 export const getCurrentUserNomination = async (): Promise<User | null> => {

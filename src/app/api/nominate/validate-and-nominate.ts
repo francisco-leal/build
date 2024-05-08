@@ -5,7 +5,7 @@ const getBossBudget = async (wallet: string) => {
   const { data: user, error: error_user } = await supabase
     .from("users")
     .select("boss_budget")
-    .eq("wallet", wallet)
+    .eq("wallet", wallet.toLowerCase())
     .single();
 
   if (user) {
@@ -17,7 +17,7 @@ const getBossBudget = async (wallet: string) => {
 
 export async function validateAndNominate(
   user_nominator: { wallet: string },
-  nominated_user_address: string,
+  nominated_user_address: string
 ) {
   if (nominated_user_address === user_nominator.wallet) {
     return { error: "can not nominate yourself", data: null };
@@ -28,7 +28,7 @@ export async function validateAndNominate(
   const { data: existing_nominated_user, error: error_find } = await supabase
     .from("users")
     .select("*")
-    .eq("wallet", nominated_user_address);
+    .eq("wallet", nominated_user_address.toLowerCase());
 
   if (error_find) {
     return { error: error_find, data: null };
@@ -62,8 +62,8 @@ export async function validateAndNominate(
     await supabase
       .from("boss_nominations")
       .select("*")
-      .eq("wallet_origin", user_nominator.wallet)
-      .eq("wallet_destination", nominated_user.wallet);
+      .eq("wallet_origin", user_nominator.wallet.toLowerCase())
+      .eq("wallet_destination", nominated_user.wallet.toLowerCase());
 
   if (error_user_nominated_user) {
     return { error: error_user_nominated_user, data: null };
@@ -77,7 +77,7 @@ export async function validateAndNominate(
     await supabase
       .from("boss_nominations")
       .select("*")
-      .eq("wallet_origin", user_nominator.wallet)
+      .eq("wallet_origin", user_nominator.wallet.toLowerCase())
       .gte("created_at", fromDate.toISOString())
       .lte("created_at", toDate.toISOString());
 
@@ -92,8 +92,8 @@ export async function validateAndNominate(
   const boss_budget = await getBossBudget(user_nominator.wallet);
 
   await supabase.from("boss_nominations").insert({
-    wallet_origin: user_nominator.wallet,
-    wallet_destination: nominated_user.wallet,
+    wallet_origin: user_nominator.wallet.toLowerCase(),
+    wallet_destination: nominated_user.wallet.toLowerCase(),
     boss_points_earned: boss_budget * 0.1,
     boss_points_given: boss_budget * 0.9,
   });
