@@ -22,7 +22,7 @@ const getLeaderboardUser = unstable_cache(
     const { data: leaderboardData } = await supabase
       .from("boss_leaderboard")
       .select("*")
-      .eq("wallet", wallet)
+      .eq("wallet", wallet.toLowerCase())
       .single();
     return leaderboardData;
   },

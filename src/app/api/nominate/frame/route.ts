@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const { data: user } = await supabase
     .from("users")
     .select("wallet")
-    .eq("wallet", from_user_address)
+    .eq("wallet", from_user_address.toLowerCase())
     .single();
 
   if (!user) {

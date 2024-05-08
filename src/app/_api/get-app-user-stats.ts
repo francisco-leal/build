@@ -8,7 +8,7 @@ export const getAppUserStats = unstable_cache(
     const { data } = await supabase
       .from("users")
       .select("*")
-      .eq("wallet", wallet)
+      .eq("wallet", wallet.toLowerCase())
       .throwOnError()
       .single();
 

@@ -80,7 +80,7 @@ export async function updateMintedManifestoNFTUsers() {
       await supabase
         .from("app_user")
         .update({ manifesto_nft: true })
-        .eq("wallet_address", getAddress(log.topics[1]));
+        .eq("wallet_address", getAddress(log.topics[1]).toLowerCase());
     }
 
     fromBlock = BigInt(toBlock);

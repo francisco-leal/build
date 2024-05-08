@@ -12,7 +12,7 @@ export async function PATCH() {
   const { data: user_personal_stats, error } = await supabase
     .from("users")
     .update({ passport_builder_score: builderScore })
-    .eq("wallet", user.wallet)
+    .eq("wallet", user.wallet.toLowerCase())
     .select()
     .single();
 
