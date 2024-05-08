@@ -287,7 +287,15 @@ export type Database = {
           username?: string | null;
           wallet?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "boss_leaderboard_wallet_fkey";
+            columns: ["wallet"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["wallet"];
+          },
+        ];
       };
       boss_nominations: {
         Row: {
@@ -314,7 +322,22 @@ export type Database = {
           wallet_destination?: string;
           wallet_origin?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "boss_nominations_wallet_destination_fkey";
+            columns: ["wallet_destination"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["wallet"];
+          },
+          {
+            foreignKeyName: "boss_nominations_wallet_origin_fkey";
+            columns: ["wallet_origin"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["wallet"];
+          },
+        ];
       };
       scheduled_updates: {
         Row: {

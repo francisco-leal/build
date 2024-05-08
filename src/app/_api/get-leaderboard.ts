@@ -14,7 +14,7 @@ const getLeaderboardTop10 = unstable_cache(
     return leaderboardData ?? [];
   },
   ["leaderboard_top_10"],
-  { revalidate: 60 * 5 }
+  { revalidate: 60 * 5 },
 );
 
 const getLeaderboardUser = unstable_cache(
@@ -27,7 +27,7 @@ const getLeaderboardUser = unstable_cache(
     return leaderboardData;
   },
   ["leaderboard_user"],
-  { revalidate: 60 * 5 }
+  { revalidate: 60 * 5 },
 );
 
 export const getLeaderboard = async () => {

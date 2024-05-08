@@ -24,7 +24,7 @@ export async function createProfile(wallet_address: string) {
   // calculate boss_budget
   // we ignore the boss points and nomination streak at this point, given both are zero!
   const fid = socialProfiles.filter(
-    (profile) => profile.dapp === "farcaster"
+    (profile) => profile.dapp === "farcaster",
   )?.[0]?.profileTokenId;
 
   const boss_budget =

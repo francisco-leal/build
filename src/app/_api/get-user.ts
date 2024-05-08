@@ -26,7 +26,7 @@ export const getUser = unstable_cache(
     return data;
   },
   ["user"],
-  { revalidate: 60 }
+  { revalidate: 60 },
 );
 
 export const getCurrentUser = async (): Promise<User | null> => {

@@ -21,7 +21,7 @@ export const getUserNomination = unstable_cache(
     return getUser(nominatedWallet);
   },
   ["user_nomination"],
-  { revalidate: 30 }
+  { revalidate: 30 },
 );
 
 export const getCurrentUserNomination = async (): Promise<User | null> => {

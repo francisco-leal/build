@@ -56,11 +56,11 @@ export async function updateMintedManifestoNFTUsers() {
   const currentBlock = await publicClient.getBlockNumber();
 
   let fromBlock = BigInt(
-    storedFromBlock?.value || (currentBlock - BigInt(1)).toString()
+    storedFromBlock?.value || (currentBlock - BigInt(1)).toString(),
   );
   let toBlock = Math.min(
     parseInt(fromBlock.toString(), 10) + 5000,
-    parseInt(currentBlock.toString(), 10)
+    parseInt(currentBlock.toString(), 10),
   );
 
   // search in small chuncks (avoid rpc throw error)
@@ -68,7 +68,7 @@ export async function updateMintedManifestoNFTUsers() {
     const logs = await publicClient.getLogs({
       address: ManifestoNFTContractAddress,
       event: parseAbiItem(
-        "event Transfer(address indexed, address indexed, uint256)"
+        "event Transfer(address indexed, address indexed, uint256)",
       ),
       fromBlock,
       toBlock: BigInt(toBlock),
@@ -86,7 +86,7 @@ export async function updateMintedManifestoNFTUsers() {
     fromBlock = BigInt(toBlock);
     toBlock = Math.min(
       parseInt(fromBlock.toString(), 10) + 5000,
-      parseInt(currentBlock.toString(), 10)
+      parseInt(currentBlock.toString(), 10),
     );
   }
 

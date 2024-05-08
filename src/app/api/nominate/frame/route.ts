@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   const { data: nominated_result, error } = await validateAndNominate(
     { wallet: user.wallet },
-    nominated_user_address
+    nominated_user_address,
   );
 
   if (error || !nominated_result) {

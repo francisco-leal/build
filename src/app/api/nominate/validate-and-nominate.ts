@@ -17,7 +17,7 @@ const getBossBudget = async (wallet: string) => {
 
 export async function validateAndNominate(
   user_nominator: { wallet: string },
-  nominated_user_address: string
+  nominated_user_address: string,
 ) {
   if (nominated_user_address === user_nominator.wallet) {
     return { error: "can not nominate yourself", data: null };
