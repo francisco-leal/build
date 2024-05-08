@@ -22,7 +22,7 @@
     "@fontsource-variable/inter": "^5.0.18",
     "@fontsource/inter": "^5.0.18",
     "@mui/joy": "^5.0.0-beta.36",
-    "@supabase/supabase-js": "2.42.4",
+    "@supabase/supabase-js": "2.43.1",
     "@tanstack/react-query": "^5.32.0",
     "@web3modal/wagmi": "^4.1.11",
     "encoding": "^0.1.13",
