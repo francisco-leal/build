@@ -1,8 +1,9 @@
 import { type NextRequest } from "next/server";
 import { supabase } from "@/db";
-import { validateAndNominate } from "@/app/api/nominate/validate-and-nominate";
 import { getSession } from "@/services/authentication/cookie-session";
+import { createNewNomination } from "@/app/_api/create-new-nomination";
 
+// TODO use restApiHandler!
 export async function POST(request: NextRequest) {
   const { referral } = (await request.json()) as { referral: string };
   const user = await getSession();
@@ -25,14 +26,12 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: error_find }, { status: 404 });
   }
 
-  const { data: nominated_result, error } = await validateAndNominate(
+  // TODO this is probably broken, because the implementation
+  // of createNewNomination was changed and not tested on frame!
+  const data = await createNewNomination(
     { wallet: app_user.wallet },
     user.wallet,
   );
 
-  if (error || !nominated_result) {
-    return Response.json({ error }, { status: 400 });
-  }
-
-  return Response.json(nominated_result);
+  return Response.json(data);
 }

@@ -1,28 +1,23 @@
 import { getSession } from "@/services/authentication/cookie-session";
-import { type NextRequest } from "next/server";
-import { validateAndNominate } from "./validate-and-nominate";
+import { z } from "zod";
+import { UnauthorizedError } from "@/shared/utils/error";
+import { restApiHandler } from "@/app/_api/rest-api-handler";
+import { createNewNomination } from "@/app/_api/create-new-nomination";
 
-export async function POST(request: NextRequest) {
-  const { nominated_user_address } = (await request.json()) as {
-    nominated_user_address: string;
-  };
+const dataSchema = z.object({
+  nominatedUserAddress: z.string(),
+});
+
+export const POST = restApiHandler(async (request) => {
+  const json = await request.json();
   const user = await getSession();
+  const { nominatedUserAddress } = dataSchema.parse(json);
 
   if (!user) {
-    return Response.json(
-      { message: "User needs to be authenticated to vote" },
-      { status: 401 },
+    throw new UnauthorizedError(
+      "You need to be connect your wallet to nominate a boss!",
     );
   }
 
-  const { data: nominated_result, error } = await validateAndNominate(
-    user,
-    nominated_user_address,
-  );
-
-  if (error || !nominated_result) {
-    return Response.json({ error }, { status: 400 });
-  }
-
-  return Response.json(nominated_result);
-}
+  return createNewNomination(user, nominatedUserAddress);
+});
