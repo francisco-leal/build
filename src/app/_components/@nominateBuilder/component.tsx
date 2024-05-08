@@ -19,7 +19,7 @@ import {
 import { useRouter } from "next/navigation";
 import { FunctionComponent, useState } from "react";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { wait } from "@/shared/utils/wait";
+import { toast } from "sonner";
 
 export type NominateBuilderComponentProps = {
   connected?: boolean;
@@ -64,25 +64,26 @@ export const NominateBuilderComponent: FunctionComponent<
   const currentUserBossPointsEarned = (currentUserDailyBudget ?? 0) * 0.1;
 
   const isReadyToNominate =
-    !loading && !connected && !previouslyNominatedBossUsername;
+    !loading && connected && !previouslyNominatedBossUsername;
 
   const nominateUser = async () => {
     setIsNominating(true);
     try {
-      const reponse = fetch("/api/nominate", {
+      const response = await fetch("/api/nominate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nominated_user_address: builderWallet,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nominatedUserAddress: builderWallet }),
       });
 
-      // TODO convert to a throw if error occurs in server
-      // TODO set up a reaction for success
+      const json = await response.json() as { error?: string };
+
+      if (json.error) {
+        toast.error(json.error);
+      } else {
+        toast.success("Successfully nominated user!");
+      }
     } catch (e) {
-      // TODO handle errors.
+      toast.error("An error occurred while nominating user.");
     } finally {
       setIsNominating(false);
     }
