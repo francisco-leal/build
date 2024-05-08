@@ -1,13 +1,6 @@
-import { Button, Link, Stack, Typography } from "@mui/joy";
+import { Stack, Typography } from "@mui/joy";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import {
-  Eye,
-  Interface,
-  MusicHeadeset,
-  Terminal,
-  UserManLove,
-  UserShield,
-} from "@/shared/icons";
+import { Eye, Interface, MusicHeadeset, Terminal } from "@/shared/icons";
 import { HeroSection } from "@/shared/components/hero-section";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
@@ -17,11 +10,13 @@ export default async function HomePageLayout({
   leaderboardTable,
   searchBuilder,
   nominateBuilder,
+  howToPlay,
 }: {
   leaderboardTable: React.ReactNode;
   searchBuilder: React.ReactNode;
   children: React.ReactNode;
   nominateBuilder: React.ReactNode;
+  howToPlay: React.ReactNode;
 }) {
   const now = DateTime.utc().startOf("hour");
   const format = "LLL dd, hh:mm a 'UTC'";
@@ -38,16 +33,8 @@ export default async function HomePageLayout({
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Read the{" "}
-          <Link
-            href="/memo"
-            sx={{ color: "common.white", textDecoration: "underline" }}
-          >
-            memo
-          </Link>
-          : there&apos;s no room for builders in the corporate world! Stand for
-          builders, play the nomination game, and earn $BOSS. Nominations start
-          on May 8th.
+          Celebrate the unsung heroes of the blockchain. Find undervalued
+          builders, play the nomination game, and earn BUILD points.
         </Typography>
         {searchBuilder}
       </HeroSectionSlim>
@@ -55,21 +42,21 @@ export default async function HomePageLayout({
         <BlockyCard sx={{ minHeight: 250 }}>
           <Eye />
           <Typography level="h3" textColor="common.black">
-            What is BOSS?
+            What is BUILD?
           </Typography>
           <Typography textColor="neutral.500">
-            BOSS is a meme, a token of appreciation and a social game designed
-            to reward builders via onchain nominations.
+            BUILD is a token of appreciation on Base, and a social game that
+            rewards onchain builders via peer nominations.
           </Typography>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 250 }}>
           <Terminal />
           <Typography level="h3" textColor="common.black">
-            How BOSS works?
+            How BUILD works?
           </Typography>
           <Typography textColor="neutral.500">
-            Players have a daily budget of BOSS points to donate to 3 builders a
-            day. Points will convert to $BOSS tokens in June.
+            Players have a budget of BUILD points to donate to 3 builders/day.
+            Points will convert to $BUILD tokens in June.
           </Typography>
         </BlockyCard>
       </HeroSection>
@@ -91,78 +78,7 @@ export default async function HomePageLayout({
           Last update on {lastUpdate}. Next update on {nextUpdate}
         </Typography>
       </HeroSectionWithOverflow>
-      <HeroSection sx={{ color: "common.white" }}>
-        <Typography level="h2">Become a BOSS</Typography>
-        <Stack
-          sx={{
-            flexDirection: { xs: "column", md: "row" },
-            alignItems: "center",
-            gap: 3,
-          }}
-        >
-          <Stack
-            sx={{
-              height: "100%",
-              flex: 1,
-              alignItems: "center",
-              minHeight: 320,
-              py: 5,
-            }}
-          >
-            <UserShield sx={{ width: 48, height: 48, color: "common.white" }} />
-
-            <Typography level="h3">Step 1</Typography>
-
-            <Typography>
-              Claim your Talent Passport, and increase your Builder Score before
-              the first snapshot, on May 7th at 17:59 UTC.
-            </Typography>
-
-            <Button
-              variant="solid"
-              color="neutral"
-              component={Link}
-              href="https://passport.talentprotocol.com"
-              underline="none"
-              sx={{ mt: "auto" }}
-            >
-              Claim Talent Passport
-            </Button>
-          </Stack>
-
-          <Stack
-            sx={{
-              height: "100%",
-              flex: 1,
-              alignItems: "center",
-              minHeight: 320,
-              py: 5,
-            }}
-          >
-            <UserManLove
-              sx={{ width: 48, height: 48, color: "common.white" }}
-            />
-
-            <Typography level="h3">Step 2</Typography>
-
-            <Typography>
-              Nominate the best builders you know by searching for their web3
-              username or by sending them your personal link.
-            </Typography>
-
-            <Button
-              variant="solid"
-              color="neutral"
-              component={Link}
-              href="/"
-              underline="none"
-              sx={{ mt: "auto" }}
-            >
-              Share Link
-            </Button>
-          </Stack>
-        </Stack>
-      </HeroSection>
+      <HeroSection>{howToPlay}</HeroSection>
       {nominateBuilder}
     </Stack>
   );

@@ -26,7 +26,7 @@ export const LeaderboardTableComponent: FunctionComponent<
           <th>Rank</th>
           <th>Name</th>
           <th>Builder Score</th>
-          <th>BOSS Points</th>
+          <th>Build Points</th>
           <th>Nominations Received</th>
         </tr>
       </thead>

@@ -34,9 +34,11 @@ export default async function AirdropPageLayout({
     return (
       <Stack component="main">
         <HeroSectionSlim>
-          <Typography level="h1">Becoming a BOSS is one click away</Typography>
+          <Typography level="h1">
+            Becoming a BUILDER is one click away
+          </Typography>
           <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-            Connect your wallet to start nominating builders and earning $BOSS.
+            Connect your wallet to start nominating builders and earning $BUILD.
           </Typography>
           <ConnectWalletButton sx={{ my: 2 }} />
         </HeroSectionSlim>
@@ -60,7 +62,7 @@ export default async function AirdropPageLayout({
 
           <Typography level="title-lg">
             Name the builders breaking the corporate mold, and receive an
-            airdrop of $BOSS. Search their name or share your custom link.
+            airdrop of $BUILD. Search their name or share your custom link.
           </Typography>
 
           {searchBuilder}

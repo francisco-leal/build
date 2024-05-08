@@ -23,7 +23,7 @@ export const MyNominationsTableComponent: FunctionComponent<
           <th>Date</th>
           <th>Name</th>
           <th>Rank</th>
-          <th>BOSS Points Given</th>
+          <th>Build Points Given</th>
         </tr>
       </thead>
       <tbody>

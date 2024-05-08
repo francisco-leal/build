@@ -26,8 +26,8 @@ export const DailyBudgetCardComponent: FunctionComponent<
       </Stack>
 
       <Typography textColor="neutral.500">
-        Recalculated daily at 00:00 UTC, based on your BOSS Points, Builder
-        Score, and Streak. Read more in{" "}
+        Recalculated daily at 00:00 UTC, based on Points earned, Builder Score,
+        and Streak. Read more in{" "}
         <Link
           href="https://bosscommunity.notion.site/BOSS-FAQ-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
           target="_blank"

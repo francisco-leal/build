@@ -185,7 +185,7 @@ app.frame("/confirm/:address", async (c) => {
         >
           <VStack gap="4">
             <Text color="text200" size="20">
-              Connect to BOSS to get your initial budget points!
+              Connect to BUILD to get your initial budget points!
             </Text>
           </VStack>
         </Box>

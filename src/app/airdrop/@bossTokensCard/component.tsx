@@ -13,7 +13,7 @@ export const BossTokensCardComponent: FunctionComponent<
   return (
     <BlockyCard>
       <Typography level="body-lg" textColor="primary.500">
-        $BOSS Tokens
+        $BUILD Tokens
       </Typography>
 
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
@@ -26,10 +26,10 @@ export const BossTokensCardComponent: FunctionComponent<
       </Stack>
 
       <Typography textColor="neutral.500">
-        $BOSS is an ERC-20 token on Base, tradable on Uniswap.
+        $BUILD is an ERC-20 token on Base, tradable on Uniswap.
       </Typography>
 
-      <Button disabled>Buy $BOSS</Button>
+      <Button disabled>Buy $BUILD</Button>
     </BlockyCard>
   );
 };
