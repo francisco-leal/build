@@ -22,6 +22,7 @@ import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-addres
 import { toast } from "sonner";
 
 export type NominateBuilderComponentProps = {
+  backAvailable?: boolean;
   connected?: boolean;
   loading?: boolean;
   date: string;
@@ -38,6 +39,7 @@ export type NominateBuilderComponentProps = {
 export const NominateBuilderComponent: FunctionComponent<
   NominateBuilderComponentProps
 > = ({
+  backAvailable,
   connected,
   loading,
   date,
@@ -55,9 +57,8 @@ export const NominateBuilderComponent: FunctionComponent<
   const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
 
   const goBack = () => {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
-    if (document.referrer.includes(appUrl)) router.back();
-    else window.location.href = "/";
+    if (backAvailable) router.back();
+    else router.push("/");
   };
 
   const currentUserBossPointsSent = (currentUserDailyBudget ?? 0) * 0.9;

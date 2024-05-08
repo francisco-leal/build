@@ -1,7 +1,8 @@
-import { type NextRequest } from "next/server";
-import { validateAndNominate } from "../validate-and-nominate";
+import { type NextRequest } from "next/server";;
 import { supabase } from "@/db";
+import { createNewNomination } from "@/app/_api/create-new-nomination";
 
+// TODO use restApiHandler!
 export async function POST(request: NextRequest) {
   const authKey = request.headers.get("x-api-key");
   if (authKey !== process.env.FRAME_API_SECRET) {
@@ -24,14 +25,12 @@ export async function POST(request: NextRequest) {
     return Response.json({}, { status: 401 });
   }
 
-  const { data: nominated_result, error } = await validateAndNominate(
+  // TODO this is probably broken, because the implementation
+  // of createNewNomination was changed and not tested on frame!
+  const data = await createNewNomination(
     { wallet: user.wallet },
     nominated_user_address,
   );
 
-  if (error || !nominated_result) {
-    return Response.json({ error }, { status: 400 });
-  }
-
-  return Response.json(nominated_result);
+  return Response.json(data);
 }

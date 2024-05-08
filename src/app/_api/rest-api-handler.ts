@@ -4,8 +4,8 @@ import { ZodError } from "zod";
 
 type Fn = (request: NextRequest) => Promise<unknown>;
 
-export const restApiHandler = (fn: Fn): Fn => {
-    return async (request) => {
+export const restApiHandler = (fn: Fn) => {
+    return async (request: NextRequest) => {
         try {
             const data = await fn(request);
             return Response.json(data);
