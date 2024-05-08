@@ -22,7 +22,6 @@ import { FunctionComponent, useState } from "react";
 export type SearchBuilderComponentProps = {
   isConnected: boolean;
   date: string;
-
   shareLink?: string;
   dailyBudget?: number;
   totalBossPoints?: number;
@@ -234,15 +233,18 @@ export const SearchBuilderComponent: FunctionComponent<
                     </Typography>
                   </Stack>
                   <Button
+                    // Scroll is not recognized by ButtonProps, but it's part of Next Link
+                    {...{ scroll: false }}
                     component={Link}
                     href={(pathname + `/nominate/${user.address}`).replace(
                       "//",
                       "/",
                     )}
+                    disabled={!user.address}
                     variant="solid"
                     sx={{ height: "auto" }}
                   >
-                    Nominate
+                    {user.address ? "Nominate" : "No wallet found"}
                   </Button>
                 </ListItem>
               ))}

@@ -53,7 +53,18 @@ export default async function AirdropPageLayout({
       </TabList>
 
       <TabPanel value={0} component={Stack}>
-        <HeroSectionSlim>{searchBuilder}</HeroSectionSlim>
+        <HeroSectionSlim>
+          <Typography level="h1">
+            Nominate the best builders you know
+          </Typography>
+
+          <Typography level="title-lg">
+            Name the builders breaking the corporate mold, and receive an
+            airdrop of $BOSS. Search their name or share your custom link.
+          </Typography>
+
+          {searchBuilder}
+        </HeroSectionSlim>
         <HeroSection
           sx={{
             flexDirection: { xs: "column", md: "row" },

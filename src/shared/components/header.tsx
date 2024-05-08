@@ -9,7 +9,7 @@ import {
   linkClasses,
 } from "@mui/joy";
 import { Cross, Hamburger, LogoLong, LogoShort } from "../icons";
-import { FunctionComponent, useEffect, useRef } from "react";
+import { FunctionComponent, useRef } from "react";
 import { useDisclose } from "../hooks/use-disclose";
 import { ConnectWalletButton } from "./connect-wallet-button";
 import { usePathname } from "next/navigation";
@@ -146,13 +146,28 @@ export const Header: FunctionComponent = () => {
           },
         }}
       >
-        <Link href="/memo" onClick={drawer.close}>
+        <Link
+          // Prefetch is not recognized by LinkProps, but it's part of Next Link
+          {...{ prefetch: true }}
+          href="/memo"
+          onClick={drawer.close}
+        >
           Memo
         </Link>
-        <Link href="/airdrop" onClick={drawer.close}>
+        <Link
+          // Prefetch is not recognized by LinkProps, but it's part of Next Link
+          {...{ prefetch: true }}
+          href="/airdrop"
+          onClick={drawer.close}
+        >
           Airdrop
         </Link>
-        <Link href="/bossnomics" onClick={drawer.close}>
+        <Link
+          // Prefetch is not recognized by LinkProps, but it's part of Next Link
+          {...{ prefetch: true }}
+          href="/bossnomics"
+          onClick={drawer.close}
+        >
           Bossnomics
         </Link>
 

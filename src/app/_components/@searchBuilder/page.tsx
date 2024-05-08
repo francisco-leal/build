@@ -1,16 +1,8 @@
 import { getCurrentUser } from "@/app/_api/get-user";
-import {
-  SearchBuilderComponentProps,
-  SearchBuilderComponent,
-} from "./component";
+import { SearchBuilderComponent } from "./component";
 import { DateTime } from "luxon";
 
-export type SearchBuildersProps = Omit<
-  SearchBuilderComponentProps,
-  "shareLink" | "date" | "dailyBudget" | "totalBossPoints" | "isConnected"
->;
-
-export default async function SearchBuilders(props: SearchBuildersProps) {
+export default async function SearchBuilders() {
   const user = await getCurrentUser();
   const date = DateTime.now().toFormat("LLL dd");
 
@@ -21,11 +13,15 @@ export default async function SearchBuilders(props: SearchBuildersProps) {
   return (
     <SearchBuilderComponent
       isConnected={!!user}
-      shareLink={shareLink}
       date={date}
+      shareLink={shareLink}
       dailyBudget={user?.boss_budget}
-      totalBossPoints={user?.boss_score}
-      {...props}
+      sx={{
+        mt: 1,
+        alignItems: "center",
+        width: "100%",
+        height: 280,
+      }}
     />
   );
 }

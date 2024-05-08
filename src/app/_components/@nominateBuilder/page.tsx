@@ -3,6 +3,11 @@ import { NominateBuilderComponent } from "./component";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/app/_api/get-user";
 import { getBuilder } from "@/app/_api/get-builder";
+import {
+  getCurrentUserNomination,
+  getUserNomination,
+} from "@/app/_api/get-user-nomination";
+import { wait } from "@/shared/utils/wait";
 
 export default async function NominateBuilder({
   params,
@@ -10,22 +15,26 @@ export default async function NominateBuilder({
   params: { userId: string };
 }) {
   const currentUser = await getCurrentUser();
-  const nominatedBuilder = await getBuilder(params.userId);
+  const currentUserNomination = await getCurrentUserNomination();
+  const builder = await getBuilder(params.userId);
 
   const date = DateTime.now().toFormat("LLL dd");
 
-  if (!nominatedBuilder) notFound();
+  if (!builder) notFound();
 
   return (
     <NominateBuilderComponent
       connected={currentUser !== null}
-      loading={!currentUser}
       date={date}
-      nominatedBossProfileImage={nominatedBuilder.image}
-      nominatedBossUsername={nominatedBuilder.username}
-      nominatedBossAddress={nominatedBuilder.address}
+      builderImage={builder.image}
+      builderUsername={builder.username}
+      builderWallet={builder.address}
       currentUserDailyBudget={currentUser?.boss_budget}
       currentUserTotalBossPoints={currentUser?.boss_score}
+      previouslyNominatedBossUsername={
+        currentUserNomination?.username ?? undefined
+      }
+      previouslyNominatedBossWallet={currentUserNomination?.wallet ?? undefined}
     />
   );
 }
