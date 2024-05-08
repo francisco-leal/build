@@ -27,10 +27,7 @@ export async function POST(request: NextRequest) {
 
   // TODO this is probably broken, because the implementation
   // of createNewNomination was changed and not tested on frame!
-  const data = await createNewNomination(
-    { wallet: user.wallet },
-    nominated_user_address,
-  );
+  const data = await createNewNomination(user.wallet, nominated_user_address);
 
   return Response.json(data);
 }

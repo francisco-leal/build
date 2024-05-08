@@ -23,7 +23,7 @@ type PassportResponse = {
 type Builder = {
   image: string;
   username: string;
-  address: string;
+  wallet: string;
 };
 
 const getFarcasterBuilderProfile = async (
@@ -67,7 +67,7 @@ const getFarcasterBuilderProfile = async (
       farcasterSocial.profileName ||
       lensSocial.profileName.split("lens/@")[1] ||
       "",
-    address: farcasterSocial.userAddress || lensSocial.userAddress || "",
+    wallet: farcasterSocial.userAddress || lensSocial.userAddress || "",
   };
 };
 
@@ -91,7 +91,7 @@ const getTalentProtocolBuilderProfile = async (
     return {
       image: data.passport.passport_profile?.image_url ?? "",
       username: data.passport.user?.username ?? "",
-      address: walledId,
+      wallet: walledId,
     };
   } else {
     return null;
