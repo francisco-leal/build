@@ -35,7 +35,7 @@ export async function createNewNomination(
   if (error_find) throw error_find;
 
   if (!existing_nominated_user || existing_nominated_user.length === 0) {
-    nominated_user = await createNewUser(nominated_user_address);;
+    nominated_user = await createNewUser(nominated_user_address);
   } else {
     nominated_user = existing_nominated_user[0];
   }
@@ -70,7 +70,7 @@ export async function createNewNomination(
   if (user_nominated_user.length > 0) {
     throw new BadRequestError("user already nominated this builder");
   }
-    
+
   const { data: user_nominations, error: error_user_nominations } =
     await supabase
       .from("boss_nominations")
@@ -89,12 +89,15 @@ export async function createNewNomination(
 
   const boss_budget = await getBossBudget(user_nominator.wallet);
 
-  await supabase.from("boss_nominations").insert({
-    wallet_origin: user_nominator.wallet.toLowerCase(),
-    wallet_destination: nominated_user.wallet.toLowerCase(),
-    boss_points_earned: boss_budget * 0.1,
-    boss_points_given: boss_budget * 0.9,
-  }).throwOnError();
+  await supabase
+    .from("boss_nominations")
+    .insert({
+      wallet_origin: user_nominator.wallet.toLowerCase(),
+      wallet_destination: nominated_user.wallet.toLowerCase(),
+      boss_points_earned: boss_budget * 0.1,
+      boss_points_given: boss_budget * 0.9,
+    })
+    .throwOnError();
 
   return nominated_user;
 }

@@ -76,7 +76,7 @@ export const NominateBuilderComponent: FunctionComponent<
         body: JSON.stringify({ nominatedUserAddress: builderWallet }),
       });
 
-      const json = await response.json() as { error?: string };
+      const json = (await response.json()) as { error?: string };
 
       if (json.error) {
         toast.error(json.error);

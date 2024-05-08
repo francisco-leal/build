@@ -33,6 +33,5 @@ export async function POST(request: NextRequest) {
     user.wallet,
   );
 
-
   return Response.json(data);
 }

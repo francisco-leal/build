@@ -15,7 +15,7 @@ export default async function NominateBuilder({
   const currentUserNomination = await getCurrentUserNomination();
   const builder = await getBuilder(params.userId);
 
-  const referer = headers().get('referer') ?? "";
+  const referer = headers().get("referer") ?? "";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
   const isBackAvailable = referer.includes(appUrl);
 

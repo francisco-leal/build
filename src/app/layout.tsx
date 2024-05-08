@@ -9,7 +9,7 @@ import { Web3Auth } from "@/shared/components/web3-auth";
 import { ThemeRegistry } from "@/shared/theme/theme-registry";
 import { Footer } from "@/shared/components/footer";
 import { Header } from "@/shared/components/header";
-import { Toaster } from 'sonner'
+import { Toaster } from "sonner";
 
 import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource-variable/inter";

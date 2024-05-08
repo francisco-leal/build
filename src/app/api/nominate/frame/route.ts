@@ -1,4 +1,4 @@
-import { type NextRequest } from "next/server";;
+import { type NextRequest } from "next/server";
 import { supabase } from "@/db";
 import { createNewNomination } from "@/app/_api/create-new-nomination";
 

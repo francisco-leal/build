@@ -24,7 +24,7 @@ export async function createNewUser(wallet_address: string) {
   ]);
 
   // calculate boss_budget
-  // we ignore the boss points and nomination streak at this point, 
+  // we ignore the boss points and nomination streak at this point,
   // given both are zero!
   const fid = socialProfiles.filter(
     (profile) => profile.dapp === "farcaster",
@@ -78,17 +78,20 @@ export async function createNewUser(wallet_address: string) {
     passport_builder_score: builder_score,
     boss_token_balance: boss_tokens,
   };
-  
+
   await supabase.from("users").insert(user).throwOnError();
 
-  await supabase.from("boss_leaderboard").insert({
-    rank: null,
-    wallet: user.wallet,
-    username: user.username,
-    boss_score: user.boss_score,
-    passport_builder_score: user.passport_builder_score,
-    boss_nominations_received: past_earned_nominations?.length ?? 0,
-  }).throwOnError();
+  await supabase
+    .from("boss_leaderboard")
+    .insert({
+      rank: null,
+      wallet: user.wallet,
+      username: user.username,
+      boss_score: user.boss_score,
+      passport_builder_score: user.passport_builder_score,
+      boss_nominations_received: past_earned_nominations?.length ?? 0,
+    })
+    .throwOnError();
 
   return user;
 }

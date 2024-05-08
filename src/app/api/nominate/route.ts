@@ -14,7 +14,9 @@ export const POST = restApiHandler(async (request) => {
   const { nominatedUserAddress } = dataSchema.parse(json);
 
   if (!user) {
-    throw new UnauthorizedError("You need to be connect your wallet to nominate a boss!");
+    throw new UnauthorizedError(
+      "You need to be connect your wallet to nominate a boss!",
+    );
   }
 
   return createNewNomination(user, nominatedUserAddress);
