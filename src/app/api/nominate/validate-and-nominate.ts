@@ -53,10 +53,15 @@ export async function validateAndNominate(
 
   // validate user nominating user and limits
   const fromDate = new Date();
-  fromDate.setHours(0, 0, 0, 0);
-  const toDate = new Date();
-  toDate.setHours(0, 0, 0, 0);
-  toDate.setDate(toDate.getDate() + 1);
+  let toDate = new Date();
+
+  if (process.env.ALLOW_RECURRING_NOMINATIONS === "true") {
+    toDate = new Date(toDate.getTime() + 15 * 60000); // 15 minutes in milliseconds
+  } else {
+    fromDate.setHours(0, 0, 0, 0);
+    toDate.setHours(0, 0, 0, 0);
+    toDate.setDate(toDate.getDate() + 1);
+  }
 
   const { data: user_nominated_user, error: error_user_nominated_user } =
     await supabase
