@@ -8,7 +8,6 @@ import { ReactNode } from "react";
 import { Typography } from "@mui/joy";
 import {
   getBossNominationBalances,
-  getNominatedUser,
   hasExceededNominationsToday,
   isDuplicateNomination,
   isSelfNomination,
@@ -28,6 +27,7 @@ export default async function NominateBuilder({
   const date = DateTime.now().toFormat("LLL dd");
 
   if (!builder) notFound();
+  
 
   const [state, infoMessage]: [NominationState, ReactNode] =
     await (async () => {
@@ -37,7 +37,7 @@ export default async function NominateBuilder({
       if (await isSelfNomination(currentUser.wallet, builder.wallet)) {
         return [
           "INVALID_NOMINATION",
-          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }}>
+          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }} key={1}>
             You are trying to nominate yourself!
             <br />
             Be a good sport and nominate someone else.
@@ -47,7 +47,7 @@ export default async function NominateBuilder({
       if (await isDuplicateNomination(currentUser.wallet, builder.wallet)) {
         return [
           "INVALID_NOMINATION",
-          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }}>
+          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }} key={2}>
             You have already nominated this builder before. <br />
             You can only nominate a builder once.
           </Typography>,
@@ -56,7 +56,7 @@ export default async function NominateBuilder({
       if (await hasExceededNominationsToday(currentUser.wallet)) {
         return [
           "INVALID_NOMINATION",
-          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }}>
+          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }} key={3}>
             You already nominated 3 builders today! <br />
             Come back tomorrow!
           </Typography>,
