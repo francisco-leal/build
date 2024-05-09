@@ -1,7 +1,15 @@
 {
   "crons": [
     {
-      "path": "/api/cron",
+      "path": "/api/cron/leaderboard",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/budget",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/streak",
       "schedule": "0 0 * * *"
     }
   ]

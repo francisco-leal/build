@@ -1,9 +1,9 @@
 // import { createPublicClient, http, getContract } from 'viem';
-// import { mainnet } from 'viem/chains';
+// import { base } from 'viem/chains';
 // import { erc20Abi } from './erc20-abi';
 
 // const publicClient = createPublicClient({
-//     chain: mainnet,
+//     chain: base,
 //     transport: http()
 // });
 

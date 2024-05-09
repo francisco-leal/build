@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { supabase } from "@/db";
 import { setSession } from "@/services/authentication/cookie-session";
-import { createProfile } from "./create";
+import { createProfile } from "@/services/create-profile";
 import { SiweMessage } from "siwe";
 import {
   getSession,
@@ -14,21 +14,20 @@ export async function GET(request: NextRequest) {
     request.nextUrl.searchParams.get("wallet_address");
 
   if (walletAddressSearch) {
-    let { data: user_personal_stats, error } = await supabase
-      .from("user_personal_stats")
+    let { data: user, error } = await supabase
+      .from("users")
       .select("*")
-      .eq("wallet_address", walletAddressSearch.toLowerCase())
+      .eq("wallet", walletAddressSearch.toLowerCase())
       .single();
 
-    if (error || !user_personal_stats) {
+    if (error || !user) {
       return Response.json({ error }, { status: 404 });
     }
 
-    return Response.json(user_personal_stats);
+    return Response.json(user);
   }
 
   // otherwise we will return the user session
-
   const user = await getSession();
 
   if (!user) {

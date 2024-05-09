@@ -5,7 +5,6 @@ import { DateTime } from "luxon";
 import { revalidateTag } from "next/cache";
 import { getNomination } from "./get-nomination";
 import { getUser } from "./get-user";
-import { revalidate } from "../api/profile/nominations/route";
 
 /** Nominated user may not exist yet on the DB */
 export const getNominatedUser = async (wallet: string) => {
@@ -30,7 +29,7 @@ export const getBossNominationBalances = async (wallet: string) => {
 /** A User cannot nominate themselves */
 export const isSelfNomination = (
   nominatorWallet: string,
-  nominatedWallet: string,
+  nominatedWallet: string
 ) => {
   return nominatorWallet.toLowerCase() === nominatedWallet.toLowerCase();
 };
@@ -38,7 +37,7 @@ export const isSelfNomination = (
 /** A User cannot nominate the same builder twice  */
 export const isDuplicateNomination = async (
   nominatorWallet: string,
-  nominatedWallet: string,
+  nominatedWallet: string
 ) => {
   return !!(await getNomination(nominatorWallet, nominatedWallet));
 };
@@ -46,7 +45,7 @@ export const isDuplicateNomination = async (
 /** A User is limited to 3 nomination per day */
 export const hasExceededNominationsToday = async (
   nominatorWallet: string,
-  returnTotal: boolean = false,
+  returnTotal: boolean = false
 ) => {
   const fromDate = DateTime.utc().startOf("day");
   const toDate = fromDate.plus({ hours: 24 });
@@ -65,7 +64,7 @@ export const hasExceededNominationsToday = async (
 
 export async function createNewNomination(
   nominatorWallet: string,
-  nominatedWallet: string,
+  nominatedWallet: string
 ) {
   const nominatorUser = await getNominatedUser(nominatorWallet);
   const nominatedUser = await getNominatedUser(nominatedWallet);
@@ -84,7 +83,7 @@ export async function createNewNomination(
   }
   const totalNominationsToday = (await hasExceededNominationsToday(
     nominatedWallet,
-    true,
+    true
   )) as number;
 
   if (totalNominationsToday >= 3) {
