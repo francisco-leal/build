@@ -17,9 +17,7 @@ import {
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-import { useAccount } from "wagmi";
 import { FunctionComponent, useState } from "react";
-import { toast } from "sonner";
 import { useShareLink } from "@/app/_hooks/useShareLink";
 
 export type SearchBuilderComponentProps = {

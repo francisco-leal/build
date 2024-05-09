@@ -15,11 +15,18 @@ import {
   Typography,
   useTheme,
 } from "@mui/joy";
-import { useRouter } from "next/navigation";
-import { FunctionComponent, ReactNode, useState, useTransition } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { toast } from "sonner";
 import { createNewNomination } from "@/app/_api/create-new-nomination";
+import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
 
 export type NominationState =
   | "LOADING"
@@ -61,6 +68,7 @@ export const NominateBuilderComponent: FunctionComponent<
   const router = useRouter();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
+  const pathname = usePathname();
 
   const goBack = () => {
     if (backAvailable) router.back();
@@ -87,6 +95,12 @@ export const NominateBuilderComponent: FunctionComponent<
   const isPrimaryColor = ["VALID_NOMINATION", "ALREADY_NOMINATED"].includes(
     state,
   );
+
+  useEffect(() => {
+    if (state !== "INVALID_NOMINATION") return;
+    const interval = setInterval(() => forcePathRevalidation(pathname), 5000);
+    return () => clearInterval(interval);
+  }, [state]);
 
   return (
     <Modal open onClose={goBack}>

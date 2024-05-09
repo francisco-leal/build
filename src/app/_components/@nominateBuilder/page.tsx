@@ -11,6 +11,7 @@ import {
   hasExceededNominationsToday,
   isDuplicateNomination,
   isSelfNomination,
+  isUpdatingLeaderboard,
 } from "@/app/_api/create-new-nomination";
 import { getNomination } from "@/app/_api/get-nomination";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
@@ -83,6 +84,18 @@ export default async function NominateBuilder({
               You are trying to nominate yourself!
               <br />
               Be a good sport and nominate someone else.
+            </Typography>
+          </>
+        ),
+      };
+    }
+    if (await isUpdatingLeaderboard()) {
+      return {
+        state: "INVALID_NOMINATION" as const,
+        infoMessage: (
+          <>
+            <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
+              Leaderboard is currently updating, please try again later!
             </Typography>
           </>
         ),
