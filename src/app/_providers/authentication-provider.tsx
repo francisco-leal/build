@@ -4,7 +4,7 @@ import { FunctionComponent, PropsWithChildren, useEffect, useRef } from "react";
 import { SiweMessage } from "siwe";
 import { toast } from "sonner";
 import { base } from "viem/chains";
-import { useAccount, useSignMessage } from "wagmi";
+import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { connectUser, disconnectUser, getNonce } from "../_api/authentication";
 
 export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
@@ -12,6 +12,7 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
 }) => {
   const { address, status } = useAccount();
   const { signMessageAsync } = useSignMessage();
+  const { disconnectAsync } = useDisconnect();
   const oldStatus = useRef("disconnected");
 
   const login = async () => {
@@ -28,7 +29,19 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
       chainId: base.id,
     }).prepareMessage();
 
-    await signMessageAsync({ message });
+    try {
+      await signMessageAsync({ message });
+    } catch (error) {
+      await disconnectAsync();
+      toast.error(
+        <>
+          Failed to sign message.<br />
+          Wallet has been disconnected.
+        </>
+      );
+      return;
+    }
+
     await connectUser({
       address,
       nonce,
@@ -39,7 +52,6 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
 
   const logout = async () => {
     await disconnectUser();
-    toast.error("Disconnected from the app.");
   };
 
   useEffect(() => {
