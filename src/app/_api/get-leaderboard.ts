@@ -17,13 +17,9 @@ const getLeaderboardTop10 = () => {
 
       return leaderboardData ?? [];
     },
-    ["leaderboard_top_10" satisfies CacheKey],
+    ["leaderboard" satisfies CacheKey],
     { revalidate: CACHE_24_HOURS },
   )();
-};
-
-getLeaderboardTop10.bust = () => {
-  revalidatePath("leaderboard_top_10" satisfies CacheKey);
 };
 
 const getLeaderboardUser = async (wallet: string) => {
@@ -38,13 +34,9 @@ const getLeaderboardUser = async (wallet: string) => {
 
       return leaderboardData;
     },
-    ["leaderboard_top_10" satisfies CacheKey],
+    ["leaderboard" satisfies CacheKey, `user_${walletLc}` satisfies CacheKey],
     { revalidate: CACHE_24_HOURS },
   )();
-};
-
-getLeaderboardUser.bust = () => {
-  revalidatePath("leaderboard_top_10" satisfies CacheKey);
 };
 
 export const getLeaderboard = async () => {
@@ -58,4 +50,8 @@ export const getLeaderboard = async () => {
   }
 
   return leaderboard;
+};
+
+getLeaderboard.bust = () => {
+  revalidatePath("leaderboard" satisfies CacheKey);
 };

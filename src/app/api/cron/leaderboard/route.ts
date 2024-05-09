@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { DateTime } from "luxon";
+import { getLeaderboard } from "@/app/_api/get-leaderboard";
 import { JobTypes } from "@/app/_api/helpers/job-types";
 import { supabase } from "@/db";
 import { computeLeaderboard } from "@/services";
@@ -30,5 +31,6 @@ export async function GET(request: NextRequest) {
       .eq("id", leaderboardUpdate.id);
   }
 
+  getLeaderboard.bust();
   return Response.json({}, { status: 200 });
 }

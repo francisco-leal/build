@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  FunctionComponent,
-  ReactNode,
-  useEffect,
-  useTransition,
-} from "react";
+import { FunctionComponent, ReactNode, useEffect, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Avatar,
@@ -20,6 +15,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/joy";
+import path from "path";
 import { toast } from "sonner";
 import { createNewNomination } from "@/app/_api/create-new-nomination";
 import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
@@ -27,7 +23,6 @@ import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { useMediaQuery } from "@/shared/hooks/use-media-query";
 import { LogoShort } from "@/shared/icons/logo-short";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import path from "path";
 
 export type NominationState =
   | "LOADING"
