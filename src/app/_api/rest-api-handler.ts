@@ -1,5 +1,9 @@
-import { BadRequestError, UnauthorizedError } from "@/shared/utils/error";
-import { NextRequest, NextResponse } from "next/server";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "@/shared/utils/error";
+import { NextRequest } from "next/server";
 import { ZodError } from "zod";
 
 type Fn = (request: NextRequest) => Promise<unknown>;
@@ -11,7 +15,7 @@ export const restApiHandler = (fn: Fn) => {
       return Response.json(data);
     } catch (error) {
       if (error instanceof ZodError) {
-        console.error(error);
+        console.error("ZOD validation error", error);
         return Response.json(
           { error: "Invalid request data" },
           { status: 400 },
@@ -23,8 +27,11 @@ export const restApiHandler = (fn: Fn) => {
       if (error instanceof UnauthorizedError) {
         return Response.json({ error: error.message }, { status: 401 });
       }
+      if (error instanceof NotFoundError) {
+        return Response.json({ error: error.message }, { status: 404 });
+      }
 
-      console.error(error);
+      console.error("500 error", error);
       return Response.json({ error: "Server Error" }, { status: 500 });
     }
   };

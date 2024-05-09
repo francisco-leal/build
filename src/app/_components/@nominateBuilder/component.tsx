@@ -154,7 +154,7 @@ export const NominateBuilderComponent: FunctionComponent<
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
-              <Typography level="body-sm">BUILD Points Sent</Typography>
+              <Typography level="body-sm">BOSS Points Sent</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
@@ -166,7 +166,7 @@ export const NominateBuilderComponent: FunctionComponent<
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
-              <Typography level="body-sm">BUILD Points Earned</Typography>
+              <Typography level="body-sm">BOSS Points Earned</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
@@ -182,7 +182,7 @@ export const NominateBuilderComponent: FunctionComponent<
             <Divider sx={{ backgroundColor: "neutral.400" }} />
 
             <Stack direction="row" justifyContent="space-between">
-              <Typography level="body-sm">My BUILD Points</Typography>
+              <Typography level="body-sm">My BOSS Points</Typography>
               <Typography
                 level="title-md"
                 textColor="common.black"
@@ -202,34 +202,53 @@ export const NominateBuilderComponent: FunctionComponent<
               gap: 1,
             }}
           >
-            {infoMessage}
-            <Button
-              variant="outlined"
-              color="neutral"
-              onClick={goBack}
-              sx={{ color: "neutral.500", borderColor: "neutral.500" }}
-            >
-              Cancel
-            </Button>
             {
               {
-                ["LOADING"]: (
-                  <Button variant="solid" disabled>
-                    Confirm
-                  </Button>
-                ),
                 ["NOT_CONNECTED"]: <ConnectWalletButton />,
-                ["VALID_NOMINATION"]: (
-                  <Button
-                    variant="solid"
-                    disabled={(currentUserBossDailyBudget ?? 0) <= 0}
-                    loading={isNominating}
-                    onClick={() => nominateUser()}
-                  >
-                    Confirm
-                  </Button>
+                ["LOADING"]: (
+                  <>
+                    <Button
+                      variant="outlined"
+                      color="neutral"
+                      onClick={goBack}
+                      sx={{ color: "neutral.500", borderColor: "neutral.500" }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button variant="solid" disabled>
+                      Confirm
+                    </Button>
+                  </>
                 ),
-                ["INVALID_NOMINATION"]: null,
+                ["VALID_NOMINATION"]: (
+                  <>
+                    <Button
+                      variant="outlined"
+                      color="neutral"
+                      onClick={goBack}
+                      sx={{ color: "neutral.500", borderColor: "neutral.500" }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="solid"
+                      disabled={(currentUserBossDailyBudget ?? 0) <= 0}
+                      loading={isNominating}
+                      onClick={() => nominateUser()}
+                    >
+                      Confirm
+                    </Button>
+                  </>
+                ),
+                ["INVALID_NOMINATION"]: (
+                  <Typography
+                    level="body-sm"
+                    textAlign={"center"}
+                    sx={{ mr: 1, flex: 1 }}
+                  >
+                    {infoMessage}
+                  </Typography>
+                ),
               }[state]
             }
           </Stack>
