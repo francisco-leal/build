@@ -42,6 +42,18 @@ export const isSelfNomination = async (
   return nominatorWallet.toLowerCase() === nominatedWallet.toLowerCase();
 };
 
+export const isUpdatingLeaderboard = async () => {
+  const { data: updates } = await supabase
+    .from("scheduled_updates")
+    .select("*")
+    .is("finished_at", null)
+    .eq("job_type", "update_leaderboard");
+
+  if (!updates) return true;
+  if (updates.length > 0) return true;
+  return false;
+};
+
 export const isDuplicateNomination = async (
   nominatorWallet: string,
   nominatedWallet: string,
@@ -74,6 +86,11 @@ export async function createNewNomination(walletToNominate: string) {
   }
   if (await hasExceededNominationsToday(nominatedWallet)) {
     throw new BadRequestError("You have already nominated a builder today!");
+  }
+  if (await isUpdatingLeaderboard()) {
+    throw new BadRequestError(
+      "Leaderboard is currently updating, please try again later!",
+    );
   }
 
   const balances = await getBossNominationBalances(nominatorWallet);
