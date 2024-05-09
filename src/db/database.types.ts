@@ -661,9 +661,19 @@ export type Database = {
           wallet_address: string | null;
         }[];
       };
+      reset_nomination_streak: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
       update_boss_balances: {
         Args: {
           wallet_balances: Json;
+        };
+        Returns: undefined;
+      };
+      update_boss_score: {
+        Args: {
+          wallet_to_update: string;
         };
         Returns: undefined;
       };

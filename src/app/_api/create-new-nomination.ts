@@ -45,7 +45,10 @@ export const isDuplicateNomination = async (
 };
 
 /** A User is limited to 3 nomination per day */
-export const hasExceededNominationsToday = async (nominatorWallet: string) => {
+export const hasExceededNominationsToday = async (
+  nominatorWallet: string,
+  returnTotal: boolean = false,
+) => {
   const fromDate = DateTime.utc().startOf("day");
   const toDate = fromDate.plus({ hours: 24 });
 
@@ -57,6 +60,7 @@ export const hasExceededNominationsToday = async (nominatorWallet: string) => {
     .lte("created_at", toDate.toISODate());
 
   if (error_nominations) throw error_nominations;
+  if (returnTotal) return nominations.length;
   return nominations.length >= 3;
 };
 
@@ -79,7 +83,12 @@ export async function createNewNomination(
   if (await isDuplicateNomination(nominatorWallet, nominatedWallet)) {
     throw new BadRequestError("You already nominated this builder before!");
   }
-  if (await hasExceededNominationsToday(nominatorWallet)) {
+  const totalNominationsToday = (await hasExceededNominationsToday(
+    nominatedWallet,
+    true,
+  )) as number;
+
+  if (totalNominationsToday >= 3) {
     throw new BadRequestError("You have already nominated a builder today!");
   }
 
@@ -94,6 +103,26 @@ export async function createNewNomination(
       boss_points_given: balances.pointsGiven,
     })
     .throwOnError();
+
+  if (totalNominationsToday === 0) {
+    await supabase
+      .from("users")
+      .update({
+        boss_nomination_streak: nominatorUser.boss_nomination_streak + 1,
+      })
+      .eq("wallet", nominatorUser.wallet)
+      .throwOnError();
+  }
+
+  // update total points of both users
+  // origin
+  await supabase.rpc("update_boss_score", {
+    wallet_to_update: nominatorUser.wallet,
+  });
+  // destination
+  await supabase.rpc("update_boss_score", {
+    wallet_to_update: nominatedUser.wallet,
+  });
 
   revalidateTag("nominations");
   revalidateTag("nomination");

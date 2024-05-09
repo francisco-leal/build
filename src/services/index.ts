@@ -115,3 +115,12 @@ export async function computeLeaderboard() {
     throw error_update_leaderboard;
   }
 }
+
+export async function resetMissedStreaks() {
+  const { error: error_reset_nomination_streak } = await supabase.rpc(
+    "reset_nomination_streak",
+  );
+  if (error_reset_nomination_streak) {
+    throw error_reset_nomination_streak;
+  }
+}

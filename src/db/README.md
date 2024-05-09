@@ -429,3 +429,61 @@ $$ LANGUAGE plpgsql;
 ```
 
 </details>
+
+<details>
+<summary><b>[FUNCTION] Update user points</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION update_boss_score(wallet_to_update varchar) RETURNS VOID AS $$
+BEGIN
+    -- Reset boss_score to zero
+    UPDATE users
+    SET boss_score = 0
+    WHERE wallet = wallet_to_update;
+
+    -- Update boss_score based on points_given
+    UPDATE users
+    SET boss_score = boss_score + (
+        SELECT COALESCE(SUM(boss_points_given), 0)
+        FROM boss_nominations
+        WHERE wallet_origin = wallet_to_update
+    )
+    WHERE wallet = wallet_to_update;
+
+    -- Update boss_score based on points_earned
+    UPDATE users
+    SET boss_score = boss_score + (
+        SELECT COALESCE(SUM(boss_points_earned), 0)
+        FROM boss_nominations
+        WHERE wallet_destination = wallet_to_update
+    )
+    WHERE wallet = wallet_to_update;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>
+<details>
+<summary><b>[FUNCTION] Reset streaks</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION reset_nomination_streak() RETURNS VOID AS $$
+DECLARE
+    last_nomination_date DATE;
+BEGIN
+    -- Calculate last nomination date (yesterday) at 00:00 GMT
+    last_nomination_date := date_trunc('day', CURRENT_DATE - INTERVAL '1 day') AT TIME ZONE 'GMT';
+
+    -- Update nomination_streak for users who didn't make a nomination yesterday
+    UPDATE users
+    SET nomination_streak = 0
+    WHERE wallet NOT IN (
+        SELECT DISTINCT origin_wallet
+        FROM nominations
+        WHERE DATE(created_at) >= last_nomination_date
+    );
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>
