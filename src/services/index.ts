@@ -124,3 +124,12 @@ export async function resetMissedStreaks() {
     throw error_reset_nomination_streak;
   }
 }
+
+export async function recalculateBossBudget() {
+  const { error: error_calculate_boss_budget } = await supabase.rpc(
+    "calculate_boss_budget",
+  );
+  if (error_calculate_boss_budget) {
+    throw error_calculate_boss_budget;
+  }
+}

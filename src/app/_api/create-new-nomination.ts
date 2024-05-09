@@ -5,7 +5,6 @@ import { DateTime } from "luxon";
 import { revalidateTag } from "next/cache";
 import { getNomination } from "./get-nomination";
 import { getUser } from "./get-user";
-import { revalidate } from "../api/profile/nominations/route";
 
 /** Nominated user may not exist yet on the DB */
 export const getNominatedUser = async (wallet: string) => {
@@ -23,7 +22,6 @@ export const getBossNominationBalances = async (wallet: string) => {
     dailyBudget: user.boss_budget,
     pointsGiven: user.boss_budget * 0.9,
     pointsEarned: user.boss_budget * 0.1,
-    // TODO: Validate if this is correct
     totalPoints: user.boss_score + user.boss_budget * 0.1,
   };
 };
