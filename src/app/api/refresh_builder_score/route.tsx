@@ -22,7 +22,7 @@ type PassportResponse = {
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.API_SECRET}`) {
-    return new Response("Unauthorized", { status: 401 });
+    return Response.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const data = (await request.json()) as PassportResponse;
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   if (!data.passport) {
     return Response.json(
       { message: "No passport data provided" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 

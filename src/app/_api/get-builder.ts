@@ -28,7 +28,7 @@ type Builder = {
 };
 
 const getFarcasterBuilderProfile = async (
-  walletId: string,
+  walletId: string
 ): Promise<Builder | null> => {
   const query = `query QueryUserOnLensAndFarcaster {
     Socials(
@@ -57,7 +57,7 @@ const getFarcasterBuilderProfile = async (
   if (!socials || socials.length === 0) return null;
 
   const farcasterSocial = socials.find(
-    (social: any) => social.dappName === "farcaster",
+    (social: any) => social.dappName === "farcaster"
   );
   const lensSocial = socials.find((social: any) => social.dappName === "lens");
   if (!farcasterSocial || !lensSocial) return null;
@@ -73,28 +73,31 @@ const getFarcasterBuilderProfile = async (
 };
 
 const getTalentProtocolBuilderProfile = async (
-  walledId: string,
+  walledId: string
 ): Promise<Builder | null> => {
   const api_url = process.env.PASSPORT_API_URL;
   const api_token = process.env.PASSPORT_API_TOKEN;
 
-  const response = await fetch(`${api_url}/api/v2/passports/${walledId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY": api_token || "",
-    },
-  });
+  try {
+    const response = await fetch(`${api_url}/api/v2/passports/${walledId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": api_token || "",
+      },
+    });
+    const data = (await response.json()) as PassportResponse;
 
-  const data = (await response.json()) as PassportResponse;
-
-  if (response.status === 200) {
-    return {
-      image: data.passport.passport_profile?.image_url ?? "",
-      username: data.passport.user?.username ?? "",
-      wallet: walledId,
-    };
-  } else {
+    if (response.status === 200) {
+      return {
+        image: data.passport.passport_profile?.image_url ?? "",
+        username: data.passport.user?.username ?? "",
+        wallet: walledId,
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
     return null;
   }
 };
