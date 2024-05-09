@@ -53,7 +53,7 @@ export default function HowToPlay() {
               color="neutral"
               onClick={() =>
                 navigator.clipboard.writeText(
-                  `${window.location.origin}/nominate/${address}`
+                  `${window.location.origin}/nominate/${address}`,
                 )
               }
               sx={{ mt: 2 }}

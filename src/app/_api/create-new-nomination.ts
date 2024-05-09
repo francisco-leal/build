@@ -24,7 +24,7 @@ export const getBossNominationBalances = async (wallet: string) => {
     pointsGiven: user.boss_budget * 0.9,
     pointsEarned: user.boss_budget * 0.1,
     // TODO: Validate if this is correct
-    totalPoints: user.boss_score,
+    totalPoints: user.boss_score + user.boss_budget * 0.1,
   };
 };
 
