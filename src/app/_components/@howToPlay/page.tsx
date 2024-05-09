@@ -1,7 +1,11 @@
+"use client";
 import { Typography, Stack, Button, Link } from "@mui/joy";
 import { FingerNominate, Coin, DroneCameraAirdrop } from "@/shared/icons";
+import { useAccount } from "wagmi";
 
-export default async function HowToPlay() {
+export default function HowToPlay() {
+  const { address } = useAccount();
+
   return (
     <>
       <Typography
@@ -47,9 +51,11 @@ export default async function HowToPlay() {
             <Button
               variant="solid"
               color="neutral"
-              component={Link}
-              href="/"
-              underline="none"
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `${window.location.origin}/nominate/${address}`
+                )
+              }
               sx={{ mt: 2 }}
             >
               Share Link
