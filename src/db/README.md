@@ -487,3 +487,29 @@ $$ LANGUAGE plpgsql;
 ```
 
 </details>
+<details>
+<summary><b>[FUNCTION] Calculate boss budget for all users</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION calculate_boss_budget() RETURNS VOID AS $$
+BEGIN
+    -- Update boss_budget for all users based on existing data
+    UPDATE users
+    SET boss_budget =
+        CASE
+            WHEN builder_score = 0 THEN
+                CASE
+                    WHEN fid > 20000 THEN
+                        500
+                    ELSE
+                        1000
+                END
+            ELSE
+                (builder_score * 20 + boss_tokens * 0.001) *
+                (CASE WHEN has_manifesto_nft THEN 1.2 ELSE 1 END)
+        END;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>

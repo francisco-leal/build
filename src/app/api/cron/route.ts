@@ -1,5 +1,9 @@
 import { NextRequest } from "next/server";
-import { computeLeaderboard, resetMissedStreaks } from "@/services";
+import {
+  computeLeaderboard,
+  resetMissedStreaks,
+  recalculateBossBudget,
+} from "@/services";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -7,9 +11,10 @@ export async function GET(request: NextRequest) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  // split this into different crons
+  // TODO: split this into different crons
   await computeLeaderboard();
   await resetMissedStreaks();
+  await recalculateBossBudget();
 
   return Response.json({}, { status: 200 });
 }

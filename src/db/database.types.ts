@@ -367,6 +367,7 @@ export type Database = {
           boss_score: number;
           boss_token_balance: number;
           created_at: string;
+          farcaster_id: number | null;
           manifesto_nft: boolean;
           passport_builder_score: number;
           referral_code: string;
@@ -379,6 +380,7 @@ export type Database = {
           boss_score?: number;
           boss_token_balance?: number;
           created_at?: string;
+          farcaster_id?: number | null;
           manifesto_nft?: boolean;
           passport_builder_score?: number;
           referral_code: string;
@@ -391,6 +393,7 @@ export type Database = {
           boss_score?: number;
           boss_token_balance?: number;
           created_at?: string;
+          farcaster_id?: number | null;
           manifesto_nft?: boolean;
           passport_builder_score?: number;
           referral_code?: string;
@@ -596,6 +599,10 @@ export type Database = {
       };
     };
     Functions: {
+      calculate_boss_budget: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
       insert_user: {
         Args: {
           wallet_address: string;

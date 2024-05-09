@@ -78,6 +78,7 @@ export async function createNewUser(wallet_address: string) {
     passport_builder_score: builder_score,
     boss_token_balance: boss_tokens,
     boss_nomination_streak: 0,
+    farcaster_id: fid,
   };
 
   await supabase.from("users").insert(user).throwOnError();
