@@ -17,13 +17,13 @@ import {
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
+import { useAccount } from "wagmi";
 import { FunctionComponent, useState } from "react";
 import { toast } from "sonner";
+import { useShareLink } from "@/app/_hooks/useShareLink";
 
 export type SearchBuilderComponentProps = {
-  isConnected: boolean;
   date: string;
-  shareLink?: string;
   dailyBudget?: number;
   totalBossPoints?: number;
 } & StackProps;
@@ -38,13 +38,12 @@ export type SearchResponseUser = {
 export const SearchBuilderComponent: FunctionComponent<
   SearchBuilderComponentProps
 > = ({
-  isConnected,
   date,
-  shareLink,
   dailyBudget,
   totalBossPoints,
   ...props
 }) => {
+  const [shareLink, onShareLink] = useShareLink();
   const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue = useDebounce(searchValue, 500);
   const pathname = usePathname();
@@ -62,6 +61,7 @@ export const SearchBuilderComponent: FunctionComponent<
       return data as Promise<SearchResponseUser[]>;
     },
   });
+  
 
   return (
     <Stack {...props}>
@@ -106,11 +106,7 @@ export const SearchBuilderComponent: FunctionComponent<
                 <Link
                   href={shareLink}
                   sx={{ color: "common.white", textDecoration: "underline" }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigator.clipboard.writeText(shareLink);
-                    toast.info("Link copied to clipboard!");
-                  }}
+                  onClick={onShareLink}
                 >
                   Share your nomination link
                 </Link>
