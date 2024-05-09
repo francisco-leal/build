@@ -6,6 +6,8 @@ import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getBuilderScore } from "@/services/talent-protocol";
 import { BadRequestError } from "@/shared/utils/error";
 import { searchBuilders } from "./search-builders";
+import { revalidateTag } from "next/cache";
+import { CacheKey } from "./helpers/cache-keys";
 
 export async function createNewUser(wallet_address: string) {
   const socialProfiles = await searchBuilders(wallet_address);
@@ -97,5 +99,6 @@ export async function createNewUser(wallet_address: string) {
     })
     .throwOnError();
 
+  revalidateTag(`user_${user.wallet}` satisfies CacheKey);
   return user;
 }

@@ -8,6 +8,7 @@ import { createNewUser } from "./create-new-user";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
 import { getCurrentUser, getUser } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
+import { JobTypes } from "./helpers/job-types";
 
 export const getNominatedUser = async (wallet: string) => {
   const existingUser = await getUser(wallet);
@@ -49,7 +50,7 @@ export const isUpdatingLeaderboard = async () => {
     .from("scheduled_updates")
     .select("*")
     .is("finished_at", null)
-    .eq("job_type", "update_leaderboard");
+    .eq("job_type", "leaderboard" satisfies JobTypes);
 
   if (!updates) return true;
   if (updates.length > 0) return true;
