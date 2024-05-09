@@ -1,7 +1,8 @@
 "use server";
+
+import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
-import { unstable_cache } from "next/cache";
 import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
 
 export type User = {

@@ -1,6 +1,6 @@
 "use client";
 
-import { LogoShort } from "@/shared/icons";
+import { useRouter } from "next/navigation";
 import {
   Button,
   Modal,
@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/joy";
-import { useRouter } from "next/navigation";
+import { LogoShort } from "@/shared/icons/logo-short";
 
 export default function NominatedBuilderNotFound() {
   const router = useRouter();

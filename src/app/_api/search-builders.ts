@@ -1,7 +1,8 @@
 "use server";
-import { searchTalentProtocolUser } from "@/services/talent-protocol";
-import { init, fetchQuery } from "@airstack/node";
+
 import { unstable_cache } from "next/cache";
+import { init, fetchQuery } from "@airstack/node";
+import { searchTalentProtocolUser } from "@/services/talent-protocol";
 import { CacheKey } from "./helpers/cache-keys";
 
 init(process.env.AIRSTACK_API_KEY!);

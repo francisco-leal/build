@@ -1,13 +1,13 @@
+import { notFound } from "next/navigation";
+import { DateTime } from "luxon";
+import { getNominationsFromWallet } from "@/app/_api/get-nomination";
+import { getCurrentUser } from "@/app/_api/get-user";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { makeMap } from "@/shared/utils/make-map";
 import {
   MyNominationsTableComponent,
   MyNominationsTableValue,
 } from "./component";
-import { getCurrentUser } from "@/app/_api/get-user";
-import { notFound } from "next/navigation";
-import { getNominationsFromWallet } from "@/app/_api/get-nomination";
-import { DateTime } from "luxon";
-import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { makeMap } from "@/shared/utils/make-map";
 
 export default async function MyNominationsTable() {
   const user = await getCurrentUser();

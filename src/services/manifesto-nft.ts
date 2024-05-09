@@ -1,4 +1,3 @@
-import { supabase } from "@/db";
 import {
   createPublicClient,
   getAddress,
@@ -7,6 +6,7 @@ import {
   parseAbiItem,
 } from "viem";
 import { base } from "viem/chains";
+import { supabase } from "@/db";
 
 const ManifestoNFTContractAddress =
   "0x4ce28eb5f17fb5ce747e699d2200ed55e4bc0f49";

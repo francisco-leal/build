@@ -1,4 +1,7 @@
 "use client";
+
+import { FunctionComponent, useRef } from "react";
+import { usePathname } from "next/navigation";
 import {
   Box,
   Drawer,
@@ -8,11 +11,12 @@ import {
   Typography,
   linkClasses,
 } from "@mui/joy";
-import { Cross, Hamburger, LogoLong, LogoShort } from "../icons";
-import { FunctionComponent, useRef } from "react";
 import { useDisclose } from "../hooks/use-disclose";
+import { Cross } from "../icons/cross";
+import { Hamburger } from "../icons/hamburger";
+import { LogoLong } from "../icons/logo-long";
+import { LogoShort } from "../icons/logo-short";
 import { ConnectWalletButton } from "./connect-wallet-button";
-import { usePathname } from "next/navigation";
 
 const MOBILE_BREAKPOINT = "md" as const;
 const MOBILE_ONLY = { xs: "block", [MOBILE_BREAKPOINT]: "none" } as const;

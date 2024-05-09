@@ -1,10 +1,11 @@
 "use client";
-import createCache from "@emotion/cache";
-import { useServerInsertedHTML } from "next/navigation";
-import { CacheProvider } from "@emotion/react";
-import { CssVarsProvider } from "@mui/joy/styles";
-import { default as CssBaseline } from "@mui/joy/CssBaseline";
+
 import { ReactNode, useState } from "react";
+import { useServerInsertedHTML } from "next/navigation";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { default as CssBaseline } from "@mui/joy/CssBaseline";
+import { CssVarsProvider } from "@mui/joy/styles";
 import { theme } from "./theme";
 import { ForceLightColorMode } from "./theme-force-light-color-mode";
 

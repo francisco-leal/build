@@ -1,8 +1,8 @@
 "use client";
 
-import { UserContext } from "@/shared/context/user";
 import { useContext, useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
+import { UserContext } from "@/shared/context/user";
 
 export const Web3Auth = () => {
   const { user, authUser, logout } = useContext(UserContext);

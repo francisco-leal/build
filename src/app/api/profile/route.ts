@@ -1,12 +1,12 @@
-import type { NextRequest } from "next/server";
+import { SiweMessage } from "siwe";
 import { supabase } from "@/db";
 import { setSession } from "@/services/authentication/cookie-session";
-import { createProfile } from "@/services/create-profile";
-import { SiweMessage } from "siwe";
 import {
   getSession,
   clearSession,
 } from "@/services/authentication/cookie-session";
+import { createProfile } from "@/services/create-profile";
+import type { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   // if it contains a query parameter wallet_address, we will search for the user by wallet_address

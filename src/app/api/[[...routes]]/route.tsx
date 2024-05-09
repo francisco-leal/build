@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-key */
-/** @jsxImportSource frog/jsx */
 
+/** @jsxImportSource frog/jsx */
 import { Button, Frog } from "frog";
 import { devtools } from "frog/dev";
-import { handle } from "frog/next";
 import { neynar } from "frog/middlewares";
+import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 import { createSystem } from "frog/ui";
 import { getAddress } from "viem";

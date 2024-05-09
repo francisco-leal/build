@@ -48,9 +48,27 @@
     "@types/node": "20.12.7",
     "@types/react": "18.2.79",
     "@types/react-dom": "18.2.25",
+    "@trivago/prettier-plugin-sort-imports": "4.1.0",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.1",
     "prettier": "3.2.5",
     "typescript": "5.4.5"
+  },
+  "prettier": {
+    "proseWrap": "always",
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ],
+    "importOrder": [
+      "^node",
+      "^react(.*)?$",
+      "^next(.*)?$",
+      "<THIRD_PARTY_MODULES>",
+      "^@/(.*)?$",
+      "^[./]",
+      "<THIRD_PARTY_TS_TYPES>",
+      "<TS_TYPES>",
+      "^@fontsource(/.*)?$"
+    ]
   }
 }

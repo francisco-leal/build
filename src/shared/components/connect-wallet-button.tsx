@@ -1,8 +1,8 @@
 "use client";
 
-import { useAccount } from "wagmi";
-import { Stack, Button, StackProps } from "@mui/joy";
 import { NoSsr } from "@mui/base";
+import { Stack, Button, StackProps } from "@mui/joy";
+import { useAccount } from "wagmi";
 
 export type ConnectWalletButtonProps = StackProps & {
   hideIfConnected?: boolean;

@@ -1,5 +1,5 @@
-import { supabase } from "@/db";
 import { init, fetchQuery } from "@airstack/node";
+import { supabase } from "@/db";
 import { searchTalentProtocolUser } from "./talent-protocol";
 
 init(process.env.AIRSTACK_API_KEY!);

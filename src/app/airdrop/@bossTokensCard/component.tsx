@@ -1,7 +1,7 @@
-import { BlockyCard } from "@/shared/components/blocky-card";
-import { Coin } from "@/shared/icons";
-import { Button, Stack, Typography } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Button, Stack, Typography } from "@mui/joy";
+import { BlockyCard } from "@/shared/components/blocky-card";
+import { Coin } from "@/shared/icons/coin";
 
 export type BossTokensCardComponentProps = {
   tokens: React.ReactNode;

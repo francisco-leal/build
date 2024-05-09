@@ -1,7 +1,7 @@
-import { BlockyCard } from "@/shared/components/blocky-card";
-import { FireNominationStreak } from "@/shared/icons";
-import { Stack, Typography } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Stack, Typography } from "@mui/joy";
+import { BlockyCard } from "@/shared/components/blocky-card";
+import { FireNominationStreak } from "@/shared/icons/fire-nomination-streak";
 
 export type DailyStreakCardProps = {
   streak: React.ReactNode;

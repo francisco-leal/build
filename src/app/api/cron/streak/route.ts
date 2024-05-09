@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
-import { resetMissedStreaks } from "@/services";
-import { supabase } from "@/db";
 import { DateTime } from "luxon";
 import { JobTypes } from "@/app/_api/helpers/job-types";
+import { supabase } from "@/db";
+import { resetMissedStreaks } from "@/services";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");

@@ -1,5 +1,5 @@
-import { unsealData, sealData } from "iron-session";
 import { cookies } from "next/headers";
+import { unsealData, sealData } from "iron-session";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");

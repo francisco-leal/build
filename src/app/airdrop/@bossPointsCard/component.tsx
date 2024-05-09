@@ -1,7 +1,7 @@
-import { BlockyCard } from "@/shared/components/blocky-card";
-import { EyeDailyBudget } from "@/shared/icons";
-import { Button, Stack, Typography } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Button, Stack, Typography } from "@mui/joy";
+import { BlockyCard } from "@/shared/components/blocky-card";
+import { EyeDailyBudget } from "@/shared/icons/eye-daily-budget";
 
 export type BossPointsCardComponentProps = {
   points: React.ReactNode;

@@ -1,9 +1,10 @@
 "use client";
+
 import { Typography, Stack, Button, Link } from "@mui/joy";
-import { FingerNominate, Coin, DroneCameraAirdrop } from "@/shared/icons";
-import { useAccount } from "wagmi";
-import { toast } from "sonner";
 import { useShareLink } from "@/app/_hooks/useShareLink";
+import { Coin } from "@/shared/icons/coin";
+import { DroneCameraAirdrop } from "@/shared/icons/drone-camera-airdrop";
+import { FingerNominate } from "@/shared/icons/finger-nominate";
 
 export default function HowToPlay() {
   const [shareLink, onShareLink] = useShareLink();
