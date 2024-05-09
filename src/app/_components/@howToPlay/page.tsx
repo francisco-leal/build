@@ -3,10 +3,10 @@ import { Typography, Stack, Button, Link } from "@mui/joy";
 import { FingerNominate, Coin, DroneCameraAirdrop } from "@/shared/icons";
 import { useAccount } from "wagmi";
 import { toast } from "sonner";
+import { useShareLink } from "@/app/_hooks/useShareLink";
 
 export default function HowToPlay() {
-  const { address } = useAccount();
-  const shareLink = `${window.location.origin}/nominate/${address}`;
+  const [shareLink, onShareLink] = useShareLink();
 
   return (
     <>
@@ -51,16 +51,13 @@ export default function HowToPlay() {
             </Typography>
 
             <Button
-              href={`/nominate/${address}`}
+              href={shareLink ?? "/"}
               component={Link}
+              disabled={!shareLink}
               variant="solid"
               color="neutral"
               sx={{ mt: 2 }}
-              onClick={(e) => {
-                e.preventDefault();
-                navigator.clipboard.writeText(shareLink);
-                toast.info("Link copied to clipboard!");
-              }}
+              onClick={onShareLink}
             >
               Share Link
             </Button>
