@@ -1,10 +1,10 @@
 "use client";
 
 import React, { createContext, useState } from "react";
-import { useAccount, useSignMessage } from "wagmi";
+import { useRouter } from "next/navigation";
 import { SiweMessage } from "siwe";
 import { base } from "viem/chains";
-import { useRouter } from "next/navigation";
+import { useAccount, useSignMessage } from "wagmi";
 
 interface UserProviderProps {
   children: React.ReactNode;

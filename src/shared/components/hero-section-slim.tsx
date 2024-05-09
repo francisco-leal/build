@@ -1,5 +1,5 @@
-import { Box, Stack, StackProps } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Box, Stack, StackProps } from "@mui/joy";
 
 export type HeroSectionProps = StackProps & {
   backgroundImage?: string;
@@ -16,6 +16,7 @@ export const HeroSectionSlim: FunctionComponent<HeroSectionProps> = ({
     component={component}
     sx={{
       pt: { xs: 8, lg: 14 },
+      mb: { xs: 2, md: 5 },
       pb: 2,
       justifyContent: "center",
       alignItems: "center",

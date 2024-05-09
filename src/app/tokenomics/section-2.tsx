@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { Typography, Box, Link } from "@mui/joy";
-import { HeroSection } from "@/shared/components/hero-section";
-import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { ExternalLink } from "@/shared/icons";
 import { BlockyCard } from "@/shared/components/blocky-card";
-
-import DESKTOP_GRAPH from "./_images/bossnomics-graph.png";
+import { HeroSection } from "@/shared/components/hero-section";
+import { ExternalLink } from "@/shared/icons/external-link";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import MOBILE_GRAPH from "./_images/bossnomics-graph-mobile.png";
+import DESKTOP_GRAPH from "./_images/bossnomics-graph.png";
 
 export const Section2 = () => {
   return (

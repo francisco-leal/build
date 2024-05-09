@@ -1,7 +1,7 @@
-import { LeaderboardTableComponent } from "./component";
-import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { getLeaderboard } from "@/app/_api/get-leaderboard";
 import { getCurrentUser } from "@/app/_api/get-user";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { LeaderboardTableComponent } from "./component";
 
 export default async function LeaderboardTable() {
   const leaderboard = await getLeaderboard();

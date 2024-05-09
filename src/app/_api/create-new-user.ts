@@ -1,10 +1,11 @@
 "use server";
+
 import { supabase } from "@/db";
 import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getBuilderScore } from "@/services/talent-protocol";
-import { searchBuilders } from "./search-builders";
 import { BadRequestError } from "@/shared/utils/error";
+import { searchBuilders } from "./search-builders";
 
 export async function createNewUser(wallet_address: string) {
   const socialProfiles = await searchBuilders(wallet_address);

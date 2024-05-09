@@ -1,5 +1,5 @@
 import { Typography, Link, Stack } from "@mui/joy";
-import { LogoLong } from "../icons";
+import { LogoLong } from "../icons/logo-long";
 
 export const Footer = () => {
   return (

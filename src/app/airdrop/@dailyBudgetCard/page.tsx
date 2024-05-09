@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { DailyBudgetCardComponent } from "./component";
 import { getCurrentUser } from "@/app/_api/get-user";
+import { DailyBudgetCardComponent } from "./component";
 
 export default async function DailyBudgetCard() {
   const user = await getCurrentUser();

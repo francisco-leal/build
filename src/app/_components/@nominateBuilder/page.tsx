@@ -1,11 +1,8 @@
-import { DateTime } from "luxon";
-import { NominateBuilderComponent, NominationState } from "./component";
-import { notFound } from "next/navigation";
-import { getCurrentUser } from "@/app/_api/get-user";
-import { getBuilder } from "@/app/_api/get-builder";
-import { headers } from "next/headers";
 import { ReactNode } from "react";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 import { Typography } from "@mui/joy";
+import { DateTime } from "luxon";
 import {
   getBossNominationBalances,
   hasExceededNominationsToday,
@@ -13,9 +10,12 @@ import {
   isSelfNomination,
   isUpdatingLeaderboard,
 } from "@/app/_api/create-new-nomination";
+import { getBuilder } from "@/app/_api/get-builder";
 import { getNomination } from "@/app/_api/get-nomination";
+import { getCurrentUser } from "@/app/_api/get-user";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { NotFoundError } from "@/shared/utils/error";
+import { NominateBuilderComponent, NominationState } from "./component";
 
 type StateAndInfo = {
   state: NominationState;

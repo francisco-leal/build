@@ -1,10 +1,14 @@
 import { Stack, Typography } from "@mui/joy";
-import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import { Eye, Interface, MusicHeadeset, Terminal } from "@/shared/icons";
-import { HeroSection } from "@/shared/components/hero-section";
-import { BlockyCard } from "@/shared/components/blocky-card";
-import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { DateTime } from "luxon";
+import { BlockyCard } from "@/shared/components/blocky-card";
+import { HeroSection } from "@/shared/components/hero-section";
+import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
+import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
+import { Eye } from "@/shared/icons/eye";
+import { Interface } from "@/shared/icons/interface";
+import { Lego } from "@/shared/icons/lego";
+import { MusicHeadset } from "@/shared/icons/music-headset";
+import { Terminal } from "@/shared/icons/terminal";
 
 export default async function HomePageLayout({
   leaderboardTable,
@@ -29,7 +33,7 @@ export default async function HomePageLayout({
         <Typography level="h1">
           Nominate <Interface /> the best
           <br />
-          builders <MusicHeadeset /> you know.
+          builders <MusicHeadset /> you know.
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
@@ -40,7 +44,7 @@ export default async function HomePageLayout({
       </HeroSectionSlim>
       <HeroSection sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
         <BlockyCard sx={{ minHeight: 250 }}>
-          <Eye />
+          <Lego />
           <Typography level="h3" textColor="common.black">
             What is BUILD?
           </Typography>

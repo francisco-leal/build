@@ -1,8 +1,9 @@
 "use client";
-import { extendTheme } from "@mui/joy/styles";
-import { ThemeLink } from "./theme-link";
+
 import { inputClasses, tabClasses, tabPanelClasses } from "@mui/joy";
+import { extendTheme } from "@mui/joy/styles";
 import { SystemProps } from "@mui/joy/styles/types";
+import { ThemeLink } from "./theme-link";
 
 const colors = {
   bossBlue: "#0142F5",
@@ -205,6 +206,13 @@ export const theme = extendTheme({
             padding: 0,
           },
         }),
+      },
+    },
+    JoySvgIcon: {
+      styleOverrides: {
+        root: {
+          color: "currentColor",
+        },
       },
     },
   },

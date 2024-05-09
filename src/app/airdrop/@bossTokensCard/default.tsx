@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { BossTokensCardComponent } from "./component";
 import { getCurrentUser } from "@/app/_api/get-user";
+import { BossTokensCardComponent } from "./component";
 
 export default async function BossTokensCard() {
   const user = await getCurrentUser();

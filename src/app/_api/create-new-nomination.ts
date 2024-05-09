@@ -1,9 +1,10 @@
 "use server";
+
+import { revalidatePath } from "next/cache";
+import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
 import { createNewUser } from "./create-new-user";
-import { DateTime, Interval } from "luxon";
-import { revalidatePath } from "next/cache";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
 import { getCurrentUser, getUser } from "./get-user";
 

@@ -1,7 +1,7 @@
-import { BlockyCard } from "@/shared/components/blocky-card";
-import { EyeDailyBudget } from "@/shared/icons";
-import { Link, Stack, Typography } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Link, Stack, Typography } from "@mui/joy";
+import { BlockyCard } from "@/shared/components/blocky-card";
+import { EyeDailyBudget } from "@/shared/icons/eye-daily-budget";
 
 export type DailyBudgetCardProps = {
   budget: React.ReactNode;
@@ -21,7 +21,7 @@ export const DailyBudgetCardComponent: FunctionComponent<
         <Typography
           sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
         >
-          {budget}
+          {budget} points
         </Typography>
       </Stack>
 

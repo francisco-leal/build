@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
-import { computeLeaderboard } from "@/services";
-import { supabase } from "@/db";
 import { DateTime } from "luxon";
 import { JobTypes } from "@/app/_api/helpers/job-types";
+import { supabase } from "@/db";
+import { computeLeaderboard } from "@/services";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");

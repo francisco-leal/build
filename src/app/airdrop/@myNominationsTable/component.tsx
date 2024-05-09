@@ -1,5 +1,5 @@
-import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 
 export type MyNominationsTableValue = {
   date: string;

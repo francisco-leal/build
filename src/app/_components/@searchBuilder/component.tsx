@@ -1,6 +1,7 @@
 "use client";
-import { useDebounce } from "@/shared/hooks/use-debounce";
-import { LogoShort, SearchFilled } from "@/shared/icons";
+
+import { FunctionComponent, useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   Avatar,
   Button,
@@ -16,9 +17,10 @@ import {
   Typography,
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
-import { FunctionComponent, useState } from "react";
 import { useShareLink } from "@/app/_hooks/useShareLink";
+import { useDebounce } from "@/shared/hooks/use-debounce";
+import { LogoShort } from "@/shared/icons/logo-short";
+import { SearchFilled } from "@/shared/icons/search-filled";
 
 export type SearchBuilderComponentProps = {
   date: string;

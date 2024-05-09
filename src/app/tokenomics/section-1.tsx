@@ -1,5 +1,5 @@
-import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import { Typography } from "@mui/joy";
+import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 
 export const Section1 = () => {
   return (

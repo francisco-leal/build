@@ -1,6 +1,6 @@
+import { Skeleton, Stack } from "@mui/joy";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import { Skeleton, Stack } from "@mui/joy";
 
 export default function Loading() {
   return (

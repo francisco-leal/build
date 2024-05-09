@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
-import { supabase } from "@/db";
 import { createNewNomination } from "@/app/_api/create-new-nomination";
+import { supabase } from "@/db";
 
 // TODO use restApiHandler!
 export async function POST(request: NextRequest) {

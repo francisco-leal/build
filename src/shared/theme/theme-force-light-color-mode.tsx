@@ -1,5 +1,5 @@
-import { useColorScheme } from "@mui/joy";
 import { useEffect } from "react";
+import { useColorScheme } from "@mui/joy";
 
 export const ForceLightColorMode = () => {
   const { setMode } = useColorScheme();

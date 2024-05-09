@@ -1,4 +1,5 @@
-If executed on the Order on this file, this queries should all be successful and create the necessary constraints, views and functions for the app.
+If executed on the Order on this file, this queries should all be successful and
+create the necessary constraints, views and functions for the app.
 
 ## Content
 

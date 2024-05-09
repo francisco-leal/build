@@ -1,7 +1,7 @@
-import { BlockyCard } from "@/shared/components/blocky-card";
-import { UserShield } from "@/shared/icons";
-import { Button, Stack, Typography } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Button, Stack, Typography } from "@mui/joy";
+import { BlockyCard } from "@/shared/components/blocky-card";
+import { UserShield } from "@/shared/icons/user-shield";
 
 export type BuilderScoreCardComponentProps = {
   score: React.ReactNode;

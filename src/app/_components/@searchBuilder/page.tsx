@@ -1,6 +1,6 @@
+import { DateTime } from "luxon";
 import { getCurrentUser } from "@/app/_api/get-user";
 import { SearchBuilderComponent } from "./component";
-import { DateTime } from "luxon";
 
 export default async function SearchBuilders() {
   const user = await getCurrentUser();

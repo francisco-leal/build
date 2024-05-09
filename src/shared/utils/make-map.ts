@@ -1,4 +1,3 @@
-// curretly not used
 export const makeMap = <T, V = T, K = string>(
   array: T[],
   getId: (t: T) => string | number,

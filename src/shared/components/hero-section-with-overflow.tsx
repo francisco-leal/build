@@ -1,5 +1,5 @@
-import { Stack, StackProps } from "@mui/joy";
 import { FunctionComponent } from "react";
+import { Stack, StackProps } from "@mui/joy";
 import { HeroSection } from "./hero-section";
 
 export type HeroSectionWithOverflowProps = StackProps;

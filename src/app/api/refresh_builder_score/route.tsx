@@ -1,5 +1,5 @@
-import type { NextRequest } from "next/server";
 import { supabase } from "@/db";
+import type { NextRequest } from "next/server";
 
 type PassportResult = {
   score: number;
