@@ -20,7 +20,6 @@ export const getNominationsFromWallet = async (
   wallet: string,
 ): Promise<Nomination[]> => {
   const walletLc = wallet.toLowerCase();
-  const cacheKey: CacheKey = `user_${walletLc}_nominations`;
   return await unstable_cache(
     async () => {
       const { data: nominations } = await supabase
@@ -55,14 +54,9 @@ export const getNominationsFromWallet = async (
         createdAt: nomination.created_at,
       }));
     },
-    [cacheKey],
+    ["nominations", `user_${walletLc}`] satisfies CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )();
-};
-
-getNominationsFromWallet.bust = (wallet: string) => {
-  const walletLc = wallet.toLowerCase();
-  revalidateTag(`user_${walletLc}_nominations` as CacheKey);
 };
 
 export const getNomination = async (
@@ -71,7 +65,6 @@ export const getNomination = async (
 ): Promise<Nomination | null> => {
   const origin = originWallet.toLowerCase();
   const destination = destinationWallet.toLowerCase();
-  const cacheKey: CacheKey = `user_${origin}_nominates_${destination}`;
   return await unstable_cache(
     async () => {
       const { data: nomination } = await supabase
@@ -102,13 +95,11 @@ export const getNomination = async (
         createdAt: nomination.created_at,
       };
     },
-    [cacheKey],
+    [
+      "nominations", 
+      `user_${origin}`, 
+      `user_${destination}`
+    ] satisfies CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )();
-};
-
-getNomination.bust = (originWallet: string, destinationWallet: string) => {
-  const origin = originWallet.toLowerCase();
-  const destination = destinationWallet.toLowerCase();
-  revalidateTag(`user_${origin}_nominates_${destination}` as CacheKey);
 };

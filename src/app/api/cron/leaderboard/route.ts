@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
 import { DateTime } from "luxon";
-import { getLeaderboard } from "@/app/_api/get-leaderboard";
 import { JobTypes } from "@/app/_api/helpers/job-types";
 import { supabase } from "@/db";
 import { computeLeaderboard } from "@/services";
+import { revalidateTag } from "next/cache";
+import { wait } from "@/shared/utils/wait";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -22,6 +23,8 @@ export async function GET(request: NextRequest) {
 
   await computeLeaderboard();
 
+  await wait(30000);
+
   if (leaderboardUpdate) {
     await supabase
       .from("scheduled_updates")
@@ -31,6 +34,7 @@ export async function GET(request: NextRequest) {
       .eq("id", leaderboardUpdate.id);
   }
 
-  getLeaderboard.bust();
+
+  revalidateTag("leaderboard");
   return Response.json({}, { status: 200 });
 }

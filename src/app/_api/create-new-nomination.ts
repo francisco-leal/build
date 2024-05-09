@@ -1,12 +1,13 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
 import { createNewUser } from "./create-new-user";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
 import { getCurrentUser, getUser } from "./get-user";
+import { CacheKey } from "./helpers/cache-keys";
 
 export const getNominatedUser = async (wallet: string) => {
   const existingUser = await getUser(wallet);
@@ -124,10 +125,9 @@ export async function createNewNomination(walletToNominate: string) {
     wallet_to_update: nominatedUser.wallet,
   });
 
-  getNomination.bust(nominatorWallet, nominatedWallet);
-  getNominationsFromWallet.bust(nominatorWallet);
-  revalidatePath(`/nominate/${nominatedUser.wallet}`);
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedUser.wallet}`);
+  revalidatePath(`/nominate/${nominatedUser.wallet}`);
+  revalidateTag(`user_${nominatorUser.wallet}` as CacheKey);
   return nominatedUser;
 }

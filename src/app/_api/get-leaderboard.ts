@@ -51,7 +51,3 @@ export const getLeaderboard = async () => {
 
   return leaderboard;
 };
-
-getLeaderboard.bust = () => {
-  revalidatePath("leaderboard" satisfies CacheKey);
-};

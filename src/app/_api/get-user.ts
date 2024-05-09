@@ -20,7 +20,6 @@ export type User = {
 
 export const getUser = async (wallet: string): Promise<User | null> => {
   const walletKey = wallet.toLowerCase();
-  const cacheKey: CacheKey = `user_${walletKey}`;
   return (
     await unstable_cache(
       async () => {
@@ -32,7 +31,7 @@ export const getUser = async (wallet: string): Promise<User | null> => {
         if (!data) return null;
         return data;
       },
-      [cacheKey],
+      [`user_${walletKey}`] satisfies CacheKey[],
       { revalidate: CACHE_5_MINUTES },
     )
   )();
