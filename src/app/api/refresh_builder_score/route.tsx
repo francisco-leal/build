@@ -15,8 +15,7 @@ type PassportResult = {
 };
 
 type PassportResponse = {
-  passport: PassportResult;
-  error?: string;
+  data: PassportResult;
 };
 
 export async function POST(request: NextRequest) {
@@ -25,22 +24,22 @@ export async function POST(request: NextRequest) {
     return Response.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const data = (await request.json()) as PassportResponse;
+  const { data } = (await request.json()) as PassportResponse;
 
-  if (!data.passport) {
+  if (!data) {
     return Response.json(
       { message: "No passport data provided" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
-  const wallets = data.passport.verified_wallets;
+  const wallets = data.verified_wallets;
 
   if (!wallets || wallets.length === 0) {
     return Response.json({ message: "No verified wallets" }, { status: 200 });
   }
 
-  const builder_score = data.passport.score;
+  const builder_score = data.score;
 
   await supabase
     .from("users")
