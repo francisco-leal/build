@@ -1,12 +1,5 @@
 import type { NextRequest } from "next/server";
 import { supabase } from "@/db";
-import { setSession } from "@/services/authentication/cookie-session";
-import { createProfile } from "@/services/create-profile";
-import { SiweMessage } from "siwe";
-import {
-  getSession,
-  clearSession,
-} from "@/services/authentication/cookie-session";
 
 type PassportResult = {
   score: number;
@@ -37,7 +30,7 @@ export async function POST(request: NextRequest) {
   if (!data.passport) {
     return Response.json(
       { message: "No passport data provided" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
