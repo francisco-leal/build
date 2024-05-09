@@ -7,7 +7,6 @@ import { revalidatePath } from "next/cache";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
 import { getCurrentUser, getUser } from "./get-user";
 
-/** Nominated user may not exist yet on the DB */
 export const getNominatedUser = async (wallet: string) => {
   const existingUser = await getUser(wallet);
   if (existingUser) return existingUser;
@@ -24,7 +23,6 @@ export const getTodaysNominations = async (wallet: string) => {
   );
 };
 
-/** Boss Points calculated according to the game rules */
 export const getBossNominationBalances = async (wallet: string) => {
   const user = await getUser(wallet);
   if (!user) throw new BadRequestError("Could not find user");
@@ -37,7 +35,6 @@ export const getBossNominationBalances = async (wallet: string) => {
   };
 };
 
-/** A User cannot nominate themselves */
 export const isSelfNomination = async (
   nominatorWallet: string,
   nominatedWallet: string,
@@ -45,7 +42,6 @@ export const isSelfNomination = async (
   return nominatorWallet.toLowerCase() === nominatedWallet.toLowerCase();
 };
 
-/** A User cannot nominate the same builder twice  */
 export const isDuplicateNomination = async (
   nominatorWallet: string,
   nominatedWallet: string,
@@ -53,7 +49,6 @@ export const isDuplicateNomination = async (
   return !!(await getNomination(nominatorWallet, nominatedWallet));
 };
 
-/** A User is limited to 3 nomination per day */
 export const hasExceededNominationsToday = async (nominatorWallet: string) => {
   const nominations = await getTodaysNominations(nominatorWallet);
   return (nominations?.length || 0) >= 3;
