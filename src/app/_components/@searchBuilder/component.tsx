@@ -107,9 +107,9 @@ export const SearchBuilderComponent: FunctionComponent<
                   href={shareLink}
                   sx={{ color: "common.white", textDecoration: "underline" }}
                   onClick={(e) => {
+                    e.preventDefault();
                     navigator.clipboard.writeText(shareLink);
                     toast.info("Link copied to clipboard!");
-                    e.preventDefault();
                   }}
                 >
                   Share your nomination link
