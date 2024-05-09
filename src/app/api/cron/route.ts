@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { computeLeaderboard } from "@/services";
+import { computeLeaderboard, resetMissedStreaks } from "@/services";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -7,7 +7,9 @@ export async function GET(request: NextRequest) {
     return new Response("Unauthorized", { status: 401 });
   }
 
+  // split this into different crons
   await computeLeaderboard();
+  await resetMissedStreaks();
 
   return Response.json({}, { status: 200 });
 }

@@ -52,7 +52,7 @@ export async function searchSocialUser(querySearch: string) {
 
   const filterFarcasterAddress = (
     userAddress: string,
-    userAssociatedAddresses: string[],
+    userAssociatedAddresses: string[]
   ) => {
     if (userAssociatedAddresses.length === 1) {
       return userAddress;
@@ -83,15 +83,15 @@ export async function searchSocialUser(querySearch: string) {
             }) => ({
               address: filterFarcasterAddress(
                 s.userAddress,
-                s.userAssociatedAddresses,
+                s.userAssociatedAddresses
               ),
               username: s.profileName,
               profile_image: s.profileImage,
               dapp: s.dappName,
               profileTokenId: parseInt(s.profileTokenId, 10),
-            }),
+            })
           )
-        : [],
+        : []
     )
     .concat(
       talentProtocolData
@@ -104,7 +104,7 @@ export async function searchSocialUser(querySearch: string) {
             dapp: "talent-protocol",
             profileTokenId: 0,
           }))
-        : [],
+        : []
     );
 }
 
@@ -113,5 +113,14 @@ export async function computeLeaderboard() {
     await supabase.rpc("update_leaderboard");
   if (error_update_leaderboard) {
     throw error_update_leaderboard;
+  }
+}
+
+export async function resetMissedStreaks() {
+  const { error: error_reset_nomination_streak } = await supabase.rpc(
+    "reset_nomination_streak"
+  );
+  if (error_reset_nomination_streak) {
+    throw error_reset_nomination_streak;
   }
 }
