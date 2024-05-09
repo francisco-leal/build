@@ -23,8 +23,6 @@ export async function GET(request: NextRequest) {
 
   await computeLeaderboard();
 
-  await wait(30000);
-
   if (leaderboardUpdate) {
     await supabase
       .from("scheduled_updates")
