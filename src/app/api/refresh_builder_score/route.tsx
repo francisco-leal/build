@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   if (!data.passport) {
     return Response.json(
       { message: "No passport data provided" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

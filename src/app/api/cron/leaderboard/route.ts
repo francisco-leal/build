@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { computeLeaderboard } from "@/services";
 import { supabase } from "@/db";
 import { DateTime } from "luxon";
+import { JobTypes } from "@/app/_api/helpers/job-types";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -12,7 +13,7 @@ export async function GET(request: NextRequest) {
   const { data: leaderboardUpdate } = await supabase
     .from("scheduled_updates")
     .insert({
-      job_type: "leaderboard",
+      job_type: "leaderboard" as JobTypes,
       started_at: DateTime.utc().toISODate(),
     })
     .select("*")

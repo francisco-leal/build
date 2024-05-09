@@ -4,6 +4,7 @@ import React, { createContext, useState } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 import { SiweMessage } from "siwe";
 import { base } from "viem/chains";
+import { useRouter } from "next/navigation";
 
 interface UserProviderProps {
   children: React.ReactNode;
@@ -39,6 +40,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
   const { signMessageAsync } = useSignMessage();
   const [authingUser, setAuthingUser] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
 
   const checkCookieForUser = async () => {
     const res = await fetch("/api/profile", {
@@ -100,6 +102,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
     const userResponse = (await verification.json()) as User;
     setUser(userResponse);
     setAuthingUser(false);
+    router.refresh();
     return true;
   };
 
