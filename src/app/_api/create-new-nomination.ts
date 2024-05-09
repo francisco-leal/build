@@ -2,30 +2,21 @@ import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
 import { createNewUser } from "./create-new-user";
 import { DateTime } from "luxon";
+import { revalidateTag } from "next/cache";
+import { getNomination } from "./get-nomination";
+import { getUser } from "./get-user";
+import { revalidate } from "../api/profile/nominations/route";
 
 /** Nominated user may not exist yet on the DB */
 export const getNominatedUser = async (wallet: string) => {
-  const { data: existing_nominated_user, error: error_find } = await supabase
-    .from("users")
-    .select("*")
-    .eq("wallet", wallet.toLowerCase());
-
-  if (error_find) throw error_find;
-  if (!existing_nominated_user || existing_nominated_user.length === 0) {
-    return await createNewUser(wallet);
-  } else {
-    return existing_nominated_user[0];
-  }
+  const existingUser = await getUser(wallet);
+  if (existingUser) return existingUser;
+  return await createNewUser(wallet);
 };
 
 /** Boss Points calculated according to the game rules */
 export const getBossNominationBalances = async (wallet: string) => {
-  const { data: user, error: error_user } = await supabase
-    .from("users")
-    .select("boss_budget, boss_score")
-    .eq("wallet", wallet.toLowerCase())
-    .single();
-
+  const user = await getUser(wallet);
   if (!user) throw new BadRequestError("Could not find user");
 
   return {
@@ -50,13 +41,7 @@ export const isDuplicateNomination = async (
   nominatorWallet: string,
   nominatedWallet: string,
 ) => {
-  const { data: nominations, error: error_nominations } = await supabase
-    .from("boss_nominations")
-    .select("*")
-    .eq("wallet_origin", nominatorWallet.toLowerCase())
-    .eq("wallet_destination", nominatedWallet.toLowerCase());
-  if (error_nominations) throw error_nominations;
-  return nominations.length > 0;
+  return !!(await getNomination(nominatorWallet, nominatedWallet));
 };
 
 /** A User is limited to 3 nomination per day */
@@ -72,7 +57,7 @@ export const hasExceededNominationsToday = async (nominatorWallet: string) => {
     .lte("created_at", toDate.toISODate());
 
   if (error_nominations) throw error_nominations;
-  return nominations.length > 3;
+  return nominations.length >= 3;
 };
 
 export async function createNewNomination(
@@ -110,5 +95,8 @@ export async function createNewNomination(
     })
     .throwOnError();
 
+  revalidateTag("nominations");
+  revalidateTag("nomination");
+  revalidateTag("user");
   return nominatedUser;
 }

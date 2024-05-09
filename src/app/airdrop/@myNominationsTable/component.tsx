@@ -6,6 +6,7 @@ export type MyNominationsTableValue = {
   name: string | null;
   rank: number | null;
   pointsGiven: number | null;
+  missed?: boolean;
 };
 
 export type MyNominationsTableProps = {
@@ -29,11 +30,11 @@ export const MyNominationsTableComponent: FunctionComponent<
       <tbody>
         {!loading &&
           values.map((val) => (
-            <tr key={val.date} className={val.name ? "" : "yellow"}>
+            <tr key={val.date} className={val.missed ? "yellow" : ""}>
               <td>{val.date}</td>
-              <td>{val.name ?? "Missed"}</td>
-              <td>{val.rank ?? "Missed"}</td>
-              <td>{val.pointsGiven ?? "Missed"}</td>
+              <td>{val.missed ? "Missed" : (val.name ?? "---")}</td>
+              <td>{val.missed ? "Missed" : (val.rank ?? "---")}</td>
+              <td>{val.missed ? "Missed" : (val.pointsGiven ?? "---")}</td>
             </tr>
           ))}
         {loading &&

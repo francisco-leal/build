@@ -12,6 +12,14 @@ import {
   isDuplicateNomination,
   isSelfNomination,
 } from "@/app/_api/create-new-nomination";
+import { getNomination } from "@/app/_api/get-nomination";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { NotFoundError } from "@/shared/utils/error";
+
+type StateAndInfo = {
+  state: NominationState;
+  infoMessage: ReactNode;
+}
 
 export default async function NominateBuilder({
   params,
@@ -27,49 +35,75 @@ export default async function NominateBuilder({
   const date = DateTime.now().toFormat("LLL dd");
 
   if (!builder) notFound();
-  
-
-  const [state, infoMessage]: [NominationState, ReactNode] =
-    await (async () => {
-      if (!currentUser) {
-        return ["NOT_CONNECTED", ""] as const;
-      }
-      if (await isSelfNomination(currentUser.wallet, builder.wallet)) {
-        return [
-          "INVALID_NOMINATION",
-          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }} key={1}>
-            You are trying to nominate yourself!
-            <br />
-            Be a good sport and nominate someone else.
-          </Typography>,
-        ] as const;
-      }
-      if (await isDuplicateNomination(currentUser.wallet, builder.wallet)) {
-        return [
-          "INVALID_NOMINATION",
-          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }} key={2}>
-            You have already nominated this builder before. <br />
-            You can only nominate a builder once.
-          </Typography>,
-        ] as const;
-      }
-      if (await hasExceededNominationsToday(currentUser.wallet)) {
-        return [
-          "INVALID_NOMINATION",
-          <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }} key={3}>
-            You already nominated 3 builders today! <br />
-            Come back tomorrow!
-          </Typography>,
-        ] as const;
-      }
-      return ["VALID_NOMINATION", ""] as const;
-    })();
 
   const balances = currentUser
     ? await getBossNominationBalances(currentUser.wallet)
     : undefined;
 
-  console.log(state);
+  const { state, infoMessage }: StateAndInfo = await (async () => {
+    if (!currentUser) {
+      return {
+        state: "NOT_CONNECTED" as const,
+        infoMessage: (
+          <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
+            You need to connect your wallet to nominate a builder.
+          </Typography>
+        ),
+      };
+    }
+    if (await isSelfNomination(currentUser.wallet, builder.wallet)) {
+      return {
+        state: "INVALID_NOMINATION" as const,
+        infoMessage: (
+          <>
+            <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
+              You are trying to nominate yourself!
+              <br />
+              Be a good sport and nominate someone else.
+            </Typography>
+          </>
+        ),
+      };
+    }
+    if (await isDuplicateNomination(currentUser.wallet, builder.wallet)) {
+      const nomination = await getNomination(
+        currentUser.wallet,
+        builder.wallet
+      );
+
+      if (!nomination) throw new NotFoundError("Nomination not found");
+      const abbreviatedWallet = abbreviateWalletAddress(currentUser.wallet);
+      const displayName = nomination.destinationUsername ??abbreviatedWallet;
+      const date = DateTime.fromISO(nomination.createdAt);
+      const isToday = date.hasSame(DateTime.now(), "day");
+      const displayDate = isToday ? "today" : `on ${date.toFormat("LLL dd")}`;
+
+      return {
+        state: "INVALID_NOMINATION" as const,
+        infoMessage: (
+          <>
+            You already nominated <b>{displayName}</b> {displayDate}!<br />
+            You can only nominate a builder once.
+          </>
+        ),
+      };
+    }
+    if (await hasExceededNominationsToday(currentUser.wallet)) {
+      return {
+        state: "INVALID_NOMINATION" as const,
+        infoMessage: (
+          <>
+            You already nominated 3 builders today! <br />
+            Come back tomorrow!
+          </>
+        ),
+      };
+    }
+    return {
+      state: "VALID_NOMINATION" as const,
+      infoMessage: "",
+    };
+  })();
 
   return (
     <NominateBuilderComponent
