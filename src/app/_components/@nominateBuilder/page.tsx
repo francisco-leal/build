@@ -29,7 +29,6 @@ export default async function NominateBuilder({
 }) {
   const builder = await getBuilder(params.userId);
   const currentUser = await getCurrentUser();
-  console.log("currentUser", currentUser);
 
   const referer = headers().get("referer") ?? "";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
@@ -92,8 +91,8 @@ export default async function NominateBuilder({
         infoMessage: (
           <>
             <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
-              Leaderboard is currently updating.
-              This should only take a minute or two...
+              Leaderboard is currently updating. This should only take a minute
+              or two...
             </Typography>
           </>
         ),

@@ -1,13 +1,14 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { supabase } from "@/db";
 import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getBuilderScore } from "@/services/talent-protocol";
 import { BadRequestError } from "@/shared/utils/error";
-import { searchBuilders } from "./search-builders";
-import { revalidateTag } from "next/cache";
+import { getUser } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
+import { searchBuilders } from "./search-builders";
 
 export async function createNewUser(wallet_address: string) {
   const socialProfiles = await searchBuilders(wallet_address);
@@ -99,6 +100,9 @@ export async function createNewUser(wallet_address: string) {
     })
     .throwOnError();
 
-  revalidateTag(`user_${user.wallet}` satisfies CacheKey);
-  return user;
+  const finalUser = await getUser(wallet_address);
+  if (!finalUser) throw new Error("User creation failed");
+
+  revalidateTag(`user_${wallet_address}` satisfies CacheKey);
+  return await finalUser;
 }

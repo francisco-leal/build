@@ -115,5 +115,5 @@ export const searchBuilders = unstable_cache(
     );
   },
   ["search_builders"] satisfies CacheKey[],
-  { revalidate: CACHE_5_MINUTES }
+  { revalidate: CACHE_5_MINUTES },
 );

@@ -96,9 +96,9 @@ export const getNomination = async (
       };
     },
     [
-      "nominations", 
-      `user_${origin}`, 
-      `user_${destination}`
+      "nominations",
+      `user_${origin}`,
+      `user_${destination}`,
     ] satisfies CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )();

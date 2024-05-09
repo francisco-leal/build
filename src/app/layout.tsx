@@ -4,13 +4,12 @@ import "@fontsource-variable/inter";
 import { Box } from "@mui/joy";
 import { Toaster } from "sonner";
 import { cookieToInitialState } from "wagmi";
+import { Web3ModalProvider } from "@/app/_providers/web-3-modal-provider";
 import { config } from "@/config";
 import { Footer } from "@/shared/components/footer";
 import { Header } from "@/shared/components/header";
-import { Web3Auth } from "@/shared/components/web3-auth";
-import { UserProvider } from "@/shared/context/user";
-import { Web3ModalProvider } from "@/shared/context/web-3-modal-provider";
 import { ThemeRegistry } from "@/shared/theme/theme-registry";
+import { AuthenticationProvider } from "./_providers/authentication-provider";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -42,13 +41,12 @@ export default function RootLayout({
           sx={{ backgroundColor: "primary.500", m: 0, p: 0 }}
         >
           <Web3ModalProvider initialState={initialState}>
-            <UserProvider>
+            <AuthenticationProvider>
               <Header />
               {children}
               <Footer />
-              <Web3Auth />
-              <Toaster richColors />
-            </UserProvider>
+              <Toaster richColors closeButton />
+            </AuthenticationProvider>
           </Web3ModalProvider>
         </Box>
       </ThemeRegistry>

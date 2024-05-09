@@ -1,10 +1,9 @@
+import { revalidateTag } from "next/cache";
 import { NextRequest } from "next/server";
 import { DateTime } from "luxon";
 import { JobTypes } from "@/app/_api/helpers/job-types";
 import { supabase } from "@/db";
 import { computeLeaderboard } from "@/services";
-import { revalidateTag } from "next/cache";
-import { wait } from "@/shared/utils/wait";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -31,7 +30,6 @@ export async function GET(request: NextRequest) {
       })
       .eq("id", leaderboardUpdate.id);
   }
-
 
   revalidateTag("leaderboard");
   return Response.json({}, { status: 200 });
