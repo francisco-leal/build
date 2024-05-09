@@ -55,6 +55,8 @@ export const SearchBuilderComponent: FunctionComponent<
     },
   });
 
+  console.log(shareLink)
+
   return (
     <Stack {...props}>
       <Input

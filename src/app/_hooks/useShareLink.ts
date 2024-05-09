@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAccount } from "wagmi";
 
@@ -6,14 +6,12 @@ export const useShareLink = (): [
   string | undefined,
   (e: React.MouseEvent) => void,
 ] => {
-  const hasMounted = useRef(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const { address } = useAccount();
-  useEffect(() => {
-    hasMounted.current = true;
-  });
 
+  useEffect(() => setHasMounted(true), []);
   if (typeof window === "undefined") return [undefined, () => {}];
-  if (!hasMounted.current) return [undefined, () => {}];
+  if (!hasMounted) return [undefined, () => {}];
   if (!address) return [undefined, () => {}];
 
   const shareLink = `${window.location.origin}/nominate/${address}`;
