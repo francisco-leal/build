@@ -6,7 +6,6 @@ import {
   Avatar,
   Button,
   Divider,
-  Link,
   Modal,
   ModalClose,
   ModalDialog,
@@ -17,39 +16,44 @@ import {
   useTheme,
 } from "@mui/joy";
 import { useRouter } from "next/navigation";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, ReactNode, useState } from "react";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { toast } from "sonner";
 
+export type NominationState =
+  | "LOADING"
+  | "NOT_CONNECTED"
+  | "VALID_NOMINATION"
+  | "INVALID_NOMINATION";
+
 export type NominateBuilderComponentProps = {
+  state: NominationState;
   backAvailable?: boolean;
-  connected?: boolean;
-  loading?: boolean;
+  infoMessage?: ReactNode;
   date: string;
   builderImage?: string;
   builderUsername?: string;
   builderWallet?: string;
-
-  currentUserDailyBudget?: number;
-  currentUserTotalBossPoints?: number;
-  previouslyNominatedBossUsername?: string;
-  previouslyNominatedBossWallet?: string;
+  currentUserBossDailyBudget?: number;
+  currentUserBossPointsToBeGiven?: number;
+  currentUserBossPointsToBeEarned?: number;
+  currentUserBossTotalPoints?: number;
 };
 
 export const NominateBuilderComponent: FunctionComponent<
   NominateBuilderComponentProps
 > = ({
+  state,
   backAvailable,
-  connected,
-  loading,
+  infoMessage,
   date,
   builderImage,
   builderUsername,
   builderWallet,
-  previouslyNominatedBossUsername,
-  previouslyNominatedBossWallet,
-  currentUserDailyBudget,
-  currentUserTotalBossPoints,
+  currentUserBossDailyBudget,
+  currentUserBossPointsToBeGiven,
+  currentUserBossPointsToBeEarned,
+  currentUserBossTotalPoints,
 }) => {
   const [isNominating, setIsNominating] = useState(false);
   const router = useRouter();
@@ -60,12 +64,6 @@ export const NominateBuilderComponent: FunctionComponent<
     if (backAvailable) router.back();
     else router.push("/");
   };
-
-  const currentUserBossPointsSent = (currentUserDailyBudget ?? 0) * 0.9;
-  const currentUserBossPointsEarned = (currentUserDailyBudget ?? 0) * 0.1;
-
-  const isReadyToNominate =
-    !loading && connected && !previouslyNominatedBossUsername;
 
   const nominateUser = async () => {
     setIsNominating(true);
@@ -90,6 +88,11 @@ export const NominateBuilderComponent: FunctionComponent<
     }
   };
 
+  const isLoading = state === "LOADING";
+  const isNotConnected = state === "NOT_CONNECTED";
+  const isReadyToNominate = state === "VALID_NOMINATION";
+  const isDisplayingUserValues = !isLoading && !isNotConnected;
+
   return (
     <Modal open onClose={goBack}>
       <ModalOverflow>
@@ -103,7 +106,7 @@ export const NominateBuilderComponent: FunctionComponent<
           <Typography level="h4">Confirm Nomination</Typography>
 
           <Stack sx={{ alignItems: "center" }}>
-            {loading ? (
+            {isLoading ? (
               <Skeleton
                 variant="circular"
                 sx={{ width: "48px", height: "48px", mb: 1 }}
@@ -116,17 +119,17 @@ export const NominateBuilderComponent: FunctionComponent<
               />
             )}
             <Typography level="title-lg" textColor="common.black">
-              {loading ? "---" : builderUsername}
+              {isLoading ? "---" : builderUsername}
             </Typography>
             <Typography level="body-sm">
-              {loading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
+              {isLoading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
             </Typography>
           </Stack>
 
           <Stack sx={{ gap: 1.5, width: "100%", my: 3 }}>
             <Divider sx={{ backgroundColor: "neutral.400" }} />
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems={"center"}>
               <Typography level="body-sm">Date</Typography>
               <Typography
                 level="body-sm"
@@ -138,38 +141,40 @@ export const NominateBuilderComponent: FunctionComponent<
               <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems={"center"}>
               <Typography level="body-sm">My Daily Budget</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {currentUserDailyBudget ?? "--"}
+                {isDisplayingUserValues ? currentUserBossDailyBudget : "--"}
               </Typography>
               <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems={"center"}>
               <Typography level="body-sm">BOSS Points Sent</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {currentUserBossPointsSent ?? "--"}
+                {isDisplayingUserValues ? currentUserBossPointsToBeGiven : "--"}
               </Typography>
               <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
 
-            <Stack direction="row">
+            <Stack direction="row" alignItems={"center"}>
               <Typography level="body-sm">BOSS Points Earned</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {currentUserBossPointsEarned ?? "--"}
+                {isDisplayingUserValues
+                  ? currentUserBossPointsToBeEarned
+                  : "--"}
               </Typography>
               <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
@@ -183,25 +188,21 @@ export const NominateBuilderComponent: FunctionComponent<
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {(currentUserTotalBossPoints ?? 0) +
-                  currentUserBossPointsEarned ?? "--"}
+                {isDisplayingUserValues ? currentUserBossTotalPoints : "--"}
               </Typography>
               <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
             </Stack>
           </Stack>
 
-          <Stack sx={{ flexDirection: "row", justifyContent: "end", gap: 1 }}>
-            {previouslyNominatedBossWallet && (
-              <Typography level="body-sm" textAlign={"right"} sx={{ mr: 1 }}>
-                {"You have nominated "}
-                <Link href={`/nominate/${previouslyNominatedBossWallet}`}>
-                  {previouslyNominatedBossUsername}
-                </Link>
-                {" as a BOSS today."}
-                <br />
-                {"Come back tomorrow to nominate a different BOSS."}
-              </Typography>
-            )}
+          <Stack
+            sx={{
+              flexDirection: "row",
+              justifyContent: "end",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            {infoMessage}
             <Button
               variant="outlined"
               color="neutral"
@@ -210,22 +211,27 @@ export const NominateBuilderComponent: FunctionComponent<
             >
               Cancel
             </Button>
-            {loading && (
-              <Button variant="solid" disabled>
-                Confirm
-              </Button>
-            )}
-            {isReadyToNominate && (
-              <Button
-                variant="solid"
-                disabled={(currentUserDailyBudget ?? 0) <= 0}
-                loading={isNominating}
-                onClick={() => nominateUser()}
-              >
-                Confirm
-              </Button>
-            )}
-            {!connected && !loading && <ConnectWalletButton />}
+            {
+              {
+                ["LOADING"]: (
+                  <Button variant="solid" disabled>
+                    Confirm
+                  </Button>
+                ),
+                ["NOT_CONNECTED"]: <ConnectWalletButton />,
+                ["VALID_NOMINATION"]: (
+                  <Button
+                    variant="solid"
+                    disabled={(currentUserBossDailyBudget ?? 0) <= 0}
+                    loading={isNominating}
+                    onClick={() => nominateUser()}
+                  >
+                    Confirm
+                  </Button>
+                ),
+                ["INVALID_NOMINATION"]: null,
+              }[state]
+            }
           </Stack>
         </ModalDialog>
       </ModalOverflow>

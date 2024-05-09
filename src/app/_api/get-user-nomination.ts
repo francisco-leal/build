@@ -47,21 +47,3 @@ export const getUserNominations = unstable_cache(
   ["user_nominations"],
   { revalidate: 30 },
 );
-
-/** Returns the nomination the user has made today */
-export const getUserNomination = async (
-  wallet: string,
-): Promise<UserNomination | null> => {
-  const nominations = await getUserNominations(wallet);
-  const lastNomination = nominations[0];
-  if (!lastNomination) return null;
-  const today = new Date().toISOString().split("T")[0];
-  if (lastNomination.createdAt.split("T")[0] === today) return lastNomination;
-  return null;
-};
-
-export const getCurrentUserNomination =
-  async (): Promise<UserNomination | null> => {
-    const user = await getSession();
-    return user ? getUserNomination(user.wallet) : null;
-  };

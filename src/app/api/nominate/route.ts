@@ -19,5 +19,5 @@ export const POST = restApiHandler(async (request) => {
     );
   }
 
-  return createNewNomination(user, nominatedUserAddress);
+  return createNewNomination(user.wallet, nominatedUserAddress);
 });
