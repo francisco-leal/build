@@ -37,12 +37,7 @@ export type SearchResponseUser = {
 
 export const SearchBuilderComponent: FunctionComponent<
   SearchBuilderComponentProps
-> = ({
-  date,
-  dailyBudget,
-  totalBossPoints,
-  ...props
-}) => {
+> = ({ date, dailyBudget, totalBossPoints, ...props }) => {
   const [shareLink, onShareLink] = useShareLink();
   const [searchValue, setSearchValue] = useState<string>("");
   const debouncedSearchValue = useDebounce(searchValue, 500);
@@ -61,7 +56,6 @@ export const SearchBuilderComponent: FunctionComponent<
       return data as Promise<SearchResponseUser[]>;
     },
   });
-  
 
   return (
     <Stack {...props}>

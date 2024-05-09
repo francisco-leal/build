@@ -28,7 +28,7 @@ type Builder = {
 };
 
 const getFarcasterBuilderProfile = async (
-  walletId: string
+  walletId: string,
 ): Promise<Builder | null> => {
   const query = `query QueryUserOnLensAndFarcaster {
     Socials(
@@ -57,7 +57,7 @@ const getFarcasterBuilderProfile = async (
   if (!socials || socials.length === 0) return null;
 
   const farcasterSocial = socials.find(
-    (social: any) => social.dappName === "farcaster"
+    (social: any) => social.dappName === "farcaster",
   );
   const lensSocial = socials.find((social: any) => social.dappName === "lens");
   if (!farcasterSocial || !lensSocial) return null;
@@ -73,7 +73,7 @@ const getFarcasterBuilderProfile = async (
 };
 
 const getTalentProtocolBuilderProfile = async (
-  walledId: string
+  walledId: string,
 ): Promise<Builder | null> => {
   const api_url = process.env.PASSPORT_API_URL;
   const api_token = process.env.PASSPORT_API_TOKEN;

@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { recalculateBossBudget } from "@/services";
 import { supabase } from "@/db";
 import { DateTime } from "luxon";
+import { JobTypes } from "@/app/_api/helpers/job-types";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -12,7 +13,7 @@ export async function GET(request: NextRequest) {
   const { data: recalculateBossBudgetUpdate } = await supabase
     .from("scheduled_updates")
     .insert({
-      job_type: "boss_budget",
+      job_type: "boss_budget" as JobTypes,
       started_at: DateTime.utc().toISODate(),
     })
     .select("*")
