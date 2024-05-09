@@ -19,7 +19,7 @@ export const getNominationsFromWallet = unstable_cache(
       .from("boss_nominations")
       .select("*")
       .order("created_at", { ascending: false })
-      // FIXME: This limit will break the app if Builder lasts 
+      // FIXME: This limit will break the app if Builder lasts
       // longer than 50 days
       .limit(50 * 3)
       .eq("wallet_origin", wallet.toLowerCase());
@@ -53,15 +53,15 @@ export const getNominationsFromWallet = unstable_cache(
 
 export const getNomination = unstable_cache(
   async (
-    originWallet: string, 
-    destinationWallet: string
+    originWallet: string,
+    destinationWallet: string,
   ): Promise<Nomination | null> => {
     const { data: nomination } = await supabase
       .from("boss_nominations")
       .select("*")
       .eq("wallet_origin", originWallet.toLowerCase())
       .eq("wallet_destination", destinationWallet.toLowerCase())
-      .single()
+      .single();
 
     if (!nomination) return null;
 
@@ -69,7 +69,7 @@ export const getNomination = unstable_cache(
       .from("boss_leaderboard")
       .select("*")
       .eq("wallet", destinationWallet.toLowerCase())
-      .single()
+      .single();
 
     if (!user) return null;
 

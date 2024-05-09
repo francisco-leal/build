@@ -19,7 +19,7 @@ import { NotFoundError } from "@/shared/utils/error";
 type StateAndInfo = {
   state: NominationState;
   infoMessage: ReactNode;
-}
+};
 
 export default async function NominateBuilder({
   params,
@@ -68,12 +68,12 @@ export default async function NominateBuilder({
     if (await isDuplicateNomination(currentUser.wallet, builder.wallet)) {
       const nomination = await getNomination(
         currentUser.wallet,
-        builder.wallet
+        builder.wallet,
       );
 
       if (!nomination) throw new NotFoundError("Nomination not found");
       const abbreviatedWallet = abbreviateWalletAddress(currentUser.wallet);
-      const displayName = nomination.destinationUsername ??abbreviatedWallet;
+      const displayName = nomination.destinationUsername ?? abbreviatedWallet;
       const date = DateTime.fromISO(nomination.createdAt);
       const isToday = date.hasSame(DateTime.now(), "day");
       const displayDate = isToday ? "today" : `on ${date.toFormat("LLL dd")}`;

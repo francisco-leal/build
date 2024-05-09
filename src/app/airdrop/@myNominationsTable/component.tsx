@@ -32,9 +32,9 @@ export const MyNominationsTableComponent: FunctionComponent<
           values.map((val) => (
             <tr key={val.date} className={val.missed ? "yellow" : ""}>
               <td>{val.date}</td>
-              <td>{val.missed ? "Missed" : (val.name ?? "---")}</td>
-              <td>{val.missed ? "Missed" : (val.rank ?? "---")}</td>
-              <td>{val.missed ? "Missed" : (val.pointsGiven ?? "---")}</td>
+              <td>{val.missed ? "Missed" : val.name ?? "---"}</td>
+              <td>{val.missed ? "Missed" : val.rank ?? "---"}</td>
+              <td>{val.missed ? "Missed" : val.pointsGiven ?? "---"}</td>
             </tr>
           ))}
         {loading &&

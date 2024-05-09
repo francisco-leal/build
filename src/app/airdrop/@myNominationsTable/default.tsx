@@ -1,4 +1,7 @@
-import { MyNominationsTableComponent, MyNominationsTableValue } from "./component";
+import {
+  MyNominationsTableComponent,
+  MyNominationsTableValue,
+} from "./component";
 import { getCurrentUser } from "@/app/_api/get-user";
 import { notFound } from "next/navigation";
 import { getNominationsFromWallet } from "@/app/_api/get-nomination";
@@ -12,28 +15,31 @@ export default async function MyNominationsTable() {
   const nominations = await getNominationsFromWallet(user?.wallet);
   const lastNominationIso = nominations.at(0)?.createdAt;
   const firstNominationIso = nominations.at(-1)?.createdAt;
-  const firstDate = firstNominationIso 
-    ? DateTime.fromISO(firstNominationIso) 
+  const firstDate = firstNominationIso
+    ? DateTime.fromISO(firstNominationIso)
     : DateTime.now();
-  const lastDate = lastNominationIso 
-    ? DateTime.fromISO(lastNominationIso) 
+  const lastDate = lastNominationIso
+    ? DateTime.fromISO(lastNominationIso)
     : DateTime.now();
 
   const numberOfDays = lastDate.diff(firstDate, "days").days;
 
   // Create table values that exist
-  const nominationTableValues = nominations.map((n): MyNominationsTableValue => ({
-    date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
-    missed: false,
-    name: n.destinationUsername ?? abbreviateWalletAddress(n.destinationWallet),
-    rank: n.destinationRank,
-    pointsGiven: n.bossPointsGiven,
-  }));
+  const nominationTableValues = nominations.map(
+    (n): MyNominationsTableValue => ({
+      date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
+      missed: false,
+      name:
+        n.destinationUsername ?? abbreviateWalletAddress(n.destinationWallet),
+      rank: n.destinationRank,
+      pointsGiven: n.bossPointsGiven,
+    }),
+  );
 
   // Map marking dates present in the table
   const nominationTableValuesMap = makeMap(
-    nominationTableValues, 
-    (n) => n.date
+    nominationTableValues,
+    (n) => n.date,
   );
 
   // Fill in the missing dates
@@ -56,7 +62,5 @@ export default async function MyNominationsTable() {
     return dateA.toMillis() - dateB.toMillis();
   });
 
-  return (
-    <MyNominationsTableComponent values={nominationTableValues} />
-  );
+  return <MyNominationsTableComponent values={nominationTableValues} />;
 }

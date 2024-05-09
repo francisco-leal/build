@@ -1,4 +1,8 @@
-import { BadRequestError, NotFoundError, UnauthorizedError } from "@/shared/utils/error";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "@/shared/utils/error";
 import { NextRequest } from "next/server";
 import { ZodError } from "zod";
 
