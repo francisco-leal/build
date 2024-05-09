@@ -11,9 +11,9 @@ export const Section1 = () => {
       </Typography>
 
       <Typography level="title-lg">
-        $BOSS is an ERC-20 token on Base with a total supply of a
-        404,404,404,404. It will be launched on May 2024, with a 7-day crowdfund
-        on party.app, followed by a Community Airdrop to onchain builders.
+        $BUILD is an ERC-20 token on Base with a total supply of a 1T. It
+        launched on May 2024, with a crowdfund on party.app, followed by
+        community airdropa to onchain builders.
       </Typography>
     </HeroSectionSlim>
   );

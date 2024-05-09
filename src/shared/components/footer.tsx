@@ -66,7 +66,7 @@ export const Footer = () => {
       </Stack>
 
       <Typography sx={{ color: "common.white", textAlign: "center" }}>
-        BOSS is an experimental community project. Not Financial Advice. DYOR.
+        BUILD is an experimental community project. Not Financial Advice. DYOR.
       </Typography>
     </Stack>
   );

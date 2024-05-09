@@ -13,7 +13,7 @@ export const BossPointsCardComponent: FunctionComponent<
   return (
     <BlockyCard>
       <Typography level="body-lg" textColor="primary.500">
-        BOSS Points
+        BUILD Points
       </Typography>
 
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
@@ -26,7 +26,7 @@ export const BossPointsCardComponent: FunctionComponent<
       </Stack>
 
       <Typography textColor="neutral.500">
-        Total BOSS points earned from nominations received and made.
+        Total BUILD points earned from nominations received and made.
       </Typography>
 
       <Button disabled>How it works</Button>

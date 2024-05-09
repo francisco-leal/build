@@ -15,7 +15,7 @@ export const POST = restApiHandler(async (request) => {
 
   if (!user) {
     throw new UnauthorizedError(
-      "You need to be connect your wallet to nominate a boss!",
+      "You need to be connect your wallet to nominate a builder!",
     );
   }
 

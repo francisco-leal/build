@@ -67,14 +67,17 @@ export const Header: FunctionComponent = () => {
             },
           }}
         >
-          <Link disabled={activePath === "memo"} href="/memo">
+          <Link
+            target="_blank"
+            href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
+          >
             Memo
           </Link>
           <Link disabled={activePath === "airdrop"} href="/airdrop">
             Airdrop
           </Link>
-          <Link disabled={activePath === "bossnomics"} href="/bossnomics">
-            Bossnomics
+          <Link disabled={activePath === "tokenomics"} href="/tokenomics">
+            Tokenomics
           </Link>
         </Stack>
 
@@ -147,10 +150,8 @@ export const Header: FunctionComponent = () => {
         }}
       >
         <Link
-          // Prefetch is not recognized by LinkProps, but it's part of Next Link
-          {...{ prefetch: true }}
-          href="/memo"
-          onClick={drawer.close}
+          target="_blank"
+          href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
         >
           Memo
         </Link>
@@ -165,17 +166,18 @@ export const Header: FunctionComponent = () => {
         <Link
           // Prefetch is not recognized by LinkProps, but it's part of Next Link
           {...{ prefetch: true }}
-          href="/bossnomics"
+          href="/tokenomics"
           onClick={drawer.close}
         >
-          Bossnomics
+          Tokenomics
         </Link>
 
         <Typography
           sx={{ color: "neutral.50", mt: "auto", textAlign: "center" }}
           level="body-md"
         >
-          BOSS is an experimental community project. Not Financial Advice. DYOR.
+          BUILD is an experimental community project. Not Financial Advice.
+          DYOR.
         </Typography>
       </Drawer>
     </Box>

@@ -190,7 +190,7 @@ export const SearchBuilderComponent: FunctionComponent<
                 }}
               />
               <Typography color="neutral" level="body-lg">
-                There are no BOSSes around that go by the name &quot;
+                There are no BUILDers around that go by the name &quot;
                 {searchValue}&quot;
               </Typography>
             </Sheet>

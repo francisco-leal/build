@@ -9,9 +9,9 @@ export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 if (!projectId) throw new Error("Project ID is not defined");
 
 const metadata = {
-  name: "BOSS",
+  name: "BUILD",
   description:
-    "BOSS is a meme and a social game designed to reward builders via onchain nominations.",
+    "BUILD is a meme and a social game designed to reward builders via onchain nominations.",
   url: "https://talentprotocol.com", // origin must match your domain & subdomain
   icons: ["https://talentprotocol.com/images/favicon.jpg"],
 };
