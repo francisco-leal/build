@@ -1,6 +1,8 @@
+"use server";
 import { searchTalentProtocolUser } from "@/services/talent-protocol";
 import { init, fetchQuery } from "@airstack/node";
 import { unstable_cache } from "next/cache";
+import { CacheKey } from "./helpers/cache-keys";
 
 init(process.env.AIRSTACK_API_KEY!);
 
@@ -111,6 +113,5 @@ export const searchBuilders = unstable_cache(
       removeDuplicateBuilders,
     );
   },
-  ["search-builders"],
-  { revalidate: 60 * 5 },
+  ["search_builders" satisfies CacheKey],
 );

@@ -1,6 +1,5 @@
-import { restApiHandler } from "@/app/_api/rest-api-handler";
+import { restApiHandler } from "@/app/_api/helpers/rest-api-handler";
 import { searchBuilders } from "@/app/_api/search-builders";
-import { type NextRequest } from "next/server";
 import { z } from "zod";
 
 const searchParamsSchema = z.object({

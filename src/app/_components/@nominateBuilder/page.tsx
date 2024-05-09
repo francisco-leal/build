@@ -51,20 +51,6 @@ export default async function NominateBuilder({
         ),
       };
     }
-    if (await isSelfNomination(currentUser.wallet, builder.wallet)) {
-      return {
-        state: "INVALID_NOMINATION" as const,
-        infoMessage: (
-          <>
-            <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
-              You are trying to nominate yourself!
-              <br />
-              Be a good sport and nominate someone else.
-            </Typography>
-          </>
-        ),
-      };
-    }
     if (await isDuplicateNomination(currentUser.wallet, builder.wallet)) {
       const nomination = await getNomination(
         currentUser.wallet,
@@ -79,11 +65,25 @@ export default async function NominateBuilder({
       const displayDate = isToday ? "today" : `on ${date.toFormat("LLL dd")}`;
 
       return {
+        state: "ALREADY_NOMINATED" as const,
+        infoMessage: (
+          <>
+            You nominated <b>{displayName}</b> {displayDate}!<br />
+            <small>(You can only nominate a builder once)</small>
+          </>
+        ),
+      };
+    }
+    if (await isSelfNomination(currentUser.wallet, builder.wallet)) {
+      return {
         state: "INVALID_NOMINATION" as const,
         infoMessage: (
           <>
-            You already nominated <b>{displayName}</b> {displayDate}!<br />
-            You can only nominate a builder once.
+            <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
+              You are trying to nominate yourself!
+              <br />
+              Be a good sport and nominate someone else.
+            </Typography>
           </>
         ),
       };

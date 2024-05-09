@@ -1,6 +1,8 @@
+"use server";
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { unstable_cache } from "next/cache";
+import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
 
 export type User = {
   boss_budget: number;
@@ -15,19 +17,25 @@ export type User = {
   wallet: string;
 };
 
-export const getUser = unstable_cache(
-  async (wallet: string): Promise<User | null> => {
-    const { data } = await supabase
-      .from("users")
-      .select("*")
-      .eq("wallet", wallet.toLowerCase())
-      .single();
-    if (!data) return null;
-    return data;
-  },
-  ["user"],
-  { revalidate: 60 },
-);
+export const getUser = async (wallet: string): Promise<User | null> => {
+  const walletKey = wallet.toLowerCase();
+  const cacheKey: CacheKey = `user_${walletKey}`;
+  return (
+    await unstable_cache(
+      async () => {
+        const { data } = await supabase
+          .from("users")
+          .select("*")
+          .eq("wallet", wallet.toLowerCase())
+          .single();
+        if (!data) return null;
+        return data;
+      },
+      [cacheKey],
+      { revalidate: CACHE_5_MINUTES },
+    )
+  )();
+};
 
 export const getCurrentUser = async (): Promise<User | null> => {
   const user = await getSession();

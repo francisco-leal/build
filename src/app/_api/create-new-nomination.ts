@@ -1,16 +1,27 @@
+"use server";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
 import { createNewUser } from "./create-new-user";
-import { DateTime } from "luxon";
-import { revalidateTag } from "next/cache";
-import { getNomination } from "./get-nomination";
-import { getUser } from "./get-user";
+import { DateTime, Interval } from "luxon";
+import { revalidatePath } from "next/cache";
+import { getNomination, getNominationsFromWallet } from "./get-nomination";
+import { getCurrentUser, getUser } from "./get-user";
 
 /** Nominated user may not exist yet on the DB */
 export const getNominatedUser = async (wallet: string) => {
   const existingUser = await getUser(wallet);
   if (existingUser) return existingUser;
   return await createNewUser(wallet);
+};
+
+export const getTodaysNominations = async (wallet: string) => {
+  const nominations = await getNominationsFromWallet(wallet);
+  const fromDate = DateTime.utc().startOf("day");
+  const toDate = fromDate.plus({ hours: 24 });
+  const interval = Interval.fromDateTimes(fromDate, toDate);
+  return nominations.filter((n) =>
+    interval.contains(DateTime.fromISO(n.createdAt)),
+  );
 };
 
 /** Boss Points calculated according to the game rules */
@@ -27,7 +38,7 @@ export const getBossNominationBalances = async (wallet: string) => {
 };
 
 /** A User cannot nominate themselves */
-export const isSelfNomination = (
+export const isSelfNomination = async (
   nominatorWallet: string,
   nominatedWallet: string,
 ) => {
@@ -43,50 +54,30 @@ export const isDuplicateNomination = async (
 };
 
 /** A User is limited to 3 nomination per day */
-export const hasExceededNominationsToday = async (
-  nominatorWallet: string,
-  returnTotal: boolean = false,
-) => {
-  const fromDate = DateTime.utc().startOf("day");
-  const toDate = fromDate.plus({ hours: 24 });
-
-  const { data: nominations, error: error_nominations } = await supabase
-    .from("boss_nominations")
-    .select("*")
-    .eq("wallet_origin", nominatorWallet.toLowerCase())
-    .gte("created_at", fromDate.toISODate())
-    .lte("created_at", toDate.toISODate());
-
-  if (error_nominations) throw error_nominations;
-  if (returnTotal) return nominations.length;
-  return nominations.length >= 3;
+export const hasExceededNominationsToday = async (nominatorWallet: string) => {
+  const nominations = await getTodaysNominations(nominatorWallet);
+  return (nominations?.length || 0) >= 3;
 };
 
-export async function createNewNomination(
-  nominatorWallet: string,
-  nominatedWallet: string,
-) {
-  const nominatorUser = await getNominatedUser(nominatorWallet);
-  const nominatedUser = await getNominatedUser(nominatedWallet);
+export async function createNewNomination(walletToNominate: string) {
+  const nominatorUser = await getCurrentUser();
+  const nominatedUser = await getNominatedUser(walletToNominate);
+  const nominatorWallet = nominatorUser?.wallet?.toLocaleLowerCase();
+  const nominatedWallet = nominatedUser?.wallet?.toLocaleLowerCase();
 
-  if (!nominatorUser) {
+  if (!nominatorUser || !nominatorWallet) {
     throw new BadRequestError("Could not find user");
   }
   if (!nominatedUser) {
     throw new BadRequestError("Could not find nominated user");
   }
-  if (isSelfNomination(nominatorWallet, nominatedWallet)) {
+  if (await isSelfNomination(nominatorWallet, nominatedWallet)) {
     throw new BadRequestError("You cannot nominate yourself!");
   }
   if (await isDuplicateNomination(nominatorWallet, nominatedWallet)) {
     throw new BadRequestError("You already nominated this builder before!");
   }
-  const totalNominationsToday = (await hasExceededNominationsToday(
-    nominatedWallet,
-    true,
-  )) as number;
-
-  if (totalNominationsToday >= 3) {
+  if (await hasExceededNominationsToday(nominatedWallet)) {
     throw new BadRequestError("You have already nominated a builder today!");
   }
 
@@ -102,7 +93,7 @@ export async function createNewNomination(
     })
     .throwOnError();
 
-  if (totalNominationsToday === 0) {
+  if ((await getTodaysNominations(nominatorWallet)).length === 0) {
     await supabase
       .from("users")
       .update({
@@ -112,18 +103,17 @@ export async function createNewNomination(
       .throwOnError();
   }
 
-  // update total points of both users
-  // origin
   await supabase.rpc("update_boss_score", {
     wallet_to_update: nominatorUser.wallet,
   });
-  // destination
+
   await supabase.rpc("update_boss_score", {
     wallet_to_update: nominatedUser.wallet,
   });
 
-  revalidateTag("nominations");
-  revalidateTag("nomination");
-  revalidateTag("user");
+  getNomination.bust(nominatorWallet, nominatedWallet);
+  getNominationsFromWallet.bust(nominatorWallet);
+  revalidatePath(`/nominate/${nominatedUser.wallet}`);
+  revalidatePath(`/airdrop/nominate/${nominatedUser.wallet}`);
   return nominatedUser;
 }
