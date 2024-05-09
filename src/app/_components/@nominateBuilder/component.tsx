@@ -16,15 +16,17 @@ import {
   useTheme,
 } from "@mui/joy";
 import { useRouter } from "next/navigation";
-import { FunctionComponent, ReactNode, useState } from "react";
+import { FunctionComponent, ReactNode, useState, useTransition } from "react";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { toast } from "sonner";
+import { createNewNomination } from "@/app/_api/create-new-nomination";
 
 export type NominationState =
   | "LOADING"
   | "NOT_CONNECTED"
   | "VALID_NOMINATION"
-  | "INVALID_NOMINATION";
+  | "INVALID_NOMINATION"
+  | "ALREADY_NOMINATED";
 
 export type NominateBuilderComponentProps = {
   state: NominationState;
@@ -55,7 +57,7 @@ export const NominateBuilderComponent: FunctionComponent<
   currentUserBossPointsToBeEarned,
   currentUserBossTotalPoints,
 }) => {
-  const [isNominating, setIsNominating] = useState(false);
+  const [isNominating, startNomination] = useTransition();
   const router = useRouter();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
@@ -65,33 +67,26 @@ export const NominateBuilderComponent: FunctionComponent<
     else router.push("/");
   };
 
-  const nominateUser = async () => {
-    setIsNominating(true);
-    try {
-      const response = await fetch("/api/nominate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nominatedUserAddress: builderWallet }),
-      });
-
-      const json = (await response.json()) as { error?: string };
-
-      if (json.error) {
-        toast.error(json.error);
-      } else {
+  const nominateUser = () => {
+    startNomination(async () => {
+      if (!builderWallet) return;
+      try {
+        await createNewNomination(builderWallet);
         toast.success("Successfully nominated user!");
+      } catch (e) {
+        if (e instanceof Error) toast.error(e.message);
+        else toast.error("Failed to nominate user!");
       }
-    } catch (e) {
-      toast.error("An error occurred while nominating user.");
-    } finally {
-      setIsNominating(false);
-    }
+    });
   };
 
   const isLoading = state === "LOADING";
   const isNotConnected = state === "NOT_CONNECTED";
-  const isReadyToNominate = state === "VALID_NOMINATION";
   const isDisplayingUserValues = !isLoading && !isNotConnected;
+
+  const isPrimaryColor = ["VALID_NOMINATION", "ALREADY_NOMINATED"].includes(
+    state,
+  );
 
   return (
     <Modal open onClose={goBack}>
@@ -101,27 +96,29 @@ export const NominateBuilderComponent: FunctionComponent<
           sx={{ width: "100%", maxWidth: "sm", color: "neutral.500" }}
           layout={isMediumScreen ? "center" : "fullscreen"}
         >
-          <ModalClose variant="plain" sx={{ m: 1 }} />
+          <ModalClose variant="plain" />
 
-          <Typography level="h4">Confirm Nomination</Typography>
-
-          <Stack sx={{ alignItems: "center" }}>
+          <Stack sx={{ alignItems: "center", mt: 3 }}>
             {isLoading ? (
               <Skeleton
                 variant="circular"
-                sx={{ width: "48px", height: "48px", mb: 1 }}
+                sx={{ width: "48px", height: "48px" }}
               />
             ) : (
               <Avatar
-                sx={{ width: "48px", height: "48px", mb: 1 }}
+                sx={{ width: "48px", height: "48px" }}
                 src={builderImage}
                 alt={builderUsername}
               />
             )}
-            <Typography level="title-lg" textColor="common.black">
+            <Typography
+              level="title-lg"
+              textColor="common.black"
+              sx={{ mb: 0 }}
+            >
               {isLoading ? "---" : builderUsername}
             </Typography>
-            <Typography level="body-sm">
+            <Typography level="body-sm" sx={{ mb: 0 }}>
               {isLoading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
             </Typography>
           </Stack>
@@ -138,7 +135,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {date}
               </Typography>
-              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
+              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
@@ -150,7 +147,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {isDisplayingUserValues ? currentUserBossDailyBudget : "--"}
               </Typography>
-              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
+              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
@@ -162,7 +159,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {isDisplayingUserValues ? currentUserBossPointsToBeGiven : "--"}
               </Typography>
-              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
+              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
@@ -176,7 +173,7 @@ export const NominateBuilderComponent: FunctionComponent<
                   ? currentUserBossPointsToBeEarned
                   : "--"}
               </Typography>
-              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
+              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Divider sx={{ backgroundColor: "neutral.400" }} />
@@ -190,7 +187,7 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {isDisplayingUserValues ? currentUserBossTotalPoints : "--"}
               </Typography>
-              <LogoShort color={isReadyToNominate ? "primary" : "neutral"} />
+              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
           </Stack>
 
@@ -241,6 +238,15 @@ export const NominateBuilderComponent: FunctionComponent<
                   </>
                 ),
                 ["INVALID_NOMINATION"]: (
+                  <Typography
+                    level="body-sm"
+                    textAlign={"center"}
+                    sx={{ mr: 1, flex: 1 }}
+                  >
+                    {infoMessage}
+                  </Typography>
+                ),
+                ["ALREADY_NOMINATED"]: (
                   <Typography
                     level="body-sm"
                     textAlign={"center"}

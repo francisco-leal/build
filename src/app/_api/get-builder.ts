@@ -1,3 +1,4 @@
+"use server";
 import { init, fetchQuery } from "@airstack/node";
 
 init(process.env.AIRSTACK_API_KEY!);

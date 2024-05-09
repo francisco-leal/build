@@ -1,3 +1,4 @@
+"use server";
 import { supabase } from "@/db";
 import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";

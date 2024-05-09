@@ -18,6 +18,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { FunctionComponent, useState } from "react";
+import { toast } from "sonner";
 
 export type SearchBuilderComponentProps = {
   isConnected: boolean;
@@ -105,6 +106,11 @@ export const SearchBuilderComponent: FunctionComponent<
                 <Link
                   href={shareLink}
                   sx={{ color: "common.white", textDecoration: "underline" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(shareLink);
+                    toast.info("Link copied to clipboard!");
+                  }}
                 >
                   Share your nomination link
                 </Link>
@@ -244,7 +250,7 @@ export const SearchBuilderComponent: FunctionComponent<
                     variant="solid"
                     sx={{ height: "auto" }}
                   >
-                    {user.address ? "Nominate" : "No wallet found"}
+                    {user.address ? "Nominate" : "No wallet"}
                   </Button>
                 </ListItem>
               ))}
