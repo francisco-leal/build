@@ -109,6 +109,7 @@ export async function createNewNomination(walletToNominate: string) {
   getNomination.bust(nominatorWallet, nominatedWallet);
   getNominationsFromWallet.bust(nominatorWallet);
   revalidatePath(`/nominate/${nominatedUser.wallet}`);
+  revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedUser.wallet}`);
   return nominatedUser;
 }

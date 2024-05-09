@@ -27,7 +27,6 @@ getLeaderboardTop10.bust = () => {
 
 const getLeaderboardUser = async (wallet: string) => {
   const walletLc = wallet.toLowerCase();
-  const cacheKey = `leaderboard_user_${walletLc}`;
   return await unstable_cache(
     async () => {
       const { data: leaderboardData } = await supabase
@@ -43,7 +42,7 @@ const getLeaderboardUser = async (wallet: string) => {
   )();
 };
 
-getLeaderboardUser.bust = (wallet: string) => {
+getLeaderboardUser.bust = () => {
   revalidatePath("leaderboard_top_10" satisfies CacheKey);
 };
 
