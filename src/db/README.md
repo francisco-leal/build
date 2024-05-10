@@ -392,8 +392,6 @@ CREATE INDEX idx_wallet_origin ON boss_nominations (wallet_origin);
 CREATE INDEX idx_wallet_destination ON boss_nominations (wallet_destination);
 CREATE INDEX idx_rank ON boss_leaderboard (rank);
 CREATE INDEX idx_referral_code ON users (referral_code);
-CREATE UNIQUE INDEX idx_users_fid_unique ON users (farcaster_id);
-CREATE UNIQUE INDEX idx_users_passport_id_unique ON users (passport_id);
 ```
 
 </details>

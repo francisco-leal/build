@@ -22,12 +22,14 @@ type PassportsResponse = {
   error?: string;
 };
 
-export async function getBuilderScore(wallet: string): Promise<{score: number, passport_id: number | null}> {
+export async function getBuilderScore(
+  wallet: string,
+): Promise<{ score: number; passport_id: number | null }> {
   const { data, error } = await searchTalentProtocolUser(wallet);
 
   if (error || !data || data.length === 0) {
     if (error.indexOf("Resource not found") !== -1) {
-      return {score: 0, passport_id: null};
+      return { score: 0, passport_id: null };
     }
     throw new Error(error || "No data found");
   }
