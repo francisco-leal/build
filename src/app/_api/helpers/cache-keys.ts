@@ -1,5 +1,6 @@
 export type CacheKey =
   | `user_${string}`
+  | `user_external_${string}`
   | "nominations"
   | "leaderboard"
   | "search_builders";

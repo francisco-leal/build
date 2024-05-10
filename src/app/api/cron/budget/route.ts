@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { DateTime } from "luxon";
 import { JobTypes } from "@/app/_api/helpers/job-types";
 import { supabase } from "@/db";
-import { recalculateBossBudget } from "@/services";
+import { recalculateBossBudget } from "@/services/crons";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
