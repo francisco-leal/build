@@ -98,11 +98,7 @@ export async function createNewUser(walletAddress: string) {
     })
     .throwOnError();
 
-  await revalidateTag(
-    `user_${walletAddressLc.toLowerCase()}` satisfies CacheKey,
-  );
-  // revalidateTag does not seem to be a sync method.
-  await wait(5);
+  revalidateTag(`user_${walletAddressLc}` satisfies CacheKey);
   const finalUser = await getUser(walletAddressLc);
   if (!finalUser) throw new Error("User creation failed");
 
