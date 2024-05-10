@@ -22,7 +22,7 @@ export async function createNewUser(wallet_address: string) {
   }
 
   // get builder score and  boss tokens
-  const [builder_score, boss_tokens, has_manifesto_nft] = await Promise.all([
+  const [{score: builder_score, passport_id: passport_id}, boss_tokens, has_manifesto_nft] = await Promise.all([
     getBuilderScore(wallet_address),
     getBalance(wallet_address),
     hasMintedManifestoNFT(wallet_address),
@@ -84,6 +84,7 @@ export async function createNewUser(wallet_address: string) {
     boss_token_balance: boss_tokens,
     boss_nomination_streak: 0,
     farcaster_id: fid,
+    passport_id: passport_id
   };
 
   await supabase.from("users").insert(user).throwOnError();

@@ -343,18 +343,21 @@ export type Database = {
         Row: {
           finished_at: string | null;
           id: number;
+          job_data: Json | null;
           job_type: string;
           started_at: string;
         };
         Insert: {
           finished_at?: string | null;
           id?: number;
+          job_data?: Json | null;
           job_type: string;
           started_at?: string;
         };
         Update: {
           finished_at?: string | null;
           id?: number;
+          job_data?: Json | null;
           job_type?: string;
           started_at?: string;
         };
@@ -370,6 +373,7 @@ export type Database = {
           farcaster_id: number | null;
           manifesto_nft: boolean;
           passport_builder_score: number;
+          passport_id: number | null;
           referral_code: string;
           username: string | null;
           wallet: string;
@@ -383,6 +387,7 @@ export type Database = {
           farcaster_id?: number | null;
           manifesto_nft?: boolean;
           passport_builder_score?: number;
+          passport_id?: number | null;
           referral_code: string;
           username?: string | null;
           wallet: string;
@@ -396,6 +401,7 @@ export type Database = {
           farcaster_id?: number | null;
           manifesto_nft?: boolean;
           passport_builder_score?: number;
+          passport_id?: number | null;
           referral_code?: string;
           username?: string | null;
           wallet?: string;
