@@ -1,20 +1,22 @@
-// import { createPublicClient, http, getContract } from 'viem';
-// import { base } from 'viem/chains';
-// import { erc20Abi } from './erc20-abi';
+import { createPublicClient, http, Address, formatUnits } from "viem";
+import { base } from "viem/chains";
+import { erc20Abi } from "./erc20-abi";
 
-// const publicClient = createPublicClient({
-//     chain: base,
-//     transport: http()
-// });
+const baseRpcUrl = process.env.BASE_RPC_URL;
 
-export async function getBalance(wallet: string) {
-  // const contract = getContract({
-  //     address: 'to-be-deployed-address',
-  //     abi: erc20Abi,
-  //     client: publicClient
-  // });
+const publicClient = createPublicClient({
+  chain: base,
+  transport: http(baseRpcUrl),
+});
 
-  // const result = await contract.read.balanceOf(wallet);
+export async function getBalance(wallet: string): Promise<number> {
+  const balance = (await publicClient.readContract({
+    address: process.env.BOSS_CONTRACT_ADDRESS as Address,
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    args: [wallet],
+  })) as number;
 
-  return 0;
+  // Readable balance
+  return balance / 10 ** 18;
 }
