@@ -25,21 +25,3 @@ export async function getSession(): Promise<SessionUser | null> {
 
   return session ? (JSON.parse(session) as SessionUser) : null;
 }
-
-export async function setSession(user: SessionUser): Promise<void> {
-  const encryptedSession = await sealData(JSON.stringify(user), {
-    password: sessionPassword,
-  });
-
-  cookies().set("auth_session", encryptedSession, {
-    sameSite: "strict",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 365, // One year
-    path: "/",
-  });
-}
-
-export async function clearSession(): Promise<void> {
-  cookies().delete("auth_session");
-}
