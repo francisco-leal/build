@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { base } from "viem/chains";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { connectUser, disconnectUser, getNonce } from "../_api/authentication";
+import { getCurrentUser } from "../_api/get-user";
 
 export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
   children,
@@ -17,6 +18,9 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
 
   const login = async () => {
     if (!address) throw new Error("No address found.");
+
+    if (await getCurrentUser()) return;
+
     const nonce = await getNonce();
 
     const message = new SiweMessage({
@@ -35,9 +39,10 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
       await disconnectAsync();
       toast.error(
         <>
-          Failed to sign message.<br />
+          Failed to sign message.
+          <br />
           Wallet has been disconnected.
-        </>
+        </>,
       );
       return;
     }

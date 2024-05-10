@@ -15,7 +15,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/joy";
-import path from "path";
 import { toast } from "sonner";
 import { createNewNomination } from "@/app/_api/create-new-nomination";
 import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
@@ -155,7 +154,7 @@ export const NominateBuilderComponent: FunctionComponent<
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {isDisplayingUserValues ? currentUserBossDailyBudget : "--"}
+                {isDisplayingUserValues ? currentUserBossDailyBudget?.toFixed(2) : "--"}
               </Typography>
               <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
@@ -167,7 +166,7 @@ export const NominateBuilderComponent: FunctionComponent<
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {isDisplayingUserValues ? currentUserBossPointsToBeGiven : "--"}
+                {isDisplayingUserValues ? currentUserBossPointsToBeGiven?.toFixed(2) : "--"}
               </Typography>
               <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
@@ -180,7 +179,7 @@ export const NominateBuilderComponent: FunctionComponent<
                 sx={{ ml: "auto", mr: 0.5 }}
               >
                 {isDisplayingUserValues
-                  ? currentUserBossPointsToBeEarned
+                  ? currentUserBossPointsToBeEarned?.toFixed(2)
                   : "--"}
               </Typography>
               <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
@@ -195,7 +194,7 @@ export const NominateBuilderComponent: FunctionComponent<
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {isDisplayingUserValues ? currentUserBossTotalPoints : "--"}
+                {isDisplayingUserValues ? currentUserBossTotalPoints?.toFixed(2) : "--"}
               </Typography>
               <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
