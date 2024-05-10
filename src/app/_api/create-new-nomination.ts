@@ -4,17 +4,10 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
-import { createNewUser } from "./create-new-user";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
-import { getCurrentUser, getUser } from "./get-user";
+import { getCurrentUser, getOrCreateUser, getUser } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
 import { JobTypes } from "./helpers/job-types";
-
-export const getNominatedUser = async (wallet: string) => {
-  const existingUser = await getUser(wallet);
-  if (existingUser) return existingUser;
-  return await createNewUser(wallet);
-};
 
 export const getTodaysNominations = async (wallet: string) => {
   const nominations = await getNominationsFromWallet(wallet);
@@ -71,7 +64,7 @@ export const hasExceededNominationsToday = async (nominatorWallet: string) => {
 
 export async function createNewNomination(walletToNominate: string) {
   const nominatorUser = await getCurrentUser();
-  const nominatedUser = await getNominatedUser(walletToNominate);
+  const nominatedUser = await getOrCreateUser(walletToNominate);
   const nominatorWallet = nominatorUser?.wallet?.toLocaleLowerCase();
   const nominatedWallet = nominatedUser?.wallet?.toLocaleLowerCase();
 

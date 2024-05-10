@@ -35,11 +35,13 @@ const filterFarcasterAddress = (
   return f.length === 1 ? f[0] : userAddress;
 };
 
+const removeUserWithoutWallet = (v: BuilderProfile) => !!v.address;
+
 const removeDuplicateBuilders = (
   v: BuilderProfile,
   i: number,
   a: BuilderProfile[],
-) => v.address && a.findIndex((t) => t.address === v.address) === i;
+) => a.findIndex((t) => t.address === v.address) === i;
 
 export const searchBuilders = unstable_cache(
   async (query: string) => {
@@ -110,9 +112,9 @@ export const searchBuilders = unstable_cache(
       }),
     ]);
 
-    return [...talentProtocolResults, ...farcasterResults].filter(
-      removeDuplicateBuilders,
-    );
+    return [...talentProtocolResults, ...farcasterResults]
+      .filter(removeUserWithoutWallet)
+      .filter(removeDuplicateBuilders);
   },
   ["search_builders"] satisfies CacheKey[],
   { revalidate: CACHE_5_MINUTES },
