@@ -445,7 +445,7 @@ BEGIN
     -- Update boss_score based on points_given
     UPDATE users
     SET boss_score = boss_score + (
-        SELECT COALESCE(SUM(boss_points_given), 0)
+        SELECT COALESCE(SUM(boss_points_earned), 0)
         FROM boss_nominations
         WHERE wallet_origin = wallet_to_update
     )
@@ -454,7 +454,7 @@ BEGIN
     -- Update boss_score based on points_earned
     UPDATE users
     SET boss_score = boss_score + (
-        SELECT COALESCE(SUM(boss_points_earned), 0)
+        SELECT COALESCE(SUM(boss_points_given), 0)
         FROM boss_nominations
         WHERE wallet_destination = wallet_to_update
     )

@@ -3,7 +3,11 @@
 import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { makeMap } from "@/shared/utils/make-map";
-import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
+import {
+  CACHE_5_MINUTES,
+  CACHE_1_MINUTE,
+  CacheKey,
+} from "./helpers/cache-keys";
 
 export type Nomination = {
   id: number;
@@ -55,7 +59,7 @@ export const getNominationsFromWallet = async (
       }));
     },
     ["nominations", `user_${walletLc}`] satisfies CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
+    { revalidate: CACHE_1_MINUTE },
   )();
 };
 

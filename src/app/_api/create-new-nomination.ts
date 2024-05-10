@@ -124,5 +124,6 @@ export async function createNewNomination(walletToNominate: string) {
   revalidatePath(`/airdrop/nominate/${nominatedUser.wallet}`);
   revalidatePath(`/nominate/${nominatedUser.wallet}`);
   revalidateTag(`user_${nominatorUser.wallet}` as CacheKey);
+  revalidateTag(`nominations` as CacheKey);
   return nominatedUser;
 }
