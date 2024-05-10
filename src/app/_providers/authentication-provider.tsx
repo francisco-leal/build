@@ -34,7 +34,12 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
     }).prepareMessage();
 
     try {
-      await signMessageAsync({ message });
+      await connectUser({
+        address,
+        nonce,
+        message,
+        signature: await signMessageAsync({ message }),
+      });
     } catch (error) {
       await disconnectAsync();
       toast.error(
@@ -46,13 +51,6 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
       );
       return;
     }
-
-    await connectUser({
-      address,
-      nonce,
-      message,
-      signature: await signMessageAsync({ message }),
-    });
   };
 
   const logout = async () => {

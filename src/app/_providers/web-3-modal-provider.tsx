@@ -20,6 +20,7 @@ createWeb3Modal({
     "--w3m-border-radius-master": "0px",
     "--w3m-color-mix": "#0142F5",
     "--w3m-color-mix-strength": 0,
+    "--w3m-z-index": 10000,
   },
 });
 
