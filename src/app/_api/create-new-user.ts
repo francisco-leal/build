@@ -7,7 +7,7 @@ import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getBuilderScore } from "@/services/talent-protocol";
 import { BadRequestError } from "@/shared/utils/error";
 import { getBuilder } from "./get-builder";
-import { getUser } from "./get-user";
+import { User, getUserSkipCache } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
 
 export async function createNewUser(walletAddress: string) {
@@ -98,8 +98,12 @@ export async function createNewUser(walletAddress: string) {
     .throwOnError();
 
   revalidateTag(`user_${walletAddressLc}` satisfies CacheKey);
-  const finalUser = await getUser(walletAddressLc);
+  const finalUser = await getUserSkipCache(walletAddressLc);
   if (!finalUser) throw new Error("User creation failed");
 
   return await finalUser;
 }
+
+export const getOrCreateUser = async (wallet: string): Promise<User> => {
+  return (await getUserSkipCache(wallet)) ?? (await createNewUser(wallet));
+};

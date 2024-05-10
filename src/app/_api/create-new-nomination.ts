@@ -4,8 +4,9 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
+import { getOrCreateUser } from "./create-new-user";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
-import { getCurrentUser, getOrCreateUser, getUser } from "./get-user";
+import { getCurrentUser, getUser } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
 import { JobTypes } from "./helpers/job-types";
 

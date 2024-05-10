@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { sealData } from "iron-session";
 import { SiweMessage, generateNonce } from "siwe";
-import { getOrCreateUser } from "./get-user";
+import { getOrCreateUser } from "./create-new-user";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");

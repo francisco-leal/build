@@ -21,27 +21,28 @@ export type User = {
   passport_id: number | null;
 };
 
+export const getUserSkipCache = async (
+  wallet: string,
+): Promise<User | null> => {
+  const { data } = await supabase
+    .from("users")
+    .select("*")
+    .eq("wallet", wallet.toLowerCase())
+    .single();
+  if (!data) return null;
+  return data;
+};
+
 export const getUser = async (wallet: string): Promise<User | null> => {
   const walletKey = wallet.toLowerCase();
-  return (
+  const value = await (
     await unstable_cache(
-      async () => {
-        const { data } = await supabase
-          .from("users")
-          .select("*")
-          .eq("wallet", wallet.toLowerCase())
-          .single();
-        if (!data) return null;
-        return data;
-      },
+      () => getUserSkipCache(walletKey),
       [`user_${walletKey}`] satisfies CacheKey[],
       { revalidate: CACHE_5_MINUTES },
     )
   )();
-};
-
-export const getOrCreateUser = async (wallet: string): Promise<User> => {
-  return (await getUser(wallet)) ?? (await createNewUser(wallet));
+  return value;
 };
 
 export const getCurrentUser = async (): Promise<User | null> => {
