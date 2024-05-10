@@ -6,6 +6,7 @@ init(process.env.AIRSTACK_API_KEY!);
 
 type PassportResult = {
   score: number;
+  passport_id: number;
   user: {
     profile_picture_url: string;
     username: string;
@@ -23,14 +24,30 @@ type PassportResponse = {
 };
 
 type Builder = {
-  image: string;
   username: string;
   wallet: string;
+  image?: string;
+  farcasterId?: number;
+  passportId?: number;
 };
+
+type FarcasterSocial = {
+  profileTokenId?: number,
+  userAddress?: string,
+  dappName?: string,
+  profileName?: string,
+  profileImage?: string,
+  userAssociatedAddresses?: string[],
+}
+
+
 
 const getFarcasterBuilderProfile = async (
   walletId: string,
-): Promise<Builder | null> => {
+) : Promise<{
+  farcasterSocial: FarcasterSocial | undefined;
+  lensSocial: FarcasterSocial | undefined;
+}>=> {
   const query = `query QueryUserOnLensAndFarcaster {
     Socials(
         input: {
@@ -55,27 +72,32 @@ const getFarcasterBuilderProfile = async (
   if (result.error) throw new Error(result.error);
 
   const socials = result.data.Socials.Social;
-  if (!socials || socials.length === 0) return null;
+  if (!socials || socials.length === 0) return {
+    farcasterSocial: undefined,
+    lensSocial: undefined,
+  };
 
-  const farcasterSocial = socials.find(
-    (social: any) => social.dappName === "farcaster",
-  );
-  const lensSocial = socials.find((social: any) => social.dappName === "lens");
-  if (!farcasterSocial || !lensSocial) return null;
+  const farcasterSocial = socials
+    .find((social: any) => social.dappName === "farcaster") as FarcasterSocial | undefined;
+  const lensSocial = socials
+    .find((social: any) => social.dappName === "lens") as LensSocial | undefined;
 
-  return {
-    image: farcasterSocial.profileImage || lensSocial.profileImage || "",
+  return { farcasterSocial, lensSocial };
+  /**
+    wallet: walletId,
+    farcasterId: parseInt(farcasterSocial.profileTokenId, 10),
+    passportId: undefined,
+    image: farcasterSocial.profileImage || lensSocial.profileImage || null,
     username:
       farcasterSocial.profileName ||
       lensSocial.profileName.split("lens/@")[1] ||
       "",
-    wallet: farcasterSocial.userAddress || lensSocial.userAddress || "",
-  };
+  }; */
 };
 
 const getTalentProtocolBuilderProfile = async (
   walledId: string,
-): Promise<Builder | null> => {
+): Promise<PassportResult | null> => {
   const api_url = process.env.PASSPORT_API_URL;
   const api_token = process.env.PASSPORT_API_TOKEN;
 
@@ -87,14 +109,10 @@ const getTalentProtocolBuilderProfile = async (
         "X-API-KEY": api_token || "",
       },
     });
-    const data = (await response.json()) as PassportResponse;
-
+    
     if (response.status === 200) {
-      return {
-        image: data.passport.passport_profile?.image_url ?? "",
-        username: data.passport.user?.username ?? "",
-        wallet: walledId,
-      };
+      const data = (await response.json()) as PassportResponse;
+      return data.passport;
     } else {
       return null;
     }
@@ -104,9 +122,21 @@ const getTalentProtocolBuilderProfile = async (
 };
 
 export const getBuilder = async (walledId: string): Promise<Builder | null> => {
-  return (
-    (await getFarcasterBuilderProfile(walledId)) ??
-    (await getTalentProtocolBuilderProfile(walledId)) ??
-    null
-  );
+  const { farcasterSocial, lensSocial } = await getFarcasterBuilderProfile(walledId);
+  const talentSocial = await getTalentProtocolBuilderProfile(walledId);
+
+  return {
+    wallet: walledId.toLowerCase(),
+    farcasterId: farcasterSocial?.profileTokenId ,
+    passportId: talentSocial?.passport_id,
+    image: 
+      farcasterSocial?.profileImage ??
+      talentSocial?.user?.profile_picture_url ??
+      lensSocial?.profileImage,
+    username: 
+      farcasterSocial?.profileName ??
+      talentSocial?.user?.username ??
+      lensSocial?.profileName ?? 
+      walledId.toLowerCase(),
+  };
 };

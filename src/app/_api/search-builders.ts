@@ -45,22 +45,17 @@ const removeDuplicateBuilders = (
 
 export const searchBuilders = unstable_cache(
   async (query: string) => {
-    const isAdressSearch = query.length === 42 && query.startsWith("0x");
-
     const farcasterQuery = `query QueryUserOnLensAndFarcaster {
               Socials(
                   input: {
                       filter: {
                           dappName: { _in: [farcaster, lens] },
-                          identity: { ${
-                            isAdressSearch
-                              ? `_eq: "${query}"`
-                              : `_in: [
-                                  "lens/@${query}",
-                                  "fc_fname:${query}", 
-                                  "${query}.eth"
-                                ]`
-                          } 
+                          identity: { 
+                            _in: [
+                              "lens/@${query}",
+                              "fc_fname:${query}", 
+                              "${query}.eth"
+                            ]
                           }
                       },
                       blockchain: ethereum
@@ -79,14 +74,16 @@ export const searchBuilders = unstable_cache(
 
     const [talentProtocolResults, farcasterResults] = await Promise.all([
       searchTalentProtocolUser(query).then((res): BuilderProfile[] => {
-        if (res.error) throw new Error(res.error);
+        if (res.error) {
+          console.error(res.error);
+          return [];
+        }
+
         return (
           res.data?.map((t) => ({
-            address: isAdressSearch
-              ? query
-              : t.verified_wallets?.length > 0
-                ? t.verified_wallets[0]
-                : "",
+            address: t.verified_wallets?.length > 0
+              ? t.verified_wallets[0]
+              : "",
             username: t.user ? t.user.username : t.passport_profile!.name,
             profile_image: t.user
               ? t.user.profile_picture_url

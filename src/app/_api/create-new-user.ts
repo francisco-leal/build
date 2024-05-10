@@ -8,40 +8,33 @@ import { getBuilderScore } from "@/services/talent-protocol";
 import { BadRequestError } from "@/shared/utils/error";
 import { getUser } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
-import { searchBuilders } from "./search-builders";
+import { wait } from "@/shared/utils/wait";
+import { getBuilder } from "./get-builder";
 
-export async function createNewUser(wallet_address: string) {
-  const socialProfiles = await searchBuilders(wallet_address);
-  if (socialProfiles.length === 0) {
-    throw new BadRequestError("user not found");
-  }
+export async function createNewUser(walletAddress: string) {
+  const walletAddressLc = walletAddress.toLowerCase();
+  const builderProfile = await getBuilder(walletAddressLc);
+  if (!builderProfile) throw new BadRequestError("user not found");
 
-  let username = socialProfiles.find((profile) => !!profile.username)?.username;
-  if (!!username && username.includes("lens/@")) {
-    username = username.split("lens/@")[1];
-  }
-
-  // get builder score and  boss tokens
   const [
     { score: builder_score, passport_id: passport_id },
     boss_tokens,
     has_manifesto_nft,
   ] = await Promise.all([
-    getBuilderScore(wallet_address),
-    getBalance(wallet_address),
-    hasMintedManifestoNFT(wallet_address),
+    getBuilderScore(walletAddressLc),
+    getBalance(walletAddressLc),
+    hasMintedManifestoNFT(walletAddressLc),
   ]);
 
   // calculate boss_budget
   // we ignore the boss points and nomination streak at this point,
   // given both are zero!
-  const fid = socialProfiles.filter(
-    (profile) => profile.dapp === "farcaster",
-  )?.[0]?.profileTokenId;
+  const fid = builderProfile.farcasterId;
 
+  // TODO fixme
   const boss_budget =
     builder_score === 0
-      ? fid > 20_000
+      ? (fid ?? 0) > 20_000
         ? 500
         : 1000
       : (builder_score * 20 + boss_tokens * 0.001) *
@@ -53,7 +46,7 @@ export async function createNewUser(wallet_address: string) {
   const { data: past_given_nominations } = await supabase
     .from("boss_nominations")
     .select("*")
-    .eq("wallet_origin", wallet_address.toLowerCase())
+    .eq("wallet_origin", walletAddressLc.toLowerCase())
     .throwOnError();
 
   let boss_score = 0;
@@ -67,7 +60,7 @@ export async function createNewUser(wallet_address: string) {
   const { data: past_earned_nominations } = await supabase
     .from("boss_nominations")
     .select("*")
-    .eq("wallet_destination", wallet_address.toLowerCase())
+    .eq("wallet_destination", walletAddressLc.toLowerCase())
     .throwOnError();
 
   boss_score +=
@@ -78,9 +71,9 @@ export async function createNewUser(wallet_address: string) {
       : 0;
 
   const user = {
-    wallet: wallet_address.toLowerCase(),
+    wallet: walletAddressLc.toLowerCase(),
     referral_code: inviteCode,
-    username: username,
+    username: builderProfile.username,
     manifesto_nft: has_manifesto_nft,
     boss_score,
     boss_budget,
@@ -105,8 +98,10 @@ export async function createNewUser(wallet_address: string) {
     })
     .throwOnError();
 
-  revalidateTag(`user_${wallet_address}` satisfies CacheKey);
-  const finalUser = await getUser(wallet_address);
+  await revalidateTag(`user_${walletAddressLc.toLowerCase()}` satisfies CacheKey);
+  // revalidateTag does not seem to be a sync method.
+  await wait(5);
+  const finalUser = await getUser(walletAddressLc);
   if (!finalUser) throw new Error("User creation failed");
 
   return await finalUser;
