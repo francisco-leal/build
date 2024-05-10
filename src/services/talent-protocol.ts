@@ -1,5 +1,6 @@
 type PassportResult = {
   score: number;
+  passport_id: number;
   user: {
     profile_picture_url: string;
     username: string;
@@ -21,17 +22,19 @@ type PassportsResponse = {
   error?: string;
 };
 
-export async function getBuilderScore(wallet: string): Promise<number> {
+export async function getBuilderScore(
+  wallet: string,
+): Promise<{ score: number; passport_id: number | null }> {
   const { data, error } = await searchTalentProtocolUser(wallet);
 
   if (error || !data || data.length === 0) {
     if (error.indexOf("Resource not found") !== -1) {
-      return 0;
+      return { score: 0, passport_id: null };
     }
     throw new Error(error || "No data found");
   }
 
-  return data[0].score;
+  return { score: data[0].score, passport_id: data[0].passport_id };
 }
 
 export async function searchTalentProtocolUser(

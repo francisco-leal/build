@@ -17,6 +17,8 @@ export type User = {
   referral_code: string;
   username: string | null;
   wallet: string;
+  farcaster_id: number | null;
+  passport_id: number | null;
 };
 
 export const getUser = async (wallet: string): Promise<User | null> => {
