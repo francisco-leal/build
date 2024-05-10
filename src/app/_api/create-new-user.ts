@@ -6,7 +6,6 @@ import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getBuilderScore } from "@/services/talent-protocol";
 import { BadRequestError } from "@/shared/utils/error";
-import { wait } from "@/shared/utils/wait";
 import { getBuilder } from "./get-builder";
 import { getUser } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
