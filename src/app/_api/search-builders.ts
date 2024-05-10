@@ -39,7 +39,7 @@ const removeDuplicateBuilders = (
   v: BuilderProfile,
   i: number,
   a: BuilderProfile[],
-) => a.findIndex((t) => t.address === v.address) === i;
+) => v.address && a.findIndex((t) => t.address === v.address) === i;
 
 export const searchBuilders = unstable_cache(
   async (query: string) => {
