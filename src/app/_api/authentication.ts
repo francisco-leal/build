@@ -3,8 +3,7 @@
 import { cookies } from "next/headers";
 import { sealData } from "iron-session";
 import { SiweMessage, generateNonce } from "siwe";
-import { createNewUser } from "./create-new-user";
-import { getUser } from "./get-user";
+import { getOrCreateUser } from "./get-user";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
@@ -33,7 +32,7 @@ export const connectUser = async ({
 
   if (error) throw new Error("Error verifying message");
 
-  if (!(await getUser(address))) await createNewUser(address);
+  await getOrCreateUser(address);
 
   const sessionUser = {
     wallet: address,

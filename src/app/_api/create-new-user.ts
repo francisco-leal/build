@@ -100,9 +100,9 @@ export async function createNewUser(wallet_address: string) {
     })
     .throwOnError();
 
+  revalidateTag(`user_${wallet_address}` satisfies CacheKey);
   const finalUser = await getUser(wallet_address);
   if (!finalUser) throw new Error("User creation failed");
 
-  revalidateTag(`user_${wallet_address}` satisfies CacheKey);
   return await finalUser;
 }

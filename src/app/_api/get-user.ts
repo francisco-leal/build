@@ -3,6 +3,7 @@
 import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
+import { createNewUser } from "./create-new-user";
 import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
 
 export type User = {
@@ -35,6 +36,10 @@ export const getUser = async (wallet: string): Promise<User | null> => {
       { revalidate: CACHE_5_MINUTES },
     )
   )();
+};
+
+export const getOrCreateUser = async (wallet: string): Promise<User> => {
+  return (await getUser(wallet)) ?? (await createNewUser(wallet));
 };
 
 export const getCurrentUser = async (): Promise<User | null> => {

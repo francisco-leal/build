@@ -154,7 +154,9 @@ export const NominateBuilderComponent: FunctionComponent<
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {isDisplayingUserValues ? currentUserBossDailyBudget?.toFixed(2) : "--"}
+                {isDisplayingUserValues
+                  ? currentUserBossDailyBudget?.toFixed(2)
+                  : "--"}
               </Typography>
               <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
@@ -166,7 +168,9 @@ export const NominateBuilderComponent: FunctionComponent<
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {isDisplayingUserValues ? currentUserBossPointsToBeGiven?.toFixed(2) : "--"}
+                {isDisplayingUserValues
+                  ? currentUserBossPointsToBeGiven?.toFixed(2)
+                  : "--"}
               </Typography>
               <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
@@ -194,7 +198,9 @@ export const NominateBuilderComponent: FunctionComponent<
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
-                {isDisplayingUserValues ? currentUserBossTotalPoints?.toFixed(2) : "--"}
+                {isDisplayingUserValues
+                  ? currentUserBossTotalPoints?.toFixed(2)
+                  : "--"}
               </Typography>
               <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
