@@ -81,8 +81,8 @@ export async function createNewNomination(walletToNominate: string) {
   if (await isDuplicateNomination(nominatorWallet, nominatedWallet)) {
     throw new BadRequestError("You already nominated this builder before!");
   }
-  if (await hasExceededNominationsToday(nominatedWallet)) {
-    throw new BadRequestError("You have already nominated a builder today!");
+  if (await hasExceededNominationsToday(nominatorWallet)) {
+    throw new BadRequestError("You have already nominated 3 builders today!");
   }
   if (await isUpdatingLeaderboard()) {
     throw new BadRequestError(

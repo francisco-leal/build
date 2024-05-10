@@ -93,7 +93,7 @@ export const NominateBuilderComponent: FunctionComponent<
 
   useEffect(() => {
     if (state !== "INVALID_NOMINATION") return;
-    const interval = setInterval(() => forcePathRevalidation(pathname), 5000);
+    const interval = setInterval(() => forcePathRevalidation(pathname), 10_000);
     return () => clearInterval(interval);
   }, [state, pathname]);
 
@@ -102,8 +102,12 @@ export const NominateBuilderComponent: FunctionComponent<
       <ModalOverflow>
         <ModalDialog
           variant="solid"
-          sx={{ width: "100%", maxWidth: "sm", color: "neutral.500" }}
           layout={isMediumScreen ? "center" : "fullscreen"}
+          sx={{ 
+            width: "100%",
+             maxWidth: { xs: "lg", md:"sm"}, 
+             color: "neutral.500" 
+          }}
         >
           <ModalClose variant="plain" />
 
