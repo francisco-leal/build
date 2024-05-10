@@ -6,10 +6,10 @@ import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getBuilderScore } from "@/services/talent-protocol";
 import { BadRequestError } from "@/shared/utils/error";
-import { getUser } from "./get-user";
-import { CacheKey } from "./helpers/cache-keys";
 import { wait } from "@/shared/utils/wait";
 import { getBuilder } from "./get-builder";
+import { getUser } from "./get-user";
+import { CacheKey } from "./helpers/cache-keys";
 
 export async function createNewUser(walletAddress: string) {
   const walletAddressLc = walletAddress.toLowerCase();
@@ -98,7 +98,9 @@ export async function createNewUser(walletAddress: string) {
     })
     .throwOnError();
 
-  await revalidateTag(`user_${walletAddressLc.toLowerCase()}` satisfies CacheKey);
+  await revalidateTag(
+    `user_${walletAddressLc.toLowerCase()}` satisfies CacheKey,
+  );
   // revalidateTag does not seem to be a sync method.
   await wait(5);
   const finalUser = await getUser(walletAddressLc);
