@@ -20,8 +20,8 @@ import { createNewNomination } from "@/app/_api/create-new-nomination";
 import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { useMediaQuery } from "@/shared/hooks/use-media-query";
-import { LogoShort } from "@/shared/icons/logo-short";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { formatNumber } from "@/shared/utils/format-number";
 
 export type NominationState =
   | "LOADING"
@@ -103,15 +103,17 @@ export const NominateBuilderComponent: FunctionComponent<
         <ModalDialog
           variant="solid"
           layout={isMediumScreen ? "center" : "fullscreen"}
-          sx={{ 
+          sx={{
             width: "100%",
-             maxWidth: { xs: "lg", md:"sm"}, 
-             color: "neutral.500" 
+            maxWidth: { xs: "lg", md: "sm" },
+            color: "neutral.500",
           }}
         >
-          <ModalClose variant="plain" />
-
-          <Stack sx={{ alignItems: "center", mt: 3 }}>
+          <ModalClose variant="plain" sx={{ m: 1 }} />
+          <Typography level="h3" sx={{ mb: 3, color: "common.black" }}>
+            Nominate This Builder
+          </Typography>
+          <Stack sx={{ alignItems: "center", mt: 2 }}>
             {isLoading ? (
               <Skeleton
                 variant="circular"
@@ -148,7 +150,6 @@ export const NominateBuilderComponent: FunctionComponent<
               >
                 {date}
               </Typography>
-              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
@@ -159,10 +160,9 @@ export const NominateBuilderComponent: FunctionComponent<
                 sx={{ ml: "auto", mr: 0.5 }}
               >
                 {isDisplayingUserValues
-                  ? currentUserBossDailyBudget?.toFixed(2)
+                  ? formatNumber(currentUserBossDailyBudget ?? 0)
                   : "--"}
               </Typography>
-              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
@@ -173,10 +173,9 @@ export const NominateBuilderComponent: FunctionComponent<
                 sx={{ ml: "auto", mr: 0.5 }}
               >
                 {isDisplayingUserValues
-                  ? currentUserBossPointsToBeGiven?.toFixed(2)
+                  ? formatNumber(currentUserBossPointsToBeGiven ?? 0)
                   : "--"}
               </Typography>
-              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
@@ -187,10 +186,9 @@ export const NominateBuilderComponent: FunctionComponent<
                 sx={{ ml: "auto", mr: 0.5 }}
               >
                 {isDisplayingUserValues
-                  ? currentUserBossPointsToBeEarned?.toFixed(2)
+                  ? formatNumber(currentUserBossPointsToBeEarned ?? 0)
                   : "--"}
               </Typography>
-              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
 
             <Divider sx={{ backgroundColor: "neutral.400" }} />
@@ -203,10 +201,9 @@ export const NominateBuilderComponent: FunctionComponent<
                 sx={{ ml: "auto", mr: 0.5 }}
               >
                 {isDisplayingUserValues
-                  ? currentUserBossTotalPoints?.toFixed(2)
+                  ? formatNumber(currentUserBossTotalPoints ?? 0)
                   : "--"}
               </Typography>
-              <LogoShort color={isPrimaryColor ? "primary" : "neutral"} />
             </Stack>
           </Stack>
 

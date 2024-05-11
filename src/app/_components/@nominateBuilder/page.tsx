@@ -57,16 +57,13 @@ export default async function NominateBuilder({
       if (!nomination) throw new NotFoundError("Nomination not found");
       const abbreviatedWallet = abbreviateWalletAddress(currentUser.wallet);
       const displayName = nomination.destinationUsername ?? abbreviatedWallet;
-      const date = DateTime.fromISO(nomination.createdAt);
-      const isToday = date.hasSame(DateTime.now(), "day");
-      const displayDate = isToday ? "today" : `on ${date.toFormat("LLL dd")}`;
 
       return {
         state: "ALREADY_NOMINATED" as const,
         infoMessage: (
           <>
-            You nominated <b>{displayName}</b> {displayDate}!<br />
-            <small>(You can only nominate a builder once)</small>
+            You nominated {displayName}!<br />
+            <small>(You can only nominate each builder once)</small>
           </>
         ),
       };

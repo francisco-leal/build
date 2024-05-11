@@ -75,7 +75,7 @@ export const Header: FunctionComponent = () => {
             target="_blank"
             href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
           >
-            Memo
+            Manifesto
           </Link>
           <Link disabled={activePath === "airdrop"} href="/airdrop">
             Airdrop
@@ -157,7 +157,7 @@ export const Header: FunctionComponent = () => {
           target="_blank"
           href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
         >
-          Memo
+          Manifesto
         </Link>
         <Link
           // Prefetch is not recognized by LinkProps, but it's part of Next Link

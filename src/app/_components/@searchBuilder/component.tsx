@@ -21,6 +21,7 @@ import { useShareLink } from "@/app/_hooks/useShareLink";
 import { useDebounce } from "@/shared/hooks/use-debounce";
 import { LogoShort } from "@/shared/icons/logo-short";
 import { SearchFilled } from "@/shared/icons/search-filled";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 
 export type SearchBuilderComponentProps = {
   date: string;
@@ -33,6 +34,7 @@ export type SearchResponseUser = {
   dapp: string;
   profile_image: string;
   username: string;
+  result_origin: string;
 };
 
 export const SearchBuilderComponent: FunctionComponent<
@@ -215,7 +217,9 @@ export const SearchBuilderComponent: FunctionComponent<
                       minWidth: 0,
                     }}
                   >
-                    <Typography>{user.username}</Typography>
+                    <Typography>
+                      {user.username} ({user.result_origin})
+                    </Typography>
                     <Typography
                       level="body-sm"
                       sx={{
@@ -225,7 +229,7 @@ export const SearchBuilderComponent: FunctionComponent<
                         width: "100%",
                       }}
                     >
-                      {user.address}
+                      {abbreviateWalletAddress(user.address)}
                     </Typography>
                   </Stack>
                   <Button

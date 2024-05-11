@@ -1,10 +1,10 @@
 import { Stack, Typography } from "@mui/joy";
 import { DateTime } from "luxon";
+import backgroundImage from "@/app/_images/icons-background.png";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
-import { Eye } from "@/shared/icons/eye";
 import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
@@ -29,7 +29,7 @@ export default async function HomePageLayout({
 
   return (
     <Stack component="main">
-      <HeroSectionSlim>
+      <HeroSectionSlim backgroundImage={backgroundImage.src}>
         <Typography level="h1">
           Nominate <Interface /> the best
           <br />

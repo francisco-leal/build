@@ -1,4 +1,5 @@
 import { Stack, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
+import backgroundImage from "@/app/_images/icons-background.png";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
@@ -33,7 +34,7 @@ export default async function AirdropPageLayout({
   if (!isConnected) {
     return (
       <Stack component="main">
-        <HeroSectionSlim>
+        <HeroSectionSlim backgroundImage={backgroundImage.src}>
           <Typography level="h1">
             Becoming a BUILDER is one click away
           </Typography>
@@ -55,14 +56,14 @@ export default async function AirdropPageLayout({
       </TabList>
 
       <TabPanel value={0} component={Stack}>
-        <HeroSectionSlim>
+        <HeroSectionSlim backgroundImage={backgroundImage.src}>
           <Typography level="h1">
             Nominate the best builders you know
           </Typography>
 
           <Typography level="title-lg">
-            Name the builders breaking the corporate mold, and receive an
-            airdrop of $BUILD. Search their name or share your custom link.
+            Reward your favorite builders with $BUILD tokens, and earn 10% of
+            every nomination. Search for their name or share your custom link.
           </Typography>
 
           {searchBuilder}
