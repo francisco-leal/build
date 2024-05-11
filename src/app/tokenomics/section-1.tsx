@@ -13,7 +13,7 @@ export const Section1 = () => {
       <Typography level="title-lg">
         $BUILD is an ERC-20 token on Base with a total supply of a 1T. It
         launched on May 2024, with a crowdfund on party.app, followed by
-        community airdropa to onchain builders.
+        community airdrops to onchain builders.
       </Typography>
     </HeroSectionSlim>
   );

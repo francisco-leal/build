@@ -9,6 +9,7 @@ type BuilderProfile = {
   address: string;
   username: string;
   profile_image: string;
+  result_origin: string;
 };
 
 const filterFarcasterAddress = (
@@ -42,6 +43,7 @@ export const searchBuilders = unstable_cache(
             profile_image: t.user
               ? t.user.profile_picture_url
               : t.passport_profile!.image_url,
+            result_origin: "Talent Protocol",
           }));
         })
         .catch((error) => {
@@ -59,6 +61,7 @@ export const searchBuilders = unstable_cache(
             profile_image: s.profileImage,
             dapp: s.dappName,
             profileTokenId: parseInt(s.profileTokenId, 10),
+            result_origin: "Farcaster",
           }));
         })
         .catch((error) => {

@@ -65,7 +65,7 @@ export default async function NominateBuilder({
         state: "ALREADY_NOMINATED" as const,
         infoMessage: (
           <>
-            You nominated <b>{displayName}</b> {displayDate}!<br />
+            ou already nominated <b>{displayName}</b> {displayDate}!<br />
             <small>(You can only nominate a builder once)</small>
           </>
         ),
