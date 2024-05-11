@@ -109,9 +109,11 @@ export const NominateBuilderComponent: FunctionComponent<
             color: "neutral.500",
           }}
         >
-          <ModalClose variant="plain" />
-
-          <Stack sx={{ alignItems: "center", mt: 3 }}>
+          <ModalClose variant="plain" sx={{ m: 1 }} />
+          <Typography level="h3" sx={{ mb: 3, color: "common.black" }}>
+            Nominate This Builder
+          </Typography>
+          <Stack sx={{ alignItems: "center", mt: 2 }}>
             {isLoading ? (
               <Skeleton
                 variant="circular"

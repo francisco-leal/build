@@ -2,14 +2,16 @@ import { FunctionComponent } from "react";
 import { Link, Stack, Typography } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { EyeDailyBudget } from "@/shared/icons/eye-daily-budget";
+import { formatNumber } from "@/shared/utils/format-number";
 
 export type DailyBudgetCardProps = {
-  budget: React.ReactNode;
+  budget?: number;
+  loading?: boolean;
 };
 
 export const DailyBudgetCardComponent: FunctionComponent<
   DailyBudgetCardProps
-> = ({ budget }) => {
+> = ({ budget, loading }) => {
   return (
     <BlockyCard>
       <Typography level="body-lg" textColor="primary.500">
@@ -21,7 +23,7 @@ export const DailyBudgetCardComponent: FunctionComponent<
         <Typography
           sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
         >
-          {budget} points
+          {loading ? "---" : formatNumber(budget ?? 0)}
         </Typography>
       </Stack>
 
