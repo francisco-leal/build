@@ -15,6 +15,8 @@ type Builder = {
 
 export const getBuilder = unstable_cache(
   async (walledId: string): Promise<Builder | null> => {
+    if (!walledId) return null;
+
     const { farcasterSocial, lensSocial } =
       await getFarcasterBuilderProfile(walledId);
     const talentSocial = await getTalentProtocolUser(walledId);

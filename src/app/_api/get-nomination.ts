@@ -23,6 +23,7 @@ export type Nomination = {
 export const getNominationsFromWallet = async (
   wallet: string,
 ): Promise<Nomination[]> => {
+  if (!wallet) return [];
   const walletLc = wallet.toLowerCase();
   return await unstable_cache(
     async () => {
@@ -33,7 +34,7 @@ export const getNominationsFromWallet = async (
         // FIXME: This limit will break the app if Builder lasts
         // longer than 50 days
         .limit(50 * 3)
-        .eq("wallet_origin", wallet.toLowerCase());
+        .eq("wallet_origin", walletLc);
 
       if (!nominations) return [];
 
