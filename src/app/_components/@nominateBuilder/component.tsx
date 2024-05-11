@@ -87,10 +87,6 @@ export const NominateBuilderComponent: FunctionComponent<
   const isNotConnected = state === "NOT_CONNECTED";
   const isDisplayingUserValues = !isLoading && !isNotConnected;
 
-  const isPrimaryColor = ["VALID_NOMINATION", "ALREADY_NOMINATED"].includes(
-    state,
-  );
-
   useEffect(() => {
     if (state !== "INVALID_NOMINATION") return;
     const interval = setInterval(() => forcePathRevalidation(pathname), 10_000);
