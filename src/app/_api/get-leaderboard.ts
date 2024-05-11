@@ -23,7 +23,10 @@ const getLeaderboardTop10 = () => {
 };
 
 const getLeaderboardUser = async (wallet: string) => {
+  if (!wallet) return null;
+
   const walletLc = wallet.toLowerCase();
+
   return await unstable_cache(
     async () => {
       const { data: leaderboardData } = await supabase

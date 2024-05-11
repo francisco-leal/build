@@ -45,7 +45,7 @@ export async function createNewUser(walletAddress: string) {
   const { data: past_given_nominations } = await supabase
     .from("boss_nominations")
     .select("*")
-    .eq("wallet_origin", walletAddressLc.toLowerCase())
+    .eq("wallet_origin", walletAddressLc)
     .throwOnError();
 
   let boss_score = 0;
@@ -59,7 +59,7 @@ export async function createNewUser(walletAddress: string) {
   const { data: past_earned_nominations } = await supabase
     .from("boss_nominations")
     .select("*")
-    .eq("wallet_destination", walletAddressLc.toLowerCase())
+    .eq("wallet_destination", walletAddressLc)
     .throwOnError();
 
   boss_score +=
@@ -70,7 +70,7 @@ export async function createNewUser(walletAddress: string) {
       : 0;
 
   const user = {
-    wallet: walletAddressLc.toLowerCase(),
+    wallet: walletAddressLc,
     referral_code: inviteCode,
     username: builderProfile.username,
     manifesto_nft: has_manifesto_nft,
@@ -105,5 +105,7 @@ export async function createNewUser(walletAddress: string) {
 }
 
 export const getOrCreateUser = async (wallet: string): Promise<User> => {
+  if (!wallet) throw new BadRequestError("Invalid wallet address");
+
   return (await getUserSkipCache(wallet)) ?? (await createNewUser(wallet));
 };

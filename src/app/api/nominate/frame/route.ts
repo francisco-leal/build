@@ -15,6 +15,20 @@ export async function POST(request: NextRequest) {
       from_user_address: string;
     };
 
+  if (!from_user_address) {
+    return Response.json(
+      { error: "Two addresses are required, the nominated and the nominator" },
+      { status: 400 },
+    );
+  }
+
+  if (!nominated_user_address) {
+    return Response.json(
+      { error: "Two addresses are required, the nominated and the nominator" },
+      { status: 400 },
+    );
+  }
+
   const { data: user } = await supabase
     .from("users")
     .select("wallet")
@@ -22,7 +36,7 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (!user) {
-    return Response.json({}, { status: 401 });
+    return Response.json({ error: "User does not exist." }, { status: 401 });
   }
 
   // TODO this is probably broken, because the implementation

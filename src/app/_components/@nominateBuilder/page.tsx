@@ -35,7 +35,7 @@ export default async function NominateBuilder({
   const isBackAvailable = referer.includes(appUrl);
   const date = DateTime.now().toFormat("LLL dd");
 
-  if (!builder) notFound();
+  if (!builder || !builder.wallet) notFound();
 
   const balances = currentUser
     ? await getBossNominationBalances(currentUser.wallet)

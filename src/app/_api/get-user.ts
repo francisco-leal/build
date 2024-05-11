@@ -3,7 +3,6 @@
 import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
-import { createNewUser } from "./create-new-user";
 import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
 
 export type User = {
@@ -24,6 +23,8 @@ export type User = {
 export const getUserSkipCache = async (
   wallet: string,
 ): Promise<User | null> => {
+  if (!wallet) return null;
+
   const { data } = await supabase
     .from("users")
     .select("*")
@@ -34,6 +35,7 @@ export const getUserSkipCache = async (
 };
 
 export const getUser = async (wallet: string): Promise<User | null> => {
+  if (!wallet) return null;
   const walletKey = wallet.toLowerCase();
   const value = await (
     await unstable_cache(

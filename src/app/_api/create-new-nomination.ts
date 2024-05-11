@@ -36,7 +36,7 @@ export const isSelfNomination = async (
   nominatorWallet: string,
   nominatedWallet: string,
 ) => {
-  return nominatorWallet.toLowerCase() === nominatedWallet.toLowerCase();
+  return nominatorWallet === nominatedWallet;
 };
 
 export const isUpdatingLeaderboard = async () => {
@@ -66,8 +66,8 @@ export const hasExceededNominationsToday = async (nominatorWallet: string) => {
 export async function createNewNomination(walletToNominate: string) {
   const nominatorUser = await getCurrentUser();
   const nominatedUser = await getOrCreateUser(walletToNominate);
-  const nominatorWallet = nominatorUser?.wallet?.toLocaleLowerCase();
-  const nominatedWallet = nominatedUser?.wallet?.toLocaleLowerCase();
+  const nominatorWallet = nominatorUser?.wallet?.toLowerCase();
+  const nominatedWallet = nominatedUser?.wallet?.toLowerCase();
 
   if (!nominatorUser || !nominatorWallet) {
     throw new BadRequestError("Could not find user");
@@ -95,8 +95,8 @@ export async function createNewNomination(walletToNominate: string) {
   await supabase
     .from("boss_nominations")
     .insert({
-      wallet_origin: nominatorUser.wallet.toLowerCase(),
-      wallet_destination: nominatedUser.wallet.toLowerCase(),
+      wallet_origin: nominatorWallet,
+      wallet_destination: nominatedWallet,
       boss_points_earned: balances.pointsEarned,
       boss_points_given: balances.pointsGiven,
     })

@@ -54,6 +54,7 @@ export const getFarcasterBuilderProfile = async (
   farcasterSocial: FarcasterSearchResult | undefined;
   lensSocial: FarcasterSearchResult | undefined;
 }> => {
+  if (!walletId) return { farcasterSocial: undefined, lensSocial: undefined };
   const query = `query QueryUserOnLensAndFarcaster {
       Socials(
           input: {
