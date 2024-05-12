@@ -41,7 +41,7 @@ export type NominateBuilderComponentProps = {
   currentUserBossDailyBudget?: number;
   currentUserBossPointsToBeGiven?: number;
   currentUserBossPointsToBeEarned?: number;
-  currentUserBossTotalPoints?: number;
+  currentUserBossDailyNominations?: number;
 };
 
 export const NominateBuilderComponent: FunctionComponent<
@@ -57,7 +57,7 @@ export const NominateBuilderComponent: FunctionComponent<
   currentUserBossDailyBudget,
   currentUserBossPointsToBeGiven,
   currentUserBossPointsToBeEarned,
-  currentUserBossTotalPoints,
+  currentUserBossDailyNominations,
 }) => {
   const [isNominating, startNomination] = useTransition();
   const router = useRouter();
@@ -186,21 +186,19 @@ export const NominateBuilderComponent: FunctionComponent<
                   : "--"}
               </Typography>
             </Stack>
-
-            <Divider sx={{ backgroundColor: "neutral.400" }} />
-
-            <Stack direction="row" justifyContent="space-between">
-              <Typography level="body-sm">My BOSS Points</Typography>
+            <Stack direction="row" alignItems={"center"}>
+              <Typography level="body-sm">Daily Nominations Used</Typography>
               <Typography
-                level="title-md"
+                level="body-sm"
                 textColor="common.black"
                 sx={{ ml: "auto", mr: 0.5 }}
               >
                 {isDisplayingUserValues
-                  ? formatNumber(currentUserBossTotalPoints ?? 0)
+                  ? `${currentUserBossDailyNominations}/${3}`
                   : "--"}
               </Typography>
             </Stack>
+            <Divider sx={{ backgroundColor: "neutral.400" }} />
           </Stack>
 
           <Stack

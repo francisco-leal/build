@@ -5,6 +5,7 @@ import { Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
   getBossNominationBalances,
+  getTodaysNominations,
   hasExceededNominationsToday,
   isDuplicateNomination,
   isSelfNomination,
@@ -29,6 +30,9 @@ export default async function NominateBuilder({
 }) {
   const builder = await getBuilder(params.userId);
   const currentUser = await getCurrentUser();
+  const todaysNominations = currentUser
+    ? await getTodaysNominations(currentUser.wallet)
+    : undefined;
 
   const referer = headers().get("referer") ?? "";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
@@ -124,7 +128,7 @@ export default async function NominateBuilder({
       currentUserBossDailyBudget={balances?.dailyBudget ?? 0}
       currentUserBossPointsToBeGiven={balances?.pointsGiven ?? 0}
       currentUserBossPointsToBeEarned={balances?.pointsEarned ?? 0}
-      currentUserBossTotalPoints={balances?.totalPoints ?? 0}
+      currentUserBossDailyNominations={todaysNominations?.length ?? 0}
     />
   );
 }
