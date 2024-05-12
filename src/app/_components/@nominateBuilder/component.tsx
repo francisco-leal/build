@@ -76,6 +76,7 @@ export const NominateBuilderComponent: FunctionComponent<
       try {
         await createNewNomination(builderWallet);
         toast.success("Successfully nominated user!");
+        router.refresh();
       } catch (e) {
         if (e instanceof Error) toast.error(e.message);
         else toast.error("Failed to nominate user!");

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, unstable_cache } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { getCurrentUser } from "./get-user";
 import { CACHE_24_HOURS, CacheKey } from "./helpers/cache-keys";
