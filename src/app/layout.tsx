@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource-variable/inter";
-import { Box } from "@mui/joy";
+import { Box, Alert } from "@mui/joy";
 import { Toaster } from "sonner";
 import { cookieToInitialState } from "wagmi";
 import { Web3ModalProvider } from "@/app/_providers/web-3-modal-provider";
@@ -63,6 +63,10 @@ export default function RootLayout({
           <Web3ModalProvider initialState={initialState}>
             <AuthenticationProvider>
               <Header />
+              <Alert color="danger" sx={{ borderRadius: 0 }}>
+                This page is still under construction. Data can be deleted and
+                recalculated at any point.
+              </Alert>
               {children}
               <Footer />
               <Toaster richColors closeButton />
