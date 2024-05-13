@@ -65,7 +65,8 @@ export default function RootLayout({
               <Header />
               <Alert color="danger" sx={{ borderRadius: 0 }}>
                 This page is still under construction. Data can be deleted and
-                recalculated at any point.
+                recalculated at any point. Reach out to the devs if you find
+                issues.
               </Alert>
               {children}
               <Footer />
