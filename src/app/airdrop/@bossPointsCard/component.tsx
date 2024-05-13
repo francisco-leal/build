@@ -31,7 +31,7 @@ export const BossPointsCardComponent: FunctionComponent<
 
       <Button
         href={
-          "https://bosscommunity.notion.site/BOSS-FAQ-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
+          "https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
         }
         target="_blank"
         component={Link}
