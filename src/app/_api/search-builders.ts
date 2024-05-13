@@ -36,7 +36,6 @@ export const searchBuilders = unstable_cache(
     const [talentProtocolResults, farcasterResults] = await Promise.all([
       searchTalentProtocolUser(query)
         .then((data): BuilderProfile[] => {
-          console.log("talent protocol", data);
           return data.map((t) => ({
             address:
               t.verified_wallets?.length > 0 ? t.verified_wallets[0] : "",
@@ -53,7 +52,6 @@ export const searchBuilders = unstable_cache(
         }),
       searchFarcasterBuilderProfiles(query)
         .then((data): BuilderProfile[] => {
-          console.log("farcaster", data);
           return data.map((s) => ({
             address: filterFarcasterAddress(
               s.userAddress,
