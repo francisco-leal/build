@@ -9,12 +9,6 @@ export async function GET(request: NextRequest) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", { status: 401 });
   }
-  const { data } = await supabase
-    .from("scheduled_updates")
-    .select("previous_block_number: job_data->>last_block_number")
-    .eq("job_type", "boss_balance" as JobTypes)
-    .order("finished_at", { ascending: false })
-    .single();
 
   const { data: recalculateBossBalanceUpdate } = await supabase
     .from("scheduled_updates")
@@ -25,18 +19,13 @@ export async function GET(request: NextRequest) {
     .select("*")
     .single();
 
-  const lastBlockNumber = await recalculateBossBalance(
-    data?.previous_block_number,
-  );
+  await recalculateBossBalance();
 
   if (recalculateBossBalanceUpdate) {
     await supabase
       .from("scheduled_updates")
       .update({
         finished_at: DateTime.utc().toISODate(),
-        job_data: {
-          last_block_number: lastBlockNumber,
-        },
       })
       .eq("id", recalculateBossBalanceUpdate.id);
   }

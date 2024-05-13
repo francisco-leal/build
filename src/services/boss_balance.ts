@@ -1,120 +1,79 @@
-import {
-  createPublicClient,
-  http,
-  parseAbiItem,
-  Address,
-  formatUnits,
-} from "viem";
-import { base } from "viem/chains";
 import { supabase } from "@/db";
 
-const baseRpcUrl = process.env.BASE_RPC_URL;
-
-const publicClient = createPublicClient({
-  chain: base,
-  transport: http(baseRpcUrl),
-});
 
 interface WalletBalance {
-  [key: string]: bigint;
+  [key: string]: string;
 }
 
-const blocksPerBatch = 500;
+const MORALIS_API_URL = "https://deep-index.moralis.io/api/v2.2/erc20";
 
-export async function recalculateBossBalance(
-  lastBlockNumber: string | undefined,
-) {
-  let blockNumber = lastBlockNumber
-    ? lastBlockNumber
-    : process.env.BOSS_CONTRACT_DEPLOY_BLOCK_NUMBER;
+export async function recalculateBossBalance() {
+  if(!process.env.BOSS_CONTRACT_ADDRESS) return;
 
-  if (!blockNumber) throw Error("Invalid block number");
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      "x-api-key": process.env.MORALIS_API_KEY!,
+    },
+  };
 
-  const currentBlockNumber = await publicClient.getBlockNumber();
+  let data;
+  let cursor = "";
+  const planRateLimit = 1500; // find throughput based on your plan here: https://moralis.io/pricing/#compare
+  const endpointRateLimit = 20; // find endpoint rate limit here: https://docs.moralis.io/web3-data-api/evm/reference/compute-units-cu#rate-limit-cost
+  let allowedRequests = planRateLimit / endpointRateLimit;
+  do {
+    if (allowedRequests <= 0) {
+      // wait 1.1 seconds
+      await new Promise((r) => setTimeout(r, 1100));
+      allowedRequests = planRateLimit / endpointRateLimit;
+  }
+    // moralis limit is 100!
+    const response = await fetch(
+      `${MORALIS_API_URL}/${process.env.BOSS_CONTRACT_ADDRESS}/owners?chain=base&limit=100${cursor !== "" ? `&cursor=${cursor}` : ""}&order=DESC`,
+      options
+    );
+    allowedRequests--;
 
-  const batches = generateBatches(
-    parseInt(blockNumber),
-    Number(currentBlockNumber),
-    blocksPerBatch,
-  );
+    if (response.status !== 200) {
+      throw new Error(`Failed to fetch data: ${response.statusText}`);
+    }
+    data = (await response.json()) as {
+      result: { owner_address: string; balance_formatted: string }[];
+      cursor: string;
+      page: string;
+      page_size: string;
+    };
+    cursor = data.cursor;
 
-  console.log(`Batches: ${batches.length}`);
 
-  for (const batch of batches) {
-    const [batchStart, batchEnd] = batch;
+    let walletsBalance: WalletBalance = {} 
 
-    console.log(`Batch Start: ${batchStart}, Batch End: ${batchEnd}`);
-    const logs = await getLogs(batchStart, batchEnd);
-
-    console.log(`Logs: ${logs.length}`);
-
-    let walletBalanceChange: WalletBalance = {};
-
-    for (const log of logs) {
-      const fromAddress = log.args[0];
-      const toAddress = log.args[1];
-      const value = log.args[2] || BigInt(0);
-
-      if (fromAddress) {
-        console.log("fromAddress", fromAddress);
-        let fromCurrentBalance = walletBalanceChange[fromAddress] || BigInt(0);
-        walletBalanceChange[fromAddress] = fromCurrentBalance - value;
-      }
-
-      if (toAddress) {
-        console.log("toAddress", toAddress);
-        let toCurrentBalance = walletBalanceChange[toAddress] || BigInt(0);
-        walletBalanceChange[toAddress] = toCurrentBalance + value;
-      }
+    for (const balanceResult of data.result) {
+      walletsBalance[balanceResult.owner_address] = balanceResult.balance_formatted;
     }
 
-    const wallets = Object.keys(walletBalanceChange);
-    console.log("Wallets", wallets.length);
+    const wallets = Object.keys(walletsBalance);
 
-    if (wallets.length == 0) continue;
-
+    if (!wallets?.length) continue;
+    
     const { data: values } = await supabase
       .from("users")
       .select("*")
       .in("wallet", wallets)
       .throwOnError();
 
-    console.log("Values", values?.length);
     if (!values?.length) continue;
 
-    console.log("Generating upsert values", values);
     const upsertValues = values.map((user) => ({
-      ...user,
-      wallet: user.wallet,
-      boss_token_balance:
-        user.boss_token_balance +
-        Number(walletBalanceChange[user.wallet]) / 10 ** 18,
-    }));
+        ...user,
+        wallet: user.wallet,
+        boss_token_balance: Number(walletsBalance[user.wallet])
+      }));
 
     if (!upsertValues?.length) continue;
 
     await supabase.from("users").upsert(upsertValues).select().throwOnError();
-  }
-  return Number(currentBlockNumber);
-}
-
-function generateBatches(start: number, end: number, batchSize: number) {
-  const batches = [];
-  for (let i = start; i <= end; i += batchSize) {
-    const batchStart = i;
-    const batchEnd = Math.min(i + batchSize - 1, end);
-    batches.push([batchStart, batchEnd]);
-  }
-  return batches;
-}
-
-async function getLogs(fromBlock: number, toBlock: number) {
-  return await publicClient.getLogs({
-    address: process.env.BOSS_CONTRACT_ADDRESS as Address,
-    fromBlock: BigInt(fromBlock),
-    toBlock: BigInt(toBlock),
-    event: parseAbiItem(
-      "event Transfer(address indexed, address indexed, uint256)",
-    ),
-  });
+  } while (data.result.length > 0 && cursor !== "");
 }
