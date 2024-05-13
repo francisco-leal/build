@@ -94,7 +94,7 @@ export const getFarcasterBuilderProfile = async (
   const searchedUser = data[0];
   return {
     address:
-      searchedUser.profile.verified_addresses?.eth_addresses[0] ||
+      searchedUser.verified_addresses?.eth_addresses[0] ||
       searchedUser.custody_address,
     username: searchedUser.username,
     profile_image: searchedUser.pfp_url,
