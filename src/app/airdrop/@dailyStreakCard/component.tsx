@@ -31,7 +31,3 @@ export const DailyStreakCardComponent: FunctionComponent<
     </BlockyCard>
   );
 };
-
-export const DailyStreakCardLoading = () => (
-  <DailyStreakCardComponent streak="--" />
-);

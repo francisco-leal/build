@@ -2,16 +2,14 @@ import { FunctionComponent } from "react";
 import { Button, Stack, Typography } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { UserShield } from "@/shared/icons/user-shield";
-import { formatNumber } from "@/shared/utils/format-number";
 
 export type BuilderScoreCardComponentProps = {
-  score?: number;
-  loading?: boolean;
+  score: React.ReactNode;
 };
 
 export const BuilderScoreCardComponent: FunctionComponent<
   BuilderScoreCardComponentProps
-> = ({ score = 0, loading }) => {
+> = ({ score }) => {
   return (
     <BlockyCard>
       <Typography level="body-lg" textColor="primary.500">
@@ -23,7 +21,7 @@ export const BuilderScoreCardComponent: FunctionComponent<
         <Typography
           sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
         >
-          {loading ? "--.---" : formatNumber(score)}
+          {score}
         </Typography>
       </Stack>
 
@@ -35,7 +33,3 @@ export const BuilderScoreCardComponent: FunctionComponent<
     </BlockyCard>
   );
 };
-
-export const BuilderScoreCardLoading = () => (
-  <BuilderScoreCardComponent loading />
-);

@@ -1,3 +1,5 @@
-import { MyNominationsTableLoading } from "./component";
+import { MyNominationsTableComponent } from "./component";
 
-export default MyNominationsTableLoading;
+export default function DailyBudgetLoadingCard() {
+  return <MyNominationsTableComponent loading />;
+}

@@ -14,7 +14,7 @@ export const DailyBudgetCardComponent: FunctionComponent<
 > = ({ budget, loading }) => {
   return (
     <BlockyCard>
-      <Typography level="body-lg" textColor="primary.500" id="#daily_budget">
+      <Typography level="body-lg" textColor="primary.500">
         Daily Budget
       </Typography>
 
@@ -43,7 +43,3 @@ export const DailyBudgetCardComponent: FunctionComponent<
     </BlockyCard>
   );
 };
-
-export const DailyBudgetCardLoading = () => (
-  <DailyBudgetCardComponent loading />
-);

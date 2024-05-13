@@ -1,4 +1,4 @@
-import { Button, Link, Stack, Typography } from "@mui/joy";
+import { Stack, Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import backgroundImage from "@/app/_images/icons-background.png";
 import { BlockyCard } from "@/shared/components/blocky-card";
@@ -13,7 +13,7 @@ import { Terminal } from "@/shared/icons/terminal";
 export default async function HomePageLayout({
   leaderboardTable,
   searchBuilder,
-
+  nominateBuilder,
   howToPlay,
 }: {
   leaderboardTable: React.ReactNode;
@@ -43,36 +43,25 @@ export default async function HomePageLayout({
         {searchBuilder}
       </HeroSectionSlim>
       <HeroSection sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
-        <BlockyCard sx={{ minHeight: 320 }}>
+        <BlockyCard sx={{ minHeight: 250 }}>
           <Lego />
           <Typography level="h3" textColor="common.black">
             What is BUILD?
           </Typography>
-          <Typography textColor="neutral.500" sx={{ mb: 1 }}>
+          <Typography textColor="neutral.500">
             BUILD is a token of appreciation on Base, and a social game that
             rewards onchain builders via peer nominations.
           </Typography>
-          <Button component={Link} href="#" color="primary" sx={{ mt: "auto" }}>
-            Buy $BUILD
-          </Button>
         </BlockyCard>
-        <BlockyCard sx={{ minHeight: 320 }}>
+        <BlockyCard sx={{ minHeight: 250 }}>
           <Terminal />
           <Typography level="h3" textColor="common.black">
             How BUILD works?
           </Typography>
-          <Typography textColor="neutral.500" sx={{ mb: 1 }}>
+          <Typography textColor="neutral.500">
             Players have a budget of BUILD points to donate to 3 builders/day.
             Points will convert to $BUILD tokens in June.
           </Typography>
-          <Button
-            component={Link}
-            href="/airdrop#daily_budget"
-            color="primary"
-            sx={{ mt: "auto" }}
-          >
-            See Build Budget
-          </Button>
         </BlockyCard>
       </HeroSection>
       <HeroSectionWithOverflow>
@@ -94,6 +83,7 @@ export default async function HomePageLayout({
         </Typography>
       </HeroSectionWithOverflow>
       <HeroSection>{howToPlay}</HeroSection>
+      {nominateBuilder}
     </Stack>
   );
 }

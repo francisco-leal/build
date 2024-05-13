@@ -1,3 +1,5 @@
-import { BossPointsCardLoadingComponent } from "./component";
+import { BossPointsCardComponent } from "./component";
 
-export default BossPointsCardLoadingComponent;
+export default function BossPointsCardLoading() {
+  return <BossPointsCardComponent points={"--.---"} />;
+}
