@@ -4,9 +4,9 @@ import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-o
 const grantsData = [
   {
     id: "1",
-    description: "Grant: Brand + Web app",
+    description: "Waiting for proposals",
     status: "Vesting",
-    supplyPercentage: 2,
+    supplyPercentage: 0,
   },
 ];
 

@@ -12,6 +12,7 @@ const getLeaderboardTop10 = () => {
         .from("boss_leaderboard")
         .select("*")
         .order("rank", { ascending: true })
+        .order("passport_builder_score", { ascending: false })
         .limit(10)
         .throwOnError();
 

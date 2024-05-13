@@ -63,6 +63,7 @@ export const SearchBuilderComponent: FunctionComponent<
     enabled: debouncedSearchValue.length > 2,
     placeholderData: [],
     queryFn: async (): Promise<SearchResponseUser[]> => {
+      if (debouncedSearchValue.length < 3) return Promise.resolve([]);
       const baseUrl = window.location.origin;
       const endpoint = new URL("/api/search", baseUrl);
       const params = { query: debouncedSearchValue, domain: searchDomain };
