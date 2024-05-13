@@ -63,12 +63,12 @@ export default function RootLayout({
           <Web3ModalProvider initialState={initialState}>
             <AuthenticationProvider>
               <Header />
+              {children}
               <Alert color="danger" sx={{ borderRadius: 0 }}>
                 This page is still under construction. Data can be deleted and
                 recalculated at any point. Reach out to the devs if you find
                 issues.
               </Alert>
-              {children}
               <Footer />
               <Toaster richColors closeButton />
             </AuthenticationProvider>
