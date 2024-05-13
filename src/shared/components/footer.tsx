@@ -34,16 +34,19 @@ export const Footer = () => {
           },
         }}
       >
-        <Typography>Buy</Typography>
         <Link
-          href="https://warpcast.com/~/channel/boss"
+          href="https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0x3c281a39944a2319aa653d81cfd93ca10983d234"
+          target="_blank"
+          sx={{ color: "common.white" }}
+        >
+          Buy
+        </Link>
+        <Link
+          href="https://warpcast.com/~/channel/build"
           target="_blank"
           sx={{ color: "common.white" }}
         >
           Farcaster
-        </Link>
-        <Link href="https://t.me/bosstokenofficial" target="_blank">
-          Telegram
         </Link>
         <Link
           href="https://base.party.app/party/0x04483a3F6435bB96c9dcD3C1eDAF4482f7367bA5"
@@ -52,7 +55,7 @@ export const Footer = () => {
           Party.app
         </Link>
         <Link
-          href="https://bosscommunity.notion.site/BOSS-FAQ-0a7dabb972e1442382f2cf0dad00ed4e?pvs=4"
+          href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
           target="_blank"
         >
           FAQ
@@ -61,12 +64,24 @@ export const Footer = () => {
           href="https://www.figma.com/file/sSlPPPR0XdJztdqZaImV6Z/%24BOSS---Community?type=design&node-id=2005-2166&mode=design&t=LxazggdeJ4F2pRFk-0"
           target="_blank"
         >
-          Meme templates
+          Figma
+        </Link>
+        <Link
+          href="https://basescan.org/token/0x3c281a39944a2319aa653d81cfd93ca10983d234"
+          target="_blank"
+        >
+          Contract
+        </Link>
+        <Link
+          href="https://dexscreener.com/base/0x3c281a39944a2319aa653d81cfd93ca10983d234"
+          target="_blank"
+        >
+          Dexscreener
         </Link>
       </Stack>
 
       <Typography sx={{ color: "common.white", textAlign: "center" }}>
-        BOSS is an experimental community project. Not Financial Advice. DYOR.
+        BUILD is an experimental community project. Not Financial Advice. DYOR.
       </Typography>
     </Stack>
   );

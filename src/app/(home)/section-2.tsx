@@ -21,11 +21,11 @@ export const Section2 = () => {
       >
         <Eye sx={{ width: 48, height: 48 }} color="primary" />
         <Typography level="h3" textColor="common.black">
-          What is BOSS?
+          What is BUILD?
         </Typography>
         <Typography textColor="neutral.500">
-          BOSS is a meme, a token of appreciation and a social game designed to
-          reward builders via onchain nominations.
+          BUILD is a token of appreciation on Base, and a social game that
+          rewards onchain builders via peer nominations.
         </Typography>
       </Sheet>
       <Sheet
@@ -43,11 +43,11 @@ export const Section2 = () => {
       >
         <Terminal sx={{ width: 48, height: 48 }} color="primary" />
         <Typography level="h3" textColor="common.black">
-          How BOSS works?
+          How BUILD works?
         </Typography>
         <Typography textColor="neutral.500">
-          Players have a daily budget of BOSS points to donate to 3 builders a
-          day. Points will convert to $BOSS tokens in June.
+          Players have a budget of BUILD points to donate to 3 builders/day.
+          Points will convert to $BUILD tokens in June.
         </Typography>
       </Sheet>
     </HeroSection>

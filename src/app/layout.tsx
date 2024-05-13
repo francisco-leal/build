@@ -10,13 +10,13 @@ import { ThemeRegistry } from "@/shared/theme/theme-registry";
 import "@fontsource-variable/bricolage-grotesque";
 
 export const metadata: Metadata = {
-  title: "BOSS",
+  title: "BUILD",
   description:
-    "BOSS is a meme and a social game designed to reward builders via onchain nominations.",
+    "BUILD is a token of appreciation on Base and a social game to reward onchain builders.",
   openGraph: {
-    title: "BOSS",
+    title: "BUILD",
     description:
-      "BOSS is a meme and a social game designed to reward builders via onchain nominations.",
+      "BUILD is a token of appreciation on Base and a social game to reward onchain builders.",
     type: "website",
     url: "https://boss.community",
     images: ["https://boss.community/images/BOSS-thumbnail.jpg"],

@@ -5,7 +5,7 @@ import { Typography, Button, Box, Link, Table, Stack } from "@mui/joy";
 export const Section4 = () => {
   return (
     <HeroSection sx={{ color: "common.white" }}>
-      <Typography level="h2">Become a BOSS</Typography>
+      <Typography level="h2">Enter the BUILD game</Typography>
 
       <Stack
         sx={{
@@ -29,7 +29,7 @@ export const Section4 = () => {
 
           <Typography>
             Claim your Talent Passport, and increase your Builder Score before
-            the first snapshot, on May 7th at 17:59 UTC.
+            the game starts.
           </Typography>
 
           <Button
@@ -58,13 +58,13 @@ export const Section4 = () => {
           <Typography level="h3">Step 2</Typography>
 
           <Typography>
-            We raised +72 ETH on party.app to create an LP and launch the $BOSS
-            token together! More info in{" "}
+            We raised +72 ETH on party.app to launch the $BUILD token together
+            and create an LP on Uniswap! More info in{" "}
             <Link
               href="/bossnomics"
               sx={{ color: "common.white", textDecoration: "underline" }}
             >
-              Bossnomics
+              Tokenomics
             </Link>
             .
           </Typography>
@@ -73,12 +73,12 @@ export const Section4 = () => {
             variant="solid"
             color="neutral"
             component={Link}
-            href="https://opensea.io/collection/boss-121"
+            href="https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0x3c281a39944a2319aa653d81cfd93ca10983d234"
             underline="none"
             sx={{ mt: "auto" }}
             target="_blank"
           >
-            See on OpenSea
+            Buy on Uniswap
           </Button>
         </Stack>
       </Stack>

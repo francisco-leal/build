@@ -42,25 +42,19 @@ export const Section1 = () => (
       </Typography>
 
       <Typography level="body-lg" sx={{ maxWidth: "sm" }}>
-        Read the{" "}
-        <Link
-          href="/memo"
-          sx={{ color: "common.white", textDecoration: "underline" }}
-        >
-          memo
-        </Link>
-        : there&apos;s no room for builders in the corporate world! Stand for
-        builders, play the nomination game, and earn $BOSS.
+        Celebrate the unsung heroes of the blockchain. Find undervalued
+        builders, play the nomination game, and earn BUILD points.
       </Typography>
 
       <Stack direction={{ xs: "column-reverse", sm: "row" }} gap={2} pt={5}>
         <Button
           variant="outlined"
           component={Link}
-          href="/memo"
+          href="https://warpcast.com/~/channel/build"
           underline="none"
+          target="_blank"
         >
-          Read BOSS Memo
+          Follow on Farcaster
         </Button>
 
         <Button
@@ -69,9 +63,9 @@ export const Section1 = () => (
           component={Link}
           target="_blank"
           underline="none"
-          href="https://opensea.io/collection/boss-121"
+          href="https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0x3c281a39944a2319aa653d81cfd93ca10983d234"
         >
-          See on OpenSea
+          Buy on Uniswap
         </Button>
       </Stack>
     </Stack>

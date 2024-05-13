@@ -9,7 +9,7 @@ export const Section1 = () => {
       </Typography>
 
       <Typography level="body-lg" px={{ md: 20 }}>
-        $BOSS is an ERC-20 token on Base with a total supply of a
+        $BUILD is an ERC-20 token on Base with a total supply of a
         1,000,000,000,000. It will be launched on May 2024, with a crowdfund on
         party.app, followed by a Community Airdrop to onchain builders.
       </Typography>
