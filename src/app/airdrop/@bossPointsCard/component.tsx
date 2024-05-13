@@ -33,3 +33,7 @@ export const BossPointsCardComponent: FunctionComponent<
     </BlockyCard>
   );
 };
+
+export const BossPointsCardLoadingComponent = () => {
+  return <BossPointsCardComponent points={"--.---"} />;
+};
