@@ -10,6 +10,7 @@ const publicClient = createPublicClient({
 });
 
 export async function getBalance(wallet: string): Promise<number> {
+  if (!process.env.BOSS_CONTRACT_ADDRESS) return 0;
   const balance = (await publicClient.readContract({
     address: process.env.BOSS_CONTRACT_ADDRESS as Address,
     abi: erc20Abi,
