@@ -15,6 +15,9 @@ import {
   Stack,
   StackProps,
   Typography,
+  Select,
+  Option,
+  Grid,
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
 import { useShareLink } from "@/app/_hooks/useShareLink";
@@ -37,50 +40,87 @@ export type SearchResponseUser = {
   result_origin: string;
 };
 
+const SearchOptions = {
+  farcaster: "Farcaster",
+  talent_protocol: "Talent Protocol",
+  // lens: "Lens",
+  // ENS: "ENS",
+} as {
+  [key: string]: string;
+};
+
 export const SearchBuilderComponent: FunctionComponent<
   SearchBuilderComponentProps
 > = ({ date, dailyBudget, totalBossPoints, ...props }) => {
   const [shareLink, onShareLink] = useShareLink();
   const [searchValue, setSearchValue] = useState<string>("");
+  const [searchDomain, setSearchDomain] = useState<string>("farcaster");
   const debouncedSearchValue = useDebounce(searchValue, 500);
   const pathname = usePathname();
 
   const searchQuery = useQuery({
-    queryKey: ["search", debouncedSearchValue],
+    queryKey: ["search", debouncedSearchValue, searchDomain],
     enabled: debouncedSearchValue.length > 2,
     placeholderData: [],
     queryFn: async (): Promise<SearchResponseUser[]> => {
       const baseUrl = window.location.origin;
       const endpoint = new URL("/api/search", baseUrl);
-      const params = { query: debouncedSearchValue };
+      const params = { query: debouncedSearchValue, domain: searchDomain };
       endpoint.search = new URLSearchParams(params).toString();
       const data = fetch(endpoint.toString()).then((res) => res.json());
       return data as Promise<SearchResponseUser[]>;
     },
   });
 
+  const handleSelectChange = (
+    event: React.SyntheticEvent | null,
+    newValue: string | null,
+  ) => {
+    if (!newValue) return;
+    setSearchDomain(newValue);
+    searchQuery.refetch();
+  };
+
   return (
     <Stack {...props}>
-      <Input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value ?? "")}
-        startDecorator={
-          <SearchFilled sx={{ color: "neutral.500", opacity: "0.64" }} />
-        }
-        placeholder="Search for builders with Farcaster, Talent Protocol, Lens or ENS..."
-        sx={{
-          py: 1,
-          px: 2,
-          fontSize: "16px",
-          borderRadius: 0,
-          width: "100%",
-          "&::placeholder": {
-            color: "primary.500",
-            opacity: "0.64",
+      <Grid
+        sx={{ display: "flex", flexDirection: "row", width: "100%", gap: 1 }}
+      >
+        <Select
+          defaultValue={searchDomain}
+          onChange={handleSelectChange}
+          sx={{
+            borderRadius: 0,
+            minWidth: "120px",
+          }}
+        >
+          {Object.keys(SearchOptions).map((key) => (
+            <Option key={`search-option-${key}`} value={key}>
+              {SearchOptions[key]}
+            </Option>
+          ))}
+        </Select>
+        <Input
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value ?? "")}
+          startDecorator={
+            <SearchFilled sx={{ color: "neutral.500", opacity: "0.64" }} />
+          }
+          placeholder={`Search for builders on ${SearchOptions[searchDomain]}...`}
+          sx={{
+            py: 1,
+            px: 2,
             fontSize: "16px",
-          },
-        }}
-      />
+            borderRadius: 0,
+            width: "100%",
+            "&::placeholder": {
+              color: "primary.500",
+              opacity: "0.64",
+              fontSize: "16px",
+            },
+          }}
+        />
+      </Grid>
 
       {(() => {
         const isTyping = debouncedSearchValue !== searchValue;
@@ -217,9 +257,7 @@ export const SearchBuilderComponent: FunctionComponent<
                       minWidth: 0,
                     }}
                   >
-                    <Typography>
-                      {user.username} ({user.result_origin})
-                    </Typography>
+                    <Typography>{user.username}</Typography>
                     <Typography
                       level="body-sm"
                       sx={{
