@@ -1,3 +1,3 @@
-import { LeaderboardTable } from "@/app/_components/@leaderboardTable";
+import { LeaderboardTableLoading } from "@/app/_components/@leaderboardTable";
 
-export default LeaderboardTable;
+export default LeaderboardTableLoading;

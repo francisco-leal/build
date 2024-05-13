@@ -49,3 +49,7 @@ export const MyNominationsTableComponent: FunctionComponent<
     </Table>
   </Sheet>
 );
+
+export const MyNominationsTableLoading = () => (
+  <MyNominationsTableComponent loading />
+);
