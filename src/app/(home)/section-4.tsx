@@ -61,7 +61,7 @@ export const Section4 = () => {
             We raised +72 ETH on party.app to launch the $BUILD token together
             and create an LP on Uniswap! More info in{" "}
             <Link
-              href="/bossnomics"
+              href="/tokenomics"
               sx={{ color: "common.white", textDecoration: "underline" }}
             >
               Tokenomics

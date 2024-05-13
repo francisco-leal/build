@@ -48,11 +48,15 @@ export const Header = () => {
           justifyContent={"center"}
           display={DESKTOP_ONLY}
         >
-          <Link sx={{ color: "common.white" }} href="/memo">
-            Memo
+          <Link
+            sx={{ color: "common.white" }}
+            href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
+            target="_blank"
+          >
+            Manifesto
           </Link>
-          <Link sx={{ color: "common.white" }} href="/bossnomics">
-            Bossnomics
+          <Link sx={{ color: "common.white" }} href="/tokenomics">
+            Tokenomics
           </Link>
           <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 0.5 }}>
             <Typography sx={{ color: "common.white", opacity: "0.5" }}>
@@ -141,8 +145,13 @@ export const Header = () => {
           },
         }}
       >
-        <Link href="/memo">Memo</Link>
-        <Link href="/bossnomics">Bossnomics</Link>
+        <Link
+          href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
+          target="_blank"
+        >
+          Manifesto
+        </Link>
+        <Link href="/tokenomics">Tokenomics</Link>
         <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 0.5 }}>
           <Typography
             sx={{ color: "common.white", opacity: "0.5", fontSize: "32px" }}

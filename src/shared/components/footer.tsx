@@ -39,7 +39,7 @@ export const Footer = () => {
           target="_blank"
           sx={{ color: "common.white" }}
         >
-          Buy
+          Uniswap
         </Link>
         <Link
           href="https://warpcast.com/~/channel/build"
