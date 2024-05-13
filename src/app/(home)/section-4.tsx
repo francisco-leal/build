@@ -73,7 +73,7 @@ export const Section4 = () => {
             variant="solid"
             color="neutral"
             component={Link}
-            href="https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0x3c281a39944a2319aa653d81cfd93ca10983d234"
+            href="https://app.uniswap.org/explore/tokens/base/0x3c281a39944a2319aa653d81cfd93ca10983d234"
             underline="none"
             sx={{ mt: "auto" }}
             target="_blank"
