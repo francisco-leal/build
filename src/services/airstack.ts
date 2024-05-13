@@ -46,18 +46,17 @@ export const searchLensBuilderProfiles = async (
   return data;
 };
 
-export const getFarcasterBuilderProfile = async (
+export const getAirstackBuilderProfile = async (
   walletId: string,
 ): Promise<{
-  farcasterSocial: FarcasterSearchResult | undefined;
   lensSocial: FarcasterSearchResult | undefined;
 }> => {
-  if (!walletId) return { farcasterSocial: undefined, lensSocial: undefined };
+  if (!walletId) return { lensSocial: undefined };
   const query = `query QueryUserOnLensAndFarcaster {
       Socials(
           input: {
               filter: {
-                  dappName: { _in: [farcaster, lens] },
+                  dappName: { _in: [lens] },
                   identity: { _eq: "${walletId.toLowerCase()}" }
               },
               blockchain: ethereum
@@ -79,16 +78,12 @@ export const getFarcasterBuilderProfile = async (
   const socials = result.data.Socials.Social;
   if (!socials || socials.length === 0)
     return {
-      farcasterSocial: undefined,
       lensSocial: undefined,
     };
 
-  const farcasterSocial = socials.find(
-    (social: any) => social.dappName === "farcaster",
-  ) as FarcasterSearchResult | undefined;
   const lensSocial = socials.find(
     (social: any) => social.dappName === "lens",
   ) as FarcasterSearchResult | undefined;
 
-  return { farcasterSocial, lensSocial };
+  return { lensSocial };
 };
