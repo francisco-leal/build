@@ -13,13 +13,13 @@ import {
   Skeleton,
   Stack,
   Typography,
+  modalDialogClasses,
   useTheme,
 } from "@mui/joy";
 import { toast } from "sonner";
 import { createNewNomination } from "@/app/_api/create-new-nomination";
 import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
-import { useMediaQuery } from "@/shared/hooks/use-media-query";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { formatNumber } from "@/shared/utils/format-number";
 
@@ -61,8 +61,6 @@ export const NominateBuilderComponent: FunctionComponent<
 }) => {
   const [isNominating, startNomination] = useTransition();
   const router = useRouter();
-  const theme = useTheme();
-  const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const pathname = usePathname();
 
   const goBack = () => {
@@ -95,15 +93,18 @@ export const NominateBuilderComponent: FunctionComponent<
   }, [state, pathname]);
 
   return (
-    <Modal open onClose={goBack}>
-      <ModalOverflow>
+    <Modal open onClose={goBack} disablePortal>
+      <ModalOverflow sx={{ p: 0 }}>
         <ModalDialog
           variant="solid"
-          layout={isMediumScreen ? "center" : "fullscreen"}
+          layout={"center"}
           sx={{
             width: "100%",
             maxWidth: { xs: "lg", md: "sm" },
             color: "neutral.500",
+            [`&.${modalDialogClasses.layoutCenter}`]: {
+              minHeight: { xs: "100vh", md: "auto" },
+            },
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
