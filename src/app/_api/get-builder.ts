@@ -17,8 +17,7 @@ export const getBuilder = unstable_cache(
   async (walledId: string): Promise<Builder | null> => {
     if (!walledId) return null;
 
-    const { farcasterSocial, lensSocial } =
-      await getFarcasterBuilderProfile(walledId);
+    const farcasterSocial = await getFarcasterBuilderProfile(walledId);
     const talentSocial = await getTalentProtocolUser(walledId);
 
     return {
@@ -28,14 +27,12 @@ export const getBuilder = unstable_cache(
         ? parseInt(farcasterSocial.profileTokenId, 10)
         : undefined,
       image:
-        farcasterSocial?.profileImage ??
+        farcasterSocial?.profile_image ??
         talentSocial?.user?.profile_picture_url ??
-        talentSocial?.passport_profile?.image_url ??
-        lensSocial?.profileImage,
+        talentSocial?.passport_profile?.image_url,
       username:
-        farcasterSocial?.profileName ??
+        farcasterSocial?.username ??
         talentSocial?.user?.username ??
-        lensSocial?.profileName ??
         walledId.toLowerCase(),
     };
   },
