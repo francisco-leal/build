@@ -1,3 +1,5 @@
-import { BossTokensCardLoading } from "./component";
+import { BossTokensCardComponent } from "./component";
 
-export default BossTokensCardLoading;
+export default function BossPointsCardLoading() {
+  return <BossTokensCardComponent tokens={"--.---"} />;
+}

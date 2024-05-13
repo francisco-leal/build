@@ -1,3 +1,5 @@
-import { BuilderScoreCardLoading } from "./component";
+import { BuilderScoreCardComponent } from "./component";
 
-export default BuilderScoreCardLoading;
+export default function BossPointsCardLoading() {
+  return <BuilderScoreCardComponent score={"--"} />;
+}

@@ -1,3 +1,5 @@
-import { DailyBudgetCardLoading } from "./component";
+import { DailyBudgetCardComponent } from "./component";
 
-export default DailyBudgetCardLoading;
+export default function DailyBudgetCardNotFound() {
+  return <DailyBudgetCardComponent loading />;
+}

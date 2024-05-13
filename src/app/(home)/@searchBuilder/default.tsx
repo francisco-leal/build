@@ -1,3 +1,3 @@
-import { SearchBuilderLoading } from "@/app/_components/@searchBuilder";
+import { SearchBuilder } from "@/app/_components/@searchBuilder";
 
-export default SearchBuilderLoading;
+export default SearchBuilder;

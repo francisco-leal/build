@@ -1,3 +1,9 @@
-import { BossTokensCardLoading } from "./component";
+import { notFound } from "next/navigation";
+import { getCurrentUser } from "@/app/_api/get-user";
+import { BossTokensCardComponent } from "./component";
 
-export default BossTokensCardLoading;
+export default async function BossTokensCard() {
+  const user = await getCurrentUser();
+  if (!user) return notFound();
+  return <BossTokensCardComponent tokens={user.boss_token_balance} />;
+}

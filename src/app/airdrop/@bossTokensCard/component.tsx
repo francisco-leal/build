@@ -33,7 +33,3 @@ export const BossTokensCardComponent: FunctionComponent<
     </BlockyCard>
   );
 };
-
-export const BossTokensCardLoading = () => (
-  <BossTokensCardComponent tokens={"--.---"} />
-);

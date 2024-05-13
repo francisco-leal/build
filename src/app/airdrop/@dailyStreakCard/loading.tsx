@@ -1,3 +1,5 @@
-import { DailyStreakCardLoading } from "./component";
+import { DailyStreakCardComponent } from "./component";
 
-export default DailyStreakCardLoading;
+export default function DailyBudgetLoadingCard() {
+  return <DailyStreakCardComponent streak={"---"} />;
+}
