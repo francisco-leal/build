@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Button, Stack, Typography } from "@mui/joy";
+import { Button, Stack, Typography, Link } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { UserShield } from "@/shared/icons/user-shield";
 
@@ -26,7 +26,16 @@ export const BuilderScoreCardComponent: FunctionComponent<
       </Stack>
 
       <Typography textColor="neutral.500">
-        The proficiency of Talent Passport users as onchain builders (0-100).
+        Your reputation as a builder, as measured by the{" "}
+        <Link
+          href="https://passport.talentprotocol.com"
+          target="_blank"
+          textColor="neutral.500"
+          sx={{ textDecoration: "underline" }}
+        >
+          Talent Passport
+        </Link>
+        .
       </Typography>
 
       <Button disabled>Refresh Score</Button>

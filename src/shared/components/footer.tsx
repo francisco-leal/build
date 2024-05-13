@@ -34,7 +34,7 @@ export const Footer = () => {
           },
         }}
       >
-        <Typography>Buy</Typography>
+        <Typography>Uniswap</Typography>
         <Link
           href="https://warpcast.com/~/channel/boss"
           target="_blank"
@@ -58,8 +58,11 @@ export const Footer = () => {
           href="https://www.figma.com/file/sSlPPPR0XdJztdqZaImV6Z/%24BOSS---Community?type=design&node-id=2005-2166&mode=design&t=LxazggdeJ4F2pRFk-0"
           target="_blank"
         >
-          Meme templates
+          Figma
         </Link>
+        <Typography>Contract</Typography>
+        <Typography>Dexscreener</Typography>
+        <Typography>Coingecko</Typography>
       </Stack>
 
       <Typography sx={{ color: "common.white", textAlign: "center" }}>

@@ -30,7 +30,10 @@ export const MyNominationsTableComponent: FunctionComponent<
       <tbody>
         {!loading &&
           values.map((val) => (
-            <tr key={val.date} className={val.missed ? "yellow" : ""}>
+            <tr
+              key={`${val.date}-${val.name}`}
+              className={val.missed ? "yellow" : ""}
+            >
               <td>{val.date}</td>
               <td>{val.missed ? "Missed" : val.name ?? "---"}</td>
               <td>{val.missed ? "Missed" : val.rank ?? "---"}</td>

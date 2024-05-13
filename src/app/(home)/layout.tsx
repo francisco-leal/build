@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/joy";
+import { Typography, Stack, Button, Link } from "@mui/joy";
 import { DateTime } from "luxon";
 import backgroundImage from "@/app/_images/icons-background.png";
 import { BlockyCard } from "@/shared/components/blocky-card";
@@ -52,6 +52,16 @@ export default async function HomePageLayout({
             BUILD is a token of appreciation on Base, and a social game that
             rewards onchain builders via peer nominations.
           </Typography>
+          <Button
+            href={"/uniswap"}
+            component={Link}
+            disabled={true}
+            variant="solid"
+            color="neutral"
+            sx={{ mt: 2 }}
+          >
+            Buy $BUILD
+          </Button>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 250 }}>
           <Terminal />
@@ -62,6 +72,15 @@ export default async function HomePageLayout({
             Players have a budget of BUILD points to donate to 3 builders/day.
             Points will convert to $BUILD tokens in June.
           </Typography>
+          <Button
+            href={"/airdrop"}
+            component={Link}
+            variant="solid"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            See BUILD budget
+          </Button>
         </BlockyCard>
       </HeroSection>
       <HeroSectionWithOverflow>

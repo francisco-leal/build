@@ -28,6 +28,56 @@ export default function HowToPlay() {
           sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
         >
           <Stack sx={{ alignItems: "center", gap: 1 }}>
+            <Coin sx={{ color: "common.white", fontSize: "64px" }} />
+            <Typography
+              sx={{
+                color: "common.white",
+                fontSize: "24px",
+                fontWeight: "bold",
+              }}
+            >
+              Budget
+            </Typography>
+
+            <Typography
+              sx={{
+                color: "common.white",
+                fontSize: "16px",
+                textAlign: "center",
+              }}
+            >
+              Each player has an individual daily budget, based on their{" "}
+              <Link
+                href="https://talentprotocol.notion.site/How-to-get-more-credentials-cebd2bb0d1574ce0b32d369d3316cda2"
+                target="_blank"
+                sx={{
+                  color: "common.white",
+                  textDecoration: "underline",
+                }}
+              >
+                Builder Score
+              </Link>
+              . Claim your Talent Passport to increase your score and budget.
+            </Typography>
+
+            <Button
+              variant="solid"
+              color="neutral"
+              component={Link}
+              href="https://passport.talentprotocol.com"
+              target="_blank"
+              underline="none"
+              sx={{ mt: 2 }}
+            >
+              Talent Passport
+            </Button>
+          </Stack>
+        </Stack>
+
+        <Stack
+          sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
+        >
+          <Stack sx={{ alignItems: "center", gap: 1 }}>
             <FingerNominate sx={{ color: "common.white", fontSize: "64px" }} />
             <Typography
               sx={{
@@ -61,46 +111,6 @@ export default function HowToPlay() {
               onClick={onShareLink}
             >
               Share Link
-            </Button>
-          </Stack>
-        </Stack>
-
-        <Stack
-          sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
-        >
-          <Stack sx={{ alignItems: "center", gap: 1 }}>
-            <Coin sx={{ color: "common.white", fontSize: "64px" }} />
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "24px",
-                fontWeight: "bold",
-              }}
-            >
-              Budget
-            </Typography>
-
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "16px",
-                textAlign: "center",
-              }}
-            >
-              Each player has an individual daily budget, based on their Builder
-              Score. Claim your Talent Passport to increase your score and
-              budget.
-            </Typography>
-
-            <Button
-              variant="solid"
-              color="neutral"
-              component={Link}
-              href="https://passport.talentprotocol.com"
-              underline="none"
-              sx={{ mt: 2 }}
-            >
-              Talent Passport
             </Button>
           </Stack>
         </Stack>
