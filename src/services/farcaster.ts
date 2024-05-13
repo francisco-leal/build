@@ -88,10 +88,11 @@ export const getFarcasterBuilderProfile = async (
 
   const response = await fetch(url, { headers });
   if (!response.ok) throw new Error(response.statusText);
-  const data = (await response.json()) as FarcasterAPIUser[];
-  if (!data.length) return null;
 
-  const searchedUser = data[0];
+  const data = (await response.json()) as { [key: string]: FarcasterAPIUser[] };
+  if (!data) return null;
+
+  const searchedUser = data[walletId][0];
   return {
     address:
       searchedUser.verified_addresses?.eth_addresses[0] ||

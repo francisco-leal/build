@@ -16,11 +16,10 @@ type Builder = {
 export const getBuilder = unstable_cache(
   async (walledId: string): Promise<Builder | null> => {
     if (!walledId) return null;
-
     const farcasterSocial = await getFarcasterBuilderProfile(walledId);
     const talentSocial = await getTalentProtocolUser(walledId);
 
-    return {
+    const user = {
       wallet: walledId.toLowerCase(),
       passportId: talentSocial?.passport_id,
       farcasterId: farcasterSocial
@@ -35,6 +34,8 @@ export const getBuilder = unstable_cache(
         talentSocial?.user?.username ??
         walledId.toLowerCase(),
     };
+
+    return user;
   },
   ["get_builder"],
   { revalidate: CACHE_5_MINUTES },
