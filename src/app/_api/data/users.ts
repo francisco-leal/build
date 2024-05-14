@@ -10,23 +10,33 @@ import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
 import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
 
-export type Wallet = Database["public"]["Tables"]["wallets"]["Row"];
+type Tables = Database["public"]["Tables"];
+
+const SELECT_USERS = "*, wallets(*), boss_leaderboard(*)" as const;
+
+export type Wallet = Tables["wallets"]["Row"];
+export type RawUser = Tables["users"]["Row"];
+export type Leaderboard = Tables["boss_leaderboard"]["Row"];
+
 export type PartialWallet = Partial<Wallet> & Pick<Wallet, "wallet">;
-export type RawUser = Database["public"]["Tables"]["users"]["Row"];
-export type User = RawUser & { wallets: Wallet[] };
+
+export type User = RawUser & {
+  wallets: Wallet[];
+  boss_leaderboard: Leaderboard | null;
+};
 
 export const getUserFromId = async (userId: string): Promise<User | null> => {
   return unstable_cache(
     async (id: string) => {
       const userInfo = await supabase
         .from("users")
-        .select("*, wallets(*)")
+        .select(SELECT_USERS)
         .eq("id", id)
         .throwOnError()
         .then((res) => res.data?.[0]);
       return userInfo ?? null;
     },
-    [`user_${userId}`] as CacheKey[],
+    [`user_${userId}`, "leaderboard"] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )(userId);
 };
@@ -43,6 +53,15 @@ export const getUserFromWallet = async (
     .then((res) => res.data?.[0]?.user_id);
   if (!userId) return null;
   return getUserFromId(userId);
+};
+
+export const getUserBalances = async (user: User) => {
+  return {
+    dailyBudget: user.boss_budget,
+    pointsGiven: user.boss_budget * 0.9,
+    pointsEarned: user.boss_budget * 0.1,
+    totalPoints: user.boss_score + user.boss_budget * 0.1,
+  };
 };
 
 export const getCurrentUser = async (): Promise<User | null> => {
@@ -97,7 +116,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     .from("users")
     .insert(newUser)
     .throwOnError()
-    .select("*, wallets(*)")
+    .select(SELECT_USERS)
     .then((res) => res.data?.[0]);
 
   if (!user) throw new Error("User creation failed");

@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 import { Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
-  getBossNominationBalances,
+  getNomination,
   getNominationsFromUserToday,
   hasExceededNominationsToday,
   isDuplicateNomination,
   isSelfNomination,
   isUpdatingLeaderboard,
 } from "@/app/_api/data/nominations";
-import { getCurrentUser } from "@/app/_api/data/users";
+import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
 import { getWallet } from "@/app/_api/data/wallets";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { NotFoundError } from "@/shared/utils/error";
@@ -41,9 +41,7 @@ export default async function NominateBuilder({
 
   if (!builder || !builder.wallet) notFound();
 
-  const balances = currentUser
-    ? await getBossNominationBalances(currentUser.wallet)
-    : undefined;
+  const balances = currentUser ? await getUserBalances(currentUser) : undefined;
 
   const { state, infoMessage }: StateAndInfo = await (async () => {
     if (!currentUser) {
@@ -52,14 +50,10 @@ export default async function NominateBuilder({
         infoMessage: "",
       };
     }
-    if (await isDuplicateNomination(currentUser.wallet, builder.wallet)) {
-      const nomination = await getNomination(
-        currentUser.wallet,
-        builder.wallet,
-      );
-
+    if (await isDuplicateNomination(currentUser, builder)) {
+      const nomination = await getNomination(currentUser, builder);
       if (!nomination) throw new NotFoundError("Nomination not found");
-      const abbreviatedWallet = abbreviateWalletAddress(currentUser.wallet);
+      const abbreviatedWallet = abbreviateWalletAddress(builder.wallet);
       const displayName = nomination.destinationUsername ?? abbreviatedWallet;
 
       return {
@@ -99,7 +93,7 @@ export default async function NominateBuilder({
         ),
       };
     }
-    if (await hasExceededNominationsToday(currentUser.wallet)) {
+    if (await hasExceededNominationsToday(currentUser)) {
       return {
         state: "INVALID_NOMINATION" as const,
         infoMessage: (

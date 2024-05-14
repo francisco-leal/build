@@ -4,11 +4,15 @@ import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
-import { WalletInfo, getWalletInfo } from "../get-wallet-info";
-import { CACHE_1_MINUTE, CacheKey } from "../helpers/cache-keys";
+import {
+  CACHE_1_MINUTE,
+  CACHE_5_MINUTES,
+  CacheKey,
+} from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
-import { getCurrentUser } from "./users";
+import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
+import { WalletInfo, getWallet } from "./wallets";
 
 export type Nomination = {
   id: number;
@@ -41,47 +45,41 @@ const SELECT_NOMINATIONS = `
   )       
 ` as const;
 
-export const getBossNominationBalances = async (user: User) => {
-  return {
-    dailyBudget: user.boss_budget,
-    pointsGiven: user.boss_budget * 0.9,
-    pointsEarned: user.boss_budget * 0.1,
-    totalPoints: user.boss_score + user.boss_budget * 0.1,
-  };
-};
-
-export const isSelfNomination = async (
+export const getNomination = async (
   user: User,
   wallet: WalletInfo,
-): Promise<boolean> => {
-  const wallets = [...wallet.allWallets, ...user.wallets.map((w) => w.wallet)];
-  const isSelfNomination = [...new Set(wallets)].length !== wallets.length;
-  if (isSelfNomination) return true;
-  if (user.farcaster_id === (wallet.farcasterId ?? false)) return true;
-  if (user.passport_id === (wallet.passportId ?? false)) return true;
-  return false;
-};
+): Promise<Nomination | null> =>
+  unstable_cache(
+    async (userId: string, walletId: string) => {
+      const nomination = await supabase
+        .from("boss_nominations")
+        .select(SELECT_NOMINATIONS)
+        .eq("user_id", userId)
+        .eq("wallet_id", walletId)
+        .throwOnError()
+        .then((res) => res.data?.[0]);
 
-export const isUpdatingLeaderboard = async () => {
-  const { data: updates } = await supabase
-    .from("scheduled_updates")
-    .select("*")
-    .is("finished_at", null)
-    .eq("job_type", "leaderboard" satisfies JobTypes);
+      if (!nomination) return null;
 
-  if (!updates) return true;
-  if (updates.length > 0) return true;
-  return false;
-};
-
-export const isDuplicateNomination = async (user: User, wallet: WalletInfo) => {
-  return !!(await getNomination(user.id, wallet.wallet));
-};
-
-export const hasExceededNominationsToday = async (nominatorUser: User) => {
-  const nominations = await getNominationsFromUserToday(nominatorUser);
-  return (nominations?.length || 0) >= 3;
-};
+      return {
+        id: nomination.id,
+        originUserId: nomination.user_id,
+        bossPointsEarned: nomination.boss_points_received,
+        bossPointsGiven: nomination.boss_points_sent,
+        destinationWallet: nomination.wallet_id,
+        destinationUsername: nomination.wallets?.users?.username ?? null,
+        destinationRank:
+          nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+        createdAt: nomination.created_at,
+      };
+    },
+    [
+      "nominations",
+      `user_${user}`,
+      `user_${wallet.userId}`,
+    ] satisfies CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )(user.id, wallet.wallet);
 
 export const getNominationsFromUser = async (
   user: User,
@@ -125,38 +123,37 @@ export const getNominationsFromUserToday = async (user: User) => {
   );
 };
 
-export const getNomination = async (
-  originUserId: string,
-  destinationWalletId: string,
-): Promise<Nomination | null> => {
-  const destinationLc = destinationWalletId.toLowerCase();
-  return await unstable_cache(
-    async () => {
-      const { data: nomination } = await supabase
-        .from("boss_nominations")
-        .select(SELECT_NOMINATIONS)
-        .eq("user_id", originUserId)
-        .eq("wallet_id", destinationLc)
-        .single()
-        .throwOnError();
+export const isSelfNomination = async (
+  user: User,
+  wallet: WalletInfo,
+): Promise<boolean> => {
+  const wallets = [...wallet.allWallets, ...user.wallets.map((w) => w.wallet)];
+  const isSelfNomination = [...new Set(wallets)].length !== wallets.length;
+  if (isSelfNomination) return true;
+  if (user.farcaster_id === (wallet.farcasterId ?? false)) return true;
+  if (user.passport_id === (wallet.passportId ?? false)) return true;
+  return false;
+};
 
-      if (!nomination) throw new Error("Nomination not found");
+export const isUpdatingLeaderboard = async () => {
+  const { data: updates } = await supabase
+    .from("scheduled_updates")
+    .select("*")
+    .is("finished_at", null)
+    .eq("job_type", "leaderboard" satisfies JobTypes);
 
-      return {
-        id: nomination.id,
-        originUserId: nomination.user_id,
-        bossPointsEarned: nomination.boss_points_received,
-        bossPointsGiven: nomination.boss_points_sent,
-        destinationWallet: nomination.wallet_id,
-        destinationUsername: nomination.wallets?.users?.username ?? null,
-        destinationRank:
-          nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
-        createdAt: nomination.created_at,
-      };
-    },
-    ["nominations", "leaderboard", `user_${originUserId}`] satisfies CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
-  )();
+  if (!updates) return true;
+  if (updates.length > 0) return true;
+  return false;
+};
+
+export const isDuplicateNomination = async (user: User, wallet: WalletInfo) => {
+  return !!(await getNomination(user, wallet));
+};
+
+export const hasExceededNominationsToday = async (nominatorUser: User) => {
+  const nominations = await getNominationsFromUserToday(nominatorUser);
+  return (nominations?.length || 0) >= 3;
 };
 
 export const createNewNomination = async (
@@ -178,7 +175,7 @@ export const createNewNomination = async (
     );
   }
 
-  const balances = await getBossNominationBalances(nominatorUser);
+  const balances = await getUserBalances(nominatorUser);
 
   const nomination = await supabase
     .from("boss_nominations")
@@ -215,7 +212,7 @@ export const createNewNominationForCurrentUser = async (
   walletToNominate: string,
 ) => {
   const currentUser = await getCurrentUser();
-  const walletInfo = await getWalletInfo(walletToNominate);
+  const walletInfo = await getWallet(walletToNominate);
   if (!currentUser) throw new BadRequestError("Could not find user");
   if (!walletInfo) throw new BadRequestError("Could not find wallet info");
   return createNewNomination(currentUser, walletInfo);

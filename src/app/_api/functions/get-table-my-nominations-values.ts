@@ -1,22 +1,21 @@
 import { notFound } from "next/navigation";
 import { DateTime } from "luxon";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { makeMap } from "@/shared/utils/make-map";
 import { TableMyNominationsValue } from "../../_components/table-my-nominations";
+import { getNominationsFromUser } from "../data/nominations";
 import { getCurrentUser } from "../data/users";
-import { getNominationsFromUserId } from "./get-nomination";
 
 export const getTableMyNominationsValues = async (): Promise<
   TableMyNominationsValue[]
 > => {
   const user = await getCurrentUser();
   if (!user) return notFound();
-  const nominations = await getNominationsFromUserId(user.id);
+  const nominations = await getNominationsFromUser(user);
   const firstNominationIso = nominations.at(-1)?.createdAt;
   const firstDate = firstNominationIso
     ? DateTime.fromISO(firstNominationIso)
-    : DateTime.now();
-  const lastDate = DateTime.now();
+    : DateTime.utc();
+  const lastDate = DateTime.utc();
 
   const numberOfDays = lastDate.diff(firstDate, "days").days;
 

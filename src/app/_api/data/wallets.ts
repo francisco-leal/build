@@ -1,9 +1,11 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
+import { supabase } from "@/db";
 import { getFarcasterUser } from "@/services/farcaster";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
 import { removeDuplicates } from "@/shared/utils/remove-duplicates";
+import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
 import { getUserFromWallet } from "./users";
 
 export type WalletInfo = {
@@ -30,7 +32,7 @@ export const getWallet = unstable_cache(
       ...(bossUser?.wallets.map((w) => w.wallet) ?? []),
     ].filter(removeDuplicates);
 
-    return {
+    const walletInfo: WalletInfo = {
       wallet: walledId.toLowerCase(),
       userId: bossUser?.id,
       passportId:
@@ -48,9 +50,19 @@ export const getWallet = unstable_cache(
         walledId.toLowerCase(),
       allWallets: allWallets,
     };
+
+    await supabase
+      .from("wallets")
+      .upsert({
+        wallet: walletInfo.wallet,
+        user_id: walletInfo.userId,
+        farcaster_id: walletInfo.farcasterId,
+        passport_id: walletInfo.passportId,
+      })
+      .throwOnError();
+
+    return walletInfo;
   },
   ["wallet_info" as CacheKey],
   { revalidate: CACHE_5_MINUTES },
 );
-
-export const createWallet = async (data: any) => {};
