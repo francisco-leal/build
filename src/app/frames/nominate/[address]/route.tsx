@@ -1,24 +1,25 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
-import {
-  createNewNomination,
-  getBossNominationBalances,
-  getTodaysNominations,
-} from "@/app/_api/create-new-nomination";
-import { getOrCreateUser } from "@/app/_api/create-new-user";
+import { createNewNomination } from "@/app/_api/create-new-nomination";
+import { getBuilder } from "@/app/_api/get-builder";
 import { frames } from "@/app/frames/frames";
-import { findSocialProfile } from "../route";
+
+export async function findBuilderProfile(walletAddress: string) {
+  const builderProfile = await getBuilder(walletAddress.toLowerCase());
+  return builderProfile;
+}
 
 const handler = frames(async (ctx) => {
   if (!ctx.message?.isValid) {
-    throw new Error("Invalid message");
+    // throw new Error("Invalid message");
   }
   const userNominated = ctx.url.pathname.split("/frames/nominate/")[1] || "";
-  const userAddress =
+  let userAddress =
     ctx.message?.requesterVerifiedAddresses &&
     ctx.message?.requesterVerifiedAddresses.length > 0
       ? ctx.message?.requesterVerifiedAddresses[0]
       : ctx.message?.verifiedWalletAddress; // XMTP verified wallet
+  userAddress = userAddress?.toLowerCase();
 
   if (!userNominated) {
     // user address to nominate not provided
@@ -40,47 +41,29 @@ const handler = frames(async (ctx) => {
       },
     };
   } else {
-    const nominatedSocialProfile = await findSocialProfile(userNominated);
-    if (!!nominatedSocialProfile) {
+    let nominatedBuilderProfile = null;
+    try {
+      nominatedBuilderProfile = await findBuilderProfile(userNominated);
+    } catch (e: any) {
+      // console.error("Error finding builder profile", e);
+    }
+    if (!!nominatedBuilderProfile) {
       if (!userAddress) {
-        // nominated builder profile found
-        const nominatedSocialProfile = await findSocialProfile(userNominated);
-        const farcasterUser = await getOrCreateUser(userAddress!);
-        const todayNominations = await getTodaysNominations(userAddress!);
-        const userBalances = await getBossNominationBalances(userAddress!);
-        console.log(
-          "current user",
-          farcasterUser,
-          userAddress,
-          todayNominations,
-          userBalances,
-        );
-        const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
-        const farcasterUsername =
-          ctx.message?.requesterUserData?.displayName ||
-          ctx.message?.requesterFid ||
-          ctx.message?.verifiedWalletAddress ||
-          "";
+        // nominated builder profile found but no user provided
         return {
           image: (
             <div>
-              <div>nominate-builder-found</div>
-              <div>{farcasterPfp}</div>
-              <div>{farcasterUsername}</div>
+              <div>nominate-builder</div>
               <div>
-                {nominatedSocialProfile?.profile_image
-                  ? nominatedSocialProfile.profile_image
-                  : nominatedSocialProfile?.pfp_url}
+                {nominatedBuilderProfile?.image
+                  ? nominatedBuilderProfile.image
+                  : ""}
               </div>
               <div>
-                {nominatedSocialProfile?.display_name
-                  ? nominatedSocialProfile?.display_name
-                  : nominatedSocialProfile?.username}
+                {nominatedBuilderProfile?.username
+                  ? nominatedBuilderProfile?.username
+                  : nominatedBuilderProfile?.wallet}
               </div>
-              <div>{userBalances.dailyBudget}</div>
-              <div>{userBalances.pointsGiven}</div>
-              <div>{userBalances.pointsEarned}</div>
-              <div>{`${todayNominations.length}/3`}</div>
             </div>
           ),
           buttons: [
@@ -92,75 +75,80 @@ const handler = frames(async (ctx) => {
             aspectRatio: "1:1",
           },
         };
+      } else {
+        try {
+          // proceed to nominate builder
+          const newNomination = await createNewNomination(
+            nominatedBuilderProfile.wallet,
+            userAddress,
+          );
+          return {
+            image: (
+              <div>
+                <div>builder-nominatation-completed</div>
+                <div>{nominatedBuilderProfile?.image}</div>
+                <div>{nominatedBuilderProfile?.username}</div>
+              </div>
+            ),
+            buttons: [
+              <Button action="post" key="1" target="/">
+                Nominate a new builder
+              </Button>,
+              <Button action="link" key="1" target="https://build.top/">
+                Learn More
+              </Button>,
+            ],
+            imageOptions: {
+              aspectRatio: "1:1",
+            },
+          };
+        } catch (e: any) {
+          console.log("Error nominating builder", e);
+          return {
+            image: (
+              <div>
+                <div>builder-nomination-error</div>
+                <div>{nominatedBuilderProfile?.username}</div>
+                <div>{e.message}</div>
+                <div>{nominatedBuilderProfile?.image}</div>
+              </div>
+            ),
+            buttons: [
+              <Button action="post" key="1" target="/">
+                Nominate a new builder
+              </Button>,
+              <Button action="link" key="1" target="https://build.top/">
+                Learn More
+              </Button>,
+            ],
+            imageOptions: {
+              aspectRatio: "1:1",
+            },
+          };
+        }
       }
-      try {
-        const newNomination = await createNewNomination(
-          nominatedSocialProfile.address,
-          userAddress,
-        );
-        return {
-          image: (
-            <div>
-              <div>builder-nominatation-completed</div>
-              <div>{nominatedSocialProfile?.profile_image}</div>
-              <div>{nominatedSocialProfile?.username}</div>
-            </div>
-          ),
-          buttons: [
-            <Button action="post" key="1" target="/">
-              Nominate a new builder
-            </Button>,
-            <Button action="link" key="1" target="https://boss.community">
-              Learn More
-            </Button>,
-          ],
-          imageOptions: {
-            aspectRatio: "1:1",
-          },
-        };
-      } catch (e: any) {
-        console.log("builder-nomination-error", e);
-        return {
-          image: (
-            <div>
-              <div>builder-nomination-error</div>
-              <div>{nominatedSocialProfile?.username}</div>
-              <div>{nominatedSocialProfile?.profile_image}</div>
-            </div>
-          ),
-          buttons: [
-            <Button action="post" key="1" target="/">
-              Nominate a new builder
-            </Button>,
-            <Button action="link" key="1" target="https://boss.community">
-              Learn More
-            </Button>,
-          ],
-          imageOptions: {
-            aspectRatio: "1:1",
-          },
-        };
-      }
+    } else {
+      return {
+        image: (
+          <div>
+            <div>builder-nomination-error</div>
+            <div>{userNominated}</div>
+            <div>Builder not found</div>
+          </div>
+        ),
+        buttons: [
+          <Button action="post" key="1" target="/">
+            Nominate a new builder
+          </Button>,
+          <Button action="link" key="1" target="https://build.top/">
+            Learn More
+          </Button>,
+        ],
+        imageOptions: {
+          aspectRatio: "1:1",
+        },
+      };
     }
-    return {
-      image: (
-        <div>
-          <div>builder-nomination-error</div>
-          <div>{userNominated}</div>
-        </div>
-      ),
-      buttons: [
-        <Button action="post" key="1" target="/">
-          Nominate a new builder
-        </Button>,
-        <Button action="link" key="1" target="https://boss.community">
-          Learn More
-        </Button>,
-      ],
-      imageOptions: {
-        aspectRatio: "1:1",
-      },
-    };
   }
 });
 

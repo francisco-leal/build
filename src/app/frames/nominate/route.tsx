@@ -5,21 +5,20 @@ import {
   getTodaysNominations,
 } from "@/app/_api/create-new-nomination";
 import { getOrCreateUser } from "@/app/_api/create-new-user";
-import { searchBuilders } from "@/app/_api/search-builders";
 import { frames } from "@/app/frames/frames";
+import { searchFarcasterBuilderProfiles } from "@/services/farcaster";
 
-export async function findSocialProfile(walletAddress: string) {
-  const socialProfiles = await searchBuilders(walletAddress, "farcaster");
-  if (socialProfiles.length === 0) {
-    return null;
-  } else {
-    return socialProfiles[0];
+export async function searchBuilderProfile(username: string) {
+  const builderProfiles = await searchFarcasterBuilderProfiles(username);
+  if (builderProfiles.length > 0) {
+    return builderProfiles[0];
   }
+  return null;
 }
 
 const handler = frames(async (ctx) => {
   if (!ctx.message?.isValid) {
-    throw new Error("Invalid message");
+    // throw new Error("Invalid message");
   }
   const userNominated = ctx.message?.inputText || "";
   const userAddress =
@@ -49,6 +48,9 @@ const handler = frames(async (ctx) => {
         <Button action="post" key="1" target="/nominate">
           Search
         </Button>,
+        <Button action="post" key="2" target="/">
+          Back
+        </Button>,
       ],
       imageOptions: {
         aspectRatio: "1:1",
@@ -56,19 +58,12 @@ const handler = frames(async (ctx) => {
     };
   } else {
     // proceed with nomination
-    const nominatedSocialProfile = await findSocialProfile(userNominated);
-    const farcasterUser = await getOrCreateUser(userAddress!);
-    const todayNominations = await getTodaysNominations(userAddress!);
-    const userBalances = await getBossNominationBalances(userAddress!);
-    console.log(
-      "current user",
-      farcasterUser,
-      userAddress,
-      todayNominations,
-      userBalances,
-    );
+    const nominatedBuilderProfile = await searchBuilderProfile(userNominated);
+    const farcasterUser = await getOrCreateUser(userAddress!); // create a user for the voter if not found
+    const todayNominations = await getTodaysNominations(farcasterUser.wallet!);
+    const userBalances = await getBossNominationBalances(farcasterUser.wallet!);
 
-    if (!!nominatedSocialProfile) {
+    if (!!nominatedBuilderProfile) {
       // nominated builder profile found
       return {
         image: (
@@ -77,26 +72,43 @@ const handler = frames(async (ctx) => {
             <div>{farcasterPfp}</div>
             <div>{farcasterUsername}</div>
             <div>
-              {nominatedSocialProfile?.profile_image
-                ? nominatedSocialProfile.profile_image
-                : nominatedSocialProfile?.pfp_url}
+              {nominatedBuilderProfile?.profile_image
+                ? nominatedBuilderProfile.profile_image
+                : nominatedBuilderProfile?.pfp_url}
             </div>
             <div>
-              {nominatedSocialProfile?.display_name
-                ? nominatedSocialProfile?.display_name
-                : nominatedSocialProfile?.username}
+              {nominatedBuilderProfile?.display_name
+                ? nominatedBuilderProfile?.display_name
+                : nominatedBuilderProfile?.username}
             </div>
             <div>{userBalances.dailyBudget}</div>
             <div>{userBalances.pointsGiven}</div>
             <div>{userBalances.pointsEarned}</div>
             <div>{`${todayNominations.length}/3`}</div>
+            {todayNominations.length >= 3 && (
+              <div>You&apos;re out of nominations for today</div>
+            )}
           </div>
         ),
-        buttons: [
-          <Button action="post" key="1" target={`/nominate/${userNominated}`}>
-            Confirm Nomination
-          </Button>,
-        ],
+        buttons:
+          todayNominations.length < 3
+            ? [
+                <Button
+                  action="post"
+                  key="1"
+                  target={`/nominate/${nominatedBuilderProfile.address.toLowerCase()}`}
+                >
+                  Confirm Nomination
+                </Button>,
+                <Button action="post" key="2" target={`/nominate`}>
+                  Back
+                </Button>,
+              ]
+            : [
+                <Button action="post" key="1" target={`/`}>
+                  Back
+                </Button>,
+              ],
         imageOptions: {
           aspectRatio: "1:1",
         },
@@ -114,6 +126,9 @@ const handler = frames(async (ctx) => {
         buttons: [
           <Button action="post" key="1" target="/nominate">
             Search
+          </Button>,
+          <Button action="post" key="2" target="/">
+            Back
           </Button>,
         ],
         imageOptions: {

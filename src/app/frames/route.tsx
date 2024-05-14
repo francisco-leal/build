@@ -5,7 +5,7 @@ import { frames } from "@/app/frames/frames";
 
 const handler = frames(async (ctx) => {
   if (!ctx.message?.isValid) {
-    throw new Error("Invalid message");
+    // throw new Error("Invalid message");
   }
 
   return {
@@ -22,7 +22,7 @@ const handler = frames(async (ctx) => {
       <Button action="post" key="2" target="/budget">
         See my budget
       </Button>,
-      <Button action="link" key="3" target="https://www.boss.community/">
+      <Button action="link" key="3" target="https://build.top/">
         Learn more
       </Button>,
     ],

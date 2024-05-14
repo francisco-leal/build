@@ -71,7 +71,6 @@ export async function createNewNomination(
   const nominatedUser = await getOrCreateUser(walletToNominate);
   const nominatorWallet = nominatorUser?.wallet?.toLowerCase();
   const nominatedWallet = nominatedUser?.wallet?.toLowerCase();
-  console.log("nominatorUser", nominatorUser, nominatedWallet);
 
   if (!nominatorUser || !nominatorWallet) {
     throw new BadRequestError("Could not find user");

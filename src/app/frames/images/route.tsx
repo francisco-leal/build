@@ -57,7 +57,6 @@ const boldFontData = fs.readFileSync(boldFontPath);
 export const GET = imagesWorker(async (jsx) => {
   let pngBuffer;
   const page = jsx.props.children[0].props.children;
-  console.log("page", page);
   if (page === "landing") {
     // landing frame
     pngBuffer = await sharp(frameLanding).toBuffer();
@@ -225,6 +224,10 @@ export const GET = imagesWorker(async (jsx) => {
     const pointsSent = jsx.props.children[6].props.children;
     const pointsEarned = jsx.props.children[7].props.children;
     const dailyNominations = jsx.props.children[8].props.children;
+    let nominationsErrorMsg = "";
+    if (jsx.props.children.length === 10) {
+      nominationsErrorMsg = jsx.props.children[9].props.children;
+    }
 
     const svg = await satori(
       <div
@@ -443,6 +446,31 @@ export const GET = imagesWorker(async (jsx) => {
               {dailyNominations}
             </p>
           </div>
+          {nominationsErrorMsg && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                padding: "0px 20px",
+                backgroundColor: "#fff",
+                color: "#0042F5",
+                width: "auto",
+                border: "4px solid #000",
+                borderBottom: "15px solid #000",
+                borderRight: "15px solid #000",
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: "700",
+                  fontFamily: "Bricolage-Bold",
+                  fontSize: "48px",
+                }}
+              >
+                {nominationsErrorMsg}
+              </p>
+            </div>
+          )}
         </div>
       </div>,
       {
@@ -474,7 +502,7 @@ export const GET = imagesWorker(async (jsx) => {
       }
       if (
         !!jsx.props.children[2].props.children &&
-        jsx.props.children[1].props.children.length > 0
+        jsx.props.children[2].props.children.length > 0
       ) {
         username = jsx.props.children[2].props.children;
       }
@@ -735,9 +763,10 @@ export const GET = imagesWorker(async (jsx) => {
   } else if (page === "builder-nomination-error") {
     // builder nomination error
     const username = jsx.props.children[1].props.children;
+    const errorMsg = jsx.props.children[2].props.children;
     let imgUrl = "";
-    if (jsx.props.children.length > 2) {
-      imgUrl = jsx.props.children[2].props.children;
+    if (jsx.props.children.length > 3) {
+      imgUrl = jsx.props.children[3].props.children;
     }
 
     const svg = await satori(
@@ -780,7 +809,11 @@ export const GET = imagesWorker(async (jsx) => {
               fontSize: "78px",
             }}
           >
-            {username}
+            {username
+              ? username.length > 15
+                ? `${username.slice(0, 15)}...`
+                : username
+              : ""}
           </p>
         </div>
         <div
@@ -804,6 +837,28 @@ export const GET = imagesWorker(async (jsx) => {
             }}
           >
             Builder Nomination Error
+          </p>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            padding: "0px 20px",
+            width: "auto",
+            color: "#fff",
+            marginBottom: "50px",
+            justifyItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <p
+            style={{
+              fontWeight: "700",
+              fontFamily: "Bricolage-Bold",
+              fontSize: "78px",
+            }}
+          >
+            {errorMsg}
           </p>
         </div>
       </div>,
