@@ -10,10 +10,7 @@ import { getBuilder } from "./get-builder";
 import { User, getUserSkipCache } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
 
-export async function createNewUser(
-  walletAddress: string,
-  hasLoggedIn: boolean,
-) {
+async function createNewUser(walletAddress: string, hasLoggedIn: boolean) {
   const walletAddressLc = walletAddress.toLowerCase();
   const builderProfile = await getBuilder(walletAddressLc);
   if (!builderProfile) throw new BadRequestError("user not found");
@@ -51,7 +48,15 @@ export async function createNewUser(
     unique: false,
   };
 
-  await supabase.from("users").insert(user).throwOnError();
+  const { data: newUser } = await supabase
+    .from("users")
+    .select("*")
+    .eq("wallet", user.wallet)
+    .single();
+
+  if (!newUser) {
+    await supabase.from("users").insert(user).throwOnError();
+  }
 
   if (hasLoggedIn) {
     // get all users with the same farcaster id

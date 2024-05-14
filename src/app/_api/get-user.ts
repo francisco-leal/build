@@ -29,6 +29,7 @@ export const getUserSkipCache = async (
     .from("users")
     .select("*")
     .eq("wallet", wallet.toLowerCase())
+    .eq("unique", true)
     .single();
   if (!data) return null;
 
