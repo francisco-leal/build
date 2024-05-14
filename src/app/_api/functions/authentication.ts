@@ -7,8 +7,8 @@ import { SessionUser } from "@/services/authentication/cookie-session";
 import {
   connectUserToWallets,
   createNewUserForWallet,
-} from "./create-new-user";
-import { getUserFromWallet } from "./get-user";
+  getUserFromWallet,
+} from "../data/users";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");

@@ -5,8 +5,12 @@ import { SiweMessage } from "siwe";
 import { toast } from "sonner";
 import { base } from "viem/chains";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-import { connectUser, disconnectUser, getNonce } from "../_api/authentication";
-import { getCurrentUser } from "../_api/get-user";
+import { getCurrentUser } from "../_api/data/users";
+import {
+  connectUser,
+  disconnectUser,
+  getNonce,
+} from "../_api/functions/authentication";
 
 export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
   children,

@@ -3,30 +3,40 @@
 import { unstable_cache } from "next/cache";
 import { getFarcasterUser } from "@/services/farcaster";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
-import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
+import { removeDuplicates } from "@/shared/utils/remove-duplicates";
+import { getUserFromWallet } from "./users";
 
 export type WalletInfo = {
   username: string;
   wallet: string;
-  image?: string;
-  farcaster_id?: number;
-  passport_id?: number;
   allWallets: string[];
+  image?: string;
+  farcasterId?: number;
+  passportId?: number;
+  userId?: string;
 };
 
-export const getWalletInfo = unstable_cache(
+export const getWallet = unstable_cache(
   async (walledId: string): Promise<WalletInfo | null> => {
-    const farcasterSocial = await getFarcasterUser(walledId);
-    const talentSocial = await getTalentProtocolUser(walledId);
+    const [farcasterSocial, talentSocial, bossUser] = await Promise.all([
+      getFarcasterUser(walledId),
+      getTalentProtocolUser(walledId),
+      getUserFromWallet(walledId),
+    ]);
+
     const allWallets = [
       ...(farcasterSocial?.allWallets ?? []),
       ...(talentSocial?.verified_wallets ?? []),
-    ];
+      ...(bossUser?.wallets.map((w) => w.wallet) ?? []),
+    ].filter(removeDuplicates);
 
-    const user = {
+    return {
       wallet: walledId.toLowerCase(),
-      passportId: talentSocial?.passport_id,
-      farcasterId: farcasterSocial ? farcasterSocial.profileTokenId : undefined,
+      userId: bossUser?.id,
+      passportId:
+        talentSocial?.passport_id ?? bossUser?.passport_id ?? undefined,
+      farcasterId:
+        farcasterSocial?.profileTokenId ?? bossUser?.farcaster_id ?? undefined,
       image:
         farcasterSocial?.profile_image ??
         talentSocial?.user?.profile_picture_url ??
@@ -34,12 +44,13 @@ export const getWalletInfo = unstable_cache(
       username:
         farcasterSocial?.username ??
         talentSocial?.user?.username ??
+        bossUser?.username ??
         walledId.toLowerCase(),
       allWallets: allWallets,
     };
-
-    return user;
   },
   ["wallet_info" as CacheKey],
   { revalidate: CACHE_5_MINUTES },
 );
+
+export const createWallet = async (data: any) => {};

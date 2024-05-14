@@ -4,7 +4,7 @@ import { unstable_cache } from "next/cache";
 import { searchLensBuilderProfiles } from "@/services/airstack";
 import { searchFarcasterBuilderProfiles } from "@/services/farcaster";
 import { searchTalentProtocolUser } from "@/services/talent-protocol";
-import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
+import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
 
 type BuilderProfile = {
   address: string;

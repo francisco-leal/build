@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
+import { old_getOrCreateUser } from "@/app/_api/create-new-user";
 import {
   getBossNominationBalances,
   getTodaysNominations,
-} from "@/app/_api/create-new-nomination";
-import { old_getOrCreateUser } from "@/app/_api/create-new-user";
+} from "@/app/_api/data/nominations";
 import { frames } from "@/app/frames/frames";
 import { searchFarcasterBuilderProfiles } from "@/services/farcaster";
 

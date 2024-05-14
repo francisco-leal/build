@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import { DateTime } from "luxon";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { makeMap } from "@/shared/utils/make-map";
-import { TableMyNominationsValue } from "../_components/table-my-nominations";
+import { TableMyNominationsValue } from "../../_components/table-my-nominations";
+import { getCurrentUser } from "../data/users";
 import { getNominationsFromUserId } from "./get-nomination";
-import { getCurrentUser } from "./get-user";
 
 export const getTableMyNominationsValues = async (): Promise<
   TableMyNominationsValue[]

@@ -5,15 +5,14 @@ import { Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
   getBossNominationBalances,
-  getTodaysNominations,
+  getNominationsFromUserToday,
   hasExceededNominationsToday,
   isDuplicateNomination,
   isSelfNomination,
   isUpdatingLeaderboard,
-} from "@/app/_api/create-new-nomination";
-import { getNomination } from "@/app/_api/get-nomination";
-import { getCurrentUser } from "@/app/_api/get-user";
-import { getWalletInfo } from "@/app/_api/get-wallet-info";
+} from "@/app/_api/data/nominations";
+import { getCurrentUser } from "@/app/_api/data/users";
+import { getWallet } from "@/app/_api/data/wallets";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { NotFoundError } from "@/shared/utils/error";
 import { NominateBuilderComponent, NominationState } from "./component";
@@ -28,10 +27,11 @@ export default async function NominateBuilder({
 }: {
   params: { walletId: string };
 }) {
-  const builder = await getWalletInfo(params.walletId);
+  const builder = await getWallet(params.walletId);
   const currentUser = await getCurrentUser();
+
   const todaysNominations = currentUser
-    ? await getTodaysNominations(currentUser.wallet)
+    ? await getNominationsFromUserToday(currentUser)
     : undefined;
 
   const referer = headers().get("referer") ?? "";

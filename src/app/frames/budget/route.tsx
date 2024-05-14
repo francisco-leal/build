@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
-import { getBossNominationBalances } from "@/app/_api/create-new-nomination";
 import { old_getOrCreateUser } from "@/app/_api/create-new-user";
+import { getBossNominationBalances } from "@/app/_api/data/nominations";
 import { frames } from "@/app/frames/frames";
 
 const handler = frames(async (ctx) => {

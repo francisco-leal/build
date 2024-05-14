@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
-import { createNewNomination } from "@/app/_api/create-new-nomination";
+import { createNewNomination } from "@/app/_api/data/nominations";
 import { getWalletInfo } from "@/app/_api/get-wallet-info";
 import { frames } from "@/app/frames/frames";
 

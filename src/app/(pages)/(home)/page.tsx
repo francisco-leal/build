@@ -1,4 +1,4 @@
-import { getTableLeaderboardValues } from "@/app/_api/get-table-leaderboard-values";
+import { getTableLeaderboardValues } from "@/app/_api/functions/get-table-leaderboard-values";
 import { HomePageComponent } from "./component";
 
 export default async function HomePage() {
