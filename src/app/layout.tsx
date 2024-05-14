@@ -2,12 +2,14 @@ import { headers } from "next/headers";
 import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource-variable/inter";
 import { Box, Alert } from "@mui/joy";
+import { fetchMetadata } from "frames.js/next";
 import { Toaster } from "sonner";
 import { cookieToInitialState } from "wagmi";
 import { Web3ModalProvider } from "@/app/_providers/web-3-modal-provider";
 import { config } from "@/config";
 import { Footer } from "@/shared/components/footer";
 import { Header } from "@/shared/components/header";
+import { appURL, FRAMES_BASE_PATH } from "@/shared/frames/utils";
 import { ThemeRegistry } from "@/shared/theme/theme-registry";
 import { AuthenticationProvider } from "./_providers/authentication-provider";
 import type { Metadata } from "next";
@@ -17,17 +19,22 @@ const description = [
   "onchain nominations.",
 ].join(" ");
 
-export const metadata: Metadata = {
-  title: "BUILD",
-  description: description,
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  return {
     title: "BUILD",
     description: description,
-    type: "website",
-    url: "https://boss.community",
-    images: ["https://boss.community/images/BOSS-thumbnail.jpg"],
-  },
-};
+    openGraph: {
+      title: "BUILD",
+      description: description,
+      type: "website",
+      url: "https://boss.community",
+      images: ["https://boss.community/images/BOSS-thumbnail.jpg"],
+    },
+    other: {
+      ...(await fetchMetadata(new URL(FRAMES_BASE_PATH, appURL()))),
+    },
+  };
+}
 
 export default function RootLayout({
   children,
