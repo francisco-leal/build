@@ -12,14 +12,11 @@ export const getTableMyNominationsValues = async (): Promise<
   const user = await getCurrentUser();
   if (!user) return notFound();
   const nominations = await getNominationsFromWallet(user.wallet);
-  const lastNominationIso = nominations.at(0)?.createdAt;
   const firstNominationIso = nominations.at(-1)?.createdAt;
   const firstDate = firstNominationIso
     ? DateTime.fromISO(firstNominationIso)
     : DateTime.now();
-  const lastDate = lastNominationIso
-    ? DateTime.fromISO(lastNominationIso)
-    : DateTime.now();
+  const lastDate = DateTime.now();
 
   const numberOfDays = lastDate.diff(firstDate, "days").days;
 
@@ -40,10 +37,10 @@ export const getTableMyNominationsValues = async (): Promise<
 
   // Fill in the missing dates
   for (let i = 0; i < numberOfDays; i++) {
-    const date = lastDate.plus({ days: i }).toFormat("LLL dd");
+    const date = firstDate.plus({ days: i }).toFormat("LLL dd");
     if (valuesMap[date]) continue;
     values.push({
-      date: lastDate.plus({ days: i }).toFormat("LLL dd"),
+      date: firstDate.plus({ days: i }).toFormat("LLL dd"),
       missed: true,
       name: null,
       rank: null,
@@ -55,7 +52,7 @@ export const getTableMyNominationsValues = async (): Promise<
   const sortedValues = values.toSorted((a, b) => {
     const dateA = DateTime.fromFormat(a.date, "LLL dd");
     const dateB = DateTime.fromFormat(b.date, "LLL dd");
-    return dateA.toMillis() - dateB.toMillis();
+    return dateB.toMillis() - dateA.toMillis();
   });
 
   return sortedValues;
