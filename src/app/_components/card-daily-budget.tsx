@@ -14,8 +14,8 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
   loading,
 }) => {
   return (
-    <BlockyCard>
-      <Typography level="body-lg" textColor="primary.500">
+    <BlockyCard id="daily-budget">
+      <Typography level="body-lg" component="h4" textColor="primary.500">
         Daily Budget
       </Typography>
 

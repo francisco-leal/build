@@ -12,14 +12,17 @@ import { ThemeRegistry } from "@/shared/theme/theme-registry";
 import { AuthenticationProvider } from "./_providers/authentication-provider";
 import type { Metadata } from "next";
 
+const description = [
+  "BUILD is a meme and a social game designed to reward builders via",
+  "onchain nominations.",
+].join(" ");
+
 export const metadata: Metadata = {
   title: "BUILD",
-  description:
-    "BUILD is a meme and a social game designed to reward builders via onchain nominations.",
+  description: description,
   openGraph: {
     title: "BUILD",
-    description:
-      "BUILD is a meme and a social game designed to reward builders via onchain nominations.",
+    description: description,
     type: "website",
     url: "https://boss.community",
     images: ["https://boss.community/images/BOSS-thumbnail.jpg"],
