@@ -47,9 +47,15 @@ export const getUser = async (wallet: string): Promise<User | null> => {
   return value;
 };
 
-export const getCurrentUser = async (): Promise<User | null> => {
+export const getCurrentUser = async (
+  userAddress?: string,
+): Promise<User | null> => {
   const user = await getSession();
-  return user ? getUser(user.wallet) : null;
+  return user
+    ? getUser(user.wallet)
+    : userAddress
+      ? getUser(userAddress)
+      : null;
 };
 
 export const isUserConnected = async () => {

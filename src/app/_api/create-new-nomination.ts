@@ -63,11 +63,15 @@ export const hasExceededNominationsToday = async (nominatorWallet: string) => {
   return (nominations?.length || 0) >= 3;
 };
 
-export async function createNewNomination(walletToNominate: string) {
-  const nominatorUser = await getCurrentUser();
+export async function createNewNomination(
+  walletToNominate: string,
+  userAddress?: string,
+) {
+  const nominatorUser = await getCurrentUser(userAddress);
   const nominatedUser = await getOrCreateUser(walletToNominate);
   const nominatorWallet = nominatorUser?.wallet?.toLowerCase();
   const nominatedWallet = nominatedUser?.wallet?.toLowerCase();
+  console.log("nominatorUser", nominatorUser, nominatedWallet);
 
   if (!nominatorUser || !nominatorWallet) {
     throw new BadRequestError("Could not find user");
