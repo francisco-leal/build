@@ -82,12 +82,18 @@ export const getNomination = async (
       if (!nomination) return null;
 
       const { data: user } = await supabase
-        .from("boss_leaderboard")
+        .from("users")
         .select("*")
         .eq("wallet", destination)
         .single();
 
       if (!user) return null;
+
+      const { data: leaderboardUser } = await supabase
+        .from("boss_leaderboard")
+        .select("rank")
+        .eq("wallet", destination)
+        .single();
 
       return {
         id: nomination.id,
@@ -96,7 +102,7 @@ export const getNomination = async (
         originWallet: nomination.wallet_origin,
         destinationWallet: nomination.wallet_destination,
         destinationUsername: user?.username ?? null,
-        destinationRank: user?.rank ?? null,
+        destinationRank: leaderboardUser?.rank ?? null,
         createdAt: nomination.created_at,
       };
     },
