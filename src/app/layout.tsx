@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
-  const initialState = cookieToInitialState(config, headers().get("cookie"));
+  const initialState = cookieToInitialState(config, null);
 
   return (
     <html lang="en">
@@ -72,13 +72,15 @@ export default function RootLayout({
           component="body"
           sx={{ backgroundColor: "primary.500", m: 0, p: 0 }}
         >
-
+          <Web3ModalProvider initialState={initialState}>
+            <AuthenticationProvider>
               <Header />
               {children}
               <Footer />
               <Toaster richColors closeButton />
               {modal}
-
+            </AuthenticationProvider>
+          </Web3ModalProvider>
         </Box>
       </ThemeRegistry>
     </html>
