@@ -145,6 +145,7 @@ async function createNewUser(walletAddress: string, hasLoggedIn: boolean) {
   }
 
   revalidateTag(`user_${walletAddressLc}` satisfies CacheKey);
+  revalidateTag("leaderboard" satisfies CacheKey);
   const finalUser = await getUserSkipCache(walletAddressLc);
   if (!finalUser) throw new Error("User creation failed");
 
