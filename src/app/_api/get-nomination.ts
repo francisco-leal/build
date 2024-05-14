@@ -39,6 +39,14 @@ export const getNominationsFromWallet = async (
       if (!nominations) return [];
 
       const { data: users } = await supabase
+        .from("users")
+        .select("*")
+        .in(
+          "wallet",
+          nominations.map((n) => n.wallet_destination),
+        );
+      const usersMap = makeMap(users ?? [], (u) => u.wallet);
+      const { data: leaderboardUsers } = await supabase
         .from("boss_leaderboard")
         .select("*")
         .in(
@@ -46,7 +54,10 @@ export const getNominationsFromWallet = async (
           nominations.map((n) => n.wallet_destination),
         );
 
-      const usersMap = makeMap(users ?? [], (u) => u.wallet);
+      const leaderboardUsersMap = makeMap(
+        leaderboardUsers ?? [],
+        (u) => u.wallet,
+      );
 
       return nominations.map((nomination) => ({
         id: nomination.id,
@@ -55,7 +66,8 @@ export const getNominationsFromWallet = async (
         bossPointsGiven: nomination.boss_points_given,
         destinationWallet: nomination.wallet_destination,
         destinationUsername: usersMap[nomination.wallet_destination]?.username,
-        destinationRank: usersMap[nomination.wallet_destination]?.rank,
+        destinationRank:
+          leaderboardUsersMap[nomination.wallet_destination]?.rank,
         createdAt: nomination.created_at,
       }));
     },
