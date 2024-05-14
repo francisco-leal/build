@@ -31,6 +31,32 @@ export const getUserSkipCache = async (
     .eq("wallet", wallet.toLowerCase())
     .single();
   if (!data) return null;
+
+  if (data.unique) {
+    return data;
+  } else {
+    if (data.farcaster_id) {
+      const { data: usersWithSameFarcasterId } = await supabase
+        .from("users")
+        .select("*")
+        .eq("farcaster_id", data.farcaster_id)
+        .eq("unique", true)
+        .single();
+
+      if (usersWithSameFarcasterId) return usersWithSameFarcasterId;
+    }
+
+    if (data.passport_id) {
+      const { data: usersWithSamePassportId } = await supabase
+        .from("users")
+        .select("*")
+        .eq("passport_id", data.passport_id)
+        .eq("unique", true)
+        .single();
+
+      if (usersWithSamePassportId) return usersWithSamePassportId;
+    }
+  }
   return data;
 };
 

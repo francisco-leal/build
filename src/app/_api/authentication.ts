@@ -32,7 +32,7 @@ export const connectUser = async ({
 
   if (error) throw new Error("Error verifying message");
 
-  await getOrCreateUser(address);
+  await getOrCreateUser(address, true);
 
   const sessionUser = {
     wallet: address,

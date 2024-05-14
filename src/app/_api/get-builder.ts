@@ -11,6 +11,7 @@ type Builder = {
   image?: string;
   farcasterId?: number;
   passportId?: number;
+  allWallets: string[];
 };
 
 export const getBuilder = unstable_cache(
@@ -18,6 +19,10 @@ export const getBuilder = unstable_cache(
     if (!walledId) return null;
     const farcasterSocial = await getFarcasterBuilderProfile(walledId);
     const talentSocial = await getTalentProtocolUser(walledId);
+    const allWallets = [
+      ...(farcasterSocial?.allWallets ?? []),
+      ...(talentSocial?.verified_wallets ?? []),
+    ];
 
     const user = {
       wallet: walledId.toLowerCase(),
@@ -33,6 +38,7 @@ export const getBuilder = unstable_cache(
         farcasterSocial?.username ??
         talentSocial?.user?.username ??
         walledId.toLowerCase(),
+      allWallets: allWallets,
     };
 
     return user;

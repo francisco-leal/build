@@ -53,6 +53,8 @@ export type Database = {
           boss_points_given: number;
           created_at: string;
           id: number;
+          transfer_id: number | null;
+          valid: boolean;
           wallet_destination: string;
           wallet_origin: string;
         };
@@ -61,6 +63,8 @@ export type Database = {
           boss_points_given: number;
           created_at?: string;
           id?: number;
+          transfer_id?: number | null;
+          valid?: boolean;
           wallet_destination: string;
           wallet_origin: string;
         };
@@ -69,10 +73,19 @@ export type Database = {
           boss_points_given?: number;
           created_at?: string;
           id?: number;
+          transfer_id?: number | null;
+          valid?: boolean;
           wallet_destination?: string;
           wallet_origin?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "boss_nominations_transfer_id_fkey";
+            columns: ["transfer_id"];
+            isOneToOne: false;
+            referencedRelation: "boss_nominations";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "boss_nominations_wallet_destination_fkey";
             columns: ["wallet_destination"];
@@ -125,6 +138,7 @@ export type Database = {
           passport_builder_score: number;
           passport_id: number | null;
           referral_code: string;
+          unique: boolean;
           username: string | null;
           wallet: string;
         };
@@ -139,6 +153,7 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           referral_code: string;
+          unique?: boolean;
           username?: string | null;
           wallet: string;
         };
@@ -153,6 +168,7 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           referral_code?: string;
+          unique?: boolean;
           username?: string | null;
           wallet?: string;
         };

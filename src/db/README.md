@@ -477,10 +477,10 @@ BEGIN
 
     -- Update nomination_streak for users who didn't make a nomination yesterday
     UPDATE users
-    SET nomination_streak = 0
+    SET boss_nomination_streak = 0
     WHERE wallet NOT IN (
-        SELECT DISTINCT origin_wallet
-        FROM nominations
+        SELECT DISTINCT wallet_origin
+        FROM boss_nominations
         WHERE DATE(created_at) >= last_nomination_date
     );
 END;
@@ -498,17 +498,18 @@ BEGIN
     UPDATE users
     SET boss_budget =
         CASE
-            WHEN builder_score = 0 THEN
+            WHEN passport_builder_score = 0 THEN
                 CASE
-                    WHEN fid > 20000 THEN
+                    WHEN farcaster_id > 20000 THEN
                         500
                     ELSE
                         1000
                 END
             ELSE
-                (builder_score * 20 + boss_tokens * 0.001) *
-                (CASE WHEN has_manifesto_nft THEN 1.2 ELSE 1 END)
-        END;
+                (passport_builder_score * 20 + boss_token_balance * 0.001) *
+                (CASE WHEN manifesto_nft THEN 1.2 ELSE 1 END)
+        END
+    WHERE users.unique = true;
 END;
 $$ LANGUAGE plpgsql;
 ```
@@ -525,16 +526,16 @@ BEGIN
     UPDATE users
     SET boss_budget =
         CASE
-            WHEN builder_score = 0 THEN
+            WHEN passport_builder_score = 0 THEN
                 CASE
-                    WHEN fid > 20000 THEN
+                    WHEN farcaster_id > 20000 THEN
                         500
                     ELSE
                         1000
                 END
             ELSE
-                (builder_score * 20 + boss_tokens * 0.001) *
-                (CASE WHEN has_manifesto_nft THEN 1.2 ELSE 1 END)
+                (passport_builder_score * 20 + boss_token_balance * 0.001) *
+                (CASE WHEN manifesto_nft THEN 1.2 ELSE 1 END)
         END
     WHERE wallet = wallet_to_update;
 END;
