@@ -58,6 +58,7 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
   };
 
   useEffect(() => {
+    return; // TODO REVERT ME ONCE WE ARE GOOD TO GO
     if (status === oldStatus.current) return;
     if (status === "connected") {
       oldStatus.current = "connected";
@@ -70,6 +71,11 @@ export const AuthenticationProvider: FunctionComponent<PropsWithChildren> = ({
       return;
     }
   });
+
+  // TODO REVERT ME ONCE WE ARE GOOD TO GO
+  useEffect(() => {
+    disconnectUser();
+  }, []);
 
   return children;
 };
