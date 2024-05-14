@@ -66,7 +66,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             target="_blank"
             component={Link}
             variant="solid"
-            color="neutral"
+            color="primary"
             sx={{ mt: 2 }}
           >
             Buy $BUILD
@@ -82,6 +82,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             Points will convert to $BUILD tokens in June.
           </Typography>
           <Button
+            disabled
             href={"/airdrop/#daily-budget"}
             component={Link}
             variant="solid"
