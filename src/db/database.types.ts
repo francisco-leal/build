@@ -237,6 +237,12 @@ export type Database = {
         };
         Returns: undefined;
       };
+      update_boss_score_for_user: {
+        Args: {
+          user_to_update: string;
+        };
+        Returns: undefined;
+      };
       update_leaderboard: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;

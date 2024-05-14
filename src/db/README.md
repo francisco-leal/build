@@ -60,30 +60,31 @@ $$ LANGUAGE plpgsql;
 <summary><b>[FUNCTION] Update user points</b></summary>
 
 ```sql
-CREATE OR REPLACE FUNCTION update_boss_score(wallet_to_update varchar) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION update_boss_score_for_user(user_to_update uuid) RETURNS VOID AS $$
 BEGIN
     -- Reset boss_score to zero
     UPDATE users
     SET boss_score = 0
-    WHERE wallet = wallet_to_update;
+    WHERE id = user_to_update;
 
     -- Update boss_score based on points_given
     UPDATE users
     SET boss_score = boss_score + (
-        SELECT COALESCE(SUM(boss_points_earned), 0)
+        SELECT COALESCE(SUM(boss_points_received), 0)
         FROM boss_nominations
-        WHERE wallet_origin = wallet_to_update
+        WHERE boss_nominations.user_id = user_to_update
     )
-    WHERE wallet = wallet_to_update;
+    WHERE id = user_to_update;
 
     -- Update boss_score based on points_earned
     UPDATE users
     SET boss_score = boss_score + (
-        SELECT COALESCE(SUM(boss_points_given), 0)
+        SELECT COALESCE(SUM(boss_points_sent), 0)
         FROM boss_nominations
-        WHERE wallet_destination = wallet_to_update
+        INNER JOIN wallets on boss_nominations.wallet_id = wallets.wallet
+        WHERE wallets.user_id = user_to_update
     )
-    WHERE wallet = wallet_to_update;
+    WHERE id = user_to_update;
 END;
 $$ LANGUAGE plpgsql;
 ```
