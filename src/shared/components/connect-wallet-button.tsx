@@ -1,8 +1,8 @@
 "use client";
 
-import { useAccount } from "wagmi";
-import { Stack, Button, StackProps } from "@mui/joy";
 import { NoSsr } from "@mui/base";
+import { Stack, Button, StackProps } from "@mui/joy";
+import { useAccount } from "wagmi";
 
 export type ConnectWalletButtonProps = StackProps & {
   hideIfConnected?: boolean;
@@ -19,11 +19,12 @@ export const ConnectWalletButton = ({
 
   return (
     <NoSsr fallback={<Button disabled>Connect&nbsp;Wallet</Button>}>
+      {/**
       <Stack
         {...props}
         sx={{
           "& > w3m-button": {
-            height: 40,
+            height: 38,
             display: "flex",
             alignItems: "center",
             // colors for the button before loggin
@@ -50,6 +51,8 @@ export const ConnectWalletButton = ({
       >
         <w3m-button />
       </Stack>
+       */}
+      <Button disabled>Coming soon</Button>
     </NoSsr>
   );
 };

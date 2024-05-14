@@ -1,5 +1,5 @@
-import { default as NextLink } from "next/link";
 import { ComponentProps, forwardRef } from "react";
+import { default as NextLink } from "next/link";
 
 /**
  * Replaces the Joy UI Link with a Next.js Link, enabling all black magic

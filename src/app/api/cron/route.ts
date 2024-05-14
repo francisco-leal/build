@@ -1,14 +1,10 @@
-import {
-  computeLeaderboard,
-  computeUserNominationsAndStats,
-  getNominationsFromFarcaster,
-} from "@/services";
+import { NextRequest } from "next/server";
 
-export async function GET() {
-  // cron job endpoint
-  await getNominationsFromFarcaster();
-  await computeUserNominationsAndStats();
-  await computeLeaderboard();
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response("Unauthorized", { status: 401 });
+  }
 
   return Response.json({}, { status: 200 });
 }

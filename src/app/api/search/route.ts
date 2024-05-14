@@ -1,13 +1,19 @@
-import { searchSocialUser } from "@/services";
-import { type NextRequest } from "next/server";
+import { z } from "zod";
+import { restApiHandler } from "@/app/_api/helpers/rest-api-handler";
+import { searchBuilders } from "@/app/_api/search-builders";
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get("query");
+const searchParamsSchema = z.object({
+  query: z.string().min(3),
+  domain: z.string(),
+});
 
-  if (!query || query.length < 3) {
-    return Response.json({}, { status: 400 });
-  }
+export const GET = restApiHandler(async (request) => {
+  const searchParams = searchParamsSchema.parse({
+    query: request.nextUrl.searchParams.get("query"),
+    domain: request.nextUrl.searchParams.get("domain"),
+  });
 
-  return Response.json(await searchSocialUser(query));
-}
+  return await searchBuilders(searchParams.query, searchParams.domain);
+});
+
+export const dynamic = "force-dynamic";
