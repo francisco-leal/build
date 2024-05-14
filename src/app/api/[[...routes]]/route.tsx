@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-key */
-/** @jsxImportSource frog/jsx */
 
+/** @jsxImportSource frog/jsx */
 import { Button, Frog } from "frog";
 import { devtools } from "frog/dev";
-import { handle } from "frog/next";
 import { neynar } from "frog/middlewares";
+import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 import { createSystem } from "frog/ui";
 import { getAddress } from "viem";
@@ -32,7 +32,10 @@ app.frame("/nominate/:address", async (c) => {
   const userAddress = c.req.param("address");
   const { origin } = new URL(c.url);
   const r = await fetch(origin + "/api/profile?wallet_address=" + userAddress);
-  const { username, rank } = await r.json();
+  const { username, rank } = (await r.json()) as {
+    username: string;
+    rank: string;
+  };
 
   return c.res({
     action: `/confirm/${userAddress}`,
@@ -94,16 +97,18 @@ app.frame("/confirm/:address", async (c) => {
     previousButtonValues &&
     previousButtonValues[0] === "confirm"
   ) {
-    if (verified) {
+    // in dev mode, it is not updated!
+    if (verified || process.env.NODE_ENV === "development") {
       const r = await fetch(origin + "/api/nominate/frame", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // TODO: add api key
+          "x-api-key": process.env.FRAME_API_SECRET!,
         },
+        // use checksumed addresses
         body: JSON.stringify({
-          nominated_user_address: userAddress,
-          from_user_address: fromAddress,
+          nominated_user_address: getAddress(userAddress),
+          from_user_address: getAddress(fromAddress),
         }),
       });
       if (r.status === 200) {
@@ -143,7 +148,7 @@ app.frame("/confirm/:address", async (c) => {
         });
       }
       if (r.status === 400) {
-        const { error } = await r.json();
+        const { error } = (await r.json()) as { error: string };
         return res({
           image: (
             <Box
@@ -180,7 +185,7 @@ app.frame("/confirm/:address", async (c) => {
         >
           <VStack gap="4">
             <Text color="text200" size="20">
-              Connect to BOSS to get your initial budget points!
+              Connect to BUILD to get your initial budget points!
             </Text>
           </VStack>
         </Box>
@@ -189,7 +194,7 @@ app.frame("/confirm/:address", async (c) => {
     });
   }
 
-  const { boss_budget } = await r.json();
+  const { boss_budget } = (await r.json()) as { boss_budget: number };
 
   return res({
     image: (
