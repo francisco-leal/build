@@ -11,93 +11,86 @@ export type Database = {
     Tables: {
       boss_leaderboard: {
         Row: {
-          boss_nominations_received: number;
           boss_score: number;
           created_at: string;
+          id: number;
+          nominations_received: number;
           passport_builder_score: number;
           rank: number | null;
+          user_id: string;
           username: string | null;
-          wallet: string;
         };
         Insert: {
-          boss_nominations_received: number;
-          boss_score: number;
-          created_at?: string;
-          passport_builder_score: number;
-          rank?: number | null;
-          username?: string | null;
-          wallet: string;
-        };
-        Update: {
-          boss_nominations_received?: number;
           boss_score?: number;
           created_at?: string;
+          id?: number;
+          nominations_received?: number;
           passport_builder_score?: number;
           rank?: number | null;
+          user_id: string;
           username?: string | null;
-          wallet?: string;
+        };
+        Update: {
+          boss_score?: number;
+          created_at?: string;
+          id?: number;
+          nominations_received?: number;
+          passport_builder_score?: number;
+          rank?: number | null;
+          user_id?: string;
+          username?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "boss_leaderboard_wallet_fkey";
-            columns: ["wallet"];
-            isOneToOne: true;
+            foreignKeyName: "boss_leaderboard_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
             referencedRelation: "users";
-            referencedColumns: ["wallet"];
+            referencedColumns: ["id"];
           },
         ];
       };
       boss_nominations: {
         Row: {
-          boss_points_earned: number;
-          boss_points_given: number;
+          boss_points_received: number;
+          boss_points_sent: number;
           created_at: string;
           id: number;
-          transfer_id: number | null;
+          user_id: string;
           valid: boolean;
-          wallet_destination: string;
-          wallet_origin: string;
+          wallet_id: string;
         };
         Insert: {
-          boss_points_earned: number;
-          boss_points_given: number;
+          boss_points_received: number;
+          boss_points_sent: number;
           created_at?: string;
           id?: number;
-          transfer_id?: number | null;
+          user_id: string;
           valid?: boolean;
-          wallet_destination: string;
-          wallet_origin: string;
+          wallet_id: string;
         };
         Update: {
-          boss_points_earned?: number;
-          boss_points_given?: number;
+          boss_points_received?: number;
+          boss_points_sent?: number;
           created_at?: string;
           id?: number;
-          transfer_id?: number | null;
+          user_id?: string;
           valid?: boolean;
-          wallet_destination?: string;
-          wallet_origin?: string;
+          wallet_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "boss_nominations_transfer_id_fkey";
-            columns: ["transfer_id"];
+            foreignKeyName: "boss_nominations_user_id_fkey";
+            columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "boss_nominations";
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "boss_nominations_wallet_destination_fkey";
-            columns: ["wallet_destination"];
+            foreignKeyName: "boss_nominations_wallet_id_fkey";
+            columns: ["wallet_id"];
             isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["wallet"];
-          },
-          {
-            foreignKeyName: "boss_nominations_wallet_origin_fkey";
-            columns: ["wallet_origin"];
-            isOneToOne: false;
-            referencedRelation: "users";
+            referencedRelation: "wallets";
             referencedColumns: ["wallet"];
           },
         ];
@@ -130,49 +123,72 @@ export type Database = {
         Row: {
           boss_budget: number;
           boss_nomination_streak: number;
-          boss_score: number;
           boss_token_balance: number;
           created_at: string;
           farcaster_id: number | null;
-          manifesto_nft: boolean;
-          passport_builder_score: number;
+          id: string;
+          manifesto_nft_token_id: number | null;
+          passport_builder_score: number | null;
           passport_id: number | null;
-          referral_code: string;
-          unique: boolean;
           username: string | null;
-          wallet: string;
         };
         Insert: {
           boss_budget?: number;
           boss_nomination_streak?: number;
-          boss_score?: number;
           boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
-          manifesto_nft?: boolean;
-          passport_builder_score?: number;
+          id?: string;
+          manifesto_nft_token_id?: number | null;
+          passport_builder_score?: number | null;
           passport_id?: number | null;
-          referral_code: string;
-          unique?: boolean;
           username?: string | null;
-          wallet: string;
         };
         Update: {
           boss_budget?: number;
           boss_nomination_streak?: number;
-          boss_score?: number;
           boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
-          manifesto_nft?: boolean;
-          passport_builder_score?: number;
+          id?: string;
+          manifesto_nft_token_id?: number | null;
+          passport_builder_score?: number | null;
           passport_id?: number | null;
-          referral_code?: string;
-          unique?: boolean;
           username?: string | null;
-          wallet?: string;
         };
         Relationships: [];
+      };
+      wallets: {
+        Row: {
+          created_at: string;
+          farcaster_id: number | null;
+          passport_id: number | null;
+          user_id: string | null;
+          wallet: string;
+        };
+        Insert: {
+          created_at?: string;
+          farcaster_id?: number | null;
+          passport_id?: number | null;
+          user_id?: string | null;
+          wallet: string;
+        };
+        Update: {
+          created_at?: string;
+          farcaster_id?: number | null;
+          passport_id?: number | null;
+          user_id?: string | null;
+          wallet?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "wallets_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
