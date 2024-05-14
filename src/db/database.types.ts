@@ -9,256 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      app_daily_nominations: {
-        Row: {
-          created_at: string;
-          id: number;
-          user_id_from: number;
-          user_id_nominated: number;
-        };
-        Insert: {
-          created_at?: string;
-          id?: number;
-          user_id_from: number;
-          user_id_nominated: number;
-        };
-        Update: {
-          created_at?: string;
-          id?: number;
-          user_id_from?: number;
-          user_id_nominated?: number;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_daily_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_daily_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_daily_nominations_user_id_nominated_fkey";
-            columns: ["user_id_nominated"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_daily_nominations_user_id_nominated_fkey";
-            columns: ["user_id_nominated"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      app_leaderboard: {
-        Row: {
-          day_id: number;
-          id: number;
-          rank: number;
-          user_id: number;
-        };
-        Insert: {
-          day_id: number;
-          id?: number;
-          rank: number;
-          user_id: number;
-        };
-        Update: {
-          day_id?: number;
-          id?: number;
-          rank?: number;
-          user_id?: number;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_leaderboard_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_leaderboard_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      app_metadata_kv: {
-        Row: {
-          id: number;
-          key: string;
-          value: string;
-        };
-        Insert: {
-          id?: number;
-          key: string;
-          value: string;
-        };
-        Update: {
-          id?: number;
-          key?: string;
-          value?: string;
-        };
-        Relationships: [];
-      };
-      app_nominations: {
-        Row: {
-          day_id: number;
-          id: number;
-          user_id_from: number;
-          user_id_nominated: number;
-        };
-        Insert: {
-          day_id: number;
-          id?: number;
-          user_id_from: number;
-          user_id_nominated: number;
-        };
-        Update: {
-          day_id?: number;
-          id?: number;
-          user_id_from?: number;
-          user_id_nominated?: number;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_nominations_user_id_nominated_fkey";
-            columns: ["user_id_nominated"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_nominations_user_id_nominated_fkey";
-            columns: ["user_id_nominated"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      app_user: {
-        Row: {
-          created_at: string;
-          id: number;
-          manifesto_nft: boolean;
-          max_nominations: number;
-          referral_code: string | null;
-          social_profiles: Json | null;
-          username: string | null;
-          wallet_address: string | null;
-        };
-        Insert: {
-          created_at?: string;
-          id?: number;
-          manifesto_nft?: boolean;
-          max_nominations?: number;
-          referral_code?: string | null;
-          social_profiles?: Json | null;
-          username?: string | null;
-          wallet_address?: string | null;
-        };
-        Update: {
-          created_at?: string;
-          id?: number;
-          manifesto_nft?: boolean;
-          max_nominations?: number;
-          referral_code?: string | null;
-          social_profiles?: Json | null;
-          username?: string | null;
-          wallet_address?: string | null;
-        };
-        Relationships: [];
-      };
-      app_user_stats: {
-        Row: {
-          boss_budget: number;
-          boss_score: number;
-          boss_token_balance: number;
-          bpe_first_nominator: number;
-          bpe_nominations: number;
-          bpe_regular_nominator: number;
-          builder_score: number;
-          id: number;
-          nominated: number;
-          nomination_streak: number;
-          nominations: number;
-          nominations_unique: number;
-          user_id: number | null;
-        };
-        Insert: {
-          boss_budget?: number;
-          boss_score?: number;
-          boss_token_balance?: number;
-          bpe_first_nominator?: number;
-          bpe_nominations?: number;
-          bpe_regular_nominator?: number;
-          builder_score?: number;
-          id?: number;
-          nominated?: number;
-          nomination_streak?: number;
-          nominations?: number;
-          nominations_unique?: number;
-          user_id?: number | null;
-        };
-        Update: {
-          boss_budget?: number;
-          boss_score?: number;
-          boss_token_balance?: number;
-          bpe_first_nominator?: number;
-          bpe_nominations?: number;
-          bpe_regular_nominator?: number;
-          builder_score?: number;
-          id?: number;
-          nominated?: number;
-          nomination_streak?: number;
-          nominations?: number;
-          nominations_unique?: number;
-          user_id?: number | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
       boss_leaderboard: {
         Row: {
           boss_nominations_received: number;
@@ -303,6 +53,8 @@ export type Database = {
           boss_points_given: number;
           created_at: string;
           id: number;
+          transfer_id: number | null;
+          valid: boolean;
           wallet_destination: string;
           wallet_origin: string;
         };
@@ -311,6 +63,8 @@ export type Database = {
           boss_points_given: number;
           created_at?: string;
           id?: number;
+          transfer_id?: number | null;
+          valid?: boolean;
           wallet_destination: string;
           wallet_origin: string;
         };
@@ -319,10 +73,19 @@ export type Database = {
           boss_points_given?: number;
           created_at?: string;
           id?: number;
+          transfer_id?: number | null;
+          valid?: boolean;
           wallet_destination?: string;
           wallet_origin?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "boss_nominations_transfer_id_fkey";
+            columns: ["transfer_id"];
+            isOneToOne: false;
+            referencedRelation: "boss_nominations";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "boss_nominations_wallet_destination_fkey";
             columns: ["wallet_destination"];
@@ -375,6 +138,7 @@ export type Database = {
           passport_builder_score: number;
           passport_id: number | null;
           referral_code: string;
+          unique: boolean;
           username: string | null;
           wallet: string;
         };
@@ -389,6 +153,7 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           referral_code: string;
+          unique?: boolean;
           username?: string | null;
           wallet: string;
         };
@@ -403,6 +168,7 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           referral_code?: string;
+          unique?: boolean;
           username?: string | null;
           wallet?: string;
         };
@@ -410,269 +176,18 @@ export type Database = {
       };
     };
     Views: {
-      app_leaderboard_current: {
-        Row: {
-          boss_points: number | null;
-          builder_score: number | null;
-          nominations: number | null;
-          rank: number | null;
-          user_id: number | null;
-          username: string | null;
-          wallet_address: string | null;
-        };
-        Relationships: [];
-      };
-      app_leaderboard_v1: {
-        Row: {
-          builder_score: number | null;
-          social_profiles: Json | null;
-          username: string | null;
-          wallet_address: string | null;
-        };
-        Relationships: [];
-      };
-      app_user_and_stats: {
-        Row: {
-          boss_budget: number | null;
-          boss_score: number | null;
-          boss_token_balance: number | null;
-          bpe_first_nominator: number | null;
-          bpe_nominations: number | null;
-          bpe_regular_nominator: number | null;
-          builder_score: number | null;
-          created_at: string | null;
-          id: number | null;
-          max_nominations: number | null;
-          nominated: number | null;
-          nomination_streak: number | null;
-          nominations: number | null;
-          nominations_unique: number | null;
-          referral_code: string | null;
-          social_profiles: Json | null;
-          user_id: number | null;
-          username: string | null;
-          wallet_address: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-        ];
-      };
-      daily_nominations_view: {
-        Row: {
-          created_at: string | null;
-          max_nominations: number | null;
-          nomination_rank: number | null;
-          user_id_from: number | null;
-          user_id_nominated: number | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_daily_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_daily_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_daily_nominations_user_id_nominated_fkey";
-            columns: ["user_id_nominated"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_daily_nominations_user_id_nominated_fkey";
-            columns: ["user_id_nominated"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-        ];
-      };
-      user_nomination_streak: {
-        Row: {
-          last_nomination_day: number | null;
-          streak: number | null;
-          user_id_from: number | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_nominations_user_id_from_fkey";
-            columns: ["user_id_from"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-        ];
-      };
-      user_nominations: {
-        Row: {
-          nominated_user_boss_points: number | null;
-          nominated_user_id: number | null;
-          nominated_user_rank: number | null;
-          nominated_username: string | null;
-          nomination_date: number | null;
-          user_id: number | null;
-          wallet_address: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_nominations_user_id_nominated_fkey";
-            columns: ["nominated_user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_nominations_user_id_nominated_fkey";
-            columns: ["nominated_user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-        ];
-      };
-      user_personal_stats: {
-        Row: {
-          boss_budget: number | null;
-          boss_points: number | null;
-          boss_points_from_nominating: number | null;
-          boss_points_from_nominations: number | null;
-          rank: number | null;
-          total_boss_points_earned: number | null;
-          total_nominations_received: number | null;
-          user_id: number | null;
-          username: string | null;
-          wallet_address: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_user";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "app_user_stats_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "app_leaderboard_current";
-            referencedColumns: ["user_id"];
-          },
-        ];
-      };
+      [_ in never]: never;
     };
     Functions: {
       calculate_boss_budget: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
-      insert_user: {
+      calculate_boss_budget_for_user: {
         Args: {
-          wallet_address: string;
-          referral_code: string;
-          boss_score: number;
-          boss_budget: number;
-          builder_score: number;
-          social_profiles: Json;
-          username: string;
+          wallet_to_update: string;
         };
-        Returns: {
-          boss_budget: number | null;
-          boss_score: number | null;
-          boss_token_balance: number | null;
-          bpe_first_nominator: number | null;
-          bpe_nominations: number | null;
-          bpe_regular_nominator: number | null;
-          builder_score: number | null;
-          created_at: string | null;
-          id: number | null;
-          max_nominations: number | null;
-          nominated: number | null;
-          nomination_streak: number | null;
-          nominations: number | null;
-          nominations_unique: number | null;
-          referral_code: string | null;
-          social_profiles: Json | null;
-          user_id: number | null;
-          username: string | null;
-          wallet_address: string | null;
-        }[];
-      };
-      insert_user_v2: {
-        Args: {
-          wallet_address: string;
-          referral_code: string;
-          boss_score: number;
-          boss_budget: number;
-          builder_score: number;
-          social_profiles: Json;
-          username: string;
-          manifesto_nft: boolean;
-        };
-        Returns: {
-          boss_budget: number | null;
-          boss_score: number | null;
-          boss_token_balance: number | null;
-          bpe_first_nominator: number | null;
-          bpe_nominations: number | null;
-          bpe_regular_nominator: number | null;
-          builder_score: number | null;
-          created_at: string | null;
-          id: number | null;
-          max_nominations: number | null;
-          nominated: number | null;
-          nomination_streak: number | null;
-          nominations: number | null;
-          nominations_unique: number | null;
-          referral_code: string | null;
-          social_profiles: Json | null;
-          user_id: number | null;
-          username: string | null;
-          wallet_address: string | null;
-        }[];
+        Returns: undefined;
       };
       reset_nomination_streak: {
         Args: Record<PropertyKey, never>;

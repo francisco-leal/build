@@ -58,7 +58,7 @@ export async function getTalentProtocolUser(walletId: string) {
 /** TODO review this, and possibly move it somewhere else! */
 export async function getBuilderScore(wallet: string) {
   const user = await getTalentProtocolUser(wallet).catch(() => null);
-  return { score: user?.score ?? 0, passport_id: user?.passport_id ?? 0 };
+  return { score: user?.score ?? 0, passport_id: user?.passport_id };
 }
 
 export async function searchTalentProtocolUser(

@@ -7,6 +7,7 @@ type BuilderProfile = {
   profile_image: string;
   result_origin: string;
   profileTokenId: string;
+  allWallets: string[];
 };
 
 type FarcasterAPIUser = {
@@ -72,6 +73,9 @@ export const searchFarcasterBuilderProfiles = async (
       profile_image: user.pfp_url,
       result_origin: "farcaster",
       profileTokenId: user.fid.toString(),
+      allWallets: user.verified_addresses?.eth_addresses || [
+        user.custody_address,
+      ],
     };
   });
 };
@@ -87,20 +91,27 @@ export const getFarcasterBuilderProfile = async (
     "Content-Type": "application/json",
   };
 
-  const response = await fetch(url, { headers });
-  if (!response.ok) return notFound();
+  try {
+    const response = await fetch(url, { headers });
+    if (!response.ok) return notFound();
 
-  const data = (await response.json()) as { [key: string]: FarcasterAPIUser[] };
-  if (!data) return null;
+    const data = (await response.json()) as {
+      [key: string]: FarcasterAPIUser[];
+    };
+    if (!data) return null;
 
-  const searchedUser = data[walletId][0];
-  return {
-    address:
-      searchedUser.verified_addresses?.eth_addresses[0] ||
-      searchedUser.custody_address,
-    username: searchedUser.username,
-    profile_image: searchedUser.pfp_url,
-    result_origin: "farcaster",
-    profileTokenId: searchedUser.fid.toString(),
-  };
+    const searchedUser = data[walletId][0];
+    return {
+      address:
+        searchedUser.verified_addresses?.eth_addresses[0] ||
+        searchedUser.custody_address,
+      username: searchedUser.username,
+      profile_image: searchedUser.pfp_url,
+      result_origin: "farcaster",
+      profileTokenId: searchedUser.fid.toString(),
+      allWallets: searchedUser.verified_addresses?.eth_addresses || [],
+    };
+  } catch {
+    return null;
+  }
 };

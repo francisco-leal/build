@@ -10,7 +10,10 @@ import { getBuilder } from "./get-builder";
 import { User, getUserSkipCache } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
 
-export async function createNewUser(walletAddress: string) {
+export async function createNewUser(
+  walletAddress: string,
+  hasLoggedIn: boolean,
+) {
   const walletAddressLc = walletAddress.toLowerCase();
   const builderProfile = await getBuilder(walletAddressLc);
   if (!builderProfile) throw new BadRequestError("user not found");
@@ -30,72 +33,111 @@ export async function createNewUser(walletAddress: string) {
   // given both are zero!
   const fid = builderProfile.farcasterId;
 
-  // TODO fixme
-  const boss_budget =
-    builder_score === 0
-      ? (fid ?? 0) > 20_000
-        ? 500
-        : 1000
-      : (builder_score * 20 + boss_tokens * 0.001) *
-        (has_manifesto_nft ? 1.2 : 1);
-
   const randomString = Buffer.from(crypto.randomUUID()).toString("base64");
   const inviteCode = randomString.slice(0, 8);
-
-  const { data: past_given_nominations } = await supabase
-    .from("boss_nominations")
-    .select("*")
-    .eq("wallet_origin", walletAddressLc)
-    .throwOnError();
-
-  let boss_score = 0;
-  boss_score +=
-    past_given_nominations && past_given_nominations.length > 0
-      ? past_given_nominations.reduce((acc, nomination) => {
-          return acc + nomination.boss_points_earned;
-        }, 0)
-      : 0;
-
-  const { data: past_earned_nominations } = await supabase
-    .from("boss_nominations")
-    .select("*")
-    .eq("wallet_destination", walletAddressLc)
-    .throwOnError();
-
-  boss_score +=
-    past_earned_nominations && past_earned_nominations.length > 0
-      ? past_earned_nominations?.reduce((acc, nomination) => {
-          return acc + nomination.boss_points_earned;
-        }, 0)
-      : 0;
 
   const user = {
     wallet: walletAddressLc,
     referral_code: inviteCode,
     username: builderProfile.username,
     manifesto_nft: has_manifesto_nft,
-    boss_score,
-    boss_budget,
+    boss_score: 0,
+    boss_budget: 0,
     passport_builder_score: builder_score,
     boss_token_balance: boss_tokens,
     boss_nomination_streak: 0,
     farcaster_id: fid,
     passport_id: passport_id,
+    unique: false,
   };
 
   await supabase.from("users").insert(user).throwOnError();
 
-  await supabase
-    .from("boss_leaderboard")
-    .insert({
-      rank: null,
-      wallet: user.wallet,
-      username: user.username,
-      boss_score: user.boss_score,
-      passport_builder_score: user.passport_builder_score,
-      boss_nominations_received: past_earned_nominations?.length ?? 0,
-    })
-    .throwOnError();
+  if (hasLoggedIn) {
+    // get all users with the same farcaster id
+    const { data: usersWithSameFarcasterId } = await supabase
+      .from("users")
+      .select("*")
+      .eq("farcaster_id", fid ?? -1);
+
+    // get all users with the same passport id
+    const { data: usersWithSamePassportId } = await supabase
+      .from("users")
+      .select("*")
+      .eq("passport_id", passport_id ?? -1);
+
+    if (
+      usersWithSameFarcasterId?.length === 0 &&
+      usersWithSamePassportId?.length === 0
+    ) {
+      user.unique = true;
+    } else {
+      const mainUser =
+        usersWithSameFarcasterId?.find((u) => u.unique) ??
+        usersWithSamePassportId?.find((u) => u.unique);
+
+      if (mainUser) {
+        return mainUser;
+      } else {
+        user.unique = true;
+
+        const { data: nominationsFromAssociatedWallets } = await supabase
+          .from("boss_nominations")
+          .select("*")
+          .in("wallet_destination", [
+            ...(usersWithSameFarcasterId ?? []).map((u) => u.wallet),
+            ...(usersWithSamePassportId ?? []).map((u) => u.wallet),
+          ]);
+
+        await nominationsFromAssociatedWallets?.forEach(async (nomination) => {
+          const newNomination = {
+            boss_points_earned: nomination.boss_points_earned,
+            boss_points_given: nomination.boss_points_given,
+            wallet_origin: nomination.wallet_origin,
+            wallet_destination: user.wallet,
+          };
+          const { data: nominationFromMainWallet } = await supabase
+            .from("boss_nominations")
+            .insert(newNomination)
+            .select("*");
+
+          await supabase
+            .from("boss_nominations")
+            .update({
+              transfer_id: nominationFromMainWallet
+                ? nominationFromMainWallet[0].id
+                : null,
+              valid: false,
+            })
+            .eq("id", nomination.id);
+        });
+      }
+    }
+  }
+
+  if (user.unique) {
+    await supabase
+      .from("users")
+      .update({ unique: user.unique })
+      .eq("wallet", user.wallet);
+
+    // update boss score
+    await supabase.rpc("calculate_boss_budget_for_user", {
+      wallet_to_update: user.wallet,
+    });
+
+    await supabase
+      .from("boss_leaderboard")
+      .insert({
+        rank: null,
+        wallet: user.wallet,
+        username: user.username,
+        boss_score: user.boss_score,
+        passport_builder_score: user.passport_builder_score,
+        boss_nominations_received: 0,
+      })
+      .throwOnError();
+  }
 
   revalidateTag(`user_${walletAddressLc}` satisfies CacheKey);
   const finalUser = await getUserSkipCache(walletAddressLc);
@@ -104,8 +146,14 @@ export async function createNewUser(walletAddress: string) {
   return await finalUser;
 }
 
-export const getOrCreateUser = async (wallet: string): Promise<User> => {
+export const getOrCreateUser = async (
+  wallet: string,
+  hasLoggedIn: boolean = false,
+): Promise<User> => {
   if (!wallet) throw new BadRequestError("Invalid wallet address");
 
-  return (await getUserSkipCache(wallet)) ?? (await createNewUser(wallet));
+  return (
+    (await getUserSkipCache(wallet)) ??
+    (await createNewUser(wallet, hasLoggedIn))
+  );
 };
