@@ -4,8 +4,8 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
-import { getOrCreateUser } from "./create-new-user";
-import { Builder } from "./get-builder";
+import { old_getOrCreateUser } from "./create-new-user";
+import { WalletInfo } from "./get-wallet-info";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
 import { getCurrentUser, getUser } from "./get-user";
 import { User } from "./get-user";
@@ -36,7 +36,7 @@ export const getBossNominationBalances = async (wallet: string) => {
 
 export const isSelfNomination = async (
   nominatorUser: User,
-  nominatedUser: User | Builder,
+  nominatedUser: User | WalletInfo,
 ) => {
   return (
     nominatorUser.wallet === nominatedUser.wallet ||
@@ -75,8 +75,8 @@ export async function createNewNomination(
   walletToNominate: string,
   userAddress: string,
 ) {
-  const nominatorUser = await getOrCreateUser(userAddress);
-  const nominatedUser = await getOrCreateUser(walletToNominate);
+  const nominatorUser = await old_getOrCreateUser(userAddress);
+  const nominatedUser = await old_getOrCreateUser(walletToNominate);
   const nominatorWallet = nominatorUser?.wallet?.toLowerCase();
   const nominatedWallet = nominatedUser?.wallet?.toLowerCase();
 

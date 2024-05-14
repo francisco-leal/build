@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { getBossNominationBalances } from "@/app/_api/create-new-nomination";
-import { getOrCreateUser } from "@/app/_api/create-new-user";
+import { old_getOrCreateUser } from "@/app/_api/create-new-user";
 import { frames } from "@/app/frames/frames";
 
 const handler = frames(async (ctx) => {
@@ -44,7 +44,7 @@ const handler = frames(async (ctx) => {
       },
     };
   }
-  const farcasterUser = await getOrCreateUser(userAddress!, true); // create a user for the voter if not found
+  const farcasterUser = await old_getOrCreateUser(userAddress!, true); // create a user for the voter if not found
   const userBalances = await getBossNominationBalances(farcasterUser.wallet);
 
   return {

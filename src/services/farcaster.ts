@@ -6,7 +6,7 @@ type BuilderProfile = {
   username: string;
   profile_image: string;
   result_origin: string;
-  profileTokenId: string;
+  profileTokenId: number;
   allWallets: string[];
 };
 
@@ -72,7 +72,7 @@ export const searchFarcasterBuilderProfiles = async (
       username: user.username,
       profile_image: user.pfp_url,
       result_origin: "farcaster",
-      profileTokenId: user.fid.toString(),
+      profileTokenId: user.fid,
       allWallets: user.verified_addresses?.eth_addresses || [
         user.custody_address,
       ],
@@ -80,7 +80,7 @@ export const searchFarcasterBuilderProfiles = async (
   });
 };
 
-export const getFarcasterBuilderProfile = async (
+export const getFarcasterUser = async (
   walletId: string,
 ): Promise<BuilderProfile | null> => {
   const url = `https://api.neynar.com/v2/farcaster/user/bulk-by-address?addresses=${walletId}`;

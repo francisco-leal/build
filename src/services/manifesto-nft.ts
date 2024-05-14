@@ -15,7 +15,7 @@ const wagmiAbi = [
   },
 ];
 
-export async function hasMintedManifestoNFT(wallet_address: string) {
+export async function hasMintedManifestoNFT(wallet_address: string): number {
   const publicClient = createPublicClient({
     chain: base,
     transport: http(),
@@ -31,5 +31,5 @@ export async function hasMintedManifestoNFT(wallet_address: string) {
     wallet_address,
   ])) as bigint;
 
-  return balanceOf > 0;
+  return Number(balanceOf);
 }

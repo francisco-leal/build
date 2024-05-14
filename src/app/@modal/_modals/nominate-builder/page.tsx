@@ -11,7 +11,7 @@ import {
   isSelfNomination,
   isUpdatingLeaderboard,
 } from "@/app/_api/create-new-nomination";
-import { getBuilder } from "@/app/_api/get-builder";
+import { getWalletInfo } from "@/app/_api/get-wallet-info";
 import { getNomination } from "@/app/_api/get-nomination";
 import { getCurrentUser } from "@/app/_api/get-user";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
@@ -28,7 +28,7 @@ export default async function NominateBuilder({
 }: {
   params: { walletId: string };
 }) {
-  const builder = await getBuilder(params.walletId);
+  const builder = await getWalletInfo(params.walletId);
   const currentUser = await getCurrentUser();
   const todaysNominations = currentUser
     ? await getTodaysNominations(currentUser.wallet)

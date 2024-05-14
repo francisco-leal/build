@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { createNewNomination } from "@/app/_api/create-new-nomination";
-import { getBuilder } from "@/app/_api/get-builder";
+import { getWalletInfo } from "@/app/_api/get-wallet-info";
 import { frames } from "@/app/frames/frames";
 
 const handler = frames(async (ctx) => {
@@ -38,7 +38,7 @@ const handler = frames(async (ctx) => {
   } else {
     let nominatedBuilderProfile = null;
     try {
-      nominatedBuilderProfile = await getBuilder(userNominated.toLowerCase());
+      nominatedBuilderProfile = await getWalletInfo(userNominated.toLowerCase());
     } catch (e: any) {
       // console.error("Error finding builder profile", e);
     }

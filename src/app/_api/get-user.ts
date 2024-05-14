@@ -2,89 +2,44 @@
 
 import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
+import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
 import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
 
-export type User = {
-  boss_budget: number;
-  boss_nomination_streak: number;
-  boss_score: number;
-  boss_token_balance: number;
-  created_at: string;
-  manifesto_nft: boolean;
-  passport_builder_score: number;
-  referral_code: string;
-  username: string | null;
-  wallet: string;
-  farcaster_id: number | null;
-  passport_id: number | null;
+export type User = Database["public"]["Tables"]["users"]["Row"];
+
+export const getUserFromId = async (userId: string): Promise<User | null> => {
+  return unstable_cache(
+    async (id: string) => {
+      const userInfo = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", id)
+        .throwOnError()
+        .then((res) => res.data?.[0]);
+      return userInfo ?? null;
+    },
+    [`user_${userId}`] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )(userId);
 };
 
-export const getUserSkipCache = async (
+export const getUserFromWallet = async (
   wallet: string,
 ): Promise<User | null> => {
-  if (!wallet) return null;
-
-  const { data } = await supabase
-    .from("users")
-    .select("*")
-    .eq("wallet", wallet.toLowerCase())
-    .eq("unique", true)
-    .single();
-  if (!data) return null;
-
-  if (data.unique) {
-    return data;
-  } else {
-    if (data.farcaster_id) {
-      const { data: usersWithSameFarcasterId } = await supabase
-        .from("users")
-        .select("*")
-        .eq("farcaster_id", data.farcaster_id)
-        .eq("unique", true)
-        .single();
-
-      if (usersWithSameFarcasterId) return usersWithSameFarcasterId;
-    }
-
-    if (data.passport_id) {
-      const { data: usersWithSamePassportId } = await supabase
-        .from("users")
-        .select("*")
-        .eq("passport_id", data.passport_id)
-        .eq("unique", true)
-        .single();
-
-      if (usersWithSamePassportId) return usersWithSamePassportId;
-    }
-  }
-  return data;
+  const walletLc = wallet.toLowerCase();
+  const userId = await supabase
+    .from("wallets")
+    .select("user_id")
+    .eq("wallet", walletLc)
+    .throwOnError()
+    .then((res) => res.data?.[0]?.user_id);
+  if (!userId) return null;
+  return getUserFromId(userId);
 };
 
-export const getUser = async (wallet: string): Promise<User | null> => {
-  if (!wallet) return null;
-  const walletKey = wallet.toLowerCase();
-  const value = await (
-    await unstable_cache(
-      () => getUserSkipCache(walletKey),
-      [`user_${walletKey}`] satisfies CacheKey[],
-      { revalidate: CACHE_5_MINUTES },
-    )
-  )();
-  return value;
-};
-
-export const getCurrentUser = async (
-  userAddress?: string,
-): Promise<User | null> => {
+export const getCurrentUser = async (): Promise<User | null> => {
   const user = await getSession();
-  return user
-    ? getUser(user.wallet)
-    : userAddress
-      ? getUser(userAddress)
-      : null;
-};
-
-export const isUserConnected = async () => {
-  return !!(await getCurrentUser());
+  if (!user) return null;
+  return getUserFromId(user.userId);
 };

@@ -3,7 +3,12 @@
 import { cookies } from "next/headers";
 import { sealData } from "iron-session";
 import { SiweMessage, generateNonce } from "siwe";
-import { getOrCreateUser } from "./create-new-user";
+import { SessionUser } from "@/services/authentication/cookie-session";
+import {
+  connectUserToWallets,
+  createNewUserForWallet,
+} from "./create-new-user";
+import { getUserFromWallet } from "./get-user";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
@@ -32,10 +37,15 @@ export const connectUser = async ({
 
   if (error) throw new Error("Error verifying message");
 
-  await getOrCreateUser(address, true);
+  const user =
+    (await getUserFromWallet(address)) ??
+    (await createNewUserForWallet(address));
 
-  const sessionUser = {
+  await connectUserToWallets(user, address);
+
+  const sessionUser: SessionUser = {
     wallet: address,
+    userId: user?.id,
     siwe: {
       address: siweMessage.address,
       nonce: siweMessage.nonce,

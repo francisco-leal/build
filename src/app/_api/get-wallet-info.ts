@@ -1,11 +1,11 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
-import { getFarcasterBuilderProfile } from "@/services/farcaster";
+import { getFarcasterUser } from "@/services/farcaster";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
-import { CACHE_5_MINUTES } from "./helpers/cache-keys";
+import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
 
-export type Builder = {
+export type WalletInfo = {
   username: string;
   wallet: string;
   image?: string;
@@ -14,10 +14,9 @@ export type Builder = {
   allWallets: string[];
 };
 
-export const getBuilder = unstable_cache(
-  async (walledId: string): Promise<Builder | null> => {
-    if (!walledId) return null;
-    const farcasterSocial = await getFarcasterBuilderProfile(walledId);
+export const getWalletInfo = unstable_cache(
+  async (walledId: string): Promise<WalletInfo | null> => {
+    const farcasterSocial = await getFarcasterUser(walledId);
     const talentSocial = await getTalentProtocolUser(walledId);
     const allWallets = [
       ...(farcasterSocial?.allWallets ?? []),
@@ -28,7 +27,7 @@ export const getBuilder = unstable_cache(
       wallet: walledId.toLowerCase(),
       passportId: talentSocial?.passport_id,
       farcasterId: farcasterSocial
-        ? parseInt(farcasterSocial.profileTokenId, 10)
+        ? farcasterSocial.profileTokenId
         : undefined,
       image:
         farcasterSocial?.profile_image ??
@@ -43,6 +42,6 @@ export const getBuilder = unstable_cache(
 
     return user;
   },
-  ["get_builder"],
+  ["wallet_info" as CacheKey],
   { revalidate: CACHE_5_MINUTES },
 );

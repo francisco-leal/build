@@ -50,7 +50,6 @@ export const ConnectWalletButton = ({
       >
         <w3m-button />
       </Stack>
-      <Button disabled>Coming soon</Button>
     </NoSsr>
   );
 };

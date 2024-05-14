@@ -4,7 +4,7 @@ import {
   getBossNominationBalances,
   getTodaysNominations,
 } from "@/app/_api/create-new-nomination";
-import { getOrCreateUser } from "@/app/_api/create-new-user";
+import { old_getOrCreateUser } from "@/app/_api/create-new-user";
 import { frames } from "@/app/frames/frames";
 import { searchFarcasterBuilderProfiles } from "@/services/farcaster";
 
@@ -55,7 +55,7 @@ const handler = frames(async (ctx) => {
     if (builderProfiles.length > 0) {
       nominatedBuilderProfile = builderProfiles[0];
     }
-    const farcasterUser = await getOrCreateUser(userAddress!, true); // create a user for the voter if not found
+    const farcasterUser = await old_getOrCreateUser(userAddress!, true); // create a user for the voter if not found
     const todayNominations = await getTodaysNominations(farcasterUser.wallet!);
     const userBalances = await getBossNominationBalances(farcasterUser.wallet!);
 
