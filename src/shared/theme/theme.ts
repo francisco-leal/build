@@ -4,6 +4,7 @@ import { inputClasses, tabClasses, tabPanelClasses } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
 import { SystemProps } from "@mui/joy/styles/types";
 import { ThemeLink } from "./theme-link";
+import Background from "@/app/(pages)/(home)/nominate/[walletId]/page";
 
 const colors = {
   bossBlue: "#0142F5",
@@ -188,6 +189,7 @@ export const theme = extendTheme({
           tr: { textAlign: "left" },
           "& tr.blue": { color: theme.vars.palette.primary[500] },
           "& tr.yellow": { color: theme.vars.palette.warning[400] },
+          "& tr.odd": { background: theme.vars.palette.neutral[100] },
           "--TableCell-borderColor": theme.vars.palette.neutral[200],
         }),
       },
