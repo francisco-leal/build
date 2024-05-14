@@ -5,7 +5,7 @@ import { supabase } from "@/db";
 
 const isMainnet = process.env.IS_MAINNET === "true";
 const bossTokenAddress: { [key: string]: `0x${string}` } = {
-  base: "0x0",
+  base: "0x0000000000000000000000000000000000000000",
   "base-sepolia": "0xC5e5045050F1Bc8b3beCBE19735A5a5efAC09818",
 };
 const publicClient = createPublicClient({
@@ -35,6 +35,10 @@ export async function getBalance(wallet: string) {
 }
 
 export async function updateBossTokenBalances() {
+  if (isMainnet) {
+    return;
+  }
+
   let cursor = "";
   const options = {
     method: "GET",
