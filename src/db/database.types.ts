@@ -123,6 +123,7 @@ export type Database = {
         Row: {
           boss_budget: number;
           boss_nomination_streak: number;
+          boss_score: number;
           boss_token_balance: number;
           created_at: string;
           farcaster_id: number | null;
@@ -135,6 +136,7 @@ export type Database = {
         Insert: {
           boss_budget?: number;
           boss_nomination_streak?: number;
+          boss_score?: number;
           boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
@@ -147,6 +149,7 @@ export type Database = {
         Update: {
           boss_budget?: number;
           boss_nomination_streak?: number;
+          boss_score?: number;
           boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
