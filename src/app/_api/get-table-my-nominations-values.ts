@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { makeMap } from "@/shared/utils/make-map";
 import { TableMyNominationsValue } from "../_components/table-my-nominations";
-import { getNominationsFromWallet } from "./get-nomination";
+import { getNominationsFromUserId } from "./get-nomination";
 import { getCurrentUser } from "./get-user";
 
 export const getTableMyNominationsValues = async (): Promise<
@@ -11,7 +11,7 @@ export const getTableMyNominationsValues = async (): Promise<
 > => {
   const user = await getCurrentUser();
   if (!user) return notFound();
-  const nominations = await getNominationsFromWallet(user.wallet);
+  const nominations = await getNominationsFromUserId(user.id);
   const firstNominationIso = nominations.at(-1)?.createdAt;
   const firstDate = firstNominationIso
     ? DateTime.fromISO(firstNominationIso)

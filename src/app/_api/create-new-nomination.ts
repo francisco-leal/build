@@ -1,26 +1,15 @@
 "use server";
 
 import { revalidatePath, revalidateTag } from "next/cache";
-import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
-import { old_getOrCreateUser } from "./create-new-user";
-import { WalletInfo } from "./get-wallet-info";
-import { getNomination, getNominationsFromWallet } from "./get-nomination";
-import { getCurrentUser, getUser } from "./get-user";
+import { getNomination, getNominationsFromUserToday } from "./get-nomination";
+import { getCurrentUser } from "./get-user";
 import { User } from "./get-user";
+import { WalletInfo, getWalletInfo } from "./get-wallet-info";
 import { CacheKey } from "./helpers/cache-keys";
 import { JobTypes } from "./helpers/job-types";
 
-export const getTodaysNominations = async (wallet: string) => {
-  const nominations = await getNominationsFromWallet(wallet);
-  const fromDate = DateTime.utc().startOf("day");
-  const toDate = fromDate.plus({ hours: 24 });
-  const interval = Interval.fromDateTimes(fromDate, toDate);
-  return nominations.filter((n) =>
-    interval.contains(DateTime.fromISO(n.createdAt)),
-  );
-};
 
 export const getBossNominationBalances = async (wallet: string) => {
   const user = await getUser(wallet);
@@ -35,15 +24,13 @@ export const getBossNominationBalances = async (wallet: string) => {
 };
 
 export const isSelfNomination = async (
-  nominatorUser: User,
-  nominatedUser: User | WalletInfo,
-) => {
+  user: User,
+  wallet: WalletInfo,
+): Promise<boolean> => {
   return (
-    nominatorUser.wallet === nominatedUser.wallet ||
-    (nominatorUser.farcaster_id &&
-      nominatorUser.farcaster_id === nominatedUser.farcaster_id) ||
-    (nominatorUser.passport_id &&
-      nominatorUser.passport_id === nominatedUser.passport_id)
+    user.wallets.some((w) => w.wallet === wallet.wallet) ||
+    user.farcaster_id === (wallet.farcaster_id ?? false) ||
+    user.passport_id === (wallet.passport_id ?? false)
   );
 };
 
@@ -60,39 +47,33 @@ export const isUpdatingLeaderboard = async () => {
 };
 
 export const isDuplicateNomination = async (
-  nominatorWallet: string,
-  nominatedWallet: string,
+  user: User,
+  wallet: WalletInfo,
 ) => {
-  return !!(await getNomination(nominatorWallet, nominatedWallet));
+  return !!(await getNomination(user.id, wallet.wallet));
 };
 
-export const hasExceededNominationsToday = async (nominatorWallet: string) => {
-  const nominations = await getTodaysNominations(nominatorWallet);
+export const hasExceededNominationsToday = async (nominatorUser: User) => {
+  const nominations = await getNominationsFromUserToday(nominatorUser);
   return (nominations?.length || 0) >= 3;
 };
 
 export async function createNewNomination(
-  walletToNominate: string,
-  userAddress: string,
+  nominatorUser: User,
+  nominatedWallet: string,
 ) {
-  const nominatorUser = await old_getOrCreateUser(userAddress);
-  const nominatedUser = await old_getOrCreateUser(walletToNominate);
-  const nominatorWallet = nominatorUser?.wallet?.toLowerCase();
-  const nominatedWallet = nominatedUser?.wallet?.toLowerCase();
+  const nominatedInfo = await getWalletInfo(nominatedWallet);
 
-  if (!nominatorUser || !nominatorWallet) {
+  if (!nominatedInfo) {
     throw new BadRequestError("Could not find user");
   }
-  if (!nominatedUser) {
-    throw new BadRequestError("Could not find nominated user");
-  }
-  if (await isSelfNomination(nominatorUser, nominatedUser)) {
+  if (await isSelfNomination(nominatorUser, nominatedInfo)) {
     throw new BadRequestError("You cannot nominate yourself!");
   }
-  if (await isDuplicateNomination(nominatorWallet, nominatedWallet)) {
+  if (await isDuplicateNomination(nominatorUser, nominatedInfo)) {
     throw new BadRequestError("You already nominated this builder before!");
   }
-  if (await hasExceededNominationsToday(nominatorWallet)) {
+  if (await hasExceededNominationsToday(nominatorUser)) {
     throw new BadRequestError("You have already nominated 3 builders today!");
   }
   if (await isUpdatingLeaderboard()) {

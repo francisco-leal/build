@@ -26,9 +26,7 @@ export const getWalletInfo = unstable_cache(
     const user = {
       wallet: walledId.toLowerCase(),
       passportId: talentSocial?.passport_id,
-      farcasterId: farcasterSocial
-        ? farcasterSocial.profileTokenId
-        : undefined,
+      farcasterId: farcasterSocial ? farcasterSocial.profileTokenId : undefined,
       image:
         farcasterSocial?.profile_image ??
         talentSocial?.user?.profile_picture_url ??

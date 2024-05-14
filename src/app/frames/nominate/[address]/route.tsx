@@ -38,7 +38,9 @@ const handler = frames(async (ctx) => {
   } else {
     let nominatedBuilderProfile = null;
     try {
-      nominatedBuilderProfile = await getWalletInfo(userNominated.toLowerCase());
+      nominatedBuilderProfile = await getWalletInfo(
+        userNominated.toLowerCase(),
+      );
     } catch (e: any) {
       // console.error("Error finding builder profile", e);
     }

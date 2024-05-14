@@ -2,127 +2,119 @@
 
 import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
+import { Database } from "@/db/database.types";
 import { makeMap } from "@/shared/utils/make-map";
 import {
   CACHE_5_MINUTES,
   CACHE_1_MINUTE,
   CacheKey,
 } from "./helpers/cache-keys";
+import { User } from "./get-user";
 
 export type Nomination = {
   id: number;
   bossPointsEarned: number;
   bossPointsGiven: number;
-  originWallet: string;
+  originUserId: string;
   destinationWallet: string;
   destinationUsername: string | null;
   destinationRank: number | null;
   createdAt: string;
 };
 
-export const getNominationsFromWallet = async (
-  wallet: string,
+const SELECT_NOMINATIONS = `
+  id,
+  user_id,
+  boss_points_received,
+  boss_points_sent,
+  wallet_id,
+  created_at,
+  wallets (
+    wallet,
+    users (
+      id,
+      username,
+      boss_leaderboard (
+        id,
+        rank
+      )
+    ) 
+  )       
+` as const;
+
+
+
+export const getNominationsFromUser = async (
+  user: User,
 ): Promise<Nomination[]> => {
-  if (!wallet) return [];
-  const walletLc = wallet.toLowerCase();
   return await unstable_cache(
     async () => {
       const { data: nominations } = await supabase
         .from("boss_nominations")
-        .select("*")
+        .select(SELECT_NOMINATIONS)
         .order("created_at", { ascending: false })
-        // FIXME: This limit will break the app if Builder lasts
-        // longer than 50 days
-        .limit(50 * 3)
-        .eq("wallet_origin", walletLc);
+        .eq("user_id", user.id)
+        .throwOnError();
 
-      if (!nominations) return [];
-
-      const { data: users } = await supabase
-        .from("users")
-        .select("*")
-        .in(
-          "wallet",
-          nominations.map((n) => n.wallet_destination),
-        );
-      const usersMap = makeMap(users ?? [], (u) => u.wallet);
-      const { data: leaderboardUsers } = await supabase
-        .from("boss_leaderboard")
-        .select("*")
-        .in(
-          "wallet",
-          nominations.map((n) => n.wallet_destination),
-        );
-
-      const leaderboardUsersMap = makeMap(
-        leaderboardUsers ?? [],
-        (u) => u.wallet,
+      return (
+        nominations?.map((nomination) => ({
+          id: nomination.id,
+          originUserId: nomination.user_id,
+          bossPointsEarned: nomination.boss_points_received,
+          bossPointsGiven: nomination.boss_points_sent,
+          destinationWallet: nomination.wallet_id,
+          destinationUsername: nomination.wallets?.users?.username ?? null,
+          destinationRank:
+            nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+          createdAt: nomination.created_at,
+        })) ?? []
       );
-
-      return nominations.map((nomination) => ({
-        id: nomination.id,
-        originWallet: nomination.wallet_origin,
-        bossPointsEarned: nomination.boss_points_earned,
-        bossPointsGiven: nomination.boss_points_given,
-        destinationWallet: nomination.wallet_destination,
-        destinationUsername: usersMap[nomination.wallet_destination]?.username,
-        destinationRank:
-          leaderboardUsersMap[nomination.wallet_destination]?.rank,
-        createdAt: nomination.created_at,
-      }));
     },
-    ["nominations", `user_${walletLc}`] satisfies CacheKey[],
+    ["nominations", "leaderboard", `user_${userId}`] satisfies CacheKey[],
     { revalidate: CACHE_1_MINUTE },
   )();
 };
 
+export const getNominationsFromUserToday = async (user: User) => {
+  const nominations = await getNominationsFromUserId(user);
+  const fromDate = DateTime.utc().startOf("day");
+  const toDate = fromDate.plus({ hours: 24 });
+  const interval = Interval.fromDateTimes(fromDate, toDate);
+  return nominations.filter((n) =>
+    interval.contains(DateTime.fromISO(n.createdAt)),
+  );
+};
+
 export const getNomination = async (
-  originWallet: string,
-  destinationWallet: string,
+  originUserId: string,
+  destinationWalletId: string,
 ): Promise<Nomination | null> => {
-  const origin = originWallet.toLowerCase();
-  const destination = destinationWallet.toLowerCase();
+  const destinationLc = destinationWalletId.toLowerCase();
   return await unstable_cache(
     async () => {
       const { data: nomination } = await supabase
         .from("boss_nominations")
-        .select("*")
-        .eq("wallet_origin", origin)
-        .eq("wallet_destination", destination)
-        .single();
+        .select(SELECT_NOMINATIONS)
+        .eq("user_id", originUserId)
+        .eq("wallet_id", destinationLc)
+        .single()
+        .throwOnError();
 
-      if (!nomination) return null;
-
-      const { data: user } = await supabase
-        .from("users")
-        .select("*")
-        .eq("wallet", destination)
-        .single();
-
-      if (!user) return null;
-
-      const { data: leaderboardUser } = await supabase
-        .from("boss_leaderboard")
-        .select("rank")
-        .eq("wallet", destination)
-        .single();
+      if (!nomination) throw new Error("Nomination not found");
 
       return {
         id: nomination.id,
-        bossPointsEarned: nomination.boss_points_earned,
-        bossPointsGiven: nomination.boss_points_given,
-        originWallet: nomination.wallet_origin,
-        destinationWallet: nomination.wallet_destination,
-        destinationUsername: user?.username ?? null,
-        destinationRank: leaderboardUser?.rank ?? null,
+        originUserId: nomination.user_id,
+        bossPointsEarned: nomination.boss_points_received,
+        bossPointsGiven: nomination.boss_points_sent,
+        destinationWallet: nomination.wallet_id,
+        destinationUsername: nomination.wallets?.users?.username ?? null,
+        destinationRank:
+          nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
         createdAt: nomination.created_at,
       };
     },
-    [
-      "nominations",
-      `user_${origin}`,
-      `user_${destination}`,
-    ] satisfies CacheKey[],
+    ["nominations", "leaderboard", `user_${originUserId}`] satisfies CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )();
 };

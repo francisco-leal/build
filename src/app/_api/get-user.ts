@@ -6,14 +6,16 @@ import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
 import { CACHE_5_MINUTES, CacheKey } from "./helpers/cache-keys";
 
-export type User = Database["public"]["Tables"]["users"]["Row"];
+export type User = Database["public"]["Tables"]["users"]["Row"] & {
+  wallets: Database["public"]["Tables"]["wallets"]["Row"][];
+};
 
 export const getUserFromId = async (userId: string): Promise<User | null> => {
   return unstable_cache(
     async (id: string) => {
       const userInfo = await supabase
         .from("users")
-        .select("*")
+        .select("*, wallets(*)")
         .eq("id", id)
         .throwOnError()
         .then((res) => res.data?.[0]);

@@ -11,9 +11,9 @@ import {
   isSelfNomination,
   isUpdatingLeaderboard,
 } from "@/app/_api/create-new-nomination";
-import { getWalletInfo } from "@/app/_api/get-wallet-info";
 import { getNomination } from "@/app/_api/get-nomination";
 import { getCurrentUser } from "@/app/_api/get-user";
+import { getWalletInfo } from "@/app/_api/get-wallet-info";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { NotFoundError } from "@/shared/utils/error";
 import { NominateBuilderComponent, NominationState } from "./component";
