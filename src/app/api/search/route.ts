@@ -15,5 +15,3 @@ export const GET = restApiHandler(async (request) => {
 
   return await searchBuilders(searchParams.query, searchParams.domain);
 });
-
-
