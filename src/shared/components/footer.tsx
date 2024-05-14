@@ -16,7 +16,6 @@ export const Footer = () => {
       <Link href="/" sx={{ "& svg": { color: "common.white" } }}>
         <LogoLong sx={{ width: 256, height: 54 }} />
       </Link>
-
       <Stack
         sx={{
           flexDirection: { md: "row" },
@@ -36,7 +35,7 @@ export const Footer = () => {
       >
         <Typography>Uniswap</Typography>
         <Link
-          href="https://warpcast.com/~/channel/boss"
+          href="https://warpcast.com/~/channel/build"
           target="_blank"
           sx={{ color: "common.white" }}
         >
@@ -55,16 +54,24 @@ export const Footer = () => {
           FAQ
         </Link>
         <Link
-          href="https://www.figma.com/file/sSlPPPR0XdJztdqZaImV6Z/%24BOSS---Community?type=design&node-id=2005-2166&mode=design&t=LxazggdeJ4F2pRFk-0"
+          href="https://www.figma.com/design/C6VaYovGCC8ykY76q4aoem/%24BUILD---Community?node-id=2001%3A38&t=CEPigqzG5oDNhCAF-1"
           target="_blank"
         >
           Figma
         </Link>
-        <Typography>Contract</Typography>
-        <Typography>Dexscreener</Typography>
-        <Typography>Coingecko</Typography>
+        <Link
+          href="https://basescan.org/token/0x3c281a39944a2319aa653d81cfd93ca10983d234"
+          target="_blank"
+        >
+          Contract
+        </Link>
+        <Link
+          href="https://dexscreener.com/base/0x3c281a39944a2319aa653d81cfd93ca10983d234"
+          target="_blank"
+        >
+          Dexscreener
+        </Link>
       </Stack>
-
       <Typography sx={{ color: "common.white", textAlign: "center" }}>
         BUILD is an experimental community project. Not Financial Advice. DYOR.
       </Typography>

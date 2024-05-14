@@ -9,9 +9,9 @@ import { HowToPlay } from "./how-to-play";
 export const PlaceholderUserNotConnected: FunctionComponent = () => (
   <Stack component="main">
     <HeroSectionSlim backgroundImage={backgroundImage.src}>
-      <Typography level="h1">Becoming a BUILDER is one click away</Typography>
+      <Typography level="h1">Enter the BUILD game</Typography>
       <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-        Connect your wallet to start nominating builders and earning $BUILD.
+        Connect your wallet to start nominating builders and earn BUILD.
       </Typography>
       <ConnectWalletButton sx={{ my: 2 }} />
     </HeroSectionSlim>

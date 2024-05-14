@@ -30,7 +30,7 @@ export const Header: FunctionComponent = () => {
 
   // FIXME this could lead to leaky styles if the header size becomes dynamic.
   const headerHeight = headerRef.current?.clientHeight ?? 0;
-  const drawerHeight = `calc(100vh - ${headerHeight}px)`;
+  const drawerHeight = `calc(100dvh - ${headerHeight}px)`;
 
   return (
     <Box
@@ -97,7 +97,10 @@ export const Header: FunctionComponent = () => {
             />
           )}
           <IconButton
-            onClick={drawer.toggle}
+            onClick={() => {
+              drawer.toggle();
+              window.scrollTo(0, 0);
+            }}
             sx={{
               display: MOBILE_ONLY,
               "& svg": {
