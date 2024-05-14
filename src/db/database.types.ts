@@ -231,6 +231,12 @@ export type Database = {
         };
         Returns: undefined;
       };
+      update_boss_daily_streak_for_user: {
+        Args: {
+          user_to_update: string;
+        };
+        Returns: undefined;
+      };
       update_boss_score: {
         Args: {
           wallet_to_update: string;

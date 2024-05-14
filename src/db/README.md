@@ -104,8 +104,8 @@ BEGIN
     -- Update nomination_streak for users who didn't make a nomination yesterday
     UPDATE users
     SET boss_nomination_streak = 0
-    WHERE wallet NOT IN (
-        SELECT DISTINCT wallet_origin
+    WHERE id NOT IN (
+        SELECT DISTINCT user_id
         FROM boss_nominations
         WHERE DATE(created_at) >= last_nomination_date
     );
@@ -114,6 +114,33 @@ $$ LANGUAGE plpgsql;
 ```
 
 </details>
+<details>
+<summary><b>[FUNCTION] Update daily streak for user</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION update_boss_daily_streak_for_user(user_to_update uuid) RETURNS VOID AS $$
+DECLARE
+    today_date DATE;
+BEGIN
+    -- Calculate today's date at 00:00 GMT
+    today_date := date_trunc('day', CURRENT_DATE) AT TIME ZONE 'GMT';
+
+    -- Update nomination_streak for the specified wallet if they have a nomination today
+    UPDATE users
+    SET boss_nomination_streak = boss_nomination_streak + 1
+    WHERE id = user_to_update
+    AND EXISTS (
+        SELECT 1
+        FROM boss_nominations
+        WHERE user_id = user_to_update
+        AND DATE(created_at) = today_date
+    );
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>
+
 <details>
 <summary><b>[FUNCTION] Calculate boss budget for all users</b></summary>
 
@@ -145,7 +172,7 @@ $$ LANGUAGE plpgsql;
 <summary><b>[FUNCTION] Calculate boss budget for a single user</b></summary>
 
 ```sql
-CREATE OR REPLACE FUNCTION calculate_boss_budget_for_user(id_to_update uuid) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION calculate_boss_budget_for_user(user_to_update uuid) RETURNS VOID AS $$
 BEGIN
     -- Update boss_budget for all users based on existing data
     UPDATE users
@@ -162,7 +189,7 @@ BEGIN
                 (passport_builder_score * 20 + boss_token_balance * 0.001) *
                 (CASE WHEN manifesto_nft_token_id > 0 THEN 1.2 ELSE 1 END)
         END
-    WHERE id = id_to_update;
+    WHERE id = user_to_update;
 END;
 $$ LANGUAGE plpgsql;
 ```
