@@ -4,11 +4,6 @@ import { createNewNomination } from "@/app/_api/create-new-nomination";
 import { getBuilder } from "@/app/_api/get-builder";
 import { frames } from "@/app/frames/frames";
 
-export async function findBuilderProfile(walletAddress: string) {
-  const builderProfile = await getBuilder(walletAddress.toLowerCase());
-  return builderProfile;
-}
-
 const handler = frames(async (ctx) => {
   if (!ctx.message?.isValid) {
     // throw new Error("Invalid message");
@@ -43,7 +38,7 @@ const handler = frames(async (ctx) => {
   } else {
     let nominatedBuilderProfile = null;
     try {
-      nominatedBuilderProfile = await findBuilderProfile(userNominated);
+      nominatedBuilderProfile= await getBuilder(userNominated.toLowerCase());
     } catch (e: any) {
       // console.error("Error finding builder profile", e);
     }

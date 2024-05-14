@@ -8,14 +8,6 @@ import { getOrCreateUser } from "@/app/_api/create-new-user";
 import { frames } from "@/app/frames/frames";
 import { searchFarcasterBuilderProfiles } from "@/services/farcaster";
 
-export async function searchBuilderProfile(username: string) {
-  const builderProfiles = await searchFarcasterBuilderProfiles(username);
-  if (builderProfiles.length > 0) {
-    return builderProfiles[0];
-  }
-  return null;
-}
-
 const handler = frames(async (ctx) => {
   if (!ctx.message?.isValid) {
     // throw new Error("Invalid message");
@@ -58,7 +50,11 @@ const handler = frames(async (ctx) => {
     };
   } else {
     // proceed with nomination
-    const nominatedBuilderProfile = await searchBuilderProfile(userNominated);
+    const builderProfiles = await searchFarcasterBuilderProfiles(userNominated);
+    let nominatedBuilderProfile = null;
+    if (builderProfiles.length > 0) {
+      nominatedBuilderProfile = builderProfiles[0];
+    }
     const farcasterUser = await getOrCreateUser(userAddress!); // create a user for the voter if not found
     const todayNominations = await getTodaysNominations(farcasterUser.wallet!);
     const userBalances = await getBossNominationBalances(farcasterUser.wallet!);
@@ -74,12 +70,12 @@ const handler = frames(async (ctx) => {
             <div>
               {nominatedBuilderProfile?.profile_image
                 ? nominatedBuilderProfile.profile_image
-                : nominatedBuilderProfile?.pfp_url}
+                : ""}
             </div>
             <div>
-              {nominatedBuilderProfile?.display_name
-                ? nominatedBuilderProfile?.display_name
-                : nominatedBuilderProfile?.username}
+              {nominatedBuilderProfile?.username
+                ? nominatedBuilderProfile?.username
+                : nominatedBuilderProfile?.address}
             </div>
             <div>{userBalances.dailyBudget}</div>
             <div>{userBalances.pointsGiven}</div>
