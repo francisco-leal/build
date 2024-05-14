@@ -1,3 +1,5 @@
+import { revalidateTag } from "next/cache";
+import { CacheKey } from "@/app/_api/helpers/cache-keys";
 import { supabase } from "@/db";
 import type { NextRequest } from "next/server";
 
@@ -45,6 +47,10 @@ export async function POST(request: NextRequest) {
     .from("users")
     .update({ passport_builder_score: builder_score })
     .in("wallet", wallets);
+
+  wallets.forEach((wallet) => {
+    revalidateTag(`user_${wallet}` satisfies CacheKey);
+  });
 
   return Response.json({}, { status: 200 });
 }

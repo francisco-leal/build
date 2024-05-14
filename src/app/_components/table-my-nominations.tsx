@@ -40,7 +40,7 @@ export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
               key={`${val.date}-${val.name}`}
               className={[
                 val.missed ? "yellow" : "",
-                val.odd ? "odd" : ""
+                val.odd ? "odd" : "",
               ].join(" ")}
             >
               <td>{val.date}</td>
