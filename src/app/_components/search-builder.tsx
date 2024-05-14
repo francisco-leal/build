@@ -76,9 +76,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
           value={searchDomain}
           onChange={(_, v) => v && setSearchDomain(v)}
           placeholder={SearchOptions[searchDomain]}
-          renderValue={(v) =>
-            v?.value ? SearchOptions[searchDomain].split(" ")[0] : v?.label
-          }
+          renderValue={(v) =>SearchOptions[searchDomain].split(" ")[0]}
           sx={{
             borderRadius: 0,
             width: "180px",
