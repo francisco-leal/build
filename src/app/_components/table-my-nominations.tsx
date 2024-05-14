@@ -1,12 +1,14 @@
 import { FunctionComponent } from "react";
-import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { Box, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 
 export type TableMyNominationsValue = {
+  key: string;
   date: string;
   name: string | null;
   rank: number | null;
   pointsGiven: number | null;
   missed?: boolean;
+  odd?: boolean;
 };
 
 export type MyNominationsTableProps = {
@@ -33,15 +35,19 @@ export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
       <tbody>
         {!loading &&
           values.map((val) => (
-            <tr
+            <Box
+              component={"tr"}
               key={`${val.date}-${val.name}`}
-              className={val.missed ? "yellow" : ""}
+              className={[
+                val.missed ? "yellow" : "",
+                val.odd ? "odd" : ""
+              ].join(" ")}
             >
               <td>{val.date}</td>
               <td>{val.missed ? "Missed" : val.name ?? "---"}</td>
               <td>{val.missed ? "Missed" : val.rank ?? "---"}</td>
               <td>{val.missed ? "Missed" : val.pointsGiven ?? "---"}</td>
-            </tr>
+            </Box>
           ))}
         {loading &&
           [1, 2, 3, 4, 5].map((i) => (

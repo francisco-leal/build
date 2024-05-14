@@ -23,6 +23,7 @@ export const getTableMyNominationsValues = async (): Promise<
   // Create table values that exist
   const values = nominations.map(
     (n): TableMyNominationsValue => ({
+      key: `${n.createdAt}-${n.destinationWallet}`,
       date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
       missed: false,
       name:
@@ -32,20 +33,19 @@ export const getTableMyNominationsValues = async (): Promise<
     }),
   );
 
-  // Map marking dates present in the table
-  const valuesMap = makeMap(values, (n) => n.date);
-
   // Fill in the missing dates
   for (let i = 0; i < numberOfDays; i++) {
     const date = firstDate.plus({ days: i }).toFormat("LLL dd");
-    if (valuesMap[date]) continue;
-    values.push({
+    const numberOfEntries = values.filter((v) => v.date === date).length;
+    const missingEntries = Math.max(3 - numberOfEntries, 0);
+    values.push(...[...Array(missingEntries).keys()].map((k) => ({
+      key: `missing-${date}-${k}`,
       date: firstDate.plus({ days: i }).toFormat("LLL dd"),
       missed: true,
       name: null,
       rank: null,
       pointsGiven: null,
-    });
+    })));
   }
 
   // Sort the table by date
@@ -53,6 +53,13 @@ export const getTableMyNominationsValues = async (): Promise<
     const dateA = DateTime.fromFormat(a.date, "LLL dd");
     const dateB = DateTime.fromFormat(b.date, "LLL dd");
     return dateB.toMillis() - dateA.toMillis();
+  });
+
+  // Add background color, based on date
+  sortedValues.forEach((val, i, arr) => {
+    const previous = arr[i - 1];
+    if (!previous) return;
+    val.odd = (previous.date === val.date) ? previous.odd : !previous.odd;
   });
 
   return sortedValues;
