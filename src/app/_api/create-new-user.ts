@@ -30,15 +30,6 @@ export async function createNewUser(walletAddress: string) {
   // given both are zero!
   const fid = builderProfile.farcasterId;
 
-  // TODO fixme
-  const boss_budget =
-    builder_score === 0
-      ? (fid ?? 0) > 20_000
-        ? 500
-        : 1000
-      : (builder_score * 20 + boss_tokens * 0.001) *
-        (has_manifesto_nft ? 1.2 : 1);
-
   const randomString = Buffer.from(crypto.randomUUID()).toString("base64");
   const inviteCode = randomString.slice(0, 8);
 
@@ -75,7 +66,7 @@ export async function createNewUser(walletAddress: string) {
     username: builderProfile.username,
     manifesto_nft: has_manifesto_nft,
     boss_score,
-    boss_budget,
+    boss_budget: 0,
     passport_builder_score: builder_score,
     boss_token_balance: boss_tokens,
     boss_nomination_streak: 0,
@@ -84,6 +75,35 @@ export async function createNewUser(walletAddress: string) {
   };
 
   await supabase.from("users").insert(user).throwOnError();
+
+  const { data: sameFarcasterUser } = fid
+    ? await supabase
+        .from("users")
+        .select("*")
+        .eq("farcaster_id", fid)
+        .throwOnError()
+    : { data: null };
+  const { data: samePassportUSer } = passport_id
+    ? await supabase
+        .from("users")
+        .select("*")
+        .eq("passport_id", passport_id)
+        .throwOnError()
+    : { data: null };
+
+  // only update budget for users that are not duplicated passports or farcaster ids
+  // TODO: Add a flag for users that have logged in into the app to be set via frame or login
+  // and only update the budget for those users, this must also affect the calculation for boss budget for all users
+  if (
+    sameFarcasterUser &&
+    sameFarcasterUser.length === 1 &&
+    samePassportUSer &&
+    samePassportUSer.length === 1
+  ) {
+    await supabase.rpc("calculate_boss_budget_for_user", {
+      wallet_to_update: user.wallet,
+    });
+  }
 
   await supabase
     .from("boss_leaderboard")

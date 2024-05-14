@@ -514,3 +514,31 @@ $$ LANGUAGE plpgsql;
 ```
 
 </details>
+
+<details>
+<summary><b>[FUNCTION] Calculate boss budget for a single user</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION calculate_boss_budget_for_user(wallet_to_update varchar) RETURNS VOID AS $$
+BEGIN
+    -- Update boss_budget for all users based on existing data
+    UPDATE users
+    SET boss_budget =
+        CASE
+            WHEN builder_score = 0 THEN
+                CASE
+                    WHEN fid > 20000 THEN
+                        500
+                    ELSE
+                        1000
+                END
+            ELSE
+                (builder_score * 20 + boss_tokens * 0.001) *
+                (CASE WHEN has_manifesto_nft THEN 1.2 ELSE 1 END)
+        END
+    WHERE wallet = wallet_to_update;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>
