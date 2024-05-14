@@ -32,7 +32,7 @@ export default async function AirdropPage() {
       </TabList>
 
       <TabPanel value={0} component={Stack}>
-        <HeroSectionSlim backgroundImage={backgroundImage.src}>
+        <HeroSectionSlim backgroundImage={backgroundImage.src} sx={{ mb: 0 }}>
           <Typography level="h1">
             Nominate the best builders you know
           </Typography>
@@ -48,6 +48,7 @@ export default async function AirdropPage() {
           sx={{
             flexDirection: { xs: "column", md: "row" },
             "& > *": { height: 240, width: "100%" },
+            mt: 0,
             gap: 3,
           }}
         >

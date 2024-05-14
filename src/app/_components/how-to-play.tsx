@@ -15,7 +15,7 @@ export const HowToPlay: FunctionComponent = () => {
       <Typography
         sx={{ color: "common.white", fontSize: "40px", fontWeight: "bold" }}
       >
-        Enter the BUILD game
+        The BUILD game
       </Typography>
 
       <Stack
@@ -28,37 +28,13 @@ export const HowToPlay: FunctionComponent = () => {
         <Stack
           sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
         >
-          <Stack sx={{ alignItems: "center", gap: 1 }}>
-            <Coin sx={{ color: "common.white", fontSize: "64px" }} />
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "24px",
-                fontWeight: "bold",
-              }}
-            >
-              Budget
-            </Typography>
-
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "16px",
-                textAlign: "center",
-              }}
-            >
-              Each player has an individual daily budget, based on their{" "}
-              <Link
-                href="https://talentprotocol.notion.site/How-to-get-more-credentials-cebd2bb0d1574ce0b32d369d3316cda2"
-                target="_blank"
-                sx={{
-                  color: "common.white",
-                  textDecoration: "underline",
-                }}
-              >
-                Builder Score
-              </Link>
-              . Claim your Talent Passport to increase your score and budget.
+          <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
+            <Coin sx={{ fontSize: "64px" }} />
+            <Typography level="h3">Budget</Typography>
+            <Typography>
+              Each player has an individual daily budget, based on their Builder
+              Score. Claim your Talent Passport to increase your score and
+              budget.
             </Typography>
 
             <Button
@@ -78,25 +54,11 @@ export const HowToPlay: FunctionComponent = () => {
         <Stack
           sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
         >
-          <Stack sx={{ alignItems: "center", gap: 1 }}>
-            <FingerNominate sx={{ color: "common.white", fontSize: "64px" }} />
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "24px",
-                fontWeight: "bold",
-              }}
-            >
-              Nominations
-            </Typography>
+          <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
+            <FingerNominate sx={{ fontSize: "64px" }} />
+            <Typography level="h3">Nominations</Typography>
 
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "16px",
-                textAlign: "center",
-              }}
-            >
+            <Typography>
               Search username or share your link to nominate up to 3
               builders/day. Each nomination receives 90% of your Daily Budget,
               you earn 10%.
@@ -119,27 +81,11 @@ export const HowToPlay: FunctionComponent = () => {
         <Stack
           sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
         >
-          <Stack sx={{ alignItems: "center", gap: 1 }}>
-            <DroneCameraAirdrop
-              sx={{ color: "common.white", fontSize: "64px" }}
-            />
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "24px",
-                fontWeight: "bold",
-              }}
-            >
-              Airdrop
-            </Typography>
+          <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
+            <DroneCameraAirdrop sx={{ fontSize: "64px" }} />
+            <Typography level="h3">Airdrop</Typography>
 
-            <Typography
-              sx={{
-                color: "common.white",
-                fontSize: "16px",
-                textAlign: "center",
-              }}
-            >
+            <Typography>
               BUILD Points convert into $BUILD tokens, after Airdrop 1 ends in
               June. $BUILD is 100% community owned. No team or investors
               allocation.

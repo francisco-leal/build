@@ -12,14 +12,15 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = ({
     {...props}
     component={component}
     sx={{
-      mx: "auto",
       alignItems: "center",
       justifyContent: "center",
       textAlign: "center",
       width: "100%",
       maxWidth: { xs: "md", md: "lg" },
+      mx: "auto",
       px: { xs: 2, md: 3.5 },
-      my: { xs: 2, md: 10 },
+      mb: { xs: 2, md: 10 },
+      mt: { xs: 2, md: 10 },
       ...sx,
     }}
   />

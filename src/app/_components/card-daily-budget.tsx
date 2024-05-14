@@ -29,17 +29,8 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Recalculated daily at 3:00pm UTC, based on Points earned, Builder Score,
-        and Streak. Read more in{" "}
-        <Link
-          href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
-          target="_blank"
-          textColor="neutral.500"
-          sx={{ textDecoration: "underline" }}
-        >
-          FAQ
-        </Link>
-        .
+        Recalculated daily at <strong>00:00 UTC</strong>, based on Points
+        earned, Builder Score, and Streak.
       </Typography>
     </BlockyCard>
   );

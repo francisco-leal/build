@@ -3,8 +3,8 @@
 import { inputClasses, tabClasses, tabPanelClasses } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
 import { SystemProps } from "@mui/joy/styles/types";
-import { ThemeLink } from "./theme-link";
 import Background from "@/app/(pages)/(home)/nominate/[walletId]/page";
+import { ThemeLink } from "./theme-link";
 
 const colors = {
   bossBlue: "#0142F5",

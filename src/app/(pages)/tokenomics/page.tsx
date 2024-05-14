@@ -47,13 +47,13 @@ export default function Tokenomics() {
         </Typography>
 
         <Link
-          href="#"
+          href="https://basescan.org/token/0x3c281a39944a2319aa653d81cfd93ca10983d234"
           level="body-lg"
           textColor={"common.white"}
           underline="hover"
         >
           {abbreviateWalletAddress(
-            "0xf4ecthisisaplceholderThatdoesnotshowupeEc64F",
+            "0x3c281a39944a2319aa653d81cfd93ca10983d234",
           )}
           <ExternalLink sx={{ pl: 1 }} />
         </Link>

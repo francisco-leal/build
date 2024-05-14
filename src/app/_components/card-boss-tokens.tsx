@@ -19,7 +19,7 @@ export const CardBossTokens: FunctionComponent<
   BossTokensCardComponentProps
 > = ({ loading }) => {
   const { address } = useAccount();
-  const { data: tokens } = useReadContract({
+  const { data: tokens, isLoading } = useReadContract({
     abi: erc20Abi,
     address: BUILD_TOKEN_ADDRESS,
     functionName: "balanceOf",
@@ -60,7 +60,7 @@ export const CardBossTokens: FunctionComponent<
         <Typography
           sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
         >
-          {loading ? "---.--" : displayBalance()}
+          {loading || isLoading ? "---.--" : displayBalance()}
         </Typography>
       </Stack>
 

@@ -38,14 +38,16 @@ export const getTableMyNominationsValues = async (): Promise<
     const date = firstDate.plus({ days: i }).toFormat("LLL dd");
     const numberOfEntries = values.filter((v) => v.date === date).length;
     const missingEntries = Math.max(3 - numberOfEntries, 0);
-    values.push(...[...Array(missingEntries).keys()].map((k) => ({
-      key: `missing-${date}-${k}`,
-      date: firstDate.plus({ days: i }).toFormat("LLL dd"),
-      missed: true,
-      name: null,
-      rank: null,
-      pointsGiven: null,
-    })));
+    values.push(
+      ...[...Array(missingEntries).keys()].map((k) => ({
+        key: `missing-${date}-${k}`,
+        date: firstDate.plus({ days: i }).toFormat("LLL dd"),
+        missed: true,
+        name: null,
+        rank: null,
+        pointsGiven: null,
+      })),
+    );
   }
 
   // Sort the table by date
@@ -59,7 +61,7 @@ export const getTableMyNominationsValues = async (): Promise<
   sortedValues.forEach((val, i, arr) => {
     const previous = arr[i - 1];
     if (!previous) return;
-    val.odd = (previous.date === val.date) ? previous.odd : !previous.odd;
+    val.odd = previous.date === val.date ? previous.odd : !previous.odd;
   });
 
   return sortedValues;

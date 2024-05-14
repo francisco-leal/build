@@ -33,7 +33,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
 
   return (
     <Stack component="main">
-      <HeroSectionSlim backgroundImage={backgroundImage.src}>
+      <HeroSectionSlim backgroundImage={backgroundImage.src} sx={{ mb: 0 }}>
         <Typography level="h1">
           Nominate <Interface /> the best
           <br />
@@ -41,12 +41,15 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung heroes of the blockchain. Find undervalued
-          builders, play the nomination game, and earn BUILD points.
+          Celebrate the unsung heroes of the blockchain.
+          <br />
+          Nominate undervalued builders and earn BUILD points.
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
-      <HeroSection sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3 }}>
+      <HeroSection
+        sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
+      >
         <BlockyCard sx={{ minHeight: 250 }}>
           <Lego />
           <Typography level="h3" textColor="common.black">
