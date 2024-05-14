@@ -73,7 +73,7 @@ const handler = frames(async (ctx) => {
       } else {
         try {
           // proceed to nominate builder
-          const newNomination = await createNewNomination(
+          await createNewNomination(
             nominatedBuilderProfile.wallet,
             userAddress,
           );

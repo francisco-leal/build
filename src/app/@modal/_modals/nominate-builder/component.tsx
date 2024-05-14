@@ -17,7 +17,7 @@ import {
   useTheme,
 } from "@mui/joy";
 import { toast } from "sonner";
-import { createNewNomination } from "@/app/_api/create-new-nomination";
+import { createNewNomination, createNewNominationForCurrentUser } from "@/app/_api/create-new-nomination";
 import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
@@ -72,7 +72,7 @@ export const NominateBuilderComponent: FunctionComponent<
     startNomination(async () => {
       if (!builderWallet) return;
       try {
-        await createNewNomination(builderWallet);
+        await createNewNominationForCurrentUser(builderWallet);
         toast.success("Successfully nominated user!");
         router.refresh();
       } catch (e) {

@@ -73,9 +73,9 @@ export const hasExceededNominationsToday = async (nominatorWallet: string) => {
 
 export async function createNewNomination(
   walletToNominate: string,
-  userAddress?: string,
+  userAddress: string,
 ) {
-  const nominatorUser = await getCurrentUser(userAddress);
+  const nominatorUser = await getOrCreateUser(userAddress);
   const nominatedUser = await getOrCreateUser(walletToNominate);
   const nominatorWallet = nominatorUser?.wallet?.toLowerCase();
   const nominatedWallet = nominatedUser?.wallet?.toLowerCase();
@@ -137,4 +137,12 @@ export async function createNewNomination(
   revalidateTag(`user_${nominatorUser.wallet}` as CacheKey);
   revalidateTag(`nominations` as CacheKey);
   return nominatedUser;
+}
+
+export async function createNewNominationForCurrentUser(
+  walletToNominate: string,
+) {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) throw new BadRequestError("Could not find user");
+  return createNewNomination(walletToNominate, currentUser.wallet);
 }
