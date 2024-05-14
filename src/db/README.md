@@ -172,9 +172,8 @@ $$ LANGUAGE plpgsql;
 <summary><b>[FUNCTION] Calculate boss budget for a single user</b></summary>
 
 ```sql
-CREATE OR REPLACE FUNCTION calculate_boss_budget_for_user(user_to_update uuid) RETURNS VOID AS $$
+CREATE FUNCTION calculate_boss_budget_user(user_to_update uuid) RETURNS VOID AS $$
 BEGIN
-    -- Update boss_budget for all users based on existing data
     UPDATE users
     SET boss_budget =
         CASE

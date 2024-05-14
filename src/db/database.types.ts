@@ -211,7 +211,7 @@ export type Database = {
       calculate_boss_budget_for_user:
         | {
             Args: {
-              id_to_update: string;
+              user_to_update: string;
             };
             Returns: undefined;
           }
@@ -221,6 +221,12 @@ export type Database = {
             };
             Returns: undefined;
           };
+      calculate_boss_budget_user: {
+        Args: {
+          user_to_update: string;
+        };
+        Returns: undefined;
+      };
       reset_nomination_streak: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;

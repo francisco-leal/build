@@ -121,8 +121,8 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
 
   if (!user) throw new Error("User creation failed");
 
-  await supabase.rpc("calculate_boss_budget_for_user", {
-    id_to_update: user.id,
+  await supabase.rpc("calculate_boss_budget_user", {
+    user_to_update: user.id,
   });
 
   return user;
