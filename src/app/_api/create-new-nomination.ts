@@ -40,8 +40,10 @@ export const isSelfNomination = async (
 ) => {
   return (
     nominatorUser.wallet === nominatedUser.wallet ||
-    nominatorUser.farcaster_id === nominatedUser.farcaster_id ||
-    nominatorUser.passport_id === nominatedUser.passport_id
+    (nominatorUser.farcaster_id &&
+      nominatorUser.farcaster_id === nominatedUser.farcaster_id) ||
+    (nominatorUser.passport_id &&
+      nominatorUser.passport_id === nominatedUser.passport_id)
   );
 };
 
