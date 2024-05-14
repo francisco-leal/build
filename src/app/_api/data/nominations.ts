@@ -55,7 +55,7 @@ export const getNomination = async (
         .from("boss_nominations")
         .select(SELECT_NOMINATIONS)
         .eq("user_id", userId)
-        .eq("wallet_id", walletId)
+        .in("wallet_id", wallet.allWallets)
         .throwOnError()
         .then((res) => res.data?.[0]);
 
@@ -148,7 +148,14 @@ export const isUpdatingLeaderboard = async () => {
 };
 
 export const isDuplicateNomination = async (user: User, wallet: WalletInfo) => {
-  return !!(await getNomination(user, wallet));
+  const count = await supabase
+    .from("boss_nominations")
+    .select("id")
+    .eq("user_id", user.id)
+    .in("wallet_id", wallet.allWallets)
+    .throwOnError()
+    .then((res) => res.data?.length ?? 0);
+  return count > 0;
 };
 
 export const hasExceededNominationsToday = async (nominatorUser: User) => {

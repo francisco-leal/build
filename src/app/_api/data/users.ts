@@ -1,6 +1,6 @@
 "use server";
 
-import { unstable_cache } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
@@ -125,6 +125,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     user_to_update: user.id,
   });
 
+  allWallets.forEach((w) => revalidatePath(`wallet_info_${w.wallet}`));
   return user;
 };
 
@@ -166,4 +167,6 @@ export const connectUserToWallets = async (user: User, wallet: string) => {
     .from("wallets")
     .upsert(allWallets.map((w) => ({ ...w })))
     .throwOnError();
+
+  // TODO invalidate duplicate nominations
 };

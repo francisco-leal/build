@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { sealData } from "iron-session";
 import { SiweMessage, generateNonce } from "siwe";
