@@ -5,12 +5,12 @@ import { getFarcasterBuilderProfile } from "@/services/farcaster";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
 import { CACHE_5_MINUTES } from "./helpers/cache-keys";
 
-type Builder = {
+export type Builder = {
   username: string;
   wallet: string;
   image?: string;
-  farcasterId?: number;
-  passportId?: number;
+  farcaster_id?: number;
+  passport_id?: number;
   allWallets: string[];
 };
 

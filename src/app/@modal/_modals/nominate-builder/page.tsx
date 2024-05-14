@@ -72,7 +72,7 @@ export default async function NominateBuilder({
         ),
       };
     }
-    if (await isSelfNomination(currentUser.wallet, builder.wallet)) {
+    if (await isSelfNomination(currentUser, builder)) {
       return {
         state: "INVALID_NOMINATION" as const,
         infoMessage: (

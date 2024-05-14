@@ -31,7 +31,7 @@ export async function createNewUser(
   // calculate boss_budget
   // we ignore the boss points and nomination streak at this point,
   // given both are zero!
-  const fid = builderProfile.farcasterId;
+  const fid = builderProfile.farcaster_id;
 
   const randomString = Buffer.from(crypto.randomUUID()).toString("base64");
   const inviteCode = randomString.slice(0, 8);

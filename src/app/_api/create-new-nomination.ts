@@ -5,8 +5,10 @@ import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
 import { getOrCreateUser } from "./create-new-user";
+import { Builder } from "./get-builder";
 import { getNomination, getNominationsFromWallet } from "./get-nomination";
 import { getCurrentUser, getUser } from "./get-user";
+import { User } from "./get-user";
 import { CacheKey } from "./helpers/cache-keys";
 import { JobTypes } from "./helpers/job-types";
 
@@ -33,10 +35,14 @@ export const getBossNominationBalances = async (wallet: string) => {
 };
 
 export const isSelfNomination = async (
-  nominatorWallet: string,
-  nominatedWallet: string,
+  nominatorUser: User,
+  nominatedUser: User | Builder,
 ) => {
-  return nominatorWallet === nominatedWallet;
+  return (
+    nominatorUser.wallet === nominatedUser.wallet ||
+    nominatorUser.farcaster_id === nominatedUser.farcaster_id ||
+    nominatorUser.passport_id === nominatedUser.passport_id
+  );
 };
 
 export const isUpdatingLeaderboard = async () => {
@@ -75,7 +81,7 @@ export async function createNewNomination(walletToNominate: string) {
   if (!nominatedUser) {
     throw new BadRequestError("Could not find nominated user");
   }
-  if (await isSelfNomination(nominatorWallet, nominatedWallet)) {
+  if (await isSelfNomination(nominatorUser, nominatedUser)) {
     throw new BadRequestError("You cannot nominate yourself!");
   }
   if (await isDuplicateNomination(nominatorWallet, nominatedWallet)) {
