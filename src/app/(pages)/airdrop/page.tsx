@@ -80,7 +80,7 @@ export default async function AirdropPage() {
           }}
         >
           <CardBossPoints points={user.boss_score} />
-          <CardBossTokens tokens={user.boss_token_balance} />
+          <CardBossTokens />
           <CardBuilderScore score={user.passport_builder_score} />
         </HeroSection>
         <HeroSectionWithOverflow>

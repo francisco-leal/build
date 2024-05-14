@@ -415,7 +415,7 @@ BEGIN
     FROM (
         SELECT
             wallet, boss_score, passport_builder_score, username, boss_nominations_received,
-            ROW_NUMBER() OVER (ORDER BY boss_score, passport_builder_score DESC) AS rank
+            ROW_NUMBER() OVER (ORDER BY boss_score DESC) AS rank
         FROM user_scores
     ) AS subquery
     ON CONFLICT (wallet) DO UPDATE
