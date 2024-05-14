@@ -44,7 +44,7 @@ const handler = frames(async (ctx) => {
       },
     };
   }
-  const farcasterUser = await getOrCreateUser(userAddress!); // create a user for the voter if not found
+  const farcasterUser = await getOrCreateUser(userAddress!, true); // create a user for the voter if not found
   const userBalances = await getBossNominationBalances(farcasterUser.wallet);
 
   return {

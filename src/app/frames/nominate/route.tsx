@@ -55,7 +55,7 @@ const handler = frames(async (ctx) => {
     if (builderProfiles.length > 0) {
       nominatedBuilderProfile = builderProfiles[0];
     }
-    const farcasterUser = await getOrCreateUser(userAddress!); // create a user for the voter if not found
+    const farcasterUser = await getOrCreateUser(userAddress!, true); // create a user for the voter if not found
     const todayNominations = await getTodaysNominations(farcasterUser.wallet!);
     const userBalances = await getBossNominationBalances(farcasterUser.wallet!);
 
