@@ -520,7 +520,7 @@ $$ LANGUAGE plpgsql;
 <summary><b>[FUNCTION] Calculate boss budget for a single user</b></summary>
 
 ```sql
-CREATE OR REPLACE FUNCTION calculate_boss_budget_for_user(wallet_to_update varchar) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION calculate_boss_budget_for_user(id_to_update uuid) RETURNS VOID AS $$
 BEGIN
     -- Update boss_budget for all users based on existing data
     UPDATE users
@@ -537,7 +537,7 @@ BEGIN
                 (passport_builder_score * 20 + boss_token_balance * 0.001) *
                 (CASE WHEN manifesto_nft THEN 1.2 ELSE 1 END)
         END
-    WHERE wallet = wallet_to_update;
+    WHERE id = id_to_update;
 END;
 $$ LANGUAGE plpgsql;
 ```

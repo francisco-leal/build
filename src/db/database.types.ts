@@ -199,12 +199,25 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
-      calculate_boss_budget_for_user: {
+      calculate_boss_budget_for_single_user: {
         Args: {
-          wallet_to_update: string;
+          id_to_update: string;
         };
         Returns: undefined;
       };
+      calculate_boss_budget_for_user:
+        | {
+            Args: {
+              id_to_update: string;
+            };
+            Returns: undefined;
+          }
+        | {
+            Args: {
+              wallet_to_update: string;
+            };
+            Returns: undefined;
+          };
       reset_nomination_streak: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;

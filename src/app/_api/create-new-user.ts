@@ -12,8 +12,8 @@ import {
   getTalentProtocolUser,
 } from "@/services/talent-protocol";
 import { BadRequestError } from "@/shared/utils/error";
-import { getWalletInfo } from "./get-wallet-info";
 import { getUserFromId } from "./get-user";
+import { getWalletInfo } from "./get-wallet-info";
 import { CacheKey } from "./helpers/cache-keys";
 
 export type User = Database["public"]["Tables"]["users"]["Row"];
@@ -69,6 +69,11 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     .then((res) => res.data?.[0]);
 
   if (!user) throw new Error("User creation failed");
+
+  await supabase.rpc("calculate_boss_budget_for_user", {
+    id_to_update: user.id,
+  });
+
   return user;
 };
 
