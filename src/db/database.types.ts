@@ -129,7 +129,7 @@ export type Database = {
           farcaster_id: number | null;
           id: string;
           manifesto_nft_token_id: number | null;
-          passport_builder_score: number | null;
+          passport_builder_score: number;
           passport_id: number | null;
           username: string | null;
         };
@@ -142,7 +142,7 @@ export type Database = {
           farcaster_id?: number | null;
           id?: string;
           manifesto_nft_token_id?: number | null;
-          passport_builder_score?: number | null;
+          passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
         };
@@ -155,7 +155,7 @@ export type Database = {
           farcaster_id?: number | null;
           id?: string;
           manifesto_nft_token_id?: number | null;
-          passport_builder_score?: number | null;
+          passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
         };
