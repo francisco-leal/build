@@ -133,8 +133,8 @@ export const theme = extendTheme({
           border: "1px solid",
           borderColor: theme.vars.palette.primary[200],
           color: theme.vars.palette.primary[400],
-          [`&.${inputClasses.focused}`]: {
-            borderColor: theme.vars.palette.primary[200],
+          [`&:not([data-inverted-colors="false"])`]: {
+            "--Select-focusedHighlight": theme.vars.palette.primary[400],
           },
         }),
       },
@@ -142,12 +142,13 @@ export const theme = extendTheme({
     JoyInput: {
       styleOverrides: {
         root: ({ theme }) => ({
+          "--Input-placeholderOpacity": 1,
           height: 40,
           border: "1px solid",
           borderColor: theme.vars.palette.primary[200],
           color: theme.vars.palette.primary[400],
-          [`&.${inputClasses.focused}`]: {
-            borderColor: theme.vars.palette.primary[200],
+          [`&:not([data-inverted-colors="false"])`]: {
+            "--Input-focusedHighlight": theme.vars.palette.primary[400],
           },
         }),
       },

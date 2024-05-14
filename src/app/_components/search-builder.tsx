@@ -76,14 +76,14 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
           value={searchDomain}
           onChange={(_, v) => v && setSearchDomain(v)}
           placeholder={SearchOptions[searchDomain]}
-          renderValue={(v) =>SearchOptions[searchDomain].split(" ")[0]}
+          renderValue={(v) => SearchOptions[searchDomain].split(" ")[0]}
           sx={{
             borderRadius: 0,
             width: "180px",
           }}
         >
           {Object.keys(SearchOptions).map((key) => (
-            <Option key={key} value={key}>
+            <Option key={key} value={key} sx={{ color: "neutral.600" }}>
               {SearchOptions[key]}
             </Option>
           ))}
