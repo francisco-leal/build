@@ -126,13 +126,26 @@ export const theme = extendTheme({
         },
       },
     },
+    JoySelect: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          height: 40,
+          border: "1px solid",
+          borderColor: theme.vars.palette.primary[200],
+          color: theme.vars.palette.primary[400],
+          [`&.${inputClasses.focused}`]: {
+            borderColor: theme.vars.palette.primary[200],
+          },
+        }),
+      },
+    },
     JoyInput: {
       styleOverrides: {
         root: ({ theme }) => ({
           height: 40,
           border: "1px solid",
           borderColor: theme.vars.palette.primary[200],
-          color: theme.vars.palette.primary[500],
+          color: theme.vars.palette.primary[400],
           [`&.${inputClasses.focused}`]: {
             borderColor: theme.vars.palette.primary[200],
           },
