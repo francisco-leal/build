@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { supabase } from "@/db";
 
 type BuilderProfile = {
@@ -87,7 +88,7 @@ export const getFarcasterBuilderProfile = async (
   };
 
   const response = await fetch(url, { headers });
-  if (!response.ok) throw new Error(response.statusText);
+  if (!response.ok) return notFound();
 
   const data = (await response.json()) as { [key: string]: FarcasterAPIUser[] };
   if (!data) return null;

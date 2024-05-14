@@ -55,7 +55,6 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
     enabled: debouncedSearchValue.length > 2,
     placeholderData: [],
     queryFn: async (): Promise<SearchResponseUser[]> => {
-      if (debouncedSearchValue.length < 3) return Promise.resolve([]);
       const baseUrl = window.location.origin;
       const endpoint = new URL("/api/search", baseUrl);
       const params = { query: debouncedSearchValue, domain: searchDomain };
@@ -64,15 +63,6 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
       return data as Promise<SearchResponseUser[]>;
     },
   });
-
-  const handleSelectChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null,
-  ) => {
-    if (!newValue) return;
-    setSearchDomain(newValue);
-    searchQuery.refetch();
-  };
 
   return (
     <Stack
@@ -83,15 +73,17 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
         sx={{ display: "flex", flexDirection: "row", width: "100%", gap: 1 }}
       >
         <Select
-          defaultValue={searchDomain}
-          onChange={handleSelectChange}
+          value={searchDomain}
+          onChange={(_, v) => v && setSearchDomain(v)}
+          placeholder={SearchOptions[searchDomain]}
+          renderValue={(v) => SearchOptions[searchDomain].split(" ")[0]}
           sx={{
             borderRadius: 0,
             width: "180px",
           }}
         >
           {Object.keys(SearchOptions).map((key) => (
-            <Option key={`search-option-${key}`} value={key}>
+            <Option key={key} value={key} sx={{ color: "neutral.600" }}>
               {SearchOptions[key]}
             </Option>
           ))}
