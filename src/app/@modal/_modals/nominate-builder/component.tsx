@@ -17,7 +17,10 @@ import {
   useTheme,
 } from "@mui/joy";
 import { toast } from "sonner";
-import { createNewNomination, createNewNominationForCurrentUser } from "@/app/_api/create-new-nomination";
+import {
+  createNewNomination,
+  createNewNominationForCurrentUser,
+} from "@/app/_api/create-new-nomination";
 import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";

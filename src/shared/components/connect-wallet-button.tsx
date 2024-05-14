@@ -19,6 +19,7 @@ export const ConnectWalletButton = ({
 
   return (
     <NoSsr fallback={<Button disabled>Connect&nbsp;Wallet</Button>}>
+      {/**
       <Stack
         {...props}
         sx={{
@@ -50,6 +51,8 @@ export const ConnectWalletButton = ({
       >
         <w3m-button />
       </Stack>
+       */}
+      <Button disabled>Coming soon</Button>
     </NoSsr>
   );
 };

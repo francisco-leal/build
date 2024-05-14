@@ -60,9 +60,11 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             rewards onchain builders via peer nominations.
           </Typography>
           <Button
-            href={"/uniswap"}
+            href={
+              "https://app.uniswap.org/explore/tokens/base/0x3c281a39944a2319aa653d81cfd93ca10983d234"
+            }
+            target="_blank"
             component={Link}
-            disabled={true}
             variant="solid"
             color="neutral"
             sx={{ mt: 2 }}

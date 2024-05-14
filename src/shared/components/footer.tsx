@@ -33,12 +33,13 @@ export const Footer = () => {
           },
         }}
       >
-        <Typography>Uniswap</Typography>
         <Link
-          href="https://warpcast.com/~/channel/build"
+          href="https://app.uniswap.org/explore/tokens/base/0x3c281a39944a2319aa653d81cfd93ca10983d234"
           target="_blank"
-          sx={{ color: "common.white" }}
         >
+          Uniswap
+        </Link>
+        <Link href="https://warpcast.com/~/channel/build" target="_blank">
           Farcaster
         </Link>
         <Link

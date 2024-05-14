@@ -76,22 +76,7 @@ export default function RootLayout({
             <AuthenticationProvider>
               <Header />
               {children}
-              <Alert
-                color="danger"
-                sx={{
-                  borderRadius: 0,
-                  position: "fixed",
-                  bottom: 0,
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                This page is still under construction. Data can be deleted and
-                recalculated at any point. Reach out to the devs if you find
-                issues.
-              </Alert>
               <Footer />
-              <Box sx={{ height: 40 }} />
               <Toaster richColors closeButton />
               {modal}
             </AuthenticationProvider>
