@@ -18,7 +18,7 @@ export type Database = {
           passport_builder_score: number;
           rank: number | null;
           user_id: string;
-          username: string | null;
+          username: string;
         };
         Insert: {
           boss_score?: number;
@@ -28,7 +28,7 @@ export type Database = {
           passport_builder_score?: number;
           rank?: number | null;
           user_id: string;
-          username?: string | null;
+          username: string;
         };
         Update: {
           boss_score?: number;
@@ -38,7 +38,7 @@ export type Database = {
           passport_builder_score?: number;
           rank?: number | null;
           user_id?: string;
-          username?: string | null;
+          username?: string;
         };
         Relationships: [
           {
