@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: description,
       type: "website",
       url: "https://boss.community",
-      images: ["https://boss.community/images/BOSS-thumbnail.jpg"],
+      images: ["https://boss.community/images/BUILD-thumbnail.jpg"],
     },
     other: {
       ...(await fetchMetadata(new URL(FRAMES_BASE_PATH, appURL()))),
