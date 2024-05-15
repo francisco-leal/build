@@ -5,8 +5,6 @@ import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
 import {
-  CACHE_1_MINUTE,
-  CACHE_5_MINUTES,
   CacheKey,
 } from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
@@ -32,7 +30,7 @@ const SELECT_NOMINATIONS = `
   origin_user_id,
   destination_wallet_id,
   created_at,
-  destination_wallet_id:wallets (
+  wallets:destination_wallet_id (
     wallet,
     users (
       id,
@@ -67,7 +65,7 @@ export const getNomination = async (
     bossPointsEarned: nomination.boss_points_received,
     bossPointsGiven: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
-    destinationUsername: nomination.destination_wallet_id?.users?.username ?? null,
+    destinationUsername: nomination.wallets?.users?.username ?? null,
     destinationRank:
       nomination.destination_wallet_id?.users?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
