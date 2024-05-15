@@ -18,7 +18,7 @@
     }
   ],
   "functions": {
-    "api/cron/*": {
+    "/api/cron/*": {
       "maxDuration": 300
     }
   }
