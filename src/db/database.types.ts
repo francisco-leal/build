@@ -55,40 +55,53 @@ export type Database = {
           boss_points_received: number;
           boss_points_sent: number;
           created_at: string;
+          destination_username: string | null;
+          destination_wallet_id: string;
           id: number;
-          user_id: string;
+          origin_user_id: string;
+          origin_wallet_id: string | null;
           valid: boolean;
-          wallet_id: string;
         };
         Insert: {
           boss_points_received: number;
           boss_points_sent: number;
           created_at?: string;
+          destination_username?: string | null;
+          destination_wallet_id: string;
           id?: number;
-          user_id: string;
+          origin_user_id: string;
+          origin_wallet_id?: string | null;
           valid?: boolean;
-          wallet_id: string;
         };
         Update: {
           boss_points_received?: number;
           boss_points_sent?: number;
           created_at?: string;
+          destination_username?: string | null;
+          destination_wallet_id?: string;
           id?: number;
-          user_id?: string;
+          origin_user_id?: string;
+          origin_wallet_id?: string | null;
           valid?: boolean;
-          wallet_id?: string;
         };
         Relationships: [
           {
+            foreignKeyName: "boss_nominations_origin_wallet_id_fkey";
+            columns: ["origin_wallet_id"];
+            isOneToOne: false;
+            referencedRelation: "wallets";
+            referencedColumns: ["wallet"];
+          },
+          {
             foreignKeyName: "boss_nominations_user_id_fkey";
-            columns: ["user_id"];
+            columns: ["origin_user_id"];
             isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "boss_nominations_wallet_id_fkey";
-            columns: ["wallet_id"];
+            columns: ["destination_wallet_id"];
             isOneToOne: false;
             referencedRelation: "wallets";
             referencedColumns: ["wallet"];
@@ -167,6 +180,7 @@ export type Database = {
           farcaster_id: number | null;
           passport_id: number | null;
           user_id: string | null;
+          username: string | null;
           wallet: string;
         };
         Insert: {
@@ -174,6 +188,7 @@ export type Database = {
           farcaster_id?: number | null;
           passport_id?: number | null;
           user_id?: string | null;
+          username?: string | null;
           wallet: string;
         };
         Update: {
@@ -181,6 +196,7 @@ export type Database = {
           farcaster_id?: number | null;
           passport_id?: number | null;
           user_id?: string | null;
+          username?: string | null;
           wallet?: string;
         };
         Relationships: [
