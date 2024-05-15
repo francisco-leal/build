@@ -16,6 +16,13 @@ export type LeaderboardTableProps = {
   loading?: boolean;
 } & SheetProps;
 
+const shortenWallet = (wallet: string) => {
+  if (!wallet) return "";
+  if (wallet.includes("0x"))
+    return `${wallet.slice(0, 6)}...${wallet.slice(-4)}`;
+  return wallet;
+};
+
 export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
   values = [],
   loading,
@@ -38,9 +45,9 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
           values.map((val) => (
             <tr key={val.id} className={val.highlight ? "blue" : ""}>
               <td>{val.rank}</td>
-              <td>{val.name}</td>
+              <td>{shortenWallet(val.name)}</td>
               <td>{val.builderScore}</td>
-              <td>{val.bossScore}</td>
+              <td>{Math.round(val.bossScore)}</td>
               <td>{val.nominationsReceived ?? "Missed"}</td>
             </tr>
           ))}

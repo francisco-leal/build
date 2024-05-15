@@ -28,27 +28,27 @@ CREATE OR REPLACE FUNCTION update_leaderboard()
 RETURNS VOID AS $$
 BEGIN
     WITH user_scores AS (
-        SELECT u.wallet, u.boss_score, u.passport_builder_score, u.username,
-               COALESCE(COUNT(bn.id), 0) AS boss_nominations_received
+        SELECT u.id as user_id, u.boss_score, u.passport_builder_score, u.username,
+               COALESCE(COUNT(bn.id), 0) AS total_nominations
         FROM users u
-        LEFT JOIN boss_nominations bn ON u.destination_wallet_id = bn.wallet_destination
-        GROUP BY u.wallet
+        LEFT JOIN boss_nominations bn ON u.id = bn.origin_user_id
+        GROUP BY user_id
     )
-    INSERT INTO boss_leaderboard (wallet, rank, boss_score, passport_builder_score, username, boss_nominations_received)
-    SELECT wallet, rank, boss_score, passport_builder_score, username, boss_nominations_received
+    INSERT INTO boss_leaderboard (user_id, rank, boss_score, passport_builder_score, username, nominations_received)
+    SELECT user_id, rank, boss_score, passport_builder_score, username, nominations_received
     FROM (
         SELECT
-            wallet, boss_score, passport_builder_score, username, boss_nominations_received,
+            user_id, boss_score, passport_builder_score, username, total_nominations as nominations_received,
             ROW_NUMBER() OVER (ORDER BY boss_score DESC) AS rank
         FROM user_scores
     ) AS subquery
-    ON CONFLICT (wallet) DO UPDATE
+    ON CONFLICT (user_id) DO UPDATE
     SET
         rank = excluded.rank,
         boss_score = excluded.boss_score,
         passport_builder_score = excluded.passport_builder_score,
         username = excluded.username,
-        boss_nominations_received = excluded.boss_nominations_received;
+        nominations_received = excluded.nominations_received;
 END;
 $$ LANGUAGE plpgsql;
 ```
@@ -120,11 +120,24 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION update_boss_daily_streak_for_user(user_to_update uuid) RETURNS VOID AS $$
 DECLARE
     today_date DATE;
+    last_nomination_date DATE;
 BEGIN
     -- Calculate today's date at 00:00 GMT
     today_date := date_trunc('day', CURRENT_DATE) AT TIME ZONE 'GMT';
 
-    -- Update nomination_streak for the specified wallet if they have a nomination today
+    -- Retrieve the last nomination date for the specified user
+    SELECT MAX(DATE(created_at))
+    INTO last_nomination_date
+    FROM boss_nominations
+    WHERE origin_user_id = user_to_update;
+
+    -- If the last nomination date is the same as today's date, don't update the streak
+    IF last_nomination_date = today_date THEN
+        RETURN;
+    END IF;
+
+    -- Otherwise, update the streak for today
+    -- Update nomination_streak for the specified user if they made nominations today
     UPDATE users
     SET boss_nomination_streak = boss_nomination_streak + 1
     WHERE id = user_to_update
@@ -141,7 +154,7 @@ $$ LANGUAGE plpgsql;
 </details>
 
 <details>
-<summary><b>[FUNCTION] Calculate boss budget for all users</b></summary>
+<summary><b>[FUNCTION] Calculate boss budget for all users -> not the live function</b></summary>
 
 ```sql
 CREATE OR REPLACE FUNCTION calculate_boss_budget() RETURNS VOID AS $$
@@ -152,6 +165,10 @@ BEGIN
         CASE
             WHEN passport_builder_score = 0 THEN
                 CASE
+                    WHEN farcaster_id IS null THEN
+                        0
+                    WHEN farcaster_id < 0 THEN
+                        0
                     WHEN farcaster_id > 20000 THEN
                         500
                     ELSE
