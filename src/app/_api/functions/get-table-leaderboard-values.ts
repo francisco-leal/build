@@ -35,13 +35,15 @@ export const getTableLeaderboardValues = async (): Promise<
     leaderboard.push(user.boss_leaderboard);
   }
 
-  return leaderboard.map((entry) => ({
-    id: entry.id.toString(),
-    name: entry.username,
-    highlight: entry.user_id === user?.id,
-    builderScore: entry.passport_builder_score,
-    bossScore: entry.boss_score,
-    nominationsReceived: entry.nominations_received,
-    rank: entry.rank?.toString() ?? "---",
-  }));
+  return leaderboard
+    .filter((v) => !!v.id)
+    .map((entry) => ({
+      id: entry.id.toString(),
+      name: entry.username,
+      highlight: entry.user_id === user?.id,
+      builderScore: entry.passport_builder_score,
+      bossScore: entry.boss_score,
+      nominationsReceived: entry.nominations_received,
+      rank: entry.rank?.toString() ?? "---",
+    }));
 };
