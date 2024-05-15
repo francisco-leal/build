@@ -25,6 +25,11 @@ export type User = RawUser & {
   boss_leaderboard: Leaderboard | null;
 };
 
+export type CurrentUser = User & {
+  /** The wallet the user authenticated with for this session */
+  wallet: string;
+};
+
 export const getUserFromId = async (userId: string): Promise<User | null> => {
   return unstable_cache(
     async (id: string) => {
@@ -65,10 +70,11 @@ export const getUserBalances = async (user: User) => {
   };
 };
 
-export const getCurrentUser = async (): Promise<User | null> => {
+export const getCurrentUser = async (): Promise<CurrentUser | null> => {
   const user = await getSession();
   if (!user) return null;
-  return getUserFromId(user.userId);
+  const userFromID = await getUserFromId(user.userId);
+  return userFromID ? { ...userFromID, wallet: user.wallet } : null;
 };
 
 export const createNewUserForWallet = async (wallet: string): Promise<User> => {

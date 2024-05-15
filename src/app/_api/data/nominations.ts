@@ -9,6 +9,7 @@ import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
 import { WalletInfo, createWallet, getWalletFromExternal } from "./wallets";
+import { getSession } from "@/services/authentication/cookie-session";
 
 export type Nomination = {
   id: number;
@@ -140,6 +141,8 @@ export const hasExceededNominationsToday = async (nominatorUser: User) => {
 export const createNewNomination = async (
   nominatorUser: User,
   nominatedWallet: WalletInfo,
+  // TODO formalize this, instead of it being a complete hack
+  origin_wallet_id?: string,
 ): Promise<Nomination> => {
   if (await isSelfNomination(nominatorUser, nominatedWallet)) {
     throw new BadRequestError("You cannot nominate yourself!");
@@ -164,6 +167,7 @@ export const createNewNomination = async (
     .from("boss_nominations")
     .insert({
       origin_user_id: nominatorUser.id,
+      origin_wallet_id:origin_wallet_id,
       destination_wallet_id: nominatedWallet.wallet,
       boss_points_received: balances.pointsEarned,
       boss_points_sent: balances.pointsGiven,
@@ -213,5 +217,5 @@ export const createNewNominationForCurrentUser = async (
   const walletInfo = await getWalletFromExternal(walletToNominate);
   if (!currentUser) throw new BadRequestError("Could not find user");
   if (!walletInfo) throw new BadRequestError("Could not find wallet info");
-  return createNewNomination(currentUser, walletInfo);
+  return createNewNomination(currentUser, walletInfo, currentUser.wallet);
 };
