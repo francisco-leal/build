@@ -46,7 +46,11 @@ export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
               <td>{val.date}</td>
               <td>{val.missed ? "Missed" : val.name ?? "---"}</td>
               <td>{val.missed ? "Missed" : val.rank ?? "---"}</td>
-              <td>{val.missed ? "Missed" : val.pointsGiven ?? "---"}</td>
+              <td>
+                {val.missed
+                  ? "Missed"
+                  : Math.round(val.pointsGiven ?? 0) ?? "---"}
+              </td>
             </Box>
           ))}
         {loading &&

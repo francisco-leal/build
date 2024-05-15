@@ -83,6 +83,13 @@ export type Database = {
         };
         Relationships: [
           {
+            foreignKeyName: "boss_nominations_destination_wallet_id_fkey";
+            columns: ["destination_wallet_id"];
+            isOneToOne: false;
+            referencedRelation: "wallets";
+            referencedColumns: ["wallet"];
+          },
+          {
             foreignKeyName: "boss_nominations_origin_wallet_id_fkey";
             columns: ["origin_wallet_id"];
             isOneToOne: false;
@@ -95,13 +102,6 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "boss_nominations_wallet_id_fkey";
-            columns: ["destination_wallet_id"];
-            isOneToOne: false;
-            referencedRelation: "wallets";
-            referencedColumns: ["wallet"];
           },
         ];
       };
@@ -245,6 +245,12 @@ export type Database = {
       };
       reset_nomination_streak: {
         Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
+      test_update: {
+        Args: {
+          user_to_update: string;
+        };
         Returns: undefined;
       };
       update_boss_balances: {

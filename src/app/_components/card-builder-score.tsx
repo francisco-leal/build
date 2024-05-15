@@ -40,7 +40,15 @@ export const CardBuilderScore: FunctionComponent<
         .
       </Typography>
 
-      <Button disabled>Refresh Score</Button>
+      <Button
+        href={"https://passport.talentprotocol.com/settings"}
+        target="_blank"
+        component={Link}
+        variant="solid"
+        color="primary"
+      >
+        Refresh Score
+      </Button>
     </BlockyCard>
   );
 };
