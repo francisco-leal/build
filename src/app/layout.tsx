@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       url: "https://boss.community",
       images: ["https://boss.community/images/BUILD-thumbnail.jpg"],
-    }
+    },
   };
 }
 
