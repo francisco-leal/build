@@ -134,6 +134,7 @@ export type Database = {
           boss_budget: number;
           boss_nomination_streak: number;
           boss_score: number;
+          coinvise_nft: boolean;
           created_at: string;
           farcaster_id: number | null;
           id: string;
@@ -146,6 +147,7 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
+          coinvise_nft?: boolean;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
@@ -158,6 +160,7 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
+          coinvise_nft?: boolean;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;

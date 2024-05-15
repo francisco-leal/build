@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
+import { COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT } from "@/config/coinvise-wallets";
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
@@ -108,6 +109,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     boss_nomination_streak: 0,
     farcaster_id: farcasterUser?.fid ?? null,
     passport_id: talentUser?.passport_id ?? null,
+    coinvise_nft: COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT[walletLc],
   };
 
   const user = await supabase
