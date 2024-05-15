@@ -4,7 +4,6 @@ import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
-import { getBalance } from "@/services/boss-tokens";
 import { getFarcasterUser } from "@/services/farcaster";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
@@ -106,7 +105,6 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     boss_budget: 0,
     boss_score: 0,
     passport_builder_score: talentUser?.score ?? 0,
-    boss_token_balance: await getBalance(walletLc),
     boss_nomination_streak: 0,
     farcaster_id: farcasterUser?.profileTokenId ?? null,
     passport_id: talentUser?.passport_id ?? null,

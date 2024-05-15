@@ -58,7 +58,7 @@ export async function recalculateBossBalance() {
     if (!wallets?.length) continue;
 
     const { data: values } = await supabase
-      .from("users")
+      .from("wallets")
       .select("*")
       .in("wallet", wallets)
       .throwOnError();
@@ -73,6 +73,6 @@ export async function recalculateBossBalance() {
 
     if (!upsertValues?.length) continue;
 
-    await supabase.from("users").upsert(upsertValues).select().throwOnError();
+    await supabase.from("wallets").upsert(upsertValues).select().throwOnError();
   } while (data.result.length > 0 && cursor !== "");
 }

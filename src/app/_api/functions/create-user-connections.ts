@@ -1,4 +1,5 @@
 import { supabase } from "@/db";
+import { getBalance } from "@/services/boss-tokens";
 import { getFarcasterUser } from "@/services/farcaster";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
 import { PartialWallet, User } from "../data/users";
@@ -43,10 +44,53 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     return acc;
   }, []);
 
+  allWallets.forEach(async (w) => {
+    const boss_token_balance = await getBalance(w.wallet);
+    w.boss_token_balance = boss_token_balance;
+  });
+
   await supabase
     .from("wallets")
     .upsert(allWallets.map((w) => ({ ...w })))
     .throwOnError();
 
-  // TODO invalidate duplicate nominations
+  const nominationsForUser = await supabase
+    .from("users")
+    .select("id, wallets(wallet, boss_nominations(*))")
+    .eq("users.id", user.id)
+    .single()
+    .throwOnError()
+    .then((res) => res.data);
+
+  if (!nominationsForUser) return null;
+
+  const nominations = nominationsForUser.wallets
+    .map((w) => w.boss_nominations)
+    .flat();
+  const uniqueNominatorUsers = Array.from(
+    new Set(nominations.map((n) => n.origin_user_id)),
+  );
+
+  uniqueNominatorUsers.forEach(async (userId) => {
+    const nominationsByUser = nominations
+      .filter((n) => n.origin_user_id === userId)
+      .sort((a, b) => {
+        const initial = new Date(a.created_at).getTime();
+        const final = new Date(b.created_at).getTime();
+        return initial - final;
+      });
+
+    if (nominationsByUser.length > 1) {
+      const nominationsToInvalidate = nominationsByUser.slice(1);
+
+      await supabase
+        .from("boss_nominations")
+        .update({ valid: false })
+        .in(
+          "id",
+          nominationsToInvalidate.map((n) => n.id),
+        )
+        .throwOnError();
+    }
+  });
 };

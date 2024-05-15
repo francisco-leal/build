@@ -55,7 +55,6 @@ export type Database = {
           boss_points_received: number;
           boss_points_sent: number;
           created_at: string;
-          destination_username: string | null;
           destination_wallet_id: string;
           id: number;
           origin_user_id: string;
@@ -66,7 +65,6 @@ export type Database = {
           boss_points_received: number;
           boss_points_sent: number;
           created_at?: string;
-          destination_username?: string | null;
           destination_wallet_id: string;
           id?: number;
           origin_user_id: string;
@@ -77,7 +75,6 @@ export type Database = {
           boss_points_received?: number;
           boss_points_sent?: number;
           created_at?: string;
-          destination_username?: string | null;
           destination_wallet_id?: string;
           id?: number;
           origin_user_id?: string;
@@ -137,7 +134,6 @@ export type Database = {
           boss_budget: number;
           boss_nomination_streak: number;
           boss_score: number;
-          boss_token_balance: number;
           created_at: string;
           farcaster_id: number | null;
           id: string;
@@ -150,7 +146,6 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
-          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
@@ -163,7 +158,6 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
-          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
@@ -176,24 +170,30 @@ export type Database = {
       };
       wallets: {
         Row: {
+          boss_token_balance: number | null;
           created_at: string;
           farcaster_id: number | null;
+          image_url: string | null;
           passport_id: number | null;
           user_id: string | null;
           username: string | null;
           wallet: string;
         };
         Insert: {
+          boss_token_balance?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
+          image_url?: string | null;
           passport_id?: number | null;
           user_id?: string | null;
           username?: string | null;
           wallet: string;
         };
         Update: {
+          boss_token_balance?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
+          image_url?: string | null;
           passport_id?: number | null;
           user_id?: string | null;
           username?: string | null;

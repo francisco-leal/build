@@ -13,10 +13,9 @@ CREATE UNIQUE INDEX idx_unique_wallets ON boss_nominations (wallet_origin, walle
 <summary><b>[INDEXES]</b></summary>
 
 ```SQL
-CREATE INDEX idx_wallet_origin ON boss_nominations (wallet_origin);
-CREATE INDEX idx_wallet_destination ON boss_nominations (wallet_destination);
+CREATE INDEX idx_wallet_origin ON boss_nominations (destination_wallet_id);
+CREATE INDEX idx_wallet_destination ON boss_nominations (origin_user_id);
 CREATE INDEX idx_rank ON boss_leaderboard (rank);
-CREATE INDEX idx_referral_code ON users (referral_code);
 ```
 
 </details>
@@ -32,7 +31,7 @@ BEGIN
         SELECT u.wallet, u.boss_score, u.passport_builder_score, u.username,
                COALESCE(COUNT(bn.id), 0) AS boss_nominations_received
         FROM users u
-        LEFT JOIN boss_nominations bn ON u.wallet = bn.wallet_destination
+        LEFT JOIN boss_nominations bn ON u.destination_wallet_id = bn.wallet_destination
         GROUP BY u.wallet
     )
     INSERT INTO boss_leaderboard (wallet, rank, boss_score, passport_builder_score, username, boss_nominations_received)
@@ -72,7 +71,7 @@ BEGIN
     SET boss_score = boss_score + (
         SELECT COALESCE(SUM(boss_points_received), 0)
         FROM boss_nominations
-        WHERE boss_nominations.user_id = user_to_update
+        WHERE boss_nominations.origin_user_id = user_to_update
     )
     WHERE id = user_to_update;
 
@@ -81,7 +80,7 @@ BEGIN
     SET boss_score = boss_score + (
         SELECT COALESCE(SUM(boss_points_sent), 0)
         FROM boss_nominations
-        INNER JOIN wallets on boss_nominations.wallet_id = wallets.wallet
+        INNER JOIN wallets on boss_nominations.destination_wallet_id = wallets.wallet
         WHERE wallets.user_id = user_to_update
     )
     WHERE id = user_to_update;
@@ -132,7 +131,7 @@ BEGIN
     AND EXISTS (
         SELECT 1
         FROM boss_nominations
-        WHERE user_id = user_to_update
+        WHERE origin_user_id = user_to_update
         AND DATE(created_at) = today_date
     );
 END;
@@ -159,7 +158,7 @@ BEGIN
                         1000
                 END
             ELSE
-                (passport_builder_score * 20 + boss_token_balance * 0.001) *
+                (passport_builder_score * 20) *
                 (CASE WHEN manifesto_nft_token_id > 0 THEN 1.2 ELSE 1 END)
         END;
 END;
@@ -172,7 +171,7 @@ $$ LANGUAGE plpgsql;
 <summary><b>[FUNCTION] Calculate boss budget for a single user</b></summary>
 
 ```sql
-CREATE FUNCTION calculate_boss_budget_user(user_to_update uuid) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION calculate_boss_budget_user(user_to_update uuid) RETURNS VOID AS $$
 BEGIN
     UPDATE users
     SET boss_budget =
@@ -185,7 +184,7 @@ BEGIN
                         1000
                 END
             ELSE
-                (passport_builder_score * 20 + boss_token_balance * 0.001) *
+                (passport_builder_score * 20) *
                 (CASE WHEN manifesto_nft_token_id > 0 THEN 1.2 ELSE 1 END)
         END
     WHERE id = user_to_update;
