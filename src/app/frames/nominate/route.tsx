@@ -1,10 +1,8 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
-import { old_getOrCreateUser } from "@/app/_api/create-new-user";
-import {
-  getBossNominationBalances,
-  getTodaysNominations,
-} from "@/app/_api/data/nominations";
+import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
+import { getUserBalances } from "@/app/_api/data/users";
+import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
 import { searchFarcasterBuilderProfiles } from "@/services/farcaster";
 
@@ -55,9 +53,10 @@ const handler = frames(async (ctx) => {
     if (builderProfiles.length > 0) {
       nominatedBuilderProfile = builderProfiles[0];
     }
-    const farcasterUser = await old_getOrCreateUser(userAddress!, true); // create a user for the voter if not found
-    const todayNominations = await getTodaysNominations(farcasterUser.wallet!);
-    const userBalances = await getBossNominationBalances(farcasterUser.wallet!);
+    if (!userAddress) throw new Error("User address not found");
+    const farcasterUser = await getConnectedUserProfile(userAddress);
+    const todayNominations = await getNominationsFromUserToday(farcasterUser);
+    const userBalances = await getUserBalances(farcasterUser);
 
     if (!!nominatedBuilderProfile) {
       // nominated builder profile found

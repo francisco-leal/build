@@ -1,16 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { sealData } from "iron-session";
 import { SiweMessage, generateNonce } from "siwe";
 import { SessionUser } from "@/services/authentication/cookie-session";
-import {
-  User,
-  connectUserToWallets,
-  createNewUserForWallet,
-  getUserFromWallet,
-} from "../data/users";
+import { User, createNewUserForWallet, getUserFromWallet } from "../data/users";
+import { createUserConnections } from "./create-user-connections";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
@@ -29,7 +24,7 @@ export const getConnectedUserProfile = async (
     (await getUserFromWallet(address)) ??
     (await createNewUserForWallet(address));
 
-  await connectUserToWallets(user, address);
+  await createUserConnections(user, address);
 
   return user;
 };
