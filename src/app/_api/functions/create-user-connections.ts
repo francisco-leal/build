@@ -1,4 +1,5 @@
 import { supabase } from "@/db";
+import { getBalance } from "@/services/boss-tokens";
 import { getFarcasterUser } from "@/services/farcaster";
 import { getTalentProtocolUser } from "@/services/talent-protocol";
 import { PartialWallet, User } from "../data/users";
@@ -42,6 +43,11 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     }
     return acc;
   }, []);
+
+  allWallets.forEach(async (w) => {
+    const boss_token_balance = await getBalance(w.wallet);
+    w.boss_token_balance = boss_token_balance;
+  });
 
   await supabase
     .from("wallets")

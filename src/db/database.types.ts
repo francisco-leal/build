@@ -134,7 +134,6 @@ export type Database = {
           boss_budget: number;
           boss_nomination_streak: number;
           boss_score: number;
-          boss_token_balance: number;
           created_at: string;
           farcaster_id: number | null;
           id: string;
@@ -147,7 +146,6 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
-          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
@@ -160,7 +158,6 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
-          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
@@ -173,6 +170,7 @@ export type Database = {
       };
       wallets: {
         Row: {
+          boss_token_balance: number | null;
           created_at: string;
           farcaster_id: number | null;
           passport_id: number | null;
@@ -181,6 +179,7 @@ export type Database = {
           wallet: string;
         };
         Insert: {
+          boss_token_balance?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
           passport_id?: number | null;
@@ -189,6 +188,7 @@ export type Database = {
           wallet: string;
         };
         Update: {
+          boss_token_balance?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
           passport_id?: number | null;
