@@ -1,8 +1,8 @@
 import { supabase } from "@/db";
+import { getBalance } from "@/services/boss-tokens";
 import { PartialWallet, User } from "../data/users";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
-import { getBalance } from "@/services/boss-tokens";
 
 /**
  * connects a user to a new wallet. This will be a redundant action

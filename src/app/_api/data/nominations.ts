@@ -180,8 +180,8 @@ export const createNewNomination = async (
   const nomination = await supabase
     .from("boss_nominations")
     .insert({
-      user_id: nominatorUser.id,
-      wallet_id: nominatedWallet.wallet,
+      origin_user_id: nominatorUser.id,
+      destination_wallet_id: nominatedWallet.wallet,
       boss_points_received: balances.pointsEarned,
       boss_points_sent: balances.pointsGiven,
     })
