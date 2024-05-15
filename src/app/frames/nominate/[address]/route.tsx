@@ -1,9 +1,7 @@
-/* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { createNewNomination } from "@/app/_api/data/nominations";
 import { getWallet } from "@/app/_api/data/wallets";
-import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
-import { frames } from "@/app/frames/frames";
+import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
@@ -12,24 +10,14 @@ const handler = frames(async (ctx) => {
     if (!ctx.message?.isValid) {
       // throw new BadRequestError("Invalid message");
     }
-
-    const walletNominated =
-      ctx.url.pathname.split("/frames/nominate/")[1] ?? "";
-    if (!walletNominated)
-      throw new BadRequestError("Wallet address not provided");
+    const farcasterUser = await getFramesUser(ctx);
+    const walletNominated = ctx.url.pathname.split("/frames/nominate/")[1];
+    if (!walletNominated) throw new BadRequestError("Missing Wallet address");
 
     const walletInfo = await getWallet(walletNominated).catch((e) => null);
     if (!walletInfo) throw new BadRequestError("Wallet not found");
 
-    const userAddress =
-      ctx.message?.requesterVerifiedAddresses &&
-      ctx.message?.requesterVerifiedAddresses.length > 0
-        ? ctx.message?.requesterVerifiedAddresses[0]
-        : ctx.message?.verifiedWalletAddress; // XMTP verified wallet
-    if (!userAddress) throw new BadRequestError("User not found");
-
-    const user = await getConnectedUserProfile(userAddress);
-    await createNewNomination(user, walletInfo);
+    await createNewNomination(farcasterUser, walletInfo);
 
     return {
       image: (
