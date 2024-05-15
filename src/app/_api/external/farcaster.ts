@@ -50,7 +50,6 @@ export const getFarcasterUser = async (
   const response = await fetch(url, { headers });
   const data = (await response.json()) as { [key: string]: FarcasterAPIUser[] };
 
-  console.log(data, response.ok, response.status, data[walletId]);
   if (!response.ok) return notFound();
   if (response.status !== 200) return notFound();
   if (!data[walletId]) return null;

@@ -115,13 +115,6 @@ export const getWallets = async (
 export const getWalletFromExternal = async (
   walledId: string,
 ): Promise<WalletInfo | null> => {
-  const a = getFarcasterUser(walledId);
-  console.log(a);
-  const b = getTalentProtocolUser(walledId);
-  console.log(b);
-  const c = getUserFromWallet(walledId);
-  console.log(c);
-
   const [farcasterSocial, talentSocial, bossUser] = await Promise.all([
     getFarcasterUser(walledId).catch((e) => null),
     getTalentProtocolUser(walledId).catch((e) => null),

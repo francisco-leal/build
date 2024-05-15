@@ -62,7 +62,6 @@ export const getTalentProtocolUser = async (
   const response = await fetch(url, { headers });
   const data = (await response.json()) as PassportResponse;
 
-  console.log(data, response, response.ok, response.status);
   if (!response.ok) throw notFound();
   if (response.status !== 200) throw notFound();
   if (data.error) throw notFound();
