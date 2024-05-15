@@ -173,6 +173,7 @@ export type Database = {
           boss_token_balance: number | null;
           created_at: string;
           farcaster_id: number | null;
+          image_url: string | null;
           passport_id: number | null;
           user_id: string | null;
           username: string | null;
@@ -182,6 +183,7 @@ export type Database = {
           boss_token_balance?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
+          image_url?: string | null;
           passport_id?: number | null;
           user_id?: string | null;
           username?: string | null;
@@ -191,6 +193,7 @@ export type Database = {
           boss_token_balance?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
+          image_url?: string | null;
           passport_id?: number | null;
           user_id?: string | null;
           username?: string | null;
