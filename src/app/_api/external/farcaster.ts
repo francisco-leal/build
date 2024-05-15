@@ -66,7 +66,7 @@ export const getFarcasterUser = async (
       if (!response.ok) return null;
       if (response.status !== 200) return null;
       if (!data[walletId]) return null;
-      return data[walletId][0];
+      return data[walletId].filter((v) => !!v.display_name || !!v.pfp_url)[0];
     },
     [`farcaster_${walletId}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },

@@ -117,10 +117,11 @@ export const getWallets = async (
 export const getWalletFromExternal = async (
   walledId: string,
 ): Promise<WalletInfo | null> => {
+  const walletLc = walledId.toLowerCase();
   const [farcasterSocial, talentSocial, bossUser] = await Promise.all([
-    getFarcasterUser(walledId),
-    getTalentProtocolUser(walledId),
-    getUserFromWallet(walledId),
+    getFarcasterUser(walletLc),
+    getTalentProtocolUser(walletLc),
+    getUserFromWallet(walletLc),
   ]);
 
   if (!farcasterSocial && !talentSocial && !bossUser) {
