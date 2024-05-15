@@ -48,5 +48,43 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     .upsert(allWallets.map((w) => ({ ...w })))
     .throwOnError();
 
-  // TODO invalidate duplicate nominations
+  const { data: nominations } = await supabase
+    .from("boss_nominations")
+    .select("id")
+    .in(
+      "destination_wallet_id",
+      allWallets.map((w) => w.wallet),
+    )
+    .throwOnError();
+
+  if (nominations && nominations.length > 0) {
+    const { data: updatedNominations } = await supabase
+      .from("boss_nominations")
+      .update({
+        destination_user_id: user.id,
+      })
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (!updatedNominations || updatedNominations.length === 0)
+      throw new Error("Failed to update nominations");
+
+    // if the combination of origin_user_id and destination_user_id is duplicated
+    //  we need to invalidate the nomination
+    const nominationPairs = {} as Record<string, number>;
+    updatedNominations.forEach(async (nomination) => {
+      const pairKey = `${nomination.origin_user_id}-${nomination.destination_user_id}`;
+
+      nominationPairs[pairKey] = nominationPairs[pairKey] || 0;
+      nominationPairs[pairKey]++;
+      if (nominationPairs[pairKey] > 1) {
+        await supabase
+          .from("boss_nominations")
+          .update({
+            valid: false,
+          })
+          .eq("id", nomination.id);
+      }
+    });
+  }
 };
