@@ -8,7 +8,7 @@ import { CacheKey } from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
-import { WalletInfo, getWalletFromExternal } from "./wallets";
+import { WalletInfo, createWallet, getWalletFromExternal } from "./wallets";
 
 export type Nomination = {
   id: number;
@@ -155,6 +155,8 @@ export const createNewNomination = async (
       "Leaderboard is currently updating, please try again later!",
     );
   }
+
+  await createWallet(nominatedWallet.wallet);
 
   const balances = await getUserBalances(nominatorUser);
 
