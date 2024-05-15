@@ -55,8 +55,6 @@ export type Database = {
           boss_points_received: number;
           boss_points_sent: number;
           created_at: string;
-          destination_user_id: string | null;
-          destination_username: string | null;
           destination_wallet_id: string;
           id: number;
           origin_user_id: string;
@@ -67,8 +65,6 @@ export type Database = {
           boss_points_received: number;
           boss_points_sent: number;
           created_at?: string;
-          destination_user_id?: string | null;
-          destination_username?: string | null;
           destination_wallet_id: string;
           id?: number;
           origin_user_id: string;
@@ -79,8 +75,6 @@ export type Database = {
           boss_points_received?: number;
           boss_points_sent?: number;
           created_at?: string;
-          destination_user_id?: string | null;
-          destination_username?: string | null;
           destination_wallet_id?: string;
           id?: number;
           origin_user_id?: string;
@@ -88,13 +82,6 @@ export type Database = {
           valid?: boolean;
         };
         Relationships: [
-          {
-            foreignKeyName: "boss_nominations_destination_user_id_fkey";
-            columns: ["destination_user_id"];
-            isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "boss_nominations_origin_wallet_id_fkey";
             columns: ["origin_wallet_id"];

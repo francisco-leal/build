@@ -48,43 +48,43 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     .upsert(allWallets.map((w) => ({ ...w })))
     .throwOnError();
 
-  const { data: nominations } = await supabase
-    .from("boss_nominations")
-    .select("id")
-    .in(
-      "destination_wallet_id",
-      allWallets.map((w) => w.wallet),
-    )
-    .throwOnError();
+  const nominationsForUser = await supabase
+    .from("users")
+    .select("id, wallets(wallet, boss_nominations(*))")
+    .eq("users.id", user.id)
+    .single()
+    .throwOnError()
+    .then((res) => res.data);
 
-  if (nominations && nominations.length > 0) {
-    const { data: updatedNominations } = await supabase
-      .from("boss_nominations")
-      .update({
-        destination_user_id: user.id,
-      })
-      .select("*")
-      .order("created_at", { ascending: false });
+  if (!nominationsForUser) return null;
 
-    if (!updatedNominations || updatedNominations.length === 0)
-      throw new Error("Failed to update nominations");
+  const nominations = nominationsForUser.wallets
+    .map((w) => w.boss_nominations)
+    .flat();
+  const uniqueNominatorUsers = Array.from(
+    new Set(nominations.map((n) => n.origin_user_id)),
+  );
 
-    // if the combination of origin_user_id and destination_user_id is duplicated
-    //  we need to invalidate the nomination
-    const nominationPairs = {} as Record<string, number>;
-    updatedNominations.forEach(async (nomination) => {
-      const pairKey = `${nomination.origin_user_id}-${nomination.destination_user_id}`;
+  uniqueNominatorUsers.forEach(async (userId) => {
+    const nominationsByUser = nominations
+      .filter((n) => n.origin_user_id === userId)
+      .sort((a, b) => {
+        const initial = new Date(a.created_at).getTime();
+        const final = new Date(b.created_at).getTime();
+        return initial - final;
+      });
 
-      nominationPairs[pairKey] = nominationPairs[pairKey] || 0;
-      nominationPairs[pairKey]++;
-      if (nominationPairs[pairKey] > 1) {
-        await supabase
-          .from("boss_nominations")
-          .update({
-            valid: false,
-          })
-          .eq("id", nomination.id);
-      }
-    });
-  }
+    if (nominationsByUser.length > 1) {
+      const nominationsToInvalidate = nominationsByUser.slice(1);
+
+      await supabase
+        .from("boss_nominations")
+        .update({ valid: false })
+        .in(
+          "id",
+          nominationsToInvalidate.map((n) => n.id),
+        )
+        .throwOnError();
+    }
+  });
 };
