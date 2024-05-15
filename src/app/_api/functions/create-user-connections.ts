@@ -62,6 +62,10 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     console.error(result.error);
   }
 
+  await supabase.rpc("update_boss_score_for_user", {
+    user_to_update: user.id,
+  });
+
   const nominationsForUser = await supabase
     .from("boss_nominations")
     .select("*, wallets:destination_wallet_id(wallet, user_id)")

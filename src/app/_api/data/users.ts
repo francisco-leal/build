@@ -122,10 +122,6 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
 
   if (!user) throw new Error("User creation failed");
 
-  await supabase.rpc("update_boss_score_for_user", {
-    user_to_update: user.id,
-  });
-
   await supabase
     .from("boss_leaderboard")
     .insert({
