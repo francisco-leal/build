@@ -1,6 +1,6 @@
 import { Button } from "frames.js/next";
 import { createNewNomination } from "@/app/_api/data/nominations";
-import { getWallet } from "@/app/_api/data/wallets";
+import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
@@ -14,7 +14,9 @@ const handler = frames(async (ctx) => {
     const walletNominated = ctx.url.pathname.split("/frames/nominate/")[1];
     if (!walletNominated) throw new BadRequestError("Missing Wallet address");
 
-    const walletInfo = await getWallet(walletNominated).catch((e) => null);
+    const walletInfo = await getWalletFromExternal(walletNominated).catch(
+      (e) => null,
+    );
     if (!walletInfo) throw new BadRequestError("Wallet not found");
 
     await createNewNomination(farcasterUser, walletInfo);

@@ -12,7 +12,7 @@ import {
   isUpdatingLeaderboard,
 } from "@/app/_api/data/nominations";
 import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
-import { getWallet } from "@/app/_api/data/wallets";
+import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { NotFoundError } from "@/shared/utils/error";
 import { NominateBuilderComponent, NominationState } from "./component";
@@ -27,7 +27,7 @@ export default async function NominateBuilder({
 }: {
   params: { walletId: string };
 }) {
-  const builder = await getWallet(params.walletId);
+  const builder = await getWalletFromExternal(params.walletId);
   const currentUser = await getCurrentUser();
 
   const todaysNominations = currentUser

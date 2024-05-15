@@ -1,8 +1,8 @@
 import { supabase } from "@/db";
-import { getBalance } from "@/services/boss-tokens";
-import { getFarcasterUser } from "@/services/farcaster";
-import { getTalentProtocolUser } from "@/services/talent-protocol";
 import { PartialWallet, User } from "../data/users";
+import { getFarcasterUser } from "../external/farcaster";
+import { getTalentProtocolUser } from "../external/talent-protocol";
+import { getBalance } from "@/services/boss-tokens";
 
 /**
  * connects a user to a new wallet. This will be a redundant action
@@ -29,9 +29,9 @@ export const createUserConnections = async (user: User, newWallet: string) => {
       passport_id: talentUser?.passport_id,
       user_id: user.id,
     })),
-    ...(farcasterUser?.allWallets ?? []).map((w) => ({
+    ...(farcasterUser?.verified_addresses?.eth_addresses ?? []).map((w) => ({
       wallet: w,
-      farcaster_id: farcasterUser?.profileTokenId,
+      farcaster_id: farcasterUser?.fid,
       user_id: user.id,
     })),
   ].reduce<PartialWallet[]>((acc, w) => {

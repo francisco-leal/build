@@ -12,7 +12,7 @@ import {
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
-import { WalletInfo, getWallet } from "./wallets";
+import { WalletInfo, getWalletFromExternal } from "./wallets";
 
 export type Nomination = {
   id: number;
@@ -27,10 +27,10 @@ export type Nomination = {
 
 const SELECT_NOMINATIONS = `
   id,
-  user_id,
   boss_points_received,
   boss_points_sent,
-  wallet_id,
+  origin_user_id,
+  destination_wallet_id,
   created_at,
   wallets (
     wallet,
@@ -54,8 +54,8 @@ export const getNomination = async (
       const nomination = await supabase
         .from("boss_nominations")
         .select(SELECT_NOMINATIONS)
-        .eq("user_id", userId)
-        .in("wallet_id", wallet.allWallets)
+        .eq("origin_user_id", userId)
+        .in("destination_wallet_id", wallet.allWallets)
         .throwOnError()
         .then((res) => res.data?.[0]);
 
@@ -63,10 +63,10 @@ export const getNomination = async (
 
       return {
         id: nomination.id,
-        originUserId: nomination.user_id,
+        originUserId: nomination.origin_user_id,
         bossPointsEarned: nomination.boss_points_received,
         bossPointsGiven: nomination.boss_points_sent,
-        destinationWallet: nomination.wallet_id,
+        destinationWallet: nomination.destination_wallet_id,
         destinationUsername: nomination.wallets?.users?.username ?? null,
         destinationRank:
           nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
@@ -97,10 +97,10 @@ export const getNominationsFromUser = async (
       return (
         nominations?.map((nomination) => ({
           id: nomination.id,
-          originUserId: nomination.user_id,
+          originUserId: nomination.origin_user_id,
           bossPointsEarned: nomination.boss_points_received,
           bossPointsGiven: nomination.boss_points_sent,
-          destinationWallet: nomination.wallet_id,
+          destinationWallet: nomination.destination_wallet_id,
           destinationUsername: nomination.wallets?.users?.username ?? null,
           destinationRank:
             nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
@@ -212,10 +212,10 @@ export const createNewNomination = async (
   revalidateTag(`nominations` as CacheKey);
   return {
     id: nomination.id,
-    originUserId: nomination.user_id,
+    originUserId: nomination.origin_user_id,
     bossPointsEarned: nomination.boss_points_received,
     bossPointsGiven: nomination.boss_points_sent,
-    destinationWallet: nomination.wallet_id,
+    destinationWallet: nomination.destination_wallet_id,
     destinationUsername: nomination.wallets?.users?.username ?? null,
     destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
@@ -226,7 +226,7 @@ export const createNewNominationForCurrentUser = async (
   walletToNominate: string,
 ) => {
   const currentUser = await getCurrentUser();
-  const walletInfo = await getWallet(walletToNominate);
+  const walletInfo = await getWalletFromExternal(walletToNominate);
   if (!currentUser) throw new BadRequestError("Could not find user");
   if (!walletInfo) throw new BadRequestError("Could not find wallet info");
   return createNewNomination(currentUser, walletInfo);

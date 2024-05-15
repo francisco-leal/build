@@ -47,9 +47,9 @@ type FrameContext = Parameters<Parameters<typeof frames>[0]>[0];
 export const getFramesUser = async (ctx: FrameContext) => {
   const userAddress =
     ctx.message?.requesterVerifiedAddresses &&
-      ctx.message?.requesterVerifiedAddresses.length > 0
+    ctx.message?.requesterVerifiedAddresses.length > 0
       ? ctx.message?.requesterVerifiedAddresses[0]
       : ctx.message?.verifiedWalletAddress; // XMTP wallet address
   if (!userAddress) throw new BadRequestError("User not found");
   return await getConnectedUserProfile(userAddress);
-}
+};

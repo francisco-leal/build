@@ -1,4 +1,5 @@
-/* eslint-disable @next/next/no-img-element */  
+/* eslint-disable @next/next/no-img-element */
+
 /* eslint-disable jsx-a11y/alt-text */
 import * as path from "node:path";
 import { createImagesWorker } from "frames.js/middleware/images-worker/next";

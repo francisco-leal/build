@@ -1,43 +1,110 @@
 "use server";
 
 import { unstable_cache } from "next/cache";
-import { searchLensBuilderProfiles } from "@/services/airstack";
-import { searchFarcasterBuilderProfiles } from "@/services/farcaster";
-import { searchTalentProtocolUser } from "@/services/talent-protocol";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { makeMap } from "@/shared/utils/make-map";
+import { getWallets } from "../data/wallets";
+import { searchLensBuilderProfiles } from "../external/airstack";
+import {
+  FarcasterAPIUser,
+  searchFarcasterBuilderProfiles,
+} from "../external/farcaster";
+import {
+  PassportResult,
+  searchTalentProtocolUser,
+} from "../external/talent-protocol";
 import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
 
-type BuilderProfile = {
-  address: string;
+type BuilderSearchResult = {
+  wallet: string;
   username: string;
-  profile_image: string;
-  result_origin: string;
+  userImage: string;
 };
 
-const removeUserWithoutWallet = (v: BuilderProfile) => !!v.address;
+const processFarcasterBuilderProfiles = async (
+  users: FarcasterAPIUser[],
+): Promise<BuilderSearchResult[]> => {
+  const allWallets = users
+    .flatMap((user) => [
+      ...(user.verified_addresses?.eth_addresses ?? []),
+      user.custody_address,
+    ])
+    .filter(Boolean);
 
-const removeDuplicateBuilders = (
-  v: BuilderProfile,
-  i: number,
-  a: BuilderProfile[],
-) => a.findIndex((t) => t.address === v.address) === i;
+  const walletToProfile = makeMap(
+    await getWallets(allWallets),
+    (w) => w.wallet,
+    (w) => w,
+  );
+
+  return users.map((user) => {
+    const wallet =
+      user.verified_addresses?.eth_addresses[0] ?? user.custody_address;
+
+    const profile = walletToProfile[wallet];
+
+    return {
+      wallet,
+      username:
+        user.username ?? profile.username ?? abbreviateWalletAddress(wallet),
+      userImage: profile.image ?? user.pfp_url,
+    };
+  });
+};
+
+const processTalentProtocolBuilderProfiles = async (
+  data: PassportResult[],
+): Promise<BuilderSearchResult[]> => {
+  const allWallets = data.flatMap((user) => user.verified_wallets);
+  const walletToProfile = makeMap(
+    await getWallets(allWallets),
+    (w) => w.wallet,
+    (w) => w,
+  );
+
+  return data.map((passport) => {
+    const walletList = passport.verified_wallets;
+    const wallet = walletList[0];
+    const profile = walletList
+      .map((wallet) => walletToProfile[wallet])
+      .find(Boolean);
+
+    return {
+      wallet,
+      username:
+        passport.user?.username ??
+        passport.passport_profile?.name ??
+        profile?.username ??
+        abbreviateWalletAddress(wallet),
+      userImage:
+        passport.user?.profile_picture_url ??
+        passport.passport_profile?.image_url ??
+        profile?.image ??
+        "",
+    };
+  });
+};
+
+const processLensBuilderProfiles = async (
+  data: unknown[],
+): Promise<BuilderSearchResult[]> => {
+  throw new Error("Not implemented");
+};
 
 export const searchBuilders = unstable_cache(
   async (query: string, domain: string) => {
-    if (query?.length < 3) {
-      return [];
-    }
+    if (query?.length < 3) return [];
 
     switch (domain) {
       case "farcaster":
-        return searchFarcasterBuilderProfiles(query).then((v) =>
-          v.filter(removeUserWithoutWallet).filter(removeDuplicateBuilders),
-        );
+        const fcData = await searchFarcasterBuilderProfiles(query);
+        return await processFarcasterBuilderProfiles(fcData);
       case "talent_protocol":
-        return searchTalentProtocolUser(query).then((v) =>
-          v.filter(removeUserWithoutWallet).filter(removeDuplicateBuilders),
-        );
+        const tpData = await searchTalentProtocolUser(query);
+        return await processTalentProtocolBuilderProfiles(tpData);
       case "lens":
-        return searchLensBuilderProfiles(query).then((v) => v);
+        const leData = await searchLensBuilderProfiles(query);
+        return await processLensBuilderProfiles(leData);
       default:
         return [];
     }

@@ -1,8 +1,8 @@
 import { Button } from "frames.js/next";
 import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getUserBalances } from "@/app/_api/data/users";
+import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { frames, getFramesUser } from "@/app/frames/frames";
-import { getWallet } from "@/app/_api/data/wallets";
 
 const handler = frames(async (ctx) => {
   try {
@@ -39,7 +39,7 @@ const handler = frames(async (ctx) => {
       };
     }
 
-    const walletProfile = await getWallet(walletNominated);
+    const walletProfile = await getWalletFromExternal(walletNominated);
     if (!walletProfile) {
       return {
         image: (
@@ -73,8 +73,7 @@ const handler = frames(async (ctx) => {
           <div>{farcasterPfp}</div>
           <div>{farcasterUsername}</div>
           <div>{walletProfile.image}</div>
-          <div>{walletProfile.username}
-          </div>
+          <div>{walletProfile.username}</div>
           <div>{userBalances.dailyBudget}</div>
           <div>{userBalances.pointsGiven}</div>
           <div>{userBalances.pointsEarned}</div>
@@ -87,22 +86,22 @@ const handler = frames(async (ctx) => {
       buttons:
         todayNominations.length < 3
           ? [
-            <Button
-              action="post"
-              key="1"
-              target={`/nominate/${walletProfile.wallet}`}
-            >
-              Confirm Nomination
-            </Button>,
-            <Button action="post" key="2" target={`/nominate`}>
-              Back
-            </Button>,
-          ]
+              <Button
+                action="post"
+                key="1"
+                target={`/nominate/${walletProfile.wallet}`}
+              >
+                Confirm Nomination
+              </Button>,
+              <Button action="post" key="2" target={`/nominate`}>
+                Back
+              </Button>,
+            ]
           : [
-            <Button action="post" key="1" target={`/`}>
-              Back
-            </Button>,
-          ],
+              <Button action="post" key="1" target={`/`}>
+                Back
+              </Button>,
+            ],
       imageOptions: {
         aspectRatio: "1:1",
       },

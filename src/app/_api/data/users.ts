@@ -4,9 +4,9 @@ import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
-import { getFarcasterUser } from "@/services/farcaster";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
-import { getTalentProtocolUser } from "@/services/talent-protocol";
+import { getFarcasterUser } from "../external/farcaster";
+import { getTalentProtocolUser } from "../external/talent-protocol";
 import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
 
 type Tables = Database["public"]["Tables"];
@@ -79,9 +79,9 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
       wallet: w,
       passport_id: talentUser?.passport_id,
     })),
-    ...(farcasterUser?.allWallets ?? []).map((w) => ({
+    ...(farcasterUser?.verified_addresses?.eth_addresses ?? []).map((w) => ({
       wallet: w,
-      farcaster_id: farcasterUser?.profileTokenId,
+      farcaster_id: farcasterUser?.fid,
     })),
   ];
 
@@ -106,7 +106,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     boss_score: 0,
     passport_builder_score: talentUser?.score ?? 0,
     boss_nomination_streak: 0,
-    farcaster_id: farcasterUser?.profileTokenId ?? null,
+    farcaster_id: farcasterUser?.fid ?? null,
     passport_id: talentUser?.passport_id ?? null,
   };
 
