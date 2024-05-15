@@ -3,7 +3,11 @@ export type CacheKey =
   | `wallet_info_${string}`
   | "nominations"
   | "leaderboard"
-  | "search_builders";
+  | "search_builders"
+  | `talent_protocol_${string}`
+  | `talent_protocol_search_${string}`
+  | `farcaster_${string}`
+  | `farcaster_search_${string}`;
 
 export const CACHE_1_MINUTE = 60;
 export const CACHE_5_MINUTES = 60 * 5;
