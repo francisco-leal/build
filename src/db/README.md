@@ -28,18 +28,21 @@ CREATE OR REPLACE FUNCTION update_leaderboard()
 RETURNS VOID AS $$
 BEGIN
     WITH user_scores AS (
-        SELECT u.id as user_id, u.boss_score, u.passport_builder_score, u.username,
-               COALESCE(COUNT(bn.id), 0) AS total_nominations
+        SELECT u.id as user_id,
+               u.boss_score,
+               u.passport_builder_score,
+               u.username,
+               COALESCE(COUNT(bn.id), 0) AS nominations_received
         FROM users u
-        INNER JOIN wallets w ON w.user_id = user_id
-        INNER JOIN boss_nominations bn ON w.wallet = bn.destination_wallet_id
+        LEFT JOIN wallets w ON w.user_id = u.id
+        LEFT JOIN boss_nominations bn ON w.wallet = bn.destination_wallet_id
         GROUP BY u.id
     )
     INSERT INTO boss_leaderboard (user_id, rank, boss_score, passport_builder_score, username, nominations_received)
     SELECT user_id, rank, boss_score, passport_builder_score, username, nominations_received
     FROM (
         SELECT
-            user_id, boss_score, passport_builder_score, username, total_nominations as nominations_received,
+            user_id, boss_score, passport_builder_score, username, nominations_received,
             ROW_NUMBER() OVER (ORDER BY boss_score DESC) AS rank
         FROM user_scores
     ) AS subquery
