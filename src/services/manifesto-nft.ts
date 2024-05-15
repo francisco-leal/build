@@ -15,7 +15,9 @@ const wagmiAbi = [
   },
 ];
 
-export async function hasMintedManifestoNFT(wallet_address: string): number {
+export async function hasMintedManifestoNFT(
+  wallet_address: string,
+): Promise<number> {
   const publicClient = createPublicClient({
     chain: base,
     transport: http(),

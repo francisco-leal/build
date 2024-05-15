@@ -44,35 +44,38 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     return acc;
   }, []);
 
-  allWallets.forEach(async (w) => {
-    const boss_token_balance = await getBalance(w.wallet);
-    w.boss_token_balance = boss_token_balance;
-  });
+  const tokenBalances = await Promise.all(
+    allWallets.map(async (w) => ({
+      wallet: w.wallet,
+      boss_token_balance: await getBalance(w.wallet),
+    })),
+  );
+  const walletsWithBalances = allWallets.map((w) => ({
+    ...w,
+    boss_token_balance: tokenBalances.find((b) => b.wallet === w.wallet)
+      ?.boss_token_balance,
+  }));
 
   await supabase
     .from("wallets")
-    .upsert(allWallets.map((w) => ({ ...w })))
+    .upsert(walletsWithBalances.map((w) => ({ ...w })))
     .throwOnError();
 
   const nominationsForUser = await supabase
-    .from("users")
-    .select("id, wallets(wallet, boss_nominations(*))")
-    .eq("users.id", user.id)
-    .single()
+    .from("boss_nominations")
+    .select("*, wallets:destination_wallet_id(wallet, user_id)")
+    .eq("wallets.user_id", user.id)
     .throwOnError()
     .then((res) => res.data);
 
-  if (!nominationsForUser) return null;
+  if (!nominationsForUser || nominationsForUser.length === 0) return null;
 
-  const nominations = nominationsForUser.wallets
-    .map((w) => w.boss_nominations)
-    .flat();
   const uniqueNominatorUsers = Array.from(
-    new Set(nominations.map((n) => n.origin_user_id)),
+    new Set(nominationsForUser.map((n) => n.origin_user_id)),
   );
 
   uniqueNominatorUsers.forEach(async (userId) => {
-    const nominationsByUser = nominations
+    const nominationsByUser = nominationsForUser
       .filter((n) => n.origin_user_id === userId)
       .sort((a, b) => {
         const initial = new Date(a.created_at).getTime();
