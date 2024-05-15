@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 
 export type TableLeaderboardValue = {
   id: string;
@@ -18,8 +19,7 @@ export type LeaderboardTableProps = {
 
 const shortenWallet = (wallet: string) => {
   if (!wallet) return "";
-  if (wallet.includes("0x"))
-    return `${wallet.slice(0, 6)}...${wallet.slice(-4)}`;
+  if (wallet.includes("0x")) return abbreviateWalletAddress(wallet);
   return wallet;
 };
 
