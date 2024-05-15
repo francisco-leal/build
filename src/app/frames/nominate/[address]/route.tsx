@@ -1,28 +1,64 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { createNewNomination } from "@/app/_api/data/nominations";
-import { getWalletInfo } from "@/app/_api/get-wallet-info";
+import { getWallet } from "@/app/_api/data/wallets";
+import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
+import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
-  if (!ctx.message?.isValid) {
-    // throw new Error("Invalid message");
-  }
-  const userNominated = ctx.url.pathname.split("/frames/nominate/")[1] || "";
-  let userAddress =
-    ctx.message?.requesterVerifiedAddresses &&
-    ctx.message?.requesterVerifiedAddresses.length > 0
-      ? ctx.message?.requesterVerifiedAddresses[0]
-      : ctx.message?.verifiedWalletAddress; // XMTP verified wallet
-  userAddress = userAddress?.toLowerCase();
+  const walletNominated = ctx.url.pathname.split("/frames/nominate/")[1] ?? "";
+  try {
+    if (!ctx.message?.isValid) {
+      // throw new BadRequestError("Invalid message");
+    }
 
-  if (!userNominated) {
-    // user address to nominate not provided
+    const walletNominated =
+      ctx.url.pathname.split("/frames/nominate/")[1] ?? "";
+    if (!walletNominated)
+      throw new BadRequestError("Wallet address not provided");
+
+    const walletInfo = await getWallet(walletNominated).catch((e) => null);
+    if (!walletInfo) throw new BadRequestError("Wallet not found");
+
+    const userAddress =
+      ctx.message?.requesterVerifiedAddresses &&
+      ctx.message?.requesterVerifiedAddresses.length > 0
+        ? ctx.message?.requesterVerifiedAddresses[0]
+        : ctx.message?.verifiedWalletAddress; // XMTP verified wallet
+    if (!userAddress) throw new BadRequestError("User not found");
+
+    const user = await getConnectedUserProfile(userAddress);
+    await createNewNomination(user, walletInfo);
+
+    return {
+      image: (
+        <div>
+          <div>builder-nominatation-completed</div>
+          <div>{walletInfo.image}</div>
+          <div>{walletInfo.username}</div>
+        </div>
+      ),
+      buttons: [
+        <Button action="post" key="1" target="/">
+          Nominate a new builder
+        </Button>,
+        <Button action="link" key="1" target="https://build.top/">
+          Learn More
+        </Button>,
+      ],
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
+    };
+  } catch (error) {
+    const message = (error as Error)?.message || "An error occurred";
     return {
       image: (
         <div>
           <div>nominate-builder-not-found</div>
-          <div>{userNominated}</div>
+          <div>{walletNominated}</div>
+          <div>{message}</div>
         </div>
       ),
       textInput: "Search with farcaster handle",
@@ -35,117 +71,6 @@ const handler = frames(async (ctx) => {
         aspectRatio: "1:1",
       },
     };
-  } else {
-    let nominatedBuilderProfile = null;
-    try {
-      nominatedBuilderProfile = await getWalletInfo(
-        userNominated.toLowerCase(),
-      );
-    } catch (e: any) {
-      // console.error("Error finding builder profile", e);
-    }
-    if (!!nominatedBuilderProfile) {
-      if (!userAddress) {
-        // nominated builder profile found but no user provided
-        return {
-          image: (
-            <div>
-              <div>nominate-builder</div>
-              <div>
-                {nominatedBuilderProfile?.image
-                  ? nominatedBuilderProfile.image
-                  : ""}
-              </div>
-              <div>
-                {nominatedBuilderProfile?.username
-                  ? nominatedBuilderProfile?.username
-                  : nominatedBuilderProfile?.wallet}
-              </div>
-            </div>
-          ),
-          buttons: [
-            <Button action="post" key="1" target={`/nominate/${userNominated}`}>
-              Confirm Nomination
-            </Button>,
-          ],
-          imageOptions: {
-            aspectRatio: "1:1",
-          },
-        };
-      } else {
-        try {
-          // proceed to nominate builder
-          await createNewNomination(
-            nominatedBuilderProfile.wallet,
-            userAddress,
-          );
-          return {
-            image: (
-              <div>
-                <div>builder-nominatation-completed</div>
-                <div>{nominatedBuilderProfile?.image}</div>
-                <div>{nominatedBuilderProfile?.username}</div>
-              </div>
-            ),
-            buttons: [
-              <Button action="post" key="1" target="/">
-                Nominate a new builder
-              </Button>,
-              <Button action="link" key="1" target="https://build.top/">
-                Learn More
-              </Button>,
-            ],
-            imageOptions: {
-              aspectRatio: "1:1",
-            },
-          };
-        } catch (e: any) {
-          console.log("Error nominating builder", e);
-          return {
-            image: (
-              <div>
-                <div>builder-nomination-error</div>
-                <div>{nominatedBuilderProfile?.username}</div>
-                <div>{e.message}</div>
-                <div>{nominatedBuilderProfile?.image}</div>
-              </div>
-            ),
-            buttons: [
-              <Button action="post" key="1" target="/">
-                Nominate a new builder
-              </Button>,
-              <Button action="link" key="1" target="https://build.top/">
-                Learn More
-              </Button>,
-            ],
-            imageOptions: {
-              aspectRatio: "1:1",
-            },
-          };
-        }
-      }
-    } else {
-      return {
-        image: (
-          <div>
-            <div>builder-nomination-error</div>
-            <div>{userNominated}</div>
-            <div>Builder not found</div>
-          </div>
-        ),
-        buttons: [
-          <Button action="post" key="1" target="/">
-            Nominate a new builder
-          </Button>,
-          <Button action="link" key="1" target="https://build.top/">
-            Learn More
-          </Button>,
-        ],
-        imageOptions: {
-          aspectRatio: "1:1",
-        },
-      };
-    }
   }
 });
 

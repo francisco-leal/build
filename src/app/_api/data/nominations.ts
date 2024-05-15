@@ -148,14 +148,7 @@ export const isUpdatingLeaderboard = async () => {
 };
 
 export const isDuplicateNomination = async (user: User, wallet: WalletInfo) => {
-  const count = await supabase
-    .from("boss_nominations")
-    .select("id")
-    .eq("user_id", user.id)
-    .in("wallet_id", wallet.allWallets)
-    .throwOnError()
-    .then((res) => res.data?.length ?? 0);
-  return count > 0;
+  return !!(await getNomination(user, wallet));
 };
 
 export const hasExceededNominationsToday = async (nominatorUser: User) => {
@@ -166,7 +159,7 @@ export const hasExceededNominationsToday = async (nominatorUser: User) => {
 export const createNewNomination = async (
   nominatorUser: User,
   nominatedWallet: WalletInfo,
-) => {
+): Promise<Nomination> => {
   if (await isSelfNomination(nominatorUser, nominatedWallet)) {
     throw new BadRequestError("You cannot nominate yourself!");
   }
@@ -192,7 +185,12 @@ export const createNewNomination = async (
       boss_points_received: balances.pointsEarned,
       boss_points_sent: balances.pointsGiven,
     })
-    .throwOnError();
+    .select(SELECT_NOMINATIONS)
+    .single()
+    .throwOnError()
+    .then((res) => res.data);
+
+  if (!nomination) throw new BadRequestError("Could not create nomination");
 
   await supabase.rpc("update_boss_daily_streak_for_user", {
     user_to_update: nominatorUser.id,
@@ -212,7 +210,16 @@ export const createNewNomination = async (
   revalidateTag(`user_${nominatorUser.id}` as CacheKey);
   revalidateTag(`user_${nominatedWallet.userId}` as CacheKey);
   revalidateTag(`nominations` as CacheKey);
-  return nomination;
+  return {
+    id: nomination.id,
+    originUserId: nomination.user_id,
+    bossPointsEarned: nomination.boss_points_received,
+    bossPointsGiven: nomination.boss_points_sent,
+    destinationWallet: nomination.wallet_id,
+    destinationUsername: nomination.wallets?.users?.username ?? null,
+    destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+    createdAt: nomination.created_at,
+  };
 };
 
 export const createNewNominationForCurrentUser = async (

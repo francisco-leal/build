@@ -1,7 +1,6 @@
 export type CacheKey =
   | `user_${string}`
-  | `user_external_${string}`
-  | "wallet_info"
+  | `wallet_info_${string}`
   | "nominations"
   | "leaderboard"
   | "search_builders";

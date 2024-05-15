@@ -6,6 +6,7 @@ import { sealData } from "iron-session";
 import { SiweMessage, generateNonce } from "siwe";
 import { SessionUser } from "@/services/authentication/cookie-session";
 import {
+  User,
   connectUserToWallets,
   createNewUserForWallet,
   getUserFromWallet,
@@ -13,6 +14,25 @@ import {
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
+
+/**
+ * Finds a user or creates one if not exists.
+ * Re-creates all the connections of this user with wallets and invalidates
+ * duplicate nominations.
+ *
+ * This process should be done at every authentication.
+ */
+export const getConnectedUserProfile = async (
+  address: string,
+): Promise<User> => {
+  const user =
+    (await getUserFromWallet(address)) ??
+    (await createNewUserForWallet(address));
+
+  await connectUserToWallets(user, address);
+
+  return user;
+};
 
 export const getNonce = async () => {
   return generateNonce();
@@ -37,12 +57,7 @@ export const connectUser = async ({
   });
 
   if (error) throw new Error("Error verifying message");
-
-  const user =
-    (await getUserFromWallet(address)) ??
-    (await createNewUserForWallet(address));
-
-  await connectUserToWallets(user, address);
+  const user = await getConnectedUserProfile(address);
 
   const sessionUser: SessionUser = {
     wallet: address,

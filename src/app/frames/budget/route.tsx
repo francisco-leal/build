@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
-import { old_getOrCreateUser } from "@/app/_api/create-new-user";
-import { getBossNominationBalances } from "@/app/_api/data/nominations";
+import { getUserBalances } from "@/app/_api/data/users";
+import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
 
 const handler = frames(async (ctx) => {
@@ -14,13 +14,13 @@ const handler = frames(async (ctx) => {
     ctx.message?.verifiedWalletAddress;
 
   const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
-  const userAddress =
+  const walletAddress =
     ctx.message?.requesterVerifiedAddresses &&
     ctx.message?.requesterVerifiedAddresses.length > 0
       ? ctx.message?.requesterVerifiedAddresses[0]
       : ctx.message?.verifiedWalletAddress; // XMTP wallet address
 
-  if (!userAddress) {
+  if (!walletAddress) {
     return {
       image: (
         <div>
@@ -44,8 +44,8 @@ const handler = frames(async (ctx) => {
       },
     };
   }
-  const farcasterUser = await old_getOrCreateUser(userAddress!, true); // create a user for the voter if not found
-  const userBalances = await getBossNominationBalances(farcasterUser.wallet);
+  const farcasterUser = await getConnectedUserProfile(walletAddress);
+  const userBalances = await getUserBalances(farcasterUser);
 
   return {
     image: (
