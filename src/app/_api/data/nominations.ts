@@ -3,13 +3,14 @@
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
+import { getSession } from "@/services/authentication/cookie-session";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
 import { CacheKey } from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
 import { WalletInfo, createWallet, getWalletFromExternal } from "./wallets";
-import { getSession } from "@/services/authentication/cookie-session";
 
 export type Nomination = {
   id: number;
@@ -29,7 +30,8 @@ const SELECT_NOMINATIONS = `
   origin_user_id,
   destination_wallet_id,
   created_at,
-  wallets:destination_wallet_id (
+  wallets (
+    username,
     users (
       id,
       username,
@@ -57,15 +59,19 @@ export const getNomination = async (
 
   if (!nomination) return null;
 
+  console.log(nomination);
+
   return {
     id: nomination.id,
     originUserId: nomination.origin_user_id,
     bossPointsEarned: nomination.boss_points_received,
     bossPointsGiven: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
-    destinationUsername: nomination.wallets[0]?.users[0]?.username ?? null,
-    destinationRank:
-      nomination.wallets[0]?.users[0]?.boss_leaderboard?.rank ?? null,
+    destinationUsername:
+      nomination.wallets?.users?.username ??
+      nomination.wallets?.username ??
+      null,
+    destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
   };
 };
@@ -87,9 +93,13 @@ export const getNominationsFromUser = async (
       bossPointsEarned: nomination.boss_points_received,
       bossPointsGiven: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
-      destinationUsername: nomination.wallets[0]?.users[0]?.username ?? null,
+      destinationUsername:
+        nomination.wallets?.users?.username ??
+        nomination.wallets?.username ??
+        abbreviateWalletAddress(nomination.destination_wallet_id) ??
+        null,
       destinationRank:
-        nomination.wallets[0]?.users[0]?.boss_leaderboard?.rank ?? null,
+        nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
       createdAt: nomination.created_at,
     })) ?? []
   );
@@ -167,7 +177,7 @@ export const createNewNomination = async (
     .from("boss_nominations")
     .insert({
       origin_user_id: nominatorUser.id,
-      origin_wallet_id:origin_wallet_id,
+      origin_wallet_id: origin_wallet_id,
       destination_wallet_id: nominatedWallet.wallet,
       boss_points_received: balances.pointsEarned,
       boss_points_sent: balances.pointsGiven,
@@ -203,9 +213,8 @@ export const createNewNomination = async (
     bossPointsEarned: nomination.boss_points_received,
     bossPointsGiven: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
-    destinationUsername: nomination.wallets[0]?.users[0]?.username ?? null,
-    destinationRank:
-      nomination.wallets[0]?.users[0]?.boss_leaderboard?.rank ?? null,
+    destinationUsername: nomination.wallets?.users?.username ?? null,
+    destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
   };
 };

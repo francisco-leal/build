@@ -44,21 +44,23 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
     };
   }
 
-  farcasterUser?.verified_addresses?.eth_addresses?.forEach(async (wallet) => {
-    wallets[wallet] = {
-      ...wallets[wallet],
-      wallet: wallet,
-      farcaster_id: farcasterUser.fid,
-      user_id: userId,
-    };
-  });
-
   talentUser?.verified_wallets?.forEach(async (verifiedWallet) => {
     wallets[verifiedWallet] = {
       ...wallets[verifiedWallet],
       wallet: verifiedWallet,
       passport_id: talentUser.passport_id,
       user_id: userId,
+      username: talentUser.user?.username,
+    };
+  });
+
+  farcasterUser?.verified_addresses?.eth_addresses?.forEach(async (wallet) => {
+    wallets[wallet] = {
+      ...wallets[wallet],
+      wallet: wallet,
+      farcaster_id: farcasterUser.fid,
+      user_id: userId,
+      username: farcasterUser.username,
     };
   });
 
