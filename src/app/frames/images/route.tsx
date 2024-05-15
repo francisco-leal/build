@@ -361,7 +361,7 @@ export const GET = imagesWorker(async (jsx) => {
                 fontSize: "48px",
               }}
             >
-              {budget}
+              {budget !== -1 ? budget : "N/A"}
             </p>
           </div>
           <div
@@ -389,7 +389,7 @@ export const GET = imagesWorker(async (jsx) => {
                 fontSize: "48px",
               }}
             >
-              {pointsSent}
+              {budget !== -1 ? pointsSent : "N/A"}
             </p>
           </div>
           <div
@@ -417,7 +417,7 @@ export const GET = imagesWorker(async (jsx) => {
                 fontSize: "48px",
               }}
             >
-              {pointsEarned}
+              {budget !== -1 ? pointsEarned : "N/A"}
             </p>
           </div>
           <div
@@ -446,7 +446,7 @@ export const GET = imagesWorker(async (jsx) => {
                 fontSize: "48px",
               }}
             >
-              {dailyNominations}
+              {budget !== -1 ? dailyNominations : "N/A"}
             </p>
           </div>
           {nominationsErrorMsg && (
@@ -634,7 +634,7 @@ export const GET = imagesWorker(async (jsx) => {
               fontSize: "78px",
             }}
           >
-            {username}
+            {username.length > 15 ? username.slice(14) : username}
           </p>
         </div>
         <div

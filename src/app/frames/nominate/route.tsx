@@ -15,7 +15,7 @@ const handler = frames(async (ctx) => {
     const farcasterUsername = farcasterUser.username;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
 
-    const userNominated = ctx.message?.inputText?.toLowerCase().trim();
+    const userNominated = ctx.message?.inputText;
     if (!userNominated) {
       return {
         image: (
