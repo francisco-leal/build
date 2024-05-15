@@ -123,6 +123,18 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     user_to_update: user.id,
   });
 
+  await supabase
+    .from("boss_leaderboard")
+    .insert({
+      user_id: user.id,
+      rank: null,
+      boss_score: user.boss_score,
+      passport_builder_score: user.passport_builder_score,
+      username: user.username ?? walletLc,
+      nominations_received: 0,
+    })
+    .throwOnError();
+
   allWallets.forEach((w) => revalidatePath(`wallet_info_${w.wallet}`));
   return user;
 };
