@@ -1,7 +1,7 @@
 import { Stack, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
-import { getTableLeaderboardValues } from "@/app/_api/get-table-leaderboard-values";
-import { getTableMyNominationsValues } from "@/app/_api/get-table-my-nominations-values";
-import { getCurrentUser } from "@/app/_api/get-user";
+import { getCurrentUser } from "@/app/_api/data/users";
+import { getTableLeaderboardValues } from "@/app/_api/functions/get-table-leaderboard-values";
+import { getTableMyNominationsValues } from "@/app/_api/functions/get-table-my-nominations-values";
 import { CardBossPoints } from "@/app/_components/card-boss-points";
 import { CardBossTokens } from "@/app/_components/card-boss-tokens";
 import { CardBuilderScore } from "@/app/_components/card-builder-score";

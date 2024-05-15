@@ -4,16 +4,15 @@ import { notFound } from "next/navigation";
 import { Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
-  getBossNominationBalances,
-  getTodaysNominations,
+  getNomination,
+  getNominationsFromUserToday,
   hasExceededNominationsToday,
   isDuplicateNomination,
   isSelfNomination,
   isUpdatingLeaderboard,
-} from "@/app/_api/create-new-nomination";
-import { getBuilder } from "@/app/_api/get-builder";
-import { getNomination } from "@/app/_api/get-nomination";
-import { getCurrentUser } from "@/app/_api/get-user";
+} from "@/app/_api/data/nominations";
+import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
+import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { NotFoundError } from "@/shared/utils/error";
 import { NominateBuilderComponent, NominationState } from "./component";
@@ -28,22 +27,23 @@ export default async function NominateBuilder({
 }: {
   params: { walletId: string };
 }) {
-  const builder = await getBuilder(params.walletId);
+  console.log("NominateBuilder");
+  const builder = await getWalletFromExternal(params.walletId);
+  if (!builder || !builder.wallet) notFound();
+
   const currentUser = await getCurrentUser();
+
   const todaysNominations = currentUser
-    ? await getTodaysNominations(currentUser.wallet)
+    ? await getNominationsFromUserToday(currentUser)
+    : undefined;
+  const userBalances = currentUser 
+    ? await getUserBalances(currentUser) 
     : undefined;
 
   const referer = headers().get("referer") ?? "";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
   const isBackAvailable = referer.includes(appUrl);
   const date = DateTime.now().toFormat("LLL dd");
-
-  if (!builder || !builder.wallet) notFound();
-
-  const balances = currentUser
-    ? await getBossNominationBalances(currentUser.wallet)
-    : undefined;
 
   const { state, infoMessage }: StateAndInfo = await (async () => {
     if (!currentUser) {
@@ -52,14 +52,10 @@ export default async function NominateBuilder({
         infoMessage: "",
       };
     }
-    if (await isDuplicateNomination(currentUser.wallet, builder.wallet)) {
-      const nomination = await getNomination(
-        currentUser.wallet,
-        builder.wallet,
-      );
-
+    if (await isDuplicateNomination(currentUser, builder)) {
+      const nomination = await getNomination(currentUser, builder);
       if (!nomination) throw new NotFoundError("Nomination not found");
-      const abbreviatedWallet = abbreviateWalletAddress(currentUser.wallet);
+      const abbreviatedWallet = abbreviateWalletAddress(builder.wallet);
       const displayName = nomination.destinationUsername ?? abbreviatedWallet;
 
       return {
@@ -99,7 +95,7 @@ export default async function NominateBuilder({
         ),
       };
     }
-    if (await hasExceededNominationsToday(currentUser.wallet)) {
+    if (await hasExceededNominationsToday(currentUser)) {
       return {
         state: "INVALID_NOMINATION" as const,
         infoMessage: (
@@ -125,9 +121,9 @@ export default async function NominateBuilder({
       builderImage={builder.image}
       builderUsername={builder.username}
       builderWallet={builder.wallet}
-      currentUserBossDailyBudget={balances?.dailyBudget ?? 0}
-      currentUserBossPointsToBeGiven={balances?.pointsGiven ?? 0}
-      currentUserBossPointsToBeEarned={balances?.pointsEarned ?? 0}
+      currentUserBossDailyBudget={userBalances?.dailyBudget ?? 0}
+      currentUserBossPointsToBeGiven={userBalances?.pointsGiven ?? 0}
+      currentUserBossPointsToBeEarned={userBalances?.pointsEarned ?? 0}
       currentUserBossDailyNominations={todaysNominations?.length ?? 0}
     />
   );

@@ -1,11 +1,12 @@
 import { cookies } from "next/headers";
-import { unsealData, sealData } from "iron-session";
+import { unsealData } from "iron-session";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
 
 export type SessionUser = {
   wallet: string;
+  userId: string;
   siwe?: {
     nonce: string;
     address: string;

@@ -25,16 +25,21 @@ import { useDebounce } from "@/shared/hooks/use-debounce";
 import { LogoShort } from "@/shared/icons/logo-short";
 import { SearchFilled } from "@/shared/icons/search-filled";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { z } from "zod";
 
 export type SearchBuilderProps = StackProps;
 
 type SearchResponseUser = {
-  address: string;
-  dapp: string;
-  profile_image: string;
+  wallet: string;
   username: string;
-  result_origin: string;
+  userImage: string;
 };
+
+const searchDataResponseSchema = z.array(z.object({
+  wallet: z.string(),
+  username: z.string(),
+  userImage: z.string(),
+}));
 
 const SearchOptions: Record<string, string> = {
   farcaster: "Farcaster",
@@ -59,8 +64,8 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
       const endpoint = new URL("/api/search", baseUrl);
       const params = { query: debouncedSearchValue, domain: searchDomain };
       endpoint.search = new URLSearchParams(params).toString();
-      const data = fetch(endpoint.toString()).then((res) => res.json());
-      return data as Promise<SearchResponseUser[]>;
+      const data = await fetch(endpoint.toString()).then((res) => res.json());
+      return searchDataResponseSchema.parse(data);
     },
   });
 
@@ -234,10 +239,10 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
               color: "neutral.500",
             }}
           >
-            <List sx={{}}>
+            <List>
               {searchQuery.data.map((user) => (
-                <ListItem key={user.address} sx={{ width: "100%" }}>
-                  <Avatar src={user.profile_image} alt={user.username} />
+                <ListItem key={user.wallet} sx={{ width: "100%" }}>
+                  <Avatar src={user.userImage} alt={user.username} />
                   <Stack
                     sx={{
                       alignItems: "flex-start",
@@ -255,22 +260,22 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                         width: "100%",
                       }}
                     >
-                      {abbreviateWalletAddress(user.address)}
+                      {abbreviateWalletAddress(user.wallet)}
                     </Typography>
                   </Stack>
                   <Button
                     // Scroll is not recognized by ButtonProps, but it's part of Next Link
                     {...{ scroll: false }}
                     component={Link}
-                    href={(pathname + `/nominate/${user.address}`).replace(
+                    href={(pathname + `/nominate/${user.wallet}`).replace(
                       "//",
                       "/",
                     )}
-                    disabled={!user.address}
+                    disabled={!user.wallet}
                     variant="solid"
                     sx={{ height: "auto" }}
                   >
-                    {user.address ? "Nominate" : "No wallet"}
+                    {user.wallet ? "Nominate" : "No wallet"}
                   </Button>
                 </ListItem>
               ))}

@@ -1,6 +1,5 @@
 import { createPublicClient, getContract, http } from "viem";
 import { base } from "viem/chains";
-import { supabase } from "@/db";
 
 const ManifestoNFTContractAddress =
   "0x4ce28eb5f17fb5ce747e699d2200ed55e4bc0f49";
@@ -15,7 +14,9 @@ const wagmiAbi = [
   },
 ];
 
-export async function hasMintedManifestoNFT(wallet_address: string) {
+export async function hasMintedManifestoNFT(
+  wallet_address: string,
+): Promise<number> {
   const publicClient = createPublicClient({
     chain: base,
     transport: http(),
@@ -31,5 +32,5 @@ export async function hasMintedManifestoNFT(wallet_address: string) {
     wallet_address,
   ])) as bigint;
 
-  return balanceOf > 0;
+  return Number(balanceOf);
 }

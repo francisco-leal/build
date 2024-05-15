@@ -1,6 +1,6 @@
 import { z } from "zod";
+import { searchBuilders } from "@/app/_api/functions/search-builders";
 import { restApiHandler } from "@/app/_api/helpers/rest-api-handler";
-import { searchBuilders } from "@/app/_api/search-builders";
 
 const searchParamsSchema = z.object({
   query: z.string().min(3),
@@ -15,5 +15,3 @@ export const GET = restApiHandler(async (request) => {
 
   return await searchBuilders(searchParams.query, searchParams.domain);
 });
-
-

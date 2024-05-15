@@ -11,93 +11,96 @@ export type Database = {
     Tables: {
       boss_leaderboard: {
         Row: {
-          boss_nominations_received: number;
           boss_score: number;
           created_at: string;
+          id: number;
+          nominations_received: number;
           passport_builder_score: number;
           rank: number | null;
-          username: string | null;
-          wallet: string;
+          user_id: string;
+          username: string;
         };
         Insert: {
-          boss_nominations_received: number;
-          boss_score: number;
-          created_at?: string;
-          passport_builder_score: number;
-          rank?: number | null;
-          username?: string | null;
-          wallet: string;
-        };
-        Update: {
-          boss_nominations_received?: number;
           boss_score?: number;
           created_at?: string;
+          id?: number;
+          nominations_received?: number;
           passport_builder_score?: number;
           rank?: number | null;
-          username?: string | null;
-          wallet?: string;
+          user_id: string;
+          username: string;
+        };
+        Update: {
+          boss_score?: number;
+          created_at?: string;
+          id?: number;
+          nominations_received?: number;
+          passport_builder_score?: number;
+          rank?: number | null;
+          user_id?: string;
+          username?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "boss_leaderboard_wallet_fkey";
-            columns: ["wallet"];
+            foreignKeyName: "boss_leaderboard_user_id_fkey";
+            columns: ["user_id"];
             isOneToOne: true;
             referencedRelation: "users";
-            referencedColumns: ["wallet"];
+            referencedColumns: ["id"];
           },
         ];
       };
       boss_nominations: {
         Row: {
-          boss_points_earned: number;
-          boss_points_given: number;
+          boss_points_received: number;
+          boss_points_sent: number;
           created_at: string;
+          destination_wallet_id: string;
           id: number;
-          transfer_id: number | null;
+          origin_user_id: string;
+          origin_wallet_id: string | null;
           valid: boolean;
-          wallet_destination: string;
-          wallet_origin: string;
         };
         Insert: {
-          boss_points_earned: number;
-          boss_points_given: number;
+          boss_points_received: number;
+          boss_points_sent: number;
           created_at?: string;
+          destination_wallet_id: string;
           id?: number;
-          transfer_id?: number | null;
+          origin_user_id: string;
+          origin_wallet_id?: string | null;
           valid?: boolean;
-          wallet_destination: string;
-          wallet_origin: string;
         };
         Update: {
-          boss_points_earned?: number;
-          boss_points_given?: number;
+          boss_points_received?: number;
+          boss_points_sent?: number;
           created_at?: string;
+          destination_wallet_id?: string;
           id?: number;
-          transfer_id?: number | null;
+          origin_user_id?: string;
+          origin_wallet_id?: string | null;
           valid?: boolean;
-          wallet_destination?: string;
-          wallet_origin?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "boss_nominations_transfer_id_fkey";
-            columns: ["transfer_id"];
+            foreignKeyName: "boss_nominations_origin_wallet_id_fkey";
+            columns: ["origin_wallet_id"];
             isOneToOne: false;
-            referencedRelation: "boss_nominations";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "boss_nominations_wallet_destination_fkey";
-            columns: ["wallet_destination"];
-            isOneToOne: false;
-            referencedRelation: "users";
+            referencedRelation: "wallets";
             referencedColumns: ["wallet"];
           },
           {
-            foreignKeyName: "boss_nominations_wallet_origin_fkey";
-            columns: ["wallet_origin"];
+            foreignKeyName: "boss_nominations_user_id_fkey";
+            columns: ["origin_user_id"];
             isOneToOne: false;
             referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "boss_nominations_wallet_id_fkey";
+            columns: ["destination_wallet_id"];
+            isOneToOne: false;
+            referencedRelation: "wallets";
             referencedColumns: ["wallet"];
           },
         ];
@@ -131,48 +134,80 @@ export type Database = {
           boss_budget: number;
           boss_nomination_streak: number;
           boss_score: number;
-          boss_token_balance: number;
           created_at: string;
           farcaster_id: number | null;
-          manifesto_nft: boolean;
+          id: string;
+          manifesto_nft_token_id: number | null;
           passport_builder_score: number;
           passport_id: number | null;
-          referral_code: string;
-          unique: boolean;
           username: string | null;
-          wallet: string;
         };
         Insert: {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
-          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
-          manifesto_nft?: boolean;
+          id?: string;
+          manifesto_nft_token_id?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
-          referral_code: string;
-          unique?: boolean;
           username?: string | null;
-          wallet: string;
         };
         Update: {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
-          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
-          manifesto_nft?: boolean;
+          id?: string;
+          manifesto_nft_token_id?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
-          referral_code?: string;
-          unique?: boolean;
+          username?: string | null;
+        };
+        Relationships: [];
+      };
+      wallets: {
+        Row: {
+          boss_token_balance: number | null;
+          created_at: string;
+          farcaster_id: number | null;
+          image_url: string | null;
+          passport_id: number | null;
+          user_id: string | null;
+          username: string | null;
+          wallet: string;
+        };
+        Insert: {
+          boss_token_balance?: number | null;
+          created_at?: string;
+          farcaster_id?: number | null;
+          image_url?: string | null;
+          passport_id?: number | null;
+          user_id?: string | null;
+          username?: string | null;
+          wallet: string;
+        };
+        Update: {
+          boss_token_balance?: number | null;
+          created_at?: string;
+          farcaster_id?: number | null;
+          image_url?: string | null;
+          passport_id?: number | null;
+          user_id?: string | null;
           username?: string | null;
           wallet?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "wallets_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
@@ -183,9 +218,28 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
-      calculate_boss_budget_for_user: {
+      calculate_boss_budget_for_single_user: {
         Args: {
-          wallet_to_update: string;
+          id_to_update: string;
+        };
+        Returns: undefined;
+      };
+      calculate_boss_budget_for_user:
+        | {
+            Args: {
+              user_to_update: string;
+            };
+            Returns: undefined;
+          }
+        | {
+            Args: {
+              wallet_to_update: string;
+            };
+            Returns: undefined;
+          };
+      calculate_boss_budget_user: {
+        Args: {
+          user_to_update: string;
         };
         Returns: undefined;
       };
@@ -199,9 +253,21 @@ export type Database = {
         };
         Returns: undefined;
       };
+      update_boss_daily_streak_for_user: {
+        Args: {
+          user_to_update: string;
+        };
+        Returns: undefined;
+      };
       update_boss_score: {
         Args: {
           wallet_to_update: string;
+        };
+        Returns: undefined;
+      };
+      update_boss_score_for_user: {
+        Args: {
+          user_to_update: string;
         };
         Returns: undefined;
       };
