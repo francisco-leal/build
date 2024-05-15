@@ -31,8 +31,9 @@ BEGIN
         SELECT u.id as user_id, u.boss_score, u.passport_builder_score, u.username,
                COALESCE(COUNT(bn.id), 0) AS total_nominations
         FROM users u
-        LEFT JOIN boss_nominations bn ON u.id = bn.origin_user_id
-        GROUP BY user_id
+        INNER JOIN wallets w ON w.user_id = user_id
+        INNER JOIN boss_nominations bn ON w.wallet = bn.destination_wallet_id
+        GROUP BY u.id
     )
     INSERT INTO boss_leaderboard (user_id, rank, boss_score, passport_builder_score, username, nominations_received)
     SELECT user_id, rank, boss_score, passport_builder_score, username, nominations_received

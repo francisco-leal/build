@@ -244,7 +244,7 @@ export type Database = {
         Args: {
           user_to_update: string;
         };
-        Returns: undefined;
+        Returns: number;
       };
       reset_nomination_streak: {
         Args: Record<PropertyKey, never>;
