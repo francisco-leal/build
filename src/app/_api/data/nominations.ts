@@ -59,8 +59,6 @@ export const getNomination = async (
 
   if (!nomination) return null;
 
-  console.log(nomination);
-
   return {
     id: nomination.id,
     originUserId: nomination.origin_user_id,
