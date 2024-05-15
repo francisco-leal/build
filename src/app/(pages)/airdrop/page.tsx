@@ -2,6 +2,7 @@ import { Stack, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableLeaderboardValues } from "@/app/_api/functions/get-table-leaderboard-values";
 import { getTableMyNominationsValues } from "@/app/_api/functions/get-table-my-nominations-values";
+import { recalculateBuilderBudget } from "@/app/_api/functions/recalculate-budget";
 import { CardBossPoints } from "@/app/_components/card-boss-points";
 import { CardBossTokens } from "@/app/_components/card-boss-tokens";
 import { CardBuilderScore } from "@/app/_components/card-builder-score";
@@ -47,12 +48,15 @@ export default async function AirdropPage() {
         <HeroSection
           sx={{
             flexDirection: { xs: "column", md: "row" },
-            "& > *": { height: 240, width: "100%" },
+            "& > *": { height: 280, width: "100%" },
             mt: 0,
             gap: 3,
           }}
         >
-          <CardDailyBudget budget={user.boss_budget} />
+          <CardDailyBudget
+            budget={user.boss_budget}
+            recalculate={recalculateBuilderBudget}
+          />
           <CardDailyStreak streak={user.boss_nomination_streak} />
         </HeroSection>
         <HeroSectionWithOverflow>
