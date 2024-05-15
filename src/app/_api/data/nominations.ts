@@ -34,7 +34,7 @@ const SELECT_NOMINATIONS = `
   created_at,
   wallets:destination_wallet_id (
     wallet,
-    user_id
+    user_id,
     users:user_id (
       id,
       username,
@@ -43,7 +43,7 @@ const SELECT_NOMINATIONS = `
         rank
       )
     ) 
-  )       
+  )     
 ` as const;
 
 export const getNomination = async (
@@ -90,33 +90,11 @@ export const getNominationsFromUser = async (
     async () => {
       const { data: nominations } = await supabase
         .from("boss_nominations")
-        .select(
-          `
-          id,
-          origin_user_id,
-          boss_points_received,
-          boss_points_sent,
-          destination_wallet_id,
-          created_at,
-          wallets:destination_wallet_id (
-            wallet,
-            user_id,
-            users:user_id (
-              id,
-              username,
-              boss_leaderboard (
-                id,
-                rank
-              )
-            ) 
-          )`,
-        )
+        .select()
         .order("created_at", { ascending: false })
         .eq("origin_user_id", user.id)
         .throwOnError();
 
-      console.log(user);
-      console.log(nominations);
       return (
         nominations?.map((nomination) => ({
           id: nomination.id,
