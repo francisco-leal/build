@@ -4,7 +4,7 @@ import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { TableLeaderboardValue } from "../../_components/table-leaderboard";
 import { getCurrentUser } from "../data/users";
-import { CACHE_24_HOURS, CacheKey } from "../helpers/cache-keys";
+import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
 
 const getLeaderboardTop10 = () => {
   return unstable_cache(
@@ -20,7 +20,7 @@ const getLeaderboardTop10 = () => {
       return leaderboardData ?? [];
     },
     ["leaderboard" satisfies CacheKey],
-    { revalidate: CACHE_24_HOURS },
+    { revalidate: CACHE_5_MINUTES },
   )();
 };
 
