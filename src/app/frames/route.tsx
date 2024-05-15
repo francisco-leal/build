@@ -2,10 +2,11 @@
 import React from "react";
 import { Button } from "frames.js/next";
 import { frames } from "@/app/frames/frames";
+import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
   if (!ctx.message?.isValid) {
-    // throw new Error("Invalid message");
+    // throw new BadRequestError("Invalid message");
   }
 
   return {

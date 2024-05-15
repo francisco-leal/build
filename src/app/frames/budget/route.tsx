@@ -1,31 +1,58 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { getUserBalances } from "@/app/_api/data/users";
-import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
-import { frames } from "@/app/frames/frames";
+import { frames, getFramesUser } from "@/app/frames/frames";
+import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
   if (!ctx.message?.isValid) {
-    // throw new Error("Invalid message");
+    throw new BadRequestError("Invalid message");
   }
-  const farcasterUsername =
-    ctx.message?.requesterUserData?.displayName ||
-    ctx.message?.requesterFid ||
-    ctx.message?.verifiedWalletAddress;
+  try {
+    const farcasterUsername =
+      ctx.message?.requesterUserData?.displayName ||
+      ctx.message?.requesterFid ||
+      ctx.message?.verifiedWalletAddress;
 
-  const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
-  const walletAddress =
-    ctx.message?.requesterVerifiedAddresses &&
-    ctx.message?.requesterVerifiedAddresses.length > 0
-      ? ctx.message?.requesterVerifiedAddresses[0]
-      : ctx.message?.verifiedWalletAddress; // XMTP wallet address
+    const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
+    const farcasterUser = await getFramesUser(ctx);
+    const userBalances = await getUserBalances(farcasterUser);
 
-  if (!walletAddress) {
+    return {
+      image: (
+        <div>
+          <div>budget</div>
+          <div>{farcasterPfp}</div>
+          <div>{farcasterUser.username || farcasterUsername}</div>
+          <div>{userBalances.dailyBudget}</div>
+        </div>
+      ),
+      buttons: [
+        <Button action="post" key="1" target="/nominate">
+          Nominate
+        </Button>,
+        <Button action="post" key="2" target="/">
+          Back
+        </Button>,
+        <Button
+          action="link"
+          key="3"
+          target="https://passport.talentprotocol.com/"
+        >
+          Sign up for Builder Score
+        </Button>,
+      ],
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
+    };
+  } catch (error) {
+    const errorMessage = (error as Error)?.message || "An error occurred";
     return {
       image: (
         <div>
           <div>landing</div>
-          <div>namo</div>
+          <div>{errorMessage}</div>
         </div>
       ),
       buttons: [
@@ -44,37 +71,6 @@ const handler = frames(async (ctx) => {
       },
     };
   }
-  const farcasterUser = await getConnectedUserProfile(walletAddress);
-  const userBalances = await getUserBalances(farcasterUser);
-
-  return {
-    image: (
-      <div>
-        <div>budget</div>
-        <div>{farcasterPfp}</div>
-        <div>{farcasterUsername}</div>
-        <div>{userBalances.dailyBudget}</div>
-      </div>
-    ),
-    buttons: [
-      <Button action="post" key="1" target="/nominate">
-        Nominate
-      </Button>,
-      <Button action="post" key="2" target="/">
-        Back
-      </Button>,
-      <Button
-        action="link"
-        key="3"
-        target="https://passport.talentprotocol.com/"
-      >
-        Sign up for Builder Score
-      </Button>,
-    ],
-    imageOptions: {
-      aspectRatio: "1:1",
-    },
-  };
 });
 
 export const GET = handler;
