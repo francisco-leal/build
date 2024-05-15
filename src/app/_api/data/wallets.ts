@@ -71,7 +71,8 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
       (res.data ?? []).map(
         (wallet): WalletInfo => ({
           username:
-            wallet.users?.username ?? abbreviateWalletAddress(wallet.wallet),
+            wallet.users?.username ?? 
+            abbreviateWalletAddress(wallet.wallet),
           wallet: wallet.wallet,
           allWallets: wallet.users?.wallets.map((w) => w.wallet) ?? [],
           image: "",
@@ -82,8 +83,9 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
       ),
     );
   const newWallet = newWallets.find((w) => w.wallet === walletId);
-  if (!newWallet)
+  if (!newWallet) {
     throw new Error(`Wallet ${walletId} not found in the database`);
+  } 
   return newWallet;
 };
 

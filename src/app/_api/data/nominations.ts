@@ -32,7 +32,7 @@ const SELECT_NOMINATIONS = `
   origin_user_id,
   destination_wallet_id,
   created_at,
-  wallets (
+  destination_wallet_id:wallets (
     wallet,
     users (
       id,
@@ -48,70 +48,61 @@ const SELECT_NOMINATIONS = `
 export const getNomination = async (
   user: User,
   wallet: WalletInfo,
-): Promise<Nomination | null> =>
-  unstable_cache(
-    async (userId: string, walletId: string) => {
-      const nomination = await supabase
-        .from("boss_nominations")
-        .select(SELECT_NOMINATIONS)
-        .eq("origin_user_id", userId)
-        .in("destination_wallet_id", wallet.allWallets)
-        .throwOnError()
-        .then((res) => res.data?.[0]);
+): Promise<Nomination | null> => {
+  const userId = user.id;
 
-      if (!nomination) return null;
+  const nomination = await supabase
+    .from("boss_nominations")
+    .select(SELECT_NOMINATIONS)
+    .eq("origin_user_id", userId)
+    .in("destination_wallet_id", wallet.allWallets)
+    .throwOnError()
+    .then((res) => res.data?.[0]);
 
-      return {
-        id: nomination.id,
-        originUserId: nomination.origin_user_id,
-        bossPointsEarned: nomination.boss_points_received,
-        bossPointsGiven: nomination.boss_points_sent,
-        destinationWallet: nomination.destination_wallet_id,
-        destinationUsername: nomination.wallets?.users?.username ?? null,
-        destinationRank:
-          nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
-        createdAt: nomination.created_at,
-      };
-    },
-    [
-      "nominations",
-      `user_${user}`,
-      `user_${wallet.userId}`,
-    ] satisfies CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
-  )(user.id, wallet.wallet);
+  if (!nomination) return null;
+
+  return {
+    id: nomination.id,
+    originUserId: nomination.origin_user_id,
+    bossPointsEarned: nomination.boss_points_received,
+    bossPointsGiven: nomination.boss_points_sent,
+    destinationWallet: nomination.destination_wallet_id,
+    destinationUsername: nomination.destination_wallet_id?.users?.username ?? null,
+    destinationRank:
+      nomination.destination_wallet_id?.users?.boss_leaderboard?.rank ?? null,
+    createdAt: nomination.created_at,
+  };
+};
+
 
 export const getNominationsFromUser = async (
   user: User,
 ): Promise<Nomination[]> => {
   const userId = user.id;
-  return await unstable_cache(
-    async () => {
-      const { data: nominations } = await supabase
-        .from("boss_nominations")
-        .select(SELECT_NOMINATIONS)
-        .order("created_at", { ascending: false })
-        .eq("user_id", user.id)
-        .throwOnError();
 
-      return (
-        nominations?.map((nomination) => ({
-          id: nomination.id,
-          originUserId: nomination.origin_user_id,
-          bossPointsEarned: nomination.boss_points_received,
-          bossPointsGiven: nomination.boss_points_sent,
-          destinationWallet: nomination.destination_wallet_id,
-          destinationUsername: nomination.wallets?.users?.username ?? null,
-          destinationRank:
-            nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
-          createdAt: nomination.created_at,
-        })) ?? []
-      );
-    },
-    ["nominations", "leaderboard", `user_${userId}`] satisfies CacheKey[],
-    { revalidate: CACHE_1_MINUTE },
-  )();
-};
+  const { data: nominations, error } = await supabase
+    .from("boss_nominations")
+    .select(SELECT_NOMINATIONS)
+    .order("created_at", { ascending: false })
+    .eq("origin_user_id", user.id)
+   // .throwOnError()
+
+   console.log("batatas" , error);
+
+  return (
+    nominations?.map((nomination) => ({
+      id: nomination.id,
+      originUserId: nomination.origin_user_id,
+      bossPointsEarned: nomination.boss_points_received,
+      bossPointsGiven: nomination.boss_points_sent,
+      destinationWallet: nomination.destination_wallet_id,
+      destinationUsername: nomination.wallets?.users?.username ?? null,
+      destinationRank:
+        nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+      createdAt: nomination.created_at,
+    })) ?? []
+  );
+}
 
 export const getNominationsFromUserToday = async (user: User) => {
   const nominations = await getNominationsFromUser(user);

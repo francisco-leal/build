@@ -27,21 +27,23 @@ export default async function NominateBuilder({
 }: {
   params: { walletId: string };
 }) {
+  console.log("NominateBuilder");
   const builder = await getWalletFromExternal(params.walletId);
+  if (!builder || !builder.wallet) notFound();
+
   const currentUser = await getCurrentUser();
 
   const todaysNominations = currentUser
     ? await getNominationsFromUserToday(currentUser)
+    : undefined;
+  const userBalances = currentUser 
+    ? await getUserBalances(currentUser) 
     : undefined;
 
   const referer = headers().get("referer") ?? "";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
   const isBackAvailable = referer.includes(appUrl);
   const date = DateTime.now().toFormat("LLL dd");
-
-  if (!builder || !builder.wallet) notFound();
-
-  const balances = currentUser ? await getUserBalances(currentUser) : undefined;
 
   const { state, infoMessage }: StateAndInfo = await (async () => {
     if (!currentUser) {
@@ -119,9 +121,9 @@ export default async function NominateBuilder({
       builderImage={builder.image}
       builderUsername={builder.username}
       builderWallet={builder.wallet}
-      currentUserBossDailyBudget={balances?.dailyBudget ?? 0}
-      currentUserBossPointsToBeGiven={balances?.pointsGiven ?? 0}
-      currentUserBossPointsToBeEarned={balances?.pointsEarned ?? 0}
+      currentUserBossDailyBudget={userBalances?.dailyBudget ?? 0}
+      currentUserBossPointsToBeGiven={userBalances?.pointsGiven ?? 0}
+      currentUserBossPointsToBeEarned={userBalances?.pointsEarned ?? 0}
       currentUserBossDailyNominations={todaysNominations?.length ?? 0}
     />
   );

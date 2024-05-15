@@ -3,7 +3,7 @@
 import { unstable_cache } from "next/cache";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { makeMap } from "@/shared/utils/make-map";
-import { getWallets } from "../data/wallets";
+import { WalletInfo, getWallets } from "../data/wallets";
 import { searchLensBuilderProfiles } from "../external/airstack";
 import {
   FarcasterAPIUser,
@@ -31,7 +31,7 @@ const processFarcasterBuilderProfiles = async (
     ])
     .filter(Boolean);
 
-  const walletToProfile = makeMap(
+  const walletToProfile: Record<string, WalletInfo | undefined> = makeMap(
     await getWallets(allWallets),
     (w) => w.wallet,
     (w) => w,
@@ -46,8 +46,13 @@ const processFarcasterBuilderProfiles = async (
     return {
       wallet,
       username:
-        user.username ?? profile.username ?? abbreviateWalletAddress(wallet),
-      userImage: profile.image ?? user.pfp_url,
+        user.username ??
+        profile?.username ??
+        abbreviateWalletAddress(wallet),
+      userImage:
+        profile?.image ??
+        user.pfp_url ??
+        "",
     };
   });
 };
@@ -62,27 +67,28 @@ const processTalentProtocolBuilderProfiles = async (
     (w) => w,
   );
 
-  return data.map((passport) => {
-    const walletList = passport.verified_wallets;
-    const wallet = walletList[0];
-    const profile = walletList
-      .map((wallet) => walletToProfile[wallet])
-      .find(Boolean);
+  return data
+    .filter((passport) => !!passport.verified_wallets[0])
+    .map((passport) => {
+      const wallet = passport.verified_wallets[0];
+      const profile = passport.verified_wallets
+        .map((wallet) => walletToProfile[wallet])
+        .find(Boolean);
 
-    return {
-      wallet,
-      username:
-        passport.user?.username ??
-        passport.passport_profile?.name ??
-        profile?.username ??
-        abbreviateWalletAddress(wallet),
-      userImage:
-        passport.user?.profile_picture_url ??
-        passport.passport_profile?.image_url ??
-        profile?.image ??
-        "",
-    };
-  });
+      return {
+        wallet,
+        username:
+          passport.user?.username ??
+          passport.passport_profile?.name ??
+          profile?.username ??
+          abbreviateWalletAddress(wallet),
+        userImage:
+          passport.user?.profile_picture_url ??
+          passport.passport_profile?.image_url ??
+          profile?.image ??
+          "",
+      };
+    });
 };
 
 const processLensBuilderProfiles = async (
