@@ -6,11 +6,20 @@
     },
     {
       "path": "/api/cron/budget",
-      "schedule": "0 0 * * *"
+      "schedule": "1 0 * * *"
     },
     {
       "path": "/api/cron/streak",
-      "schedule": "0 0 * * *"
+      "schedule": "10 0 * * *"
+    },
+    {
+      "path": "/api/cron/boss_balance",
+      "schedule": "55 23 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "app/api/cron/*": {
+      "maxDuration": 300
+    }
+  }
 }

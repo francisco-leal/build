@@ -82,7 +82,6 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             Points will convert to $BUILD tokens in June.
           </Typography>
           <Button
-            disabled
             href={"/airdrop/#daily-budget"}
             component={Link}
             variant="solid"

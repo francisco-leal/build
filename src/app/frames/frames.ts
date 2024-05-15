@@ -8,6 +8,8 @@ import {
   DEFAULT_DEBUGGER_HUB_URL,
   FRAMES_BASE_PATH,
 } from "@/shared/frames/utils";
+import { BadRequestError } from "@/shared/utils/error";
+import { getConnectedUserProfile } from "../_api/functions/authentication";
 
 export const frames = createFrames({
   basePath: FRAMES_BASE_PATH,
@@ -39,3 +41,15 @@ export const frames = createFrames({
     }),
   ],
 });
+
+type FrameContext = Parameters<Parameters<typeof frames>[0]>[0];
+
+export const getFramesUser = async (ctx: FrameContext) => {
+  const userAddress =
+    ctx.message?.requesterVerifiedAddresses &&
+    ctx.message?.requesterVerifiedAddresses.length > 0
+      ? ctx.message?.requesterVerifiedAddresses[0]
+      : ctx.message?.verifiedWalletAddress; // XMTP wallet address
+  if (!userAddress) throw new BadRequestError("User not found");
+  return await getConnectedUserProfile(userAddress);
+};

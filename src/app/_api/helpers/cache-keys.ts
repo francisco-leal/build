@@ -1,10 +1,13 @@
 export type CacheKey =
   | `user_${string}`
-  | `user_external_${string}`
+  | `wallet_info_${string}`
   | "nominations"
   | "leaderboard"
   | "search_builders"
-  | "get_builder";
+  | `talent_protocol_${string}`
+  | `talent_protocol_search_${string}`
+  | `farcaster_${string}`
+  | `farcaster_search_${string}`;
 
 export const CACHE_1_MINUTE = 60;
 export const CACHE_5_MINUTES = 60 * 5;

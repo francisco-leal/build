@@ -1,3 +1,3 @@
-import { default as Background } from "../../page";
+import Nothing from "@/app/@modal/default";
 
-export default Background;
+export default Nothing;

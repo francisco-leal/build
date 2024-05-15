@@ -20,8 +20,8 @@ import { toast } from "sonner";
 import {
   createNewNomination,
   createNewNominationForCurrentUser,
-} from "@/app/_api/create-new-nomination";
-import { forcePathRevalidation } from "@/app/_api/force-path-revalidation";
+} from "@/app/_api/data/nominations";
+import { forcePathRevalidation } from "@/app/_api/functions/force-path-revalidation";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { formatNumber } from "@/shared/utils/format-number";
@@ -167,7 +167,7 @@ export const NominateBuilderComponent: FunctionComponent<
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
-              <Typography level="body-sm">BOSS Points Sent</Typography>
+              <Typography level="body-sm">BUILD Points Sent</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
@@ -180,7 +180,7 @@ export const NominateBuilderComponent: FunctionComponent<
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
-              <Typography level="body-sm">BOSS Points Earned</Typography>
+              <Typography level="body-sm">BUILD Points Earned</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"

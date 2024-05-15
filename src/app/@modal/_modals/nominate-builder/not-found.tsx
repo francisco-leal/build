@@ -15,7 +15,7 @@ export default function NominatedBuilderNotFound() {
   const router = useRouter();
 
   const goBack = () => {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "boss.community";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "build.top";
     if (document.referrer.includes(appUrl)) router.back();
     else window.location.href = "/";
   };

@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+
+/* eslint-disable jsx-a11y/alt-text */
 import * as path from "node:path";
 import { createImagesWorker } from "frames.js/middleware/images-worker/next";
 import * as fs from "fs";
@@ -887,4 +890,3 @@ export const GET = imagesWorker(async (jsx) => {
     },
   });
 });
-

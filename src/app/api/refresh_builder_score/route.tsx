@@ -5,6 +5,7 @@ import type { NextRequest } from "next/server";
 
 type PassportResult = {
   score: number;
+  passport_id: number;
   user: {
     profile_picture_url: string;
     username: string;
@@ -35,22 +36,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const wallets = data.verified_wallets;
-
-  if (!wallets || wallets.length === 0) {
-    return Response.json({ message: "No verified wallets" }, { status: 200 });
-  }
-
+  const passport_id = data.passport_id;
   const builder_score = data.score;
 
-  await supabase
+  const { data: user } = await supabase
     .from("users")
     .update({ passport_builder_score: builder_score })
-    .in("wallet", wallets);
+    .eq("passport_id", passport_id)
+    .select("id");
 
-  wallets.forEach((wallet) => {
-    revalidateTag(`user_${wallet}` satisfies CacheKey);
-  });
+  if (user && user.length > 0)
+    revalidateTag(`user_${user[0].id}` satisfies CacheKey);
 
   return Response.json({}, { status: 200 });
 }

@@ -9,7 +9,6 @@ import { Web3ModalProvider } from "@/app/_providers/web-3-modal-provider";
 import { config } from "@/config";
 import { Footer } from "@/shared/components/footer";
 import { Header } from "@/shared/components/header";
-import { appURL, FRAMES_BASE_PATH } from "@/shared/frames/utils";
 import { ThemeRegistry } from "@/shared/theme/theme-registry";
 import { AuthenticationProvider } from "./_providers/authentication-provider";
 import type { Metadata } from "next";
@@ -27,11 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "BUILD",
       description: description,
       type: "website",
-      url: "https://boss.community",
-      images: ["https://boss.community/images/BUILD-thumbnail.jpg"],
-    },
-    other: {
-      ...(await fetchMetadata(new URL(FRAMES_BASE_PATH, appURL()))),
+      url: "https://build.top",
+      images: ["https://build.top/images/BUILD-thumbnail.jpg"],
     },
   };
 }
@@ -86,3 +82,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const dynamic = "force-dynamic";
