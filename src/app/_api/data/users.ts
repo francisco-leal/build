@@ -53,20 +53,7 @@ export const getUserFromWallet = async (
     .then((res) => res.data?.[0]?.user_id);
   if (!userId) return null;
 
-  const user = await getUserFromId(userId);
-  if (user?.boss_budget === 0) {
-    const result = await supabase.rpc("calculate_boss_budget_user", {
-      user_to_update: user.id,
-    });
-
-    if (result.error) {
-      console.error(result.error);
-    } else {
-      user.boss_budget = result.data;
-    }
-  }
-
-  return user;
+  return await getUserFromId(userId);
 };
 
 export const getUserBalances = async (user: User) => {
@@ -134,14 +121,6 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     .then((res) => res.data?.[0]);
 
   if (!user) throw new Error("User creation failed");
-
-  const result = await supabase.rpc("calculate_boss_budget_user", {
-    user_to_update: user.id,
-  });
-
-  if (result.data) {
-    user.boss_budget = result.data;
-  }
 
   await supabase.rpc("update_boss_score_for_user", {
     user_to_update: user.id,

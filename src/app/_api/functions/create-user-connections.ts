@@ -44,15 +44,23 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     return acc;
   }, []);
 
-  allWallets.forEach(async (w) => {
+  for (const w of allWallets) {
     const boss_token_balance = await getBalance(w.wallet);
     w.boss_token_balance = boss_token_balance;
-  });
+  }
 
   await supabase
     .from("wallets")
     .upsert(allWallets.map((w) => ({ ...w })))
     .throwOnError();
+
+  const result = await supabase.rpc("calculate_boss_budget_user", {
+    user_to_update: user.id,
+  });
+
+  if (result.error) {
+    console.error(result.error);
+  }
 
   const nominationsForUser = await supabase
     .from("boss_nominations")
