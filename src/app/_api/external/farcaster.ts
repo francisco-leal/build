@@ -29,7 +29,9 @@ export const searchFarcasterBuilderProfiles = async (
   };
 
   const response = await fetch(url, { headers });
-  if (!response.ok) throw new Error(response.statusText);
+  if (!response.ok) throw notFound();
+  if (response.status !== 200) throw notFound();
+
   const data = (await response.json()) as FarcasterAPISearchResponse;
   return data.result.users;
 };
@@ -46,7 +48,11 @@ export const getFarcasterUser = async (
   };
 
   const response = await fetch(url, { headers });
-  if (!response.ok) return notFound();
   const data = (await response.json()) as { [key: string]: FarcasterAPIUser[] };
-  return data[walletId][0] ?? null;
+
+  console.log(data, response.ok, response.status, data[walletId]);
+  if (!response.ok) return notFound();
+  if (response.status !== 200) return notFound();
+  if (!data[walletId]) return null;
+  return data[walletId][0];
 };

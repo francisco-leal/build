@@ -27,7 +27,6 @@ export default async function NominateBuilder({
 }: {
   params: { walletId: string };
 }) {
-  console.log("NominateBuilder");
   const builder = await getWalletFromExternal(params.walletId);
   if (!builder || !builder.wallet) notFound();
 
@@ -36,8 +35,8 @@ export default async function NominateBuilder({
   const todaysNominations = currentUser
     ? await getNominationsFromUserToday(currentUser)
     : undefined;
-  const userBalances = currentUser 
-    ? await getUserBalances(currentUser) 
+  const userBalances = currentUser
+    ? await getUserBalances(currentUser)
     : undefined;
 
   const referer = headers().get("referer") ?? "";

@@ -71,8 +71,7 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
       (res.data ?? []).map(
         (wallet): WalletInfo => ({
           username:
-            wallet.users?.username ?? 
-            abbreviateWalletAddress(wallet.wallet),
+            wallet.users?.username ?? abbreviateWalletAddress(wallet.wallet),
           wallet: wallet.wallet,
           allWallets: wallet.users?.wallets.map((w) => w.wallet) ?? [],
           image: "",
@@ -85,7 +84,7 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
   const newWallet = newWallets.find((w) => w.wallet === walletId);
   if (!newWallet) {
     throw new Error(`Wallet ${walletId} not found in the database`);
-  } 
+  }
   return newWallet;
 };
 
@@ -116,11 +115,22 @@ export const getWallets = async (
 export const getWalletFromExternal = async (
   walledId: string,
 ): Promise<WalletInfo | null> => {
+  const a = getFarcasterUser(walledId);
+  console.log(a);
+  const b = getTalentProtocolUser(walledId);
+  console.log(b);
+  const c = getUserFromWallet(walledId);
+  console.log(c);
+
   const [farcasterSocial, talentSocial, bossUser] = await Promise.all([
-    getFarcasterUser(walledId),
-    getTalentProtocolUser(walledId),
+    getFarcasterUser(walledId).catch((e) => null),
+    getTalentProtocolUser(walledId).catch((e) => null),
     getUserFromWallet(walledId),
   ]);
+
+  if (!farcasterSocial && !talentSocial && !bossUser) {
+    return null;
+  }
 
   const allWallets = [
     farcasterSocial?.custody_address,

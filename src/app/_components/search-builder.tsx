@@ -20,12 +20,12 @@ import {
   Grid,
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
+import { z } from "zod";
 import { useShareLink } from "@/app/_hooks/useShareLink";
 import { useDebounce } from "@/shared/hooks/use-debounce";
 import { LogoShort } from "@/shared/icons/logo-short";
 import { SearchFilled } from "@/shared/icons/search-filled";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { z } from "zod";
 
 export type SearchBuilderProps = StackProps;
 
@@ -35,11 +35,13 @@ type SearchResponseUser = {
   userImage: string;
 };
 
-const searchDataResponseSchema = z.array(z.object({
-  wallet: z.string(),
-  username: z.string(),
-  userImage: z.string(),
-}));
+const searchDataResponseSchema = z.array(
+  z.object({
+    wallet: z.string(),
+    username: z.string(),
+    userImage: z.string(),
+  }),
+);
 
 const SearchOptions: Record<string, string> = {
   farcaster: "Farcaster",

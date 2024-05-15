@@ -46,13 +46,8 @@ const processFarcasterBuilderProfiles = async (
     return {
       wallet,
       username:
-        user.username ??
-        profile?.username ??
-        abbreviateWalletAddress(wallet),
-      userImage:
-        profile?.image ??
-        user.pfp_url ??
-        "",
+        user.username ?? profile?.username ?? abbreviateWalletAddress(wallet),
+      userImage: profile?.image ?? user.pfp_url ?? "",
     };
   });
 };

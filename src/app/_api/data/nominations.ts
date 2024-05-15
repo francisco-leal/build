@@ -4,9 +4,7 @@ import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
 import { BadRequestError } from "@/shared/utils/error";
-import {
-  CacheKey,
-} from "../helpers/cache-keys";
+import { CacheKey } from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
@@ -31,7 +29,6 @@ const SELECT_NOMINATIONS = `
   destination_wallet_id,
   created_at,
   wallets:destination_wallet_id (
-    wallet,
     users (
       id,
       username,
@@ -65,27 +62,22 @@ export const getNomination = async (
     bossPointsEarned: nomination.boss_points_received,
     bossPointsGiven: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
-    destinationUsername: nomination.wallets?.users?.username ?? null,
+    destinationUsername: nomination.wallets[0]?.users[0]?.username ?? null,
     destinationRank:
-      nomination.destination_wallet_id?.users?.boss_leaderboard?.rank ?? null,
+      nomination.wallets[0]?.users[0]?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
   };
 };
 
-
 export const getNominationsFromUser = async (
   user: User,
 ): Promise<Nomination[]> => {
-  const userId = user.id;
-
-  const { data: nominations, error } = await supabase
+  const { data: nominations } = await supabase
     .from("boss_nominations")
     .select(SELECT_NOMINATIONS)
     .order("created_at", { ascending: false })
     .eq("origin_user_id", user.id)
-   // .throwOnError()
-
-   console.log("batatas" , error);
+    .throwOnError();
 
   return (
     nominations?.map((nomination) => ({
@@ -94,13 +86,13 @@ export const getNominationsFromUser = async (
       bossPointsEarned: nomination.boss_points_received,
       bossPointsGiven: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
-      destinationUsername: nomination.wallets?.users?.username ?? null,
+      destinationUsername: nomination.wallets[0]?.users[0]?.username ?? null,
       destinationRank:
-        nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+        nomination.wallets[0]?.users[0]?.boss_leaderboard?.rank ?? null,
       createdAt: nomination.created_at,
     })) ?? []
   );
-}
+};
 
 export const getNominationsFromUserToday = async (user: User) => {
   const nominations = await getNominationsFromUser(user);
@@ -205,8 +197,9 @@ export const createNewNomination = async (
     bossPointsEarned: nomination.boss_points_received,
     bossPointsGiven: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
-    destinationUsername: nomination.wallets?.users?.username ?? null,
-    destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+    destinationUsername: nomination.wallets[0]?.users[0]?.username ?? null,
+    destinationRank:
+      nomination.wallets[0]?.users[0]?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
   };
 };
