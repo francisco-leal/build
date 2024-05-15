@@ -26,8 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "BUILD",
       description: description,
       type: "website",
-      url: "https://boss.community",
-      images: ["https://boss.community/images/BUILD-thumbnail.jpg"],
+      url: "https://build.top",
+      images: ["https://build.top/images/BUILD-thumbnail.jpg"],
     },
   };
 }
