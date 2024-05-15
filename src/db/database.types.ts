@@ -96,13 +96,6 @@ export type Database = {
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
-          {
-            foreignKeyName: "boss_nominations_origin_wallet_id_fkey";
-            columns: ["origin_wallet_id"];
-            isOneToOne: false;
-            referencedRelation: "wallets";
-            referencedColumns: ["wallet"];
-          },
         ];
       };
       scheduled_updates: {
