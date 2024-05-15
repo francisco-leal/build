@@ -2,6 +2,7 @@
 
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
+import { getBalance } from "@/services/boss-tokens";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { removeDuplicates } from "@/shared/utils/remove-duplicates";
 import { getFarcasterUser } from "../external/farcaster";
@@ -19,6 +20,7 @@ export type WalletInfo = {
   farcasterId?: number;
   passportId?: number;
   userId?: string;
+  boss_token_balance: number | null;
 };
 
 /**
@@ -41,24 +43,27 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
       wallet: farcasterUser.custody_address,
       farcaster_id: farcasterUser.fid,
       user_id: userId,
+      boss_token_balance: await getBalance(farcasterUser.custody_address),
     };
   }
 
-  farcasterUser?.verified_addresses?.eth_addresses?.forEach((wallet) => {
+  farcasterUser?.verified_addresses?.eth_addresses?.forEach(async (wallet) => {
     wallets[wallet] = {
       ...wallets[wallet],
       wallet: wallet,
       farcaster_id: farcasterUser.fid,
       user_id: userId,
+      boss_token_balance: await getBalance(wallet),
     };
   });
 
-  talentUser?.verified_wallets?.forEach((verifiedWallet) => {
+  talentUser?.verified_wallets?.forEach(async (verifiedWallet) => {
     wallets[verifiedWallet] = {
       ...wallets[verifiedWallet],
       wallet: verifiedWallet,
       passport_id: talentUser.passport_id,
       user_id: userId,
+      boss_token_balance: await getBalance(verifiedWallet),
     };
   });
 
@@ -78,6 +83,7 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
           farcasterId: wallet.farcaster_id ?? undefined,
           passportId: wallet.passport_id ?? undefined,
           userId: wallet.user_id ?? undefined,
+          boss_token_balance: wallet.boss_token_balance,
         }),
       ),
     );
@@ -107,6 +113,7 @@ export const getWallets = async (
           farcasterId: wallet.farcaster_id ?? undefined,
           passportId: wallet.passport_id ?? undefined,
           userId: wallet.user_id ?? undefined,
+          boss_token_balance: wallet.boss_token_balance,
         }),
       ),
     );
@@ -149,6 +156,7 @@ export const getWalletFromExternal = async (
       bossUser?.username ??
       walledId.toLowerCase(),
     allWallets: allWallets,
+    boss_token_balance: await getBalance(walledId),
   };
 
   return walletInfo;
