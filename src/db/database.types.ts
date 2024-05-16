@@ -90,14 +90,7 @@ export type Database = {
             referencedColumns: ["wallet"];
           },
           {
-            foreignKeyName: "boss_nominations_origin_wallet_id_fkey";
-            columns: ["origin_wallet_id"];
-            isOneToOne: false;
-            referencedRelation: "wallets";
-            referencedColumns: ["wallet"];
-          },
-          {
-            foreignKeyName: "boss_nominations_user_id_fkey";
+            foreignKeyName: "boss_nominations_origin_user_id_fkey";
             columns: ["origin_user_id"];
             isOneToOne: false;
             referencedRelation: "users";
@@ -173,7 +166,7 @@ export type Database = {
       };
       wallets: {
         Row: {
-          boss_token_balance: number | null;
+          boss_token_balance: number;
           created_at: string;
           farcaster_id: number | null;
           image_url: string | null;
@@ -183,7 +176,7 @@ export type Database = {
           wallet: string;
         };
         Insert: {
-          boss_token_balance?: number | null;
+          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
           image_url?: string | null;
@@ -193,7 +186,7 @@ export type Database = {
           wallet: string;
         };
         Update: {
-          boss_token_balance?: number | null;
+          boss_token_balance?: number;
           created_at?: string;
           farcaster_id?: number | null;
           image_url?: string | null;
@@ -221,25 +214,6 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
-      calculate_boss_budget_for_single_user: {
-        Args: {
-          id_to_update: string;
-        };
-        Returns: undefined;
-      };
-      calculate_boss_budget_for_user:
-        | {
-            Args: {
-              user_to_update: string;
-            };
-            Returns: undefined;
-          }
-        | {
-            Args: {
-              wallet_to_update: string;
-            };
-            Returns: undefined;
-          };
       calculate_boss_budget_user: {
         Args: {
           user_to_update: string;
@@ -250,27 +224,9 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
-      test_update: {
-        Args: {
-          user_to_update: string;
-        };
-        Returns: undefined;
-      };
-      update_boss_balances: {
-        Args: {
-          wallet_balances: Json;
-        };
-        Returns: undefined;
-      };
       update_boss_daily_streak_for_user: {
         Args: {
           user_to_update: string;
-        };
-        Returns: undefined;
-      };
-      update_boss_score: {
-        Args: {
-          wallet_to_update: string;
         };
         Returns: undefined;
       };
@@ -281,22 +237,6 @@ export type Database = {
         Returns: undefined;
       };
       update_leaderboard: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      update_nominations: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      update_user_boss_budget: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      update_user_boss_score: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      update_user_stats: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };

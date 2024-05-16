@@ -3,5 +3,7 @@ import { HomePageComponent } from "./component";
 
 export default async function HomePageLayout() {
   const leaderboard = await getTableLeaderboardValues();
-  return <HomePageComponent tableLeaderboardValues={leaderboard} />;
+  return (
+    <HomePageComponent key={"home"} tableLeaderboardValues={leaderboard} />
+  );
 }

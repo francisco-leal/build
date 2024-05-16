@@ -167,7 +167,7 @@ export const NominateBuilderComponent: FunctionComponent<
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
-              <Typography level="body-sm">BOSS Points Sent</Typography>
+              <Typography level="body-sm">BUILD Points Sent</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
@@ -180,7 +180,7 @@ export const NominateBuilderComponent: FunctionComponent<
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
-              <Typography level="body-sm">BOSS Points Earned</Typography>
+              <Typography level="body-sm">BUILD Points Earned</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"

@@ -25,8 +25,7 @@ export const getTableMyNominationsValues = async (): Promise<
       key: `${n.createdAt}-${n.destinationWallet}`,
       date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
       missed: false,
-      name:
-        n.destinationUsername ?? abbreviateWalletAddress(n.destinationWallet),
+      name: n.destinationUsername,
       rank: n.destinationRank,
       pointsGiven: n.bossPointsGiven,
     }),

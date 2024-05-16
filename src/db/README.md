@@ -4,7 +4,7 @@
 <summary><b>[UNIQUENESS CONSTRAINTS]</b></summary>
 
 ```SQL
-CREATE UNIQUE INDEX idx_unique_wallets ON boss_nominations (wallet_origin, wallet_destination);
+CREATE UNIQUE INDEX idx_unique_user_wallet_nominations ON boss_nominations (origin_user_id, destination_wallet_id);
 ```
 
 </details>
