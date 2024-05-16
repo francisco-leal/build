@@ -8,7 +8,7 @@ const handler = frames(async (ctx) => {
   const walletNominated =
     ctx.url.pathname.split("/frames/nominate/")[1].toLowerCase() ?? "";
   try {
-    if (!ctx.message?.isValid) {
+    if (ctx.message && !ctx.message?.isValid) {
       throw new BadRequestError("Invalid message");
     }
     const farcasterUser = await getFramesUser(ctx);
