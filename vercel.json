@@ -9,8 +9,12 @@
       "schedule": "1 0 * * *"
     },
     {
-      "path": "/api/cron/streak",
+      "path": "/api/cron/reset_streak",
       "schedule": "10 0 * * *"
+    },
+    {
+      "path": "/api/cron/increment_streak",
+      "schedule": "59 23 * * *"
     },
     {
       "path": "/api/cron/boss_balance",
