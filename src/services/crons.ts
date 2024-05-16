@@ -8,6 +8,15 @@ export async function computeLeaderboard() {
   }
 }
 
+export async function incrementStreaks() {
+  const { error: error_reset_nomination_streak } = await supabase.rpc(
+    "increment_nomination_streak",
+  );
+  if (error_reset_nomination_streak) {
+    throw error_reset_nomination_streak;
+  }
+}
+
 export async function resetMissedStreaks() {
   const { error: error_reset_nomination_streak } = await supabase.rpc(
     "reset_nomination_streak",
