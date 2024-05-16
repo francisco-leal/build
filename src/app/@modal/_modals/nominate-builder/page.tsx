@@ -1,129 +1,243 @@
-import { ReactNode } from "react";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
   getNomination,
   getNominationsFromUserToday,
   hasExceededNominationsToday,
-  isDuplicateNomination,
   isSelfNomination,
   isUpdatingLeaderboard,
 } from "@/app/_api/data/nominations";
 import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
-import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { NotFoundError } from "@/shared/utils/error";
-import { NominateBuilderComponent, NominationState } from "./component";
-
-type StateAndInfo = {
-  state: NominationState;
-  infoMessage: ReactNode;
-};
+import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
+import { formatLargeNumber } from "@/shared/utils/format-number";
+import {
+  Modal,
+  ModalActionMessage,
+  ModalActions,
+  ModalBuilderProfile,
+  ModalGoBackButton,
+  ModalNominationValues,
+  ModalSubmitButton,
+} from "./components";
 
 export default async function NominateBuilder({
   params,
 }: {
   params: { walletId: string };
 }) {
+  const referer = headers().get("referer") ?? "";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "build.top";
+  const disableGoBack = !referer.includes(appUrl);
+  const today = DateTime.now().toFormat("LLL dd");
+
   const builder = await getWalletFromExternal(params.walletId);
   if (!builder || !builder.wallet) notFound();
 
-  const currentUser = await getCurrentUser();
-
-  const todaysNominations = currentUser
-    ? await getNominationsFromUserToday(currentUser)
-    : undefined;
-  const userBalances = currentUser
-    ? await getUserBalances(currentUser)
-    : undefined;
-
-  const referer = headers().get("referer") ?? "";
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "build.top";
-  const isBackAvailable = referer.includes(appUrl);
-  const date = DateTime.now().toFormat("LLL dd");
-
-  const { state, infoMessage }: StateAndInfo = await (async () => {
-    if (!currentUser) {
-      return {
-        state: "NOT_CONNECTED" as const,
-        infoMessage: "",
-      };
-    }
-    if (await isDuplicateNomination(currentUser, builder)) {
-      const nomination = await getNomination(currentUser, builder);
-      if (!nomination) throw new NotFoundError("Nomination not found");
-      const abbreviatedWallet = abbreviateWalletAddress(builder.wallet);
-      const displayName = nomination.destinationUsername ?? abbreviatedWallet;
-
-      return {
-        state: "ALREADY_NOMINATED" as const,
-        infoMessage: (
-          <>
-            You nominated {displayName}!<br />
-            <small>(You can only nominate each builder once)</small>
-          </>
-        ),
-      };
-    }
-    if (await isSelfNomination(currentUser, builder)) {
-      return {
-        state: "INVALID_NOMINATION" as const,
-        infoMessage: (
-          <>
-            <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
-              You are trying to nominate yourself!
-              <br />
-              Be a good sport and nominate someone else.
-            </Typography>
-          </>
-        ),
-      };
-    }
-    if (await isUpdatingLeaderboard()) {
-      return {
-        state: "INVALID_NOMINATION" as const,
-        infoMessage: (
-          <>
-            <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1 }}>
-              Leaderboard is currently updating. This should only take a minute
-              or two...
-            </Typography>
-          </>
-        ),
-      };
-    }
-    if (await hasExceededNominationsToday(currentUser)) {
-      return {
-        state: "INVALID_NOMINATION" as const,
-        infoMessage: (
-          <>
-            You already nominated 3 builders today! <br />
-            Come back tomorrow!
-          </>
-        ),
-      };
-    }
-    return {
-      state: "VALID_NOMINATION" as const,
-      infoMessage: "",
-    };
-  })();
-
-  return (
-    <NominateBuilderComponent
-      state={state}
-      infoMessage={infoMessage}
-      backAvailable={isBackAvailable}
-      date={date}
+  const builderProfile = (
+    <ModalBuilderProfile
       builderImage={builder.image}
       builderUsername={builder.username}
       builderWallet={builder.wallet}
-      currentUserBossDailyBudget={userBalances?.dailyBudget ?? 0}
-      currentUserBossPointsToBeGiven={userBalances?.pointsGiven ?? 0}
-      currentUserBossPointsToBeEarned={userBalances?.pointsEarned ?? 0}
-      currentUserBossDailyNominations={todaysNominations?.length ?? 0}
     />
+  );
+
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return (
+      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
+        {builderProfile}
+        <ModalNominationValues
+          entries={[
+            { label: "Date", value: today },
+            { label: "Daily Budget", value: "---" },
+            { label: "Points to be given", value: "---" },
+            { label: "Points to be earned", value: "---" },
+            { label: "Daily Nominations", value: "---" },
+          ]}
+        />
+        <ModalActions>
+          <ConnectWalletButton />
+        </ModalActions>
+      </Modal>
+    );
+  }
+
+  const userBalances = await getUserBalances(currentUser);
+  const todaysNominations = await getNominationsFromUserToday(currentUser);
+  const previousNomination = await getNomination(currentUser, builder);
+  if (previousNomination) {
+    const previousDate = DateTime.fromISO(previousNomination.createdAt);
+    return (
+      <Modal title="Nominated Builder" disableGoBack={disableGoBack}>
+        {builderProfile}
+        <ModalNominationValues
+          entries={[
+            {
+              label: "Date",
+              value: previousDate.toFormat("LLL dd"),
+            },
+            {
+              label: "Daily Budget",
+              value: formatLargeNumber(userBalances.dailyBudget),
+            },
+            {
+              label: "Points given",
+              value: formatLargeNumber(previousNomination.bossPointsGiven),
+            },
+            {
+              label: "Points earned",
+              value: formatLargeNumber(previousNomination.bossPointsEarned),
+            },
+            {
+              label: "Daily Nominations",
+              value: `${todaysNominations.length}/3`,
+            },
+          ]}
+        />
+        <ModalActions>
+          <ModalActionMessage>
+            You nominated {builder.username}!<br />
+            <small>(You can only nominate each builder once)</small>
+          </ModalActionMessage>
+        </ModalActions>
+      </Modal>
+    );
+  }
+
+  if (await isSelfNomination(currentUser, builder)) {
+    return (
+      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
+        {builderProfile}
+        <ModalNominationValues
+          entries={[
+            {
+              label: "Date",
+              value: today,
+            },
+            {
+              label: "Daily Budget",
+              value: formatLargeNumber(userBalances.dailyBudget),
+            },
+            {
+              label: "Points to be given",
+              value: "---",
+            },
+            {
+              label: "Points to be earned",
+              value: "---",
+            },
+            {
+              label: "Daily Nominations",
+              value: `${todaysNominations.length}/3`,
+            },
+          ]}
+        />
+        <ModalActions>
+          <ModalActionMessage>
+            You are trying to nominate yourself!
+            <br />
+            Be a good sport and nominate someone else.
+          </ModalActionMessage>
+          <ModalGoBackButton disableGoBack={disableGoBack}>
+            Close
+          </ModalGoBackButton>
+        </ModalActions>
+      </Modal>
+    );
+  }
+
+  const nominationValues = (
+    <ModalNominationValues
+      entries={[
+        {
+          label: "Date",
+          value: today,
+        },
+        {
+          label: "Daily Budget",
+          value: formatLargeNumber(userBalances.dailyBudget),
+        },
+        {
+          label: "Points to be given",
+          value: formatLargeNumber(userBalances.pointsGiven),
+        },
+        {
+          label: "Points to be earned",
+          value: formatLargeNumber(userBalances.pointsEarned),
+        },
+        {
+          label: "Daily Nominations",
+          value: `${todaysNominations.length}/3`,
+        },
+      ]}
+    />
+  );
+
+  if (await hasExceededNominationsToday(currentUser)) {
+    return (
+      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
+        {builderProfile}
+        {nominationValues}
+        <ModalActions>
+          <ModalActionMessage>
+            You already nominated 3 builders today!
+            <br />
+            Come back tomorrow!
+          </ModalActionMessage>
+          <ModalGoBackButton disableGoBack={disableGoBack}>
+            Close
+          </ModalGoBackButton>
+        </ModalActions>
+      </Modal>
+    );
+  }
+
+  if ((await userBalances.dailyBudget) < 0) {
+    return (
+      <Modal title="Nominate Builder">
+        {builderProfile}
+        {nominationValues}
+        <ModalActions>
+          <ModalGoBackButton disableGoBack={disableGoBack}>
+            Close
+          </ModalGoBackButton>
+          <ModalActionMessage>
+            You don&apos;t have a boss budget. You can increase your budget by
+            creating a Talent Passport, or by buying $BOSS.
+          </ModalActionMessage>
+        </ModalActions>
+      </Modal>
+    );
+  }
+
+  if (await isUpdatingLeaderboard()) {
+    return (
+      <Modal title="Nominate Builder" pokeForUpdate>
+        {builderProfile}
+        {nominationValues}
+        <ModalActions>
+          <ModalActionMessage>
+            Leaderboard is currently updating. 
+            This should only take a minute or two...
+          </ModalActionMessage>
+          <ModalSubmitButton wallet={builder.wallet} loading />
+        </ModalActions>
+      </Modal>
+    );
+  }
+
+  return (
+    <Modal title="Nominate Builder">
+      {builderProfile}
+      {nominationValues}
+      <ModalActions>
+        <ModalGoBackButton disableGoBack={disableGoBack}>
+          Close
+        </ModalGoBackButton>
+        <ModalSubmitButton wallet={builder.wallet} />
+      </ModalActions>
+    </Modal>
   );
 }
