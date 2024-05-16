@@ -1,9 +1,7 @@
 "use client";
 
-import { inputClasses, tabClasses, tabPanelClasses } from "@mui/joy";
+import { tabClasses, tabPanelClasses } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
-import { SystemProps } from "@mui/joy/styles/types";
-import Background from "@/app/(pages)/(home)/nominate/[walletId]/page";
 import { ThemeLink } from "./theme-link";
 
 const colors = {

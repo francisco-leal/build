@@ -55,7 +55,6 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchDomain, setSearchDomain] = useState<string>("farcaster");
   const debouncedSearchValue = useDebounce(searchValue, 500);
-  const pathname = usePathname();
 
   const searchQuery = useQuery({
     queryKey: ["search", debouncedSearchValue, searchDomain],
@@ -269,10 +268,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                     // Scroll is not recognized by ButtonProps, but it's part of Next Link
                     {...{ scroll: false }}
                     component={Link}
-                    href={(pathname + `/nominate/${user.wallet}`).replace(
-                      "//",
-                      "/",
-                    )}
+                    href={`/nominate/${user.wallet}`}
                     disabled={!user.wallet}
                     variant="solid"
                     sx={{ height: "auto" }}
