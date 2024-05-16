@@ -1,16 +1,15 @@
 import { notFound } from "next/navigation";
 import { DateTime } from "luxon";
-import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { TableMyNominationsValue } from "../../_components/table-my-nominations";
-import { getNominationsFromUser } from "../data/nominations";
+import { TableNominationsSentValue } from "../../_components/table-nominations-sent";
+import { getNominationsUserSent } from "../data/nominations";
 import { getCurrentUser } from "../data/users";
 
-export const getTableMyNominationsValues = async (): Promise<
-  TableMyNominationsValue[]
+export const getTableNominationsSentValues = async (): Promise<
+  TableNominationsSentValue[]
 > => {
   const user = await getCurrentUser();
   if (!user) return notFound();
-  const nominations = await getNominationsFromUser(user);
+  const nominations = await getNominationsUserSent(user);
   const firstNominationIso = nominations.at(-1)?.createdAt;
   const firstDate = firstNominationIso
     ? DateTime.fromISO(firstNominationIso)
@@ -21,13 +20,13 @@ export const getTableMyNominationsValues = async (): Promise<
 
   // Create table values that exist
   const values = nominations.map(
-    (n): TableMyNominationsValue => ({
+    (n): TableNominationsSentValue => ({
       key: `${n.createdAt}-${n.destinationWallet}`,
       date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
       missed: false,
       name: n.destinationUsername,
       rank: n.destinationRank,
-      pointsGiven: n.bossPointsGiven,
+      pointsGiven: n.bossPointsSent,
     }),
   );
 

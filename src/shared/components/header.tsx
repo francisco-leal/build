@@ -77,8 +77,11 @@ export const Header: FunctionComponent = () => {
           >
             Manifesto
           </Link>
-          <Link disabled={activePath === "airdrop"} href="/airdrop">
-            Airdrop
+          <Link disabled={activePath === "nominations"} href="/nominations">
+            Nominations
+          </Link>
+          <Link disabled={activePath === "leaderboard"} href="/leaderboard">
+            Leaderboard
           </Link>
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             Tokenomics
@@ -165,10 +168,18 @@ export const Header: FunctionComponent = () => {
         <Link
           // Prefetch is not recognized by LinkProps, but it's part of Next Link
           {...{ prefetch: true }}
-          href="/airdrop"
+          href="/nominations"
           onClick={drawer.close}
         >
-          Airdrop
+          Nominations
+        </Link>
+        <Link
+          // Prefetch is not recognized by LinkProps, but it's part of Next Link
+          {...{ prefetch: true }}
+          href="/leaderboard"
+          onClick={drawer.close}
+        >
+          Leaderboard
         </Link>
         <Link
           // Prefetch is not recognized by LinkProps, but it's part of Next Link

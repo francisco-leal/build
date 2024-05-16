@@ -22,6 +22,11 @@ const nextConfig = {
         destination: "/nominate/:path",
         permanent: true,
       },
+      {
+        source: "/airdrop",
+        destination: "/nominations",
+        permanent: true,
+      },
     ];
   },
 };

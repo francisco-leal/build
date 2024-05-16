@@ -39,9 +39,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung heroes of the blockchain.
-          <br />
-          Nominate undervalued builders and earn BUILD points.
+          Celebrate the unsung onchain heroes. Nominate incredible builders and
+          earn BUILD.2
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
