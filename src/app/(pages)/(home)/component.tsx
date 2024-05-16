@@ -35,8 +35,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
     <Stack component="main">
       <HeroSectionSlim backgroundImage={backgroundImage.src} sx={{ mb: 0 }}>
         <Typography level="h1">
-          Nominate <Interface /> the best
-          builders <MusicHeadset /> you know.
+          Nominate <Interface /> the best builders <MusicHeadset /> you know.
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
