@@ -3,7 +3,7 @@ import { searchBuilders } from "@/app/_api/functions/search-builders";
 import { restApiHandler } from "@/app/_api/helpers/rest-api-handler";
 
 const searchParamsSchema = z.object({
-  query: z.string().min(3),
+  query: z.string().min(2),
   domain: z.string(),
 });
 

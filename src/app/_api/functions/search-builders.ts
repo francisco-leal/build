@@ -95,8 +95,6 @@ const processLensBuilderProfiles = async (
 
 export const searchBuilders = unstable_cache(
   async (query: string, domain: string) => {
-    if (query?.length < 3) return [];
-
     switch (domain) {
       case "farcaster":
         const fcData = await searchFarcasterBuilderProfiles(query);

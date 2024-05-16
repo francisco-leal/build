@@ -59,7 +59,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
 
   const searchQuery = useQuery({
     queryKey: ["search", debouncedSearchValue, searchDomain],
-    enabled: debouncedSearchValue.length > 2,
+    enabled: debouncedSearchValue.length >= 2,
     placeholderData: [],
     queryFn: async (): Promise<SearchResponseUser[]> => {
       const baseUrl = window.location.origin;
@@ -125,7 +125,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
         const isError =
           searchQuery.isError || typeof searchQuery.data === "undefined";
 
-        if (searchValue.length < 3) {
+        if (searchValue.length < 2) {
           return (
             <>
               <Divider sx={{ my: 2 }}>
