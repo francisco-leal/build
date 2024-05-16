@@ -36,17 +36,35 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const passport_id = data.passport_id;
-  const builder_score = data.score;
+  const passportId = data.passport_id;
+  const builderScore = data.score;
 
-  const { data: user } = await supabase
-    .from("users")
-    .update({ passport_builder_score: builder_score })
-    .eq("passport_id", passport_id)
-    .select("id");
+  const userId = await supabase
+    .from("wallets")
+    .update({ passport_id: passportId })
+    .in("wallet", data.verified_wallets)
+    .select("user_id")
+    .throwOnError()
+    .then((res) => res.data?.[0]?.user_id);
 
-  if (user && user.length > 0)
-    revalidateTag(`user_${user[0].id}` satisfies CacheKey);
+  let userData;
+  if(userId) {
+    userData = await supabase
+      .from("users")
+      .update({ passport_builder_score: builderScore, passport_id: passportId })
+      .eq("id", userId)
+      .select("id")
+  } else {
+    userData = await supabase
+      .from("users")
+      .update({ passport_builder_score: builderScore })
+      .eq("passport_id", passportId)
+      .select("id")
+  }
+
+  if (userData?.data && userData?.data?.length > 0) {
+    revalidateTag(`user_${userData.data[0].id}` satisfies CacheKey);
+  }
 
   return Response.json({}, { status: 200 });
 }
