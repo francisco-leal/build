@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Box, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
 export type TableMyNominationsValue = {
   key: string;
@@ -49,7 +50,7 @@ export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
               <td>
                 {val.missed
                   ? "Missed"
-                  : Math.round(val.pointsGiven ?? 0) ?? "---"}
+                  : formatLargeNumber(val.pointsGiven ?? 0) ?? "---"}
               </td>
             </Box>
           ))}
