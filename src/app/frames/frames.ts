@@ -20,7 +20,18 @@ export const frames = createFrames({
       secret: "MY_VERY_SECRET_SECRET",
     }),
     farcasterHubContext({
-      // hubHttpUrl: DEFAULT_DEBUGGER_HUB_URL,
+      ...(process.env.NODE_ENV === "production"
+        ? {
+            hubHttpUrl: "https://hubs.airstack.xyz",
+            hubRequestOptions: {
+              headers: {
+                "x-airstack-hubs": process.env.AIRSTACK_API_KEY as string,
+              },
+            },
+          }
+        : {
+            hubHttpUrl: DEFAULT_DEBUGGER_HUB_URL,
+          }),
     }),
     openframes({
       clientProtocol: {

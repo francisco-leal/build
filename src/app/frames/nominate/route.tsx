@@ -8,19 +8,16 @@ import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
   try {
-    /*if (ctx.message && !ctx.message?.isValid) {
-      console.log("INVALID", ctx.message, ctx.message?.isValid);
+    if (ctx.message && !ctx.message?.isValid) {
       throw new BadRequestError("Invalid message");
-    }*/
+    }
     const farcasterUser = await getFramesUser(ctx);
     const farcasterUsername = farcasterUser.username;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
 
-    const userNominated =
-      ctx.message?.inputText || ctx.url.searchParams.get("user");
-    console.log("HERE", ctx.url.searchParams.get("user"));
-    console.log(farcasterUser);
-    if (!userNominated) {
+    const userNominated = ctx.message?.inputText;
+    let walletNominated = ctx.url.searchParams.get("wallet")?.toLowerCase();
+    if (!userNominated && !walletNominated) {
       return {
         image: (
           <div>
@@ -44,15 +41,14 @@ const handler = frames(async (ctx) => {
       };
     }
 
-    const builderProfiles = await searchBuilders(userNominated, "farcaster");
-    let nominatedBuilderProfile =
-      builderProfiles.length > 0 ? builderProfiles[0] : null;
-    if (!nominatedBuilderProfile) {
-      throw new BadRequestError("Builder not found");
+    if (!walletNominated && userNominated) {
+      const builderProfiles = await searchBuilders(userNominated, "farcaster");
+      if (!builderProfiles || builderProfiles.length === 0) {
+        throw new BadRequestError("Builder not found");
+      }
+      walletNominated = builderProfiles[0].wallet;
     }
-    const walletProfile = await getWalletFromExternal(
-      nominatedBuilderProfile.wallet,
-    );
+    const walletProfile = await getWalletFromExternal(walletNominated!);
     if (!walletProfile) {
       return {
         image: (
@@ -124,7 +120,8 @@ const handler = frames(async (ctx) => {
     return {
       image: (
         <div>
-          <div>nomination-failed</div>
+          <div>builder-nomination-error</div>
+          <div>{""}</div>
           <div>{errorMessage}</div>
         </div>
       ),

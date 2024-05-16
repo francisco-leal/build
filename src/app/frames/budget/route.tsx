@@ -5,15 +5,14 @@ import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
-  if (!ctx.message?.isValid) {
-    throw new BadRequestError("Invalid message");
-  }
   try {
+    if (!ctx.message?.isValid) {
+      throw new BadRequestError("Invalid message");
+    }
     const farcasterUsername =
       ctx.message?.requesterUserData?.displayName ||
       ctx.message?.requesterFid ||
       ctx.message?.verifiedWalletAddress;
-
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
     const farcasterUser = await getFramesUser(ctx);
     const userBalances = await getUserBalances(farcasterUser);

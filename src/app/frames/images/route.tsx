@@ -231,6 +231,7 @@ export const GET = imagesWorker(async (jsx) => {
     if (jsx.props.children.length === 10) {
       nominationsErrorMsg = jsx.props.children[9].props.children;
     }
+    const marginTop = budget !== -1 ? "60px" : "200px";
 
     const svg = await satori(
       <div
@@ -283,7 +284,7 @@ export const GET = imagesWorker(async (jsx) => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "80px",
+            marginTop: marginTop,
           }}
         >
           <div
@@ -335,6 +336,130 @@ export const GET = imagesWorker(async (jsx) => {
               {nominatedUsername}
             </p>
           </div>
+          {budget !== -1 && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  padding: "0px 20px",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  borderTop: "3px solid #fff",
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  My Daily Budget
+                </p>
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  {budget !== -1 ? budget : "N/A"}
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  padding: "0px 20px",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  BUILD Points Sent
+                </p>
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  {budget !== -1 ? pointsSent : "N/A"}
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  padding: "0px 20px",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  BUILD Points Earned
+                </p>
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  {budget !== -1 ? pointsEarned : "N/A"}
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  padding: "0px 20px",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  borderTop: "3px solid #fff",
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  Daily Nominations
+                </p>
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontFamily: "Bricolage-Bold",
+                    fontSize: "48px",
+                  }}
+                >
+                  {budget !== -1 ? dailyNominations : "N/A"}
+                </p>
+              </div>
+            </div>
+          )}
           {nominationsErrorMsg && (
             <div
               style={{
@@ -520,7 +645,7 @@ export const GET = imagesWorker(async (jsx) => {
               fontSize: "78px",
             }}
           >
-            Search error
+            {username}
           </p>
         </div>
         <div

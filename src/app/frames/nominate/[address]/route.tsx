@@ -5,12 +5,12 @@ import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
-  if (!ctx.message?.isValid) {
-    // throw new BadRequestError("Invalid message");
-  }
   const walletNominated =
     ctx.url.pathname.split("/frames/nominate/")[1].toLowerCase() ?? "";
   try {
+    if (!ctx.message?.isValid) {
+      throw new BadRequestError("Invalid message");
+    }
     const farcasterUser = await getFramesUser(ctx);
     if (!walletNominated) throw new BadRequestError("Missing Wallet address");
 
@@ -44,7 +44,6 @@ const handler = frames(async (ctx) => {
     };
   } catch (error) {
     const errorMessage = (error as Error)?.message || "An error occurred";
-    console.log("errorMessage", errorMessage);
     if (errorMessage === "Frame user not found") {
       try {
         const walletProfile = await getWalletFromExternal(walletNominated);
@@ -89,7 +88,7 @@ const handler = frames(async (ctx) => {
             <Button
               action="post"
               key="1"
-              target={`/nominate?user=${walletProfile.wallet}`}
+              target={`/nominate?wallet=${walletProfile.wallet}`}
             >
               Nominate
             </Button>,
@@ -101,14 +100,12 @@ const handler = frames(async (ctx) => {
             aspectRatio: "1:1",
           },
         };
-      } catch (error) {
-        console.log("error", error);
-      }
+      } catch (error) {}
     }
     return {
       image: (
         <div>
-          <div>nominate-builder-not-found</div>
+          <div>builder-nomination-error</div>
           <div>{walletNominated}</div>
           <div>{errorMessage}</div>
         </div>
