@@ -306,7 +306,7 @@ export const GET = imagesWorker(async (jsx) => {
                 fontSize: "48px",
               }}
             >
-              Confirm Nomination
+              Nominate
             </p>
           </div>
           <div
@@ -333,120 +333,6 @@ export const GET = imagesWorker(async (jsx) => {
               }}
             >
               {nominatedUsername}
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: "0px 20px",
-              justifyContent: "space-between",
-              width: "100%",
-              borderTop: "3px solid #fff",
-            }}
-          >
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              My Daily Budget
-            </p>
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              {budget !== -1 ? budget : "N/A"}
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: "0px 20px",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              BUILD Points Sent
-            </p>
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              {budget !== -1 ? pointsSent : "N/A"}
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: "0px 20px",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              BUILD Points Earned
-            </p>
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              {budget !== -1 ? pointsEarned : "N/A"}
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              padding: "0px 20px",
-              justifyContent: "space-between",
-              width: "100%",
-              borderTop: "3px solid #fff",
-            }}
-          >
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              Daily Nominations
-            </p>
-            <p
-              style={{
-                fontWeight: "600",
-                fontFamily: "Bricolage-Bold",
-                fontSize: "48px",
-              }}
-            >
-              {budget !== -1 ? dailyNominations : "N/A"}
             </p>
           </div>
           {nominationsErrorMsg && (

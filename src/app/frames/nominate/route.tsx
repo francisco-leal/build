@@ -8,15 +8,18 @@ import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
   try {
-    if (ctx.message && !ctx.message?.isValid) {
+    /*if (ctx.message && !ctx.message?.isValid) {
+      console.log("INVALID", ctx.message, ctx.message?.isValid);
       throw new BadRequestError("Invalid message");
-    }
+    }*/
     const farcasterUser = await getFramesUser(ctx);
     const farcasterUsername = farcasterUser.username;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
 
     const userNominated =
       ctx.message?.inputText || ctx.url.searchParams.get("user");
+    console.log("HERE", ctx.url.searchParams.get("user"));
+    console.log(farcasterUser);
     if (!userNominated) {
       return {
         image: (

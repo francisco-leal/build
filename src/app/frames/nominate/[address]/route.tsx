@@ -91,10 +91,10 @@ const handler = frames(async (ctx) => {
               key="1"
               target={`/nominate?user=${walletProfile.wallet}`}
             >
-              Check your budget
+              Nominate
             </Button>,
             <Button action="post" key="2" target={`/nominate`}>
-              Back
+              Search another builder
             </Button>,
           ],
           imageOptions: {

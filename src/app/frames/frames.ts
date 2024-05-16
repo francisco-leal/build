@@ -20,7 +20,7 @@ export const frames = createFrames({
       secret: "MY_VERY_SECRET_SECRET",
     }),
     farcasterHubContext({
-      hubHttpUrl: DEFAULT_DEBUGGER_HUB_URL,
+      // hubHttpUrl: DEFAULT_DEBUGGER_HUB_URL,
     }),
     openframes({
       clientProtocol: {
