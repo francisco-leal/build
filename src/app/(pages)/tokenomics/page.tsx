@@ -1,10 +1,9 @@
 import { default as Image } from "next/image";
-import { Sheet, Stack, Table } from "@mui/joy";
+import { Stack } from "@mui/joy";
 import { Typography, Box, Link } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { ExternalLink } from "@/shared/icons/external-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import MOBILE_GRAPH from "./_images/bossnomics-graph-mobile.png";

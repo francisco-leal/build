@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
+import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
 
 export type TableLeaderboardValue = {
   id: string;
@@ -46,8 +47,8 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
             <tr key={val.id} className={val.highlight ? "blue" : ""}>
               <td>{val.rank}</td>
               <td>{shortenWallet(val.name)}</td>
-              <td>{Math.round(val.bossScore)}</td>
-              <td>{val.builderScore}</td>
+              <td>{formatLargeNumber(val.bossScore)}</td>
+              <td>{Math.round(val.builderScore)}</td>
               <td>{val.nominationsReceived ?? "Missed"}</td>
             </tr>
           ))}
