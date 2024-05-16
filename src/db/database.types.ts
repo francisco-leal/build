@@ -220,6 +220,10 @@ export type Database = {
         };
         Returns: number;
       };
+      increment_nomination_streak: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
       reset_nomination_streak: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
