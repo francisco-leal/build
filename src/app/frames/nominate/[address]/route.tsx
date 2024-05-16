@@ -89,9 +89,9 @@ const handler = frames(async (ctx) => {
             <Button
               action="post"
               key="1"
-              target={`/nominate/${walletProfile.wallet}`}
+              target={`/nominate?user=${walletProfile.wallet}`}
             >
-              Confirm Nomination
+              Check your budget
             </Button>,
             <Button action="post" key="2" target={`/nominate`}>
               Back
@@ -101,7 +101,9 @@ const handler = frames(async (ctx) => {
             aspectRatio: "1:1",
           },
         };
-      } catch (error) {}
+      } catch (error) {
+        console.log("error", error);
+      }
     }
     return {
       image: (

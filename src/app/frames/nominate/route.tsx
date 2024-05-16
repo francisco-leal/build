@@ -7,15 +7,16 @@ import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
-  if (!ctx.message?.isValid) {
-    throw new BadRequestError("Invalid message");
-  }
   try {
+    if (ctx.message && !ctx.message?.isValid) {
+      throw new BadRequestError("Invalid message");
+    }
     const farcasterUser = await getFramesUser(ctx);
     const farcasterUsername = farcasterUser.username;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
 
-    const userNominated = ctx.message?.inputText;
+    const userNominated =
+      ctx.message?.inputText || ctx.url.searchParams.get("user");
     if (!userNominated) {
       return {
         image: (

@@ -580,7 +580,7 @@ export const GET = imagesWorker(async (jsx) => {
               fontSize: "48px",
             }}
           >
-            Nominate Builder
+            Search for builders
           </p>
         </div>
       </div>,
@@ -634,7 +634,7 @@ export const GET = imagesWorker(async (jsx) => {
               fontSize: "78px",
             }}
           >
-            {username.length > 15 ? username.slice(14) : username}
+            Search error
           </p>
         </div>
         <div
@@ -657,7 +657,7 @@ export const GET = imagesWorker(async (jsx) => {
               fontSize: "48px",
             }}
           >
-            Builder Not Found
+            Try again
           </p>
         </div>
       </div>,
