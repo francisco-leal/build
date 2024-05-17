@@ -1,6 +1,5 @@
 "use client";
 
-import { tabClasses, tabPanelClasses } from "@mui/joy";
 import { extendTheme } from "@mui/joy/styles";
 import { ThemeLink } from "./theme-link";
 
@@ -189,36 +188,6 @@ export const theme = extendTheme({
           "& tr.yellow": { color: theme.vars.palette.warning[400] },
           "& tr.odd": { background: theme.vars.palette.neutral[100] },
           "--TableCell-borderColor": theme.vars.palette.neutral[200],
-        }),
-      },
-    },
-    JoyTabs: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          padding: 0,
-          marginTop: 1,
-          backgroundColor: "transparent",
-          "--Tab-indicatorThickness": "1px",
-
-          [`& .${tabClasses.root}`]: {
-            color: theme.vars.palette.common.white,
-            backgroundColor: "transparent",
-            "&::after": {
-              color: theme.vars.palette.common.white,
-            },
-            [`&:not(.${tabClasses.selected}, [aria-selected="true"]):hover`]: {
-              color: theme.vars.palette.primary[700],
-              backgroundColor: "transparent",
-            },
-            [`&.${tabClasses.selected}`]: {
-              color: theme.vars.palette.primary[700],
-              backgroundColor: "transparent",
-            },
-          },
-
-          [`& .${tabPanelClasses.root}`]: {
-            padding: 0,
-          },
         }),
       },
     },
