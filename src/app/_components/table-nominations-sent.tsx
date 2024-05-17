@@ -51,15 +51,7 @@ export const TableNominationsSent: FunctionComponent<
                 </>
               ) : (
                 <>
-                  <td>
-                    <Link
-                      href={`./nominate/${val.wallet}`}
-                      color="neutral"
-                      sx={{ color: "common.black" }}
-                    >
-                      {val.name}
-                    </Link>
-                  </td>
+                  <td> {val.name}</td>
                   <td>{val.rank ?? "---"}</td>
                   <td>{formatLargeNumber(val.pointsGiven ?? 0)}</td>
                 </>
