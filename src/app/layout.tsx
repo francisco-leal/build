@@ -43,7 +43,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <meta
           property="fc:frame:image"
-          content="https://build.top/images/BUILD-thumbnail.jpg?2"
+          content="https://build.top/images/frame-landing.png?2"
         />
         <meta property="og:type" content="website" />
         <meta
