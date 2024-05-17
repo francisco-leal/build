@@ -130,6 +130,7 @@ export const getNominationsUserReceived = async (
     .select(SELECT_NOMINATIONS_TO_USER)
     .order("created_at", { ascending: false })
     .eq("id", user.id)
+    .limit(10)
     .single()
     .throwOnError()
     .then((res) => res.data?.wallets?.flatMap((w) => w.boss_nominations));

@@ -14,7 +14,7 @@ const nextConfig = {
       },
       {
         source: "/airdrop/nominate",
-        destination: "/airdrop",
+        destination: "/stats",
         permanent: true,
       },
       {
@@ -24,7 +24,7 @@ const nextConfig = {
       },
       {
         source: "/airdrop",
-        destination: "/nominations",
+        destination: "/stats",
         permanent: true,
       },
     ];

@@ -176,7 +176,15 @@ export const Header: FunctionComponent = () => {
         <Link
           // Prefetch is not recognized by LinkProps, but it's part of Next Link
           {...{ prefetch: true }}
-          href="/leaderboard"
+          href="/stats#nominations"
+          onClick={drawer.close}
+        >
+          Nominations
+        </Link>
+        <Link
+          // Prefetch is not recognized by LinkProps, but it's part of Next Link
+          {...{ prefetch: true }}
+          href="/#leaderboard"
           onClick={drawer.close}
         >
           Leaderboard

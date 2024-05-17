@@ -40,8 +40,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung onchain heroes. Nominate incredible builders and
-          earn BUILD.2
+          Celebrate the unsung onchain heroes. <br />
+          Nominate incredible builders and earn BUILD.
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
@@ -90,7 +90,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
           </Button>
         </BlockyCard>
       </HeroSection>
-      <HeroSectionWithOverflow>
+      <HeroSectionWithOverflow id="leaderboard">
         <Typography
           level="h2"
           className="no-overflow"
