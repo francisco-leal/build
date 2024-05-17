@@ -43,7 +43,36 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <meta
           property="fc:frame:image"
-          content="https://build.top/images/BUILD-thumbnail.jpg"
+          content="https://build.top/images/BUILD-thumbnail.jpg?2"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          name="description"
+          content="BUILD is a meme and a social game designed to reward builders via onchain nominations."
+        />
+        <meta
+          name="og:image"
+          content="https://build.top/images/BUILD-thumbnail.jpg?2"
+        />
+        <meta name="og:title" content="Passport App by Talent Protocol" />
+        <meta
+          name="og:description"
+          content="BUILD is a meme and a social game designed to reward builders via onchain nominations."
+        />
+        <meta name="X:card" content="summary_large_image" />
+        <meta
+          name="X:image"
+          content="https://build.top/images/BUILD-thumbnail.jpg?2"
+        />
+        <meta name="twitter:title" content="Passport App by Talent Protocol" />
+        <meta
+          name="twitter:description"
+          content="BUILD is a meme and a social game designed to reward builders via onchain nominations."
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content="https://build.top/images/BUILD-thumbnail.jpg?2"
         />
       </head>
       <ThemeRegistry options={{ key: "joy" }}>
