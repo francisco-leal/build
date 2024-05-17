@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { fetchMetadata } from "frames.js/next";
-import { default as NominateBuilder } from "@/app/@modal/_modals/nominate-builder/page";
+import Nothing from "@/app/@modal/default";
 import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
 
 const description = [
@@ -31,4 +31,4 @@ export async function generateMetadata({
   };
 }
 
-export default NominateBuilder;
+export default Nothing;
