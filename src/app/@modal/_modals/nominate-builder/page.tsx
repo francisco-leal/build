@@ -51,9 +51,9 @@ export default async function NominateBuilder({
         <ModalNominationValues
           entries={[
             { label: "Date", value: today },
-            { label: "Daily Budget", value: "---" },
             { label: "Points to be given", value: "---" },
             { label: "Points to be earned", value: "---" },
+            { label: "Daily Budget", value: "---" },
             { label: "Daily Nominations", value: "---" },
           ]}
         />
@@ -79,20 +79,12 @@ export default async function NominateBuilder({
               value: previousDate.toFormat("LLL dd"),
             },
             {
-              label: "Daily Budget",
-              value: formatLargeNumber(userBalances.dailyBudget),
-            },
-            {
               label: "Points given",
-              value: formatLargeNumber(previousNomination.bossPointsGiven),
+              value: formatLargeNumber(previousNomination.bossPointsSent),
             },
             {
               label: "Points earned",
-              value: formatLargeNumber(previousNomination.bossPointsEarned),
-            },
-            {
-              label: "Daily Nominations",
-              value: `${todaysNominations.length}/3`,
+              value: formatLargeNumber(previousNomination.bossPointsReceived),
             },
           ]}
         />
@@ -116,10 +108,7 @@ export default async function NominateBuilder({
               label: "Date",
               value: today,
             },
-            {
-              label: "Daily Budget",
-              value: formatLargeNumber(userBalances.dailyBudget),
-            },
+
             {
               label: "Points to be given",
               value: "---",
@@ -127,6 +116,10 @@ export default async function NominateBuilder({
             {
               label: "Points to be earned",
               value: "---",
+            },
+            {
+              label: "Daily Budget (Per nomination)",
+              value: formatLargeNumber(userBalances.dailyBudget),
             },
             {
               label: "Daily Nominations",
@@ -156,16 +149,16 @@ export default async function NominateBuilder({
           value: today,
         },
         {
-          label: "Daily Budget",
-          value: formatLargeNumber(userBalances.dailyBudget),
-        },
-        {
           label: "Points to be given",
           value: formatLargeNumber(userBalances.pointsGiven),
         },
         {
           label: "Points to be earned",
           value: formatLargeNumber(userBalances.pointsEarned),
+        },
+        {
+          label: "Daily Budget (Per nomination)",
+          value: formatLargeNumber(userBalances.dailyBudget),
         },
         {
           label: "Daily Nominations",
