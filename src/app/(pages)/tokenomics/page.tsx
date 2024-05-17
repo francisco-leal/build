@@ -41,6 +41,7 @@ export default function Tokenomics() {
         <Link
           href="https://basescan.org/token/0x3c281a39944a2319aa653d81cfd93ca10983d234"
           level="body-lg"
+          target="_blank"
           textColor={"common.white"}
           underline="hover"
         >

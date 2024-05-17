@@ -154,7 +154,7 @@ export const NominateBuilderComponent: FunctionComponent<
             </Stack>
 
             <Stack direction="row" alignItems={"center"}>
-              <Typography level="body-sm">My Daily Budget</Typography>
+              <Typography level="body-sm">{"My Daily Budget (per nomination)"}</Typography>
               <Typography
                 level="body-sm"
                 textColor="common.black"
