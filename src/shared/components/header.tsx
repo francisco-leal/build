@@ -73,7 +73,7 @@ export const Header: FunctionComponent = () => {
         >
           <Link href="/">Home</Link>
           <Link disabled={activePath === "stats"} href="/stats">
-            Stats
+            My Stats
           </Link>
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             Tokenomics
