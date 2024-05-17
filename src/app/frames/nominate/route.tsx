@@ -74,9 +74,9 @@ const handler = frames(async (ctx) => {
           <div>{farcasterUsername}</div>
           <div>{walletProfile.image}</div>
           <div>{walletProfile.username}</div>
-          <div>{userBalances.dailyBudget}</div>
-          <div>{userBalances.pointsGiven}</div>
-          <div>{userBalances.pointsEarned}</div>
+          <div>{userBalances.dailyBudget?.toFixed(2)}</div>
+          <div>{userBalances.pointsGiven?.toFixed(2)}</div>
+          <div>{userBalances.pointsEarned?.toFixed(2)}</div>
           <div>{`${todayNominations.length}/3`}</div>
           {todayNominations.length >= 3 && (
             <div>You&apos;re out of nominations for today</div>
