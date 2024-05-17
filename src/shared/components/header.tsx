@@ -41,7 +41,7 @@ export const Header: FunctionComponent = () => {
       <Stack
         direction="row"
         maxWidth={{ xs: "md", md: "lg" }}
-        px={{ xs: 2, md: 4, lg: 8 }}
+        px={{ xs: 2 }}
         mx="auto"
       >
         <Stack direction="row" flex={1}>
@@ -71,20 +71,18 @@ export const Header: FunctionComponent = () => {
             },
           }}
         >
-          <Link
-            target="_blank"
-            href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
-          >
-            Manifesto
-          </Link>
-          <Link disabled={activePath === "nominations"} href="/nominations">
-            Nominations
-          </Link>
-          <Link disabled={activePath === "leaderboard"} href="/leaderboard">
-            Leaderboard
+          <Link href="/">Home</Link>
+          <Link disabled={activePath === "stats"} href="/stats">
+            Stats
           </Link>
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             Tokenomics
+          </Link>
+          <Link
+            href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
+            target="_blank"
+          >
+            Manifesto
           </Link>
         </Stack>
 
@@ -160,18 +158,20 @@ export const Header: FunctionComponent = () => {
         }}
       >
         <Link
-          target="_blank"
-          href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
+          // Prefetch is not recognized by LinkProps, but it's part of Next Link
+          {...{ prefetch: true }}
+          href="/"
+          onClick={drawer.close}
         >
-          Manifesto
+          Home
         </Link>
         <Link
           // Prefetch is not recognized by LinkProps, but it's part of Next Link
           {...{ prefetch: true }}
-          href="/nominations"
+          href="/stats"
           onClick={drawer.close}
         >
-          Nominations
+          My Stats
         </Link>
         <Link
           // Prefetch is not recognized by LinkProps, but it's part of Next Link
@@ -189,7 +189,12 @@ export const Header: FunctionComponent = () => {
         >
           Tokenomics
         </Link>
-
+        <Link
+          target="_blank"
+          href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
+        >
+          Manifesto
+        </Link>
         <Typography
           sx={{ color: "neutral.50", mt: "auto", textAlign: "center" }}
           level="body-md"

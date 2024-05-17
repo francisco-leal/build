@@ -35,7 +35,7 @@ export const TableNominationsSent: FunctionComponent<
           values.map((val) => (
             <Box
               component={"tr"}
-              key={`${val.date}-${val.name}`}
+              key={val.key}
               className={[
                 val.missed ? "yellow" : "",
                 val.odd ? "odd" : "",

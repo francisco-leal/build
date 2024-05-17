@@ -48,7 +48,7 @@ export const ConnectWalletButton = ({
           ...props.sx,
         }}
       >
-        <w3m-button />
+        <w3m-button balance={"hide"} />
       </Stack>
     </NoSsr>
   );

@@ -28,7 +28,7 @@ export const HeroSectionWithOverflow: FunctionComponent<
         "& > *": {
           width: { xs: 980, md: "100%" },
           mr: { xs: 2, md: 0 },
-          my: 4,
+          mb: 2,
         },
       },
 

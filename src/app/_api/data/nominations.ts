@@ -18,6 +18,7 @@ export type Nomination = {
   bossPointsSent: number;
   originUserId: string;
   originUsername: string;
+  originRank: number | null;
   destinationWallet: string;
   destinationUsername: string | null;
   destinationRank: number | null;
@@ -48,12 +49,10 @@ const SELECT_NOMINATIONS_TO_USER = `
   wallets(
     boss_nominations(
       *, 
-      wallets(
-        users(
-          username, 
-          boss_leaderboard(
-            rank
-          )
+      users(
+        username, 
+        boss_leaderboard(
+          rank
         )
       )
     )
@@ -80,6 +79,7 @@ export const getNomination = async (
     id: nomination.id,
     originUserId: nomination.origin_user_id,
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
+    originRank: user.boss_leaderboard?.rank ?? null,
     bossPointsReceived: nomination.boss_points_received,
     bossPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
@@ -107,6 +107,7 @@ export const getNominationsUserSent = async (
       id: nomination.id,
       originUserId: user.id,
       originUsername: user.username ?? "", // TODO: a default here should be redundant.
+      originRank: user.boss_leaderboard?.rank ?? null,
       bossPointsReceived: nomination.boss_points_received,
       bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
@@ -137,13 +138,13 @@ export const getNominationsUserReceived = async (
     nominations?.map((nomination) => ({
       id: nomination.id,
       originUserId: nomination.origin_user_id,
-      originUsername: nomination.wallets?.users?.username ?? "",
+      originUsername: nomination?.users?.username ?? "",
+      originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
       bossPointsReceived: nomination.boss_points_received,
       bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
       destinationUsername: user.username,
-      destinationRank:
-        nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+      destinationRank: nomination?.users?.boss_leaderboard?.rank ?? null,
       createdAt: nomination.created_at,
     })) ?? []
   );
@@ -255,6 +256,7 @@ export const createNewNomination = async (
     id: nomination.id,
     originUserId: nomination.origin_user_id,
     originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
+    originRank: nominatorUser.boss_leaderboard?.rank ?? null,
     bossPointsReceived: nomination.boss_points_received,
     bossPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,

@@ -45,38 +45,7 @@ export default async function AirdropPage() {
           Last update on {lastUpdate}. Next update on {nextUpdate}
         </Typography>
       </HeroSectionWithOverflow>
-      <HeroSection>
-        <Typography level="h2" textColor={"common.white"} sx={{ mb: 4 }}>
-          Stats
-        </Typography>
-        <Stack
-          sx={{
-            width: "100%",
-            flexDirection: { xs: "column", md: "row" },
-            "& > *": { minHeight: 240, width: "100%" },
-            gap: 3,
-          }}
-        >
-          <CardBossPoints points={user.boss_score} />
-          <CardBossTokens />
-          <CardBuilderScore score={user.passport_builder_score} />
-        </Stack>
-        <Stack
-          sx={{
-            mt: 3,
-            width: "100%",
-            flexDirection: { xs: "column", md: "row" },
-            "& > *": { minHeight: 240, width: "100%" },
-            gap: 3,
-          }}
-        >
-          <CardDailyBudget
-            budget={user.boss_budget}
-            recalculate={recalculateBuilderBudget}
-          />
-          <CardDailyStreak streak={user.boss_nomination_streak} />
-        </Stack>
-      </HeroSection>
+
       <HeroSection>
         <HowToPlay />
       </HeroSection>
