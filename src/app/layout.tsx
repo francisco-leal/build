@@ -1,8 +1,7 @@
 import { headers } from "next/headers";
 import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource-variable/inter";
-import { Box, Alert } from "@mui/joy";
-import { fetchMetadata } from "frames.js/next";
+import { Box } from "@mui/joy";
 import { Toaster } from "sonner";
 import { cookieToInitialState } from "wagmi";
 import { Web3ModalProvider } from "@/app/_providers/web-3-modal-provider";
@@ -11,26 +10,6 @@ import { Footer } from "@/shared/components/footer";
 import { Header } from "@/shared/components/header";
 import { ThemeRegistry } from "@/shared/theme/theme-registry";
 import { AuthenticationProvider } from "./_providers/authentication-provider";
-import type { Metadata } from "next";
-
-const description = [
-  "BUILD is a meme and a social game designed to reward builders via",
-  "onchain nominations.",
-].join(" ");
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "BUILD",
-    description: description,
-    openGraph: {
-      title: "BUILD",
-      description: description,
-      type: "website",
-      url: "https://build.top",
-      images: ["https://build.top/images/BUILD-thumbnail.jpg"],
-    },
-  };
-}
 
 export default function RootLayout({
   children,

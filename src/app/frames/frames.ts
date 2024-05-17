@@ -20,7 +20,18 @@ export const frames = createFrames({
       secret: "MY_VERY_SECRET_SECRET",
     }),
     farcasterHubContext({
-      hubHttpUrl: DEFAULT_DEBUGGER_HUB_URL,
+      ...(process.env.NODE_ENV === "production"
+        ? {
+            hubHttpUrl: "https://hubs.airstack.xyz",
+            hubRequestOptions: {
+              headers: {
+                "x-airstack-hubs": process.env.AIRSTACK_API_KEY as string,
+              },
+            },
+          }
+        : {
+            hubHttpUrl: DEFAULT_DEBUGGER_HUB_URL,
+          }),
     }),
     openframes({
       clientProtocol: {
@@ -50,6 +61,6 @@ export const getFramesUser = async (ctx: FrameContext) => {
     ctx.message?.requesterVerifiedAddresses.length > 0
       ? ctx.message?.requesterVerifiedAddresses[0]
       : ctx.message?.verifiedWalletAddress; // XMTP wallet address
-  if (!userAddress) throw new BadRequestError("User not found");
+  if (!userAddress) throw new BadRequestError("Frame user not found");
   return await getConnectedUserProfile(userAddress);
 };
