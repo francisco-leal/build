@@ -78,6 +78,12 @@ export const Footer = () => {
         >
           Dexscreener
         </Link>
+        <Link
+          href="https://www.coingecko.com/en/coins/build-2"
+          target="_blank"
+        >
+          Coingecko
+        </Link>
       </Stack>
       <Typography sx={{ color: "common.white", textAlign: "center" }}>
         BUILD is an experimental community project. Not Financial Advice. DYOR.
