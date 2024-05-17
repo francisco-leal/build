@@ -14,16 +14,18 @@ import { WalletInfo, createWallet, getWalletFromExternal } from "./wallets";
 
 export type Nomination = {
   id: number;
-  bossPointsEarned: number;
-  bossPointsGiven: number;
+  bossPointsReceived: number;
+  bossPointsSent: number;
   originUserId: string;
+  originUsername: string;
+  originRank: number | null;
   destinationWallet: string;
   destinationUsername: string | null;
   destinationRank: number | null;
   createdAt: string;
 };
 
-const SELECT_NOMINATIONS = `
+const SELECT_NOMINATIONS_FROM_USER = `
   id,
   boss_points_received,
   boss_points_sent,
@@ -43,6 +45,20 @@ const SELECT_NOMINATIONS = `
   )       
 ` as const;
 
+const SELECT_NOMINATIONS_TO_USER = `
+  wallets(
+    boss_nominations(
+      *, 
+      users(
+        username, 
+        boss_leaderboard(
+          rank
+        )
+      )
+    )
+  )
+` as const;
+
 export const getNomination = async (
   user: User,
   wallet: WalletInfo,
@@ -51,7 +67,7 @@ export const getNomination = async (
 
   const nomination = await supabase
     .from("boss_nominations")
-    .select(SELECT_NOMINATIONS)
+    .select(SELECT_NOMINATIONS_FROM_USER)
     .eq("origin_user_id", userId)
     .in("destination_wallet_id", wallet.allWallets)
     .throwOnError()
@@ -62,8 +78,10 @@ export const getNomination = async (
   return {
     id: nomination.id,
     originUserId: nomination.origin_user_id,
-    bossPointsEarned: nomination.boss_points_received,
-    bossPointsGiven: nomination.boss_points_sent,
+    originUsername: user.username ?? "", // TODO: a default here should be redundant.
+    originRank: user.boss_leaderboard?.rank ?? null,
+    bossPointsReceived: nomination.boss_points_received,
+    bossPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
       nomination.wallets?.users?.username ??
@@ -74,12 +92,12 @@ export const getNomination = async (
   };
 };
 
-export const getNominationsFromUser = async (
+export const getNominationsUserSent = async (
   user: User,
 ): Promise<Nomination[]> => {
   const { data: nominations } = await supabase
     .from("boss_nominations")
-    .select(SELECT_NOMINATIONS)
+    .select(SELECT_NOMINATIONS_FROM_USER)
     .order("created_at", { ascending: false })
     .eq("origin_user_id", user.id)
     .throwOnError();
@@ -87,9 +105,11 @@ export const getNominationsFromUser = async (
   return (
     nominations?.map((nomination) => ({
       id: nomination.id,
-      originUserId: nomination.origin_user_id,
-      bossPointsEarned: nomination.boss_points_received,
-      bossPointsGiven: nomination.boss_points_sent,
+      originUserId: user.id,
+      originUsername: user.username ?? "", // TODO: a default here should be redundant.
+      originRank: user.boss_leaderboard?.rank ?? null,
+      bossPointsReceived: nomination.boss_points_received,
+      bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
       destinationUsername:
         nomination.wallets?.users?.username ??
@@ -102,9 +122,37 @@ export const getNominationsFromUser = async (
     })) ?? []
   );
 };
+export const getNominationsUserReceived = async (
+  user: User,
+): Promise<Nomination[]> => {
+  const nominations = await supabase
+    .from("users")
+    .select(SELECT_NOMINATIONS_TO_USER)
+    .order("created_at", { ascending: false })
+    .eq("id", user.id)
+    .limit(10)
+    .single()
+    .throwOnError()
+    .then((res) => res.data?.wallets?.flatMap((w) => w.boss_nominations));
+
+  return (
+    nominations?.map((nomination) => ({
+      id: nomination.id,
+      originUserId: nomination.origin_user_id,
+      originUsername: nomination?.users?.username ?? "",
+      originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
+      bossPointsReceived: nomination.boss_points_received,
+      bossPointsSent: nomination.boss_points_sent,
+      destinationWallet: nomination.destination_wallet_id,
+      destinationUsername: user.username,
+      destinationRank: nomination?.users?.boss_leaderboard?.rank ?? null,
+      createdAt: nomination.created_at,
+    })) ?? []
+  );
+};
 
 export const getNominationsFromUserToday = async (user: User) => {
-  const nominations = await getNominationsFromUser(user);
+  const nominations = await getNominationsUserSent(user);
   const fromDate = DateTime.utc().startOf("day");
   const toDate = fromDate.plus({ hours: 24 });
   const interval = Interval.fromDateTimes(fromDate, toDate);
@@ -180,7 +228,7 @@ export const createNewNomination = async (
       boss_points_received: balances.pointsEarned,
       boss_points_sent: balances.pointsGiven,
     })
-    .select(SELECT_NOMINATIONS)
+    .select(SELECT_NOMINATIONS_FROM_USER)
     .single()
     .throwOnError()
     .then((res) => res.data);
@@ -208,8 +256,10 @@ export const createNewNomination = async (
   return {
     id: nomination.id,
     originUserId: nomination.origin_user_id,
-    bossPointsEarned: nomination.boss_points_received,
-    bossPointsGiven: nomination.boss_points_sent,
+    originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
+    originRank: nominatorUser.boss_leaderboard?.rank ?? null,
+    bossPointsReceived: nomination.boss_points_received,
+    bossPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername: nomination.wallets?.users?.username ?? null,
     destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,

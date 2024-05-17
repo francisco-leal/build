@@ -48,18 +48,18 @@ export async function POST(request: NextRequest) {
     .then((res) => res.data?.[0]?.user_id);
 
   let userData;
-  if(userId) {
+  if (userId) {
     userData = await supabase
       .from("users")
       .update({ passport_builder_score: builderScore, passport_id: passportId })
       .eq("id", userId)
-      .select("id")
+      .select("id");
   } else {
     userData = await supabase
       .from("users")
       .update({ passport_builder_score: builderScore })
       .eq("passport_id", passportId)
-      .select("id")
+      .select("id");
   }
 
   if (userData?.data && userData?.data?.length > 0) {

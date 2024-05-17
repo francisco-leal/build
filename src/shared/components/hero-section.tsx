@@ -19,8 +19,8 @@ export const HeroSection: FunctionComponent<HeroSectionProps> = ({
       maxWidth: { xs: "md", md: "lg" },
       mx: "auto",
       px: { xs: 2, md: 3.5 },
-      mb: { xs: 2, md: 10 },
-      mt: { xs: 2, md: 10 },
+      mb: { xs: 4, md: 8 },
+      mt: { xs: 0, md: 0 },
       ...sx,
     }}
   />

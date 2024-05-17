@@ -15,7 +15,7 @@ export const HeroSectionSlim: FunctionComponent<HeroSectionProps> = ({
     {...props}
     component={component}
     sx={{
-      pt: { xs: 8, lg: 14 },
+      pt: { xs: 4, lg: 8 },
       mb: { xs: 2, md: 5 },
       pb: 2,
       justifyContent: "center",
@@ -24,21 +24,6 @@ export const HeroSectionSlim: FunctionComponent<HeroSectionProps> = ({
       ...props.sx,
     }}
   >
-    {backgroundImage && (
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          width: "100%",
-          height: "100%",
-          backgroundImage: { lg: `url(${backgroundImage})` },
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          zIndex: -1,
-        }}
-      />
-    )}
     <Stack
       sx={{
         maxWidth: "sm",
