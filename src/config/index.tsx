@@ -10,7 +10,7 @@ if (!projectId) throw new Error("Project ID is not defined");
 const metadata = {
   name: "BUILD",
   description:
-    "BUILD is a meme and a social game designed to reward builders via onchain nominations.",
+    "BUILD is a social game on Base and Farcaster that rewards onchain builders via peer nominations.",
   url: "https://talentprotocol.com", // origin must match your domain & subdomain
   icons: ["https://talentprotocol.com/images/favicon.jpg"],
 };

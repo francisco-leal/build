@@ -48,7 +48,7 @@ export default function RootLayout({
         <meta property="og:type" content="website" />
         <meta
           name="description"
-          content="BUILD is a meme and a social game designed to reward builders via onchain nominations."
+          content="BUILD is a social game on Base and Farcaster that rewards onchain builders via peer nominations."
         />
         <meta
           name="og:image"
@@ -57,7 +57,7 @@ export default function RootLayout({
         <meta name="og:title" content="Passport App by Talent Protocol" />
         <meta
           name="og:description"
-          content="BUILD is a meme and a social game designed to reward builders via onchain nominations."
+          content="BUILD is a social game on Base and Farcaster that rewards onchain builders via peer nominations."
         />
         <meta name="X:card" content="summary_large_image" />
         <meta
@@ -67,7 +67,7 @@ export default function RootLayout({
         <meta name="twitter:title" content="Passport App by Talent Protocol" />
         <meta
           name="twitter:description"
-          content="BUILD is a meme and a social game designed to reward builders via onchain nominations."
+          content="BUILD is a social game on Base and Farcaster that rewards onchain builders via peer nominations."
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
