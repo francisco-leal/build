@@ -12,9 +12,7 @@ export const HowToPlay: FunctionComponent = () => {
 
   return (
     <>
-      <Typography
-        sx={{ color: "common.white", fontSize: "40px", fontWeight: "bold" }}
-      >
+      <Typography level="h2" sx={{ color: "common.white" }}>
         The BUILD game
       </Typography>
 

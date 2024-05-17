@@ -22,6 +22,7 @@ export async function recalculateBossBalance() {
   const planRateLimit = 1500; // find throughput based on your plan here: https://moralis.io/pricing/#compare
   const endpointRateLimit = 20; // find endpoint rate limit here: https://docs.moralis.io/web3-data-api/evm/reference/compute-units-cu#rate-limit-cost
   let allowedRequests = planRateLimit / endpointRateLimit;
+
   do {
     if (allowedRequests <= 0) {
       // wait 1.1 seconds
@@ -74,5 +75,5 @@ export async function recalculateBossBalance() {
     if (!upsertValues?.length) continue;
 
     await supabase.from("wallets").upsert(upsertValues).select().throwOnError();
-  } while (data.result.length > 0 && cursor !== "");
+  } while (!!cursor);
 }

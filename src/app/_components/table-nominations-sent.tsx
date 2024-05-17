@@ -1,7 +1,8 @@
 import { FunctionComponent } from "react";
 import { Box, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
-export type TableMyNominationsValue = {
+export type TableNominationsSentValue = {
   key: string;
   date: string;
   name: string | null;
@@ -11,17 +12,14 @@ export type TableMyNominationsValue = {
   odd?: boolean;
 };
 
-export type MyNominationsTableProps = {
-  values?: TableMyNominationsValue[];
+export type TableNominationsSentProps = {
+  values?: TableNominationsSentValue[];
   loading?: boolean;
 } & SheetProps;
 
-export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
-  values = [],
-  loading,
-  variant = "outlined",
-  ...props
-}) => (
+export const TableNominationsSent: FunctionComponent<
+  TableNominationsSentProps
+> = ({ values = [], loading, variant = "outlined", ...props }) => (
   <Sheet {...props} variant={variant} sx={props.sx}>
     <Table>
       <thead>
@@ -29,7 +27,7 @@ export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
           <th>Date</th>
           <th>Name</th>
           <th>Rank</th>
-          <th>Build Points Given</th>
+          <th>Points Sent</th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +35,7 @@ export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
           values.map((val) => (
             <Box
               component={"tr"}
-              key={`${val.date}-${val.name}`}
+              key={val.key}
               className={[
                 val.missed ? "yellow" : "",
                 val.odd ? "odd" : "",
@@ -49,7 +47,7 @@ export const TableMyNominations: FunctionComponent<MyNominationsTableProps> = ({
               <td>
                 {val.missed
                   ? "Missed"
-                  : Math.round(val.pointsGiven ?? 0) ?? "---"}
+                  : formatLargeNumber(val.pointsGiven ?? 0) ?? "---"}
               </td>
             </Box>
           ))}

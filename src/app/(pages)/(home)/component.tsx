@@ -1,13 +1,13 @@
 import { FunctionComponent } from "react";
-import { Typography, Stack, Button, Link } from "@mui/joy";
+import { Typography, Stack, Button, Link, Box } from "@mui/joy";
 import { DateTime } from "luxon";
+import { BackgroundImage } from "@/app/_components/background-image";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { SearchBuilder } from "@/app/_components/search-builder";
 import {
   TableLeaderboard,
   TableLeaderboardValue,
 } from "@/app/_components/table-leaderboard";
-import { default as backgroundImage } from "@/app/_images/icons-background.png";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
@@ -32,18 +32,16 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
   const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
 
   return (
-    <Stack component="main">
-      <HeroSectionSlim backgroundImage={backgroundImage.src} sx={{ mb: 0 }}>
+    <Stack component="main" sx={{ position: "relative" }}>
+      <BackgroundImage />
+      <HeroSectionSlim sx={{ mb: 0 }}>
         <Typography level="h1">
-          Nominate <Interface /> the best
-          <br />
-          builders <MusicHeadset /> you know.
+          Nominate <Interface /> the best builders <MusicHeadset /> you know.
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung heroes of the blockchain.
-          <br />
-          Nominate undervalued builders and earn BUILD points.
+          Celebrate the unsung onchain heroes. <br />
+          Nominate incredible builders and earn BUILD.
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
@@ -92,7 +90,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
           </Button>
         </BlockyCard>
       </HeroSection>
-      <HeroSectionWithOverflow>
+      <HeroSectionWithOverflow id="leaderboard">
         <Typography
           level="h2"
           className="no-overflow"

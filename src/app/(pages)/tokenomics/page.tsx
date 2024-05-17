@@ -1,35 +1,27 @@
 import { default as Image } from "next/image";
-import { Sheet, Stack, Table } from "@mui/joy";
+import { Stack } from "@mui/joy";
 import { Typography, Box, Link } from "@mui/joy";
+import { BackgroundImage } from "@/app/_components/background-image";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { ExternalLink } from "@/shared/icons/external-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import MOBILE_GRAPH from "./_images/bossnomics-graph-mobile.png";
-import DESKTOP_GRAPH from "./_images/bossnomics-graph.png";
-
-const grantsData = [
-  {
-    id: "1",
-    description: "Waiting for proposals",
-    status: "Vesting",
-    supplyPercentage: 0,
-  },
-];
+import { default as mobileGraph } from "./_images/bossnomics-graph-mobile.png";
+import { default as desktopGraph } from "./_images/bossnomics-graph.png";
 
 export default function Tokenomics() {
   return (
-    <Stack component="main" sx={{ alignItems: "center" }}>
-      <HeroSectionSlim sx={{ color: "common.white" }}>
+    <Stack component="main" sx={{ position: "relative" }}>
+      <BackgroundImage />
+      <HeroSectionSlim sx={{ mb: 0 }}>
         <Typography level="h1">
           The Memecoin
           <br />
           for Builders
         </Typography>
 
-        <Typography level="title-lg">
+        <Typography level="title-lg" sx={{ pb: 8 }}>
           $BUILD is an ERC-20 token on Base with a total supply of a 1T. It
           launched on May 2024, with a crowdfund on party.app, followed by
           community airdrops to onchain builders.
@@ -61,7 +53,7 @@ export default function Tokenomics() {
         <BlockyCard sx={{ my: 5, width: "100%" }}>
           <Box
             component={Image}
-            src={DESKTOP_GRAPH}
+            src={desktopGraph}
             alt="graph"
             sx={{
               width: "100%",
@@ -71,7 +63,7 @@ export default function Tokenomics() {
           />
           <Box
             component={Image}
-            src={MOBILE_GRAPH}
+            src={mobileGraph}
             alt="graph"
             sx={{
               width: "100%",

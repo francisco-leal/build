@@ -108,7 +108,7 @@ BEGIN
     UPDATE users
     SET boss_nomination_streak = 0
     WHERE id NOT IN (
-        SELECT DISTINCT user_id
+        SELECT DISTINCT origin_user_id
         FROM boss_nominations
         WHERE DATE(created_at) >= last_nomination_date
     );
@@ -118,38 +118,18 @@ $$ LANGUAGE plpgsql;
 
 </details>
 <details>
-<summary><b>[FUNCTION] Update daily streak for user</b></summary>
+<summary><b>[FUNCTION] Update daily streak for users</b></summary>
 
 ```sql
-CREATE OR REPLACE FUNCTION update_boss_daily_streak_for_user(user_to_update uuid) RETURNS VOID AS $$
-DECLARE
-    today_date DATE;
-    last_nomination_date DATE;
+CREATE OR REPLACE FUNCTION increment_nomination_streak()
+RETURNS VOID AS $$
 BEGIN
-    -- Calculate today's date at 00:00 GMT
-    today_date := date_trunc('day', CURRENT_DATE) AT TIME ZONE 'GMT';
-
-    -- Retrieve the last nomination date for the specified user
-    SELECT MAX(DATE(created_at))
-    INTO last_nomination_date
-    FROM boss_nominations
-    WHERE origin_user_id = user_to_update;
-
-    -- If the last nomination date is the same as today's date, don't update the streak
-    IF last_nomination_date = today_date THEN
-        RETURN;
-    END IF;
-
-    -- Otherwise, update the streak for today
-    -- Update nomination_streak for the specified user if they made nominations today
     UPDATE users
     SET boss_nomination_streak = boss_nomination_streak + 1
-    WHERE id = user_to_update
-    AND EXISTS (
-        SELECT 1
+    WHERE id IN (
+        SELECT DISTINCT origin_user_id
         FROM boss_nominations
-        WHERE origin_user_id = user_to_update
-        AND DATE(created_at) = today_date
+        WHERE boss_nominations.created_at::date = CURRENT_DATE
     );
 END;
 $$ LANGUAGE plpgsql;
