@@ -212,8 +212,8 @@ export default async function NominateBuilder({
         {nominationValues}
         <ModalActions>
           <ModalActionMessage>
-            Leaderboard is currently updating. 
-            This should only take a minute or two...
+            Leaderboard is currently updating. This should only take a minute or
+            two...
           </ModalActionMessage>
           <ModalSubmitButton wallet={builder.wallet} loading />
         </ModalActions>

@@ -128,7 +128,9 @@ export const getNominationsUserReceived = async (
   const nominations = await supabase
     .from("users")
     .select(SELECT_NOMINATIONS_TO_USER)
-    .order("created_at", { ascending: false })
+    .order("created_at", {
+      ascending: false,
+    })
     .eq("id", user.id)
     .limit(10)
     .single()
@@ -144,7 +146,9 @@ export const getNominationsUserReceived = async (
       bossPointsReceived: nomination.boss_points_received,
       bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
-      destinationUsername: user.username ?? abbreviateWalletAddress(nomination.destination_wallet_id),
+      destinationUsername:
+        user.username ??
+        abbreviateWalletAddress(nomination.destination_wallet_id),
       destinationRank: nomination?.users?.boss_leaderboard?.rank ?? null,
       createdAt: nomination.created_at,
     })) ?? []

@@ -13,7 +13,8 @@ export const GET = restApiHandler(async (request) => {
     domain: request.nextUrl.searchParams.get("domain"),
   });
 
-  return await searchBuilders(searchParams.query, searchParams.domain);
+  const result = await searchBuilders(searchParams.query, searchParams.domain);
+  return result;
 });
 
 export const dynamic = "force-dynamic";

@@ -25,128 +25,112 @@ export const Modal: FunctionComponent<{
   children: ReactNode;
   disableGoBack?: boolean;
   pokeForUpdate?: boolean;
-}> = ({
-  title,
-  children,
-  disableGoBack,
-  pokeForUpdate,
-}) => {
-    const pathname = usePathname();
-    const router = useRouter();
-    const goBack = () => (disableGoBack ? router.push("/") : router.back());
+}> = ({ title, children, disableGoBack, pokeForUpdate }) => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const goBack = () => (disableGoBack ? router.push("/") : router.back());
 
-    useEffect(() => {
-      if (!pokeForUpdate) return;
-      const interval = setInterval(() => forcePathRevalidation(pathname), 10_000);
-      return () => clearInterval(interval);
-    }, [pokeForUpdate, pathname]);
+  useEffect(() => {
+    if (!pokeForUpdate) return;
+    const interval = setInterval(() => forcePathRevalidation(pathname), 10_000);
+    return () => clearInterval(interval);
+  }, [pokeForUpdate, pathname]);
 
-    return (
-      <JoyModal open onClose={goBack} disablePortal>
-        <ModalOverflow sx={{ p: 0 }}>
-          <ModalDialog
-            variant="solid"
-            layout={"center"}
-            sx={{
-              width: "100%",
-              maxWidth: { xs: "lg", md: "sm" },
-              color: "neutral.500",
-              [`&.${modalDialogClasses.layoutCenter}`]: {
-                minHeight: { xs: "100vh", md: "auto" },
-              },
-            }}
-          >
-            <ModalClose variant="plain" sx={{ m: 1 }} />
-            <Typography level="h3" sx={{ mb: 3, color: "common.black" }}>
-              {title}
-            </Typography>
-            {children}
-          </ModalDialog>
-        </ModalOverflow>
-      </JoyModal>
-    );
-  };
+  return (
+    <JoyModal open onClose={goBack} disablePortal>
+      <ModalOverflow sx={{ p: 0 }}>
+        <ModalDialog
+          variant="solid"
+          layout={"center"}
+          sx={{
+            width: "100%",
+            maxWidth: { xs: "lg", md: "sm" },
+            color: "neutral.500",
+            [`&.${modalDialogClasses.layoutCenter}`]: {
+              minHeight: { xs: "100vh", md: "auto" },
+            },
+          }}
+        >
+          <ModalClose variant="plain" sx={{ m: 1 }} />
+          <Typography level="h3" sx={{ mb: 3, color: "common.black" }}>
+            {title}
+          </Typography>
+          {children}
+        </ModalDialog>
+      </ModalOverflow>
+    </JoyModal>
+  );
+};
 
 export const ModalActions: FunctionComponent<{
   children: ReactNode;
-}> = ({
-  children,
-}) => (
-    <Stack
-      sx={{
-        flexDirection: "row",
-        justifyContent: "end",
-        alignItems: "center",
-        gap: 1,
-      }}
-    >
-      {children}
-    </Stack>
-  );
+}> = ({ children }) => (
+  <Stack
+    sx={{
+      flexDirection: "row",
+      justifyContent: "end",
+      alignItems: "center",
+      gap: 1,
+    }}
+  >
+    {children}
+  </Stack>
+);
 
 export const ModalGoBackButton: FunctionComponent<{
   children?: ReactNode;
   loading?: boolean;
   disableGoBack?: boolean;
-}> = ({
-  children,
-  disableGoBack,
-}) => {
-    const router = useRouter();
-    const goBack = () => (disableGoBack ? router.push("/") : router.back());
+}> = ({ children, disableGoBack }) => {
+  const router = useRouter();
+  const goBack = () => (disableGoBack ? router.push("/") : router.back());
 
-    return (
-      <Button
-        variant="outlined"
-        color="neutral"
-        onClick={goBack}
-        sx={{ color: "neutral.500", borderColor: "neutral.500" }}
-      >
-        {children}
-      </Button>
-    );
-  };
+  return (
+    <Button
+      variant="outlined"
+      color="neutral"
+      onClick={goBack}
+      sx={{ color: "neutral.500", borderColor: "neutral.500" }}
+    >
+      {children}
+    </Button>
+  );
+};
 
 export const ModalSubmitButton: FunctionComponent<{
   disabled?: boolean;
   loading?: boolean;
   wallet: string;
-}> = ({
-  wallet,
-  disabled,
-  loading,
-}) => {
-    const [isNominating, startNomination] = useTransition();
-    const router = useRouter();
+}> = ({ wallet, disabled, loading }) => {
+  const [isNominating, startNomination] = useTransition();
+  const router = useRouter();
 
-    const nominateUser = () => {
-      startNomination(async () => {
-        try {
-          await createNewNominationForCurrentUser(wallet);
-          toast.success("Successfully nominated user!");
-          router.refresh();
-        } catch (e) {
-          if (e instanceof Error) toast.error(e.message);
-          else toast.error("Failed to nominate user!");
-        }
-      });
-    };
-
-    return (
-      <Button
-        variant="solid"
-        disabled={disabled}
-        loading={isNominating || loading}
-        onClick={() => nominateUser()}
-      >
-        Confirm
-      </Button>
-    );
+  const nominateUser = () => {
+    startNomination(async () => {
+      try {
+        await createNewNominationForCurrentUser(wallet);
+        toast.success("Successfully nominated user!");
+        router.refresh();
+      } catch (e) {
+        if (e instanceof Error) toast.error(e.message);
+        else toast.error("Failed to nominate user!");
+      }
+    });
   };
 
-export type ModalBuilderProfileProps = {
-
+  return (
+    <Button
+      variant="solid"
+      disabled={disabled}
+      loading={isNominating || loading}
+      onClick={() => nominateUser()}
+    >
+      Confirm
+    </Button>
+  );
 };
+
+export type ModalBuilderProfileProps = {};
 
 export const ModalBuilderProfile: FunctionComponent<{
   loading?: boolean;
@@ -175,7 +159,7 @@ export const ModalBuilderProfile: FunctionComponent<{
 
 export const ModalNominationValues: FunctionComponent<{
   loading?: boolean;
-  entries?: Array<{ label: string; value: string; }>;
+  entries?: Array<{ label: string; value: string }>;
 }> = ({ loading, entries }) => (
   <Stack sx={{ gap: 1.5, width: "100%", my: 3 }}>
     <Divider sx={{ backgroundColor: "neutral.400" }} />
@@ -197,10 +181,8 @@ export const ModalNominationValues: FunctionComponent<{
 
 export const ModalActionMessage: FunctionComponent<{
   children: ReactNode;
-}> = ({
-  children,
-}) => (
-    <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1, flex: 1 }}>
-      {children}
-    </Typography>
-  );
+}> = ({ children }) => (
+  <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1, flex: 1 }}>
+    {children}
+  </Typography>
+);

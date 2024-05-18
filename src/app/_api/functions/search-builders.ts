@@ -98,7 +98,8 @@ export const searchBuilders = unstable_cache(
     switch (domain) {
       case "farcaster":
         const fcData = await searchFarcasterBuilderProfiles(query);
-        return await processFarcasterBuilderProfiles(fcData);
+        const result = await processFarcasterBuilderProfiles(fcData);
+        return result;
       case "talent_protocol":
         const tpData = await searchTalentProtocolUser(query);
         return await processTalentProtocolBuilderProfiles(tpData);
