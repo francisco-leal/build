@@ -31,4 +31,5 @@ export async function generateMetadata({
   };
 }
 
+export const maxDuration = 60;
 export default Nothing;

@@ -22,6 +22,8 @@ import {
   ModalSubmitButton,
 } from "./components";
 
+export const maxDuration = 60;
+
 export default async function NominateBuilder({
   params,
 }: {
