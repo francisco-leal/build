@@ -20,11 +20,7 @@ export const searchLensBuilderProfiles = async (
           input: {
             filter: {
                 dappName: { _in: [lens] },
-                identity: { 
-                  _in: [
-                    "lens/@${query}",
-                  ]
-                }
+                profileName: { _regex: "${query}" }
             },
             blockchain: ethereum
           }
