@@ -25,7 +25,9 @@ type BuilderSearchResult = {
 };
 
 const ipfsToURL = (ipfsAddress: string) => {
-  if (ipfsAddress.includes("http") || ipfsAddress === "") {
+  if (!ipfsAddress) return "";
+
+  if (ipfsAddress?.includes("http") || ipfsAddress === "") {
     return ipfsAddress;
   }
   return "https://ipfs.io/" + ipfsAddress.replace("://", "/");
