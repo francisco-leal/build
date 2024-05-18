@@ -1,13 +1,14 @@
 import { FunctionComponent } from "react";
-import { Box, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { Box, Link, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 
 export type TableNominationsSentValue = {
   key: string;
   date: string;
-  name: string | null;
+  name: string;
+  wallet: string;
+  pointsGiven: number;
   rank: number | null;
-  pointsGiven: number | null;
   missed?: boolean;
   odd?: boolean;
 };
@@ -42,13 +43,19 @@ export const TableNominationsSent: FunctionComponent<
               ].join(" ")}
             >
               <td>{val.date}</td>
-              <td>{val.missed ? "Missed" : val.name ?? "---"}</td>
-              <td>{val.missed ? "Missed" : val.rank ?? "---"}</td>
-              <td>
-                {val.missed
-                  ? "Missed"
-                  : formatLargeNumber(val.pointsGiven ?? 0) ?? "---"}
-              </td>
+              {val.missed ? (
+                <>
+                  <td>Missed</td>
+                  <td>---</td>
+                  <td>---</td>
+                </>
+              ) : (
+                <>
+                  <td> {val.name}</td>
+                  <td>{val.rank ?? "---"}</td>
+                  <td>{formatLargeNumber(val.pointsGiven ?? 0)}</td>
+                </>
+              )}
             </Box>
           ))}
         {loading &&

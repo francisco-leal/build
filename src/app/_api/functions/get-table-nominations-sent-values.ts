@@ -27,6 +27,7 @@ export const getTableNominationsSentValues = async (): Promise<
       name: n.destinationUsername,
       rank: n.destinationRank,
       pointsGiven: n.bossPointsSent,
+      wallet: n.destinationWallet,
     }),
   );
 
@@ -40,9 +41,10 @@ export const getTableNominationsSentValues = async (): Promise<
         key: `missing-${date}-${k}`,
         date: firstDate.plus({ days: i }).toFormat("LLL dd"),
         missed: true,
-        name: null,
+        name: "",
         rank: null,
-        pointsGiven: null,
+        pointsGiven: 0,
+        wallet: "",
       })),
     );
   }
