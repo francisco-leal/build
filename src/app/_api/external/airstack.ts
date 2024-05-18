@@ -42,7 +42,7 @@ export const searchLensBuilderProfiles = async (
   return data;
 };
 
-export const getAirstackBuilderProfile = async (
+export const getLensBuilderProfile = async (
   walletId: string,
 ): Promise<{
   lensSocial: LensSearchResult | undefined;
