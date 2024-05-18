@@ -1,6 +1,7 @@
 import { supabase } from "@/db";
 import { getBalance } from "@/services/boss-tokens";
 import { PartialWallet, User } from "../data/users";
+import { getLensBuilderProfile } from "../external/airstack";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
 
@@ -14,6 +15,7 @@ export const createUserConnections = async (user: User, newWallet: string) => {
   const walletLc = newWallet.toLowerCase();
   const talentUser = await getTalentProtocolUser(walletLc);
   const farcasterUser = await getFarcasterUser(walletLc);
+  const lensUser = await getLensBuilderProfile(walletLc);
 
   const existingWallets = await supabase
     .from("wallets")
@@ -32,6 +34,10 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     ...(farcasterUser?.verified_addresses?.eth_addresses ?? []).map((w) => ({
       wallet: w,
       farcaster_id: farcasterUser?.fid,
+      user_id: user.id,
+    })),
+    ...(lensUser?.userAssociatedAddresses ?? []).map((w) => ({
+      wallet: w,
       user_id: user.id,
     })),
   ].reduce<PartialWallet[]>((acc, w) => {

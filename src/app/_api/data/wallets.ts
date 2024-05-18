@@ -27,9 +27,10 @@ export type WalletInfo = {
  * to the user associated to this wallet... if they exist.
  */
 export const createWallet = async (walletId: string): Promise<WalletInfo> => {
-  const [farcasterUser, talentUser, bossUser] = await Promise.all([
+  const [farcasterUser, talentUser, lensUser, bossUser] = await Promise.all([
     getFarcasterUser(walletId),
     getTalentProtocolUser(walletId),
+    getLensBuilderProfile(walletId),
     getUserFromWallet(walletId),
   ]);
 
@@ -62,6 +63,15 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
       farcaster_id: farcasterUser.fid,
       user_id: userId,
       username: farcasterUser.username,
+    };
+  });
+
+  lensUser?.userAssociatedAddresses?.forEach(async (wallet) => {
+    wallets[wallet] = {
+      ...wallets[wallet],
+      wallet: wallet,
+      user_id: userId,
+      username: lensUser.profileName,
     };
   });
 
