@@ -44,10 +44,8 @@ export const searchLensBuilderProfiles = async (
 
 export const getLensBuilderProfile = async (
   walletId: string,
-): Promise<{
-  lensSocial: LensSearchResult | undefined;
-}> => {
-  if (!walletId) return { lensSocial: undefined };
+): Promise<LensSearchResult | null> => {
+  if (!walletId) return null;
   const query = `query QueryUserOnLensAndFarcaster {
       Socials(
           input: {
@@ -72,14 +70,11 @@ export const getLensBuilderProfile = async (
   if (result.error) throw new Error(result.error);
 
   const socials = result.data.Socials.Social;
-  if (!socials || socials.length === 0)
-    return {
-      lensSocial: undefined,
-    };
+  if (!socials || socials.length === 0) return null;
 
   const lensSocial = socials.find(
     (social: any) => social.dappName === "lens",
   ) as LensSearchResult | undefined;
 
-  return { lensSocial };
+  return lensSocial || null;
 };

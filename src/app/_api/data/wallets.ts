@@ -4,6 +4,7 @@ import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { removeDuplicates } from "@/shared/utils/remove-duplicates";
+import { getLensBuilderProfile } from "../external/airstack";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
 import { getUserFromWallet } from "./users";
@@ -118,13 +119,15 @@ export const getWalletFromExternal = async (
   walledId: string,
 ): Promise<WalletInfo | null> => {
   const walletLc = walledId.toLowerCase();
-  const [farcasterSocial, talentSocial, bossUser] = await Promise.all([
-    getFarcasterUser(walletLc),
-    getTalentProtocolUser(walletLc),
-    getUserFromWallet(walletLc),
-  ]);
+  const [farcasterSocial, talentSocial, lensSocial, bossUser] =
+    await Promise.all([
+      getFarcasterUser(walletLc),
+      getTalentProtocolUser(walletLc),
+      getLensBuilderProfile(walletLc),
+      getUserFromWallet(walletLc),
+    ]);
 
-  if (!farcasterSocial && !talentSocial && !bossUser) {
+  if (!farcasterSocial && !talentSocial && !lensSocial && !bossUser) {
     return null;
   }
 
@@ -133,6 +136,7 @@ export const getWalletFromExternal = async (
     ...(farcasterSocial?.verified_addresses?.eth_addresses ?? []),
     ...(talentSocial?.verified_wallets ?? []),
     ...(bossUser?.wallets.map((w) => w.wallet) ?? []),
+    ...(lensSocial?.userAssociatedAddresses ?? []),
   ]
     .filter(Boolean)
     .filter(removeDuplicates);
@@ -145,11 +149,13 @@ export const getWalletFromExternal = async (
     image:
       farcasterSocial?.pfp_url ??
       talentSocial?.user?.profile_picture_url ??
-      talentSocial?.passport_profile?.image_url,
+      talentSocial?.passport_profile?.image_url ??
+      lensSocial?.profileImage,
     username:
       farcasterSocial?.username ??
       talentSocial?.user?.username ??
       bossUser?.username ??
+      lensSocial?.profileName ??
       walledId.toLowerCase(),
     allWallets: allWallets,
   };
