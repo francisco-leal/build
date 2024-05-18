@@ -38,7 +38,7 @@ type SearchResponseUser = {
 const SearchOptions: Record<string, string> = {
   farcaster: "Farcaster",
   talent_protocol: "Talent Protocol",
-  // lens: "Lens",
+  lens: "Lens",
   // ENS: "ENS",
 } as const;
 
@@ -234,7 +234,10 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
           >
             <List>
               {searchQuery.data.map((user) => (
-                <ListItem key={user.wallet} sx={{ width: "100%" }}>
+                <ListItem
+                  key={`${user.username}-${user.wallet}`}
+                  sx={{ width: "100%" }}
+                >
                   <Avatar src={user.userImage} alt={user.username} />
                   <Stack
                     sx={{

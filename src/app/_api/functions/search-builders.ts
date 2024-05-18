@@ -4,7 +4,10 @@ import { unstable_cache } from "next/cache";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { makeMap } from "@/shared/utils/make-map";
 import { WalletInfo, getWallets } from "../data/wallets";
-import { searchLensBuilderProfiles } from "../external/airstack";
+import {
+  searchLensBuilderProfiles,
+  LensSearchResult,
+} from "../external/airstack";
 import {
   FarcasterAPIUser,
   searchFarcasterBuilderProfiles,
@@ -19,6 +22,13 @@ type BuilderSearchResult = {
   wallet: string;
   username: string;
   userImage: string;
+};
+
+const ipfsToURL = (ipfsAddress: string) => {
+  if (ipfsAddress.includes("http") || ipfsAddress === "") {
+    return ipfsAddress;
+  }
+  return "https://ipfs.io/" + ipfsAddress.replace("://", "/");
 };
 
 const processFarcasterBuilderProfiles = async (
@@ -48,7 +58,7 @@ const processFarcasterBuilderProfiles = async (
       wallet,
       username:
         user.username ?? profile?.username ?? abbreviateWalletAddress(wallet),
-      userImage: image,
+      userImage: ipfsToURL(image),
     };
   });
 };
@@ -78,19 +88,29 @@ const processTalentProtocolBuilderProfiles = async (
           passport.passport_profile?.name ??
           profile?.username ??
           abbreviateWalletAddress(wallet),
-        userImage:
+        userImage: ipfsToURL(
           passport.user?.profile_picture_url ??
-          passport.passport_profile?.image_url ??
-          profile?.image ??
-          "",
+            passport.passport_profile?.image_url ??
+            profile?.image ??
+            "",
+        ),
       };
     });
 };
 
 const processLensBuilderProfiles = async (
-  data: unknown[],
+  data: LensSearchResult[],
+  query: string,
 ): Promise<BuilderSearchResult[]> => {
-  throw new Error("Not implemented");
+  return data
+    .filter((l) => l.profileName.toLowerCase().includes(query.toLowerCase()))
+    .map((lensUser) => {
+      return {
+        wallet: lensUser.userAddress,
+        username: lensUser.profileName.split("/@")[1],
+        userImage: ipfsToURL(lensUser.profileImage),
+      };
+    });
 };
 
 export const searchBuilders = unstable_cache(
@@ -98,14 +118,13 @@ export const searchBuilders = unstable_cache(
     switch (domain) {
       case "farcaster":
         const fcData = await searchFarcasterBuilderProfiles(query);
-        const result = await processFarcasterBuilderProfiles(fcData);
-        return result;
+        return await processFarcasterBuilderProfiles(fcData);
       case "talent_protocol":
         const tpData = await searchTalentProtocolUser(query);
         return await processTalentProtocolBuilderProfiles(tpData);
       case "lens":
         const leData = await searchLensBuilderProfiles(query);
-        return await processLensBuilderProfiles(leData);
+        return await processLensBuilderProfiles(leData, query);
       default:
         return [];
     }

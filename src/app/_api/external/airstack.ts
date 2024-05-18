@@ -1,6 +1,6 @@
 import { fetchQuery, init } from "@airstack/node";
 
-type FarcasterSearchResult = {
+export type LensSearchResult = {
   userAddress: string;
   profileName: string;
   dappName: string;
@@ -13,7 +13,7 @@ init(process.env.AIRSTACK_API_KEY!);
 
 export const searchLensBuilderProfiles = async (
   query: string,
-): Promise<FarcasterSearchResult[]> => {
+): Promise<LensSearchResult[]> => {
   const response = await fetchQuery(`
       query QueryUserOnLensAndFarcaster {
         Socials(
@@ -42,14 +42,14 @@ export const searchLensBuilderProfiles = async (
     `);
 
   if (response.error) throw new Error(response.error);
-  const data: FarcasterSearchResult[] = response.data?.Socials?.Social ?? [];
+  const data: LensSearchResult[] = response.data?.Socials?.Social ?? [];
   return data;
 };
 
 export const getAirstackBuilderProfile = async (
   walletId: string,
 ): Promise<{
-  lensSocial: FarcasterSearchResult | undefined;
+  lensSocial: LensSearchResult | undefined;
 }> => {
   if (!walletId) return { lensSocial: undefined };
   const query = `query QueryUserOnLensAndFarcaster {
@@ -83,7 +83,7 @@ export const getAirstackBuilderProfile = async (
 
   const lensSocial = socials.find(
     (social: any) => social.dappName === "lens",
-  ) as FarcasterSearchResult | undefined;
+  ) as LensSearchResult | undefined;
 
   return { lensSocial };
 };
