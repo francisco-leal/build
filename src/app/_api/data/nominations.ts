@@ -144,7 +144,7 @@ export const getNominationsUserReceived = async (
       bossPointsReceived: nomination.boss_points_received,
       bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
-      destinationUsername: user.username,
+      destinationUsername: user.username ?? abbreviateWalletAddress(nomination.destination_wallet_id),
       destinationRank: nomination?.users?.boss_leaderboard?.rank ?? null,
       createdAt: nomination.created_at,
     })) ?? []
