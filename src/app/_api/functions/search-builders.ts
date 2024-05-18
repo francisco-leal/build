@@ -106,6 +106,7 @@ const processLensBuilderProfiles = async (
 ): Promise<BuilderSearchResult[]> => {
   return data
     .filter((l) => l.profileName.toLowerCase().includes(query.toLowerCase()))
+    .sort((a, b) => a.profileName.length - b.profileName.length)
     .map((lensUser) => {
       return {
         wallet: lensUser.userAddress,
