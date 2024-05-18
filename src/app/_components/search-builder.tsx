@@ -35,14 +35,6 @@ type SearchResponseUser = {
   userImage: string;
 };
 
-const searchDataResponseSchema = z.array(
-  z.object({
-    wallet: z.string(),
-    username: z.string(),
-    userImage: z.string(),
-  }),
-);
-
 const SearchOptions: Record<string, string> = {
   farcaster: "Farcaster",
   talent_protocol: "Talent Protocol",
@@ -66,7 +58,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
       const params = { query: debouncedSearchValue, domain: searchDomain };
       endpoint.search = new URLSearchParams(params).toString();
       const data = await fetch(endpoint.toString()).then((res) => res.json());
-      return searchDataResponseSchema.parse(data);
+      return data as SearchResponseUser[];
     },
   });
 

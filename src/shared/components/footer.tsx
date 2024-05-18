@@ -78,10 +78,7 @@ export const Footer = () => {
         >
           Dexscreener
         </Link>
-        <Link
-          href="https://www.coingecko.com/en/coins/build-2"
-          target="_blank"
-        >
+        <Link href="https://www.coingecko.com/en/coins/build-2" target="_blank">
           Coingecko
         </Link>
       </Stack>
