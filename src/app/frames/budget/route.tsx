@@ -23,7 +23,7 @@ const handler = frames(async (ctx) => {
           <div>budget</div>
           <div>{farcasterPfp}</div>
           <div>{farcasterUser.username || farcasterUsername}</div>
-          <div>{userBalances.dailyBudget}</div>
+          <div>{userBalances.dailyBudget.toFixed(2)}</div>
         </div>
       ),
       buttons: [
@@ -38,7 +38,7 @@ const handler = frames(async (ctx) => {
           key="3"
           target="https://passport.talentprotocol.com/"
         >
-          Sign up for Builder Score
+          Builder Score
         </Button>,
       ],
       imageOptions: {
