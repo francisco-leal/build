@@ -40,7 +40,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung onchain heroes. <Box component={"br"} display={{ xs: "none", sm: "initial" }} />
+          Celebrate the unsung onchain heroes.{" "}
+          <Box component={"br"} display={{ xs: "none", sm: "initial" }} />
           Nominate incredible builders to give and earn BUILD
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />

@@ -198,5 +198,12 @@ export const theme = extendTheme({
         },
       },
     },
+    JoySkeleton: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "--unstable_pulse-bg": theme.vars.palette.neutral[200],
+        }),
+      },
+    },
   },
 });

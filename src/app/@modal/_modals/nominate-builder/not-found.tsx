@@ -1,67 +1,26 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import {
-  Button,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { Typography } from "@mui/joy";
 import { LogoShort } from "@/shared/icons/logo-short";
+import { Modal, ModalActions, ModalGoBackButton } from "./components";
 
 export default function NominatedBuilderNotFound() {
-  const router = useRouter();
-
-  const goBack = () => {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "build.top";
-    if (document.referrer.includes(appUrl)) router.back();
-    else window.location.href = "/";
-  };
-
   return (
-    <Modal open onClose={goBack}>
-      <ModalDialog
+    <Modal title="Nominate Builder" disableGoBack>
+      <LogoShort
         sx={{
-          width: "100%",
-          maxWidth: "sm",
+          width: "40px",
+          height: "40px",
           color: "neutral.500",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          mt: 12,
         }}
-      >
-        <ModalClose variant="plain" sx={{ m: 1 }} />
-        <LogoShort
-          sx={{
-            width: "40px",
-            height: "40px",
-            color: "neutral.500",
-            mt: 12,
-          }}
-        />
-        <Typography color="neutral" level="body-lg" sx={{ mb: 6 }}>
-          Builder not found
-        </Typography>
-        <Stack
-          sx={{
-            flexDirection: "row",
-            justifyContent: "end",
-            gap: 1,
-            width: "100%",
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="neutral"
-            onClick={goBack}
-            sx={{ color: "neutral.500", borderColor: "neutral.500" }}
-          >
-            Cancel
-          </Button>
-        </Stack>
-      </ModalDialog>
+      />
+      <Typography color="neutral" level="body-lg" sx={{ mb: 6 }}>
+        Builder not found
+      </Typography>
+      <ModalActions>
+        <ModalGoBackButton disableGoBack>Cancel</ModalGoBackButton>
+      </ModalActions>
     </Modal>
   );
 }

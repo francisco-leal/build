@@ -11,16 +11,18 @@ export const getTableNominationsReceivedValues = async (): Promise<
   if (!user) return notFound();
   const nominations = await getNominationsUserReceived(user);
 
-  const values = nominations.map(
-    (n): TableNominationsReceivedValue => ({
-      key: `${n.createdAt}-${n.destinationWallet}`,
-      date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
-      name: n.originUsername,
-      rank: n.originRank,
-      pointsGiven: n.bossPointsSent,
-      pointsEarned: n.bossPointsReceived,
-    }),
-  );
+  const values = nominations
+    .map(
+      (n): TableNominationsReceivedValue => ({
+        key: `${n.createdAt}-${n.destinationWallet}`,
+        date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
+        name: n.originUsername,
+        rank: n.originRank,
+        pointsGiven: n.bossPointsSent,
+        pointsEarned: n.bossPointsReceived,
+      }),
+    )
+    .sort((a, b) => a.date.localeCompare(b.date));
 
   return values;
 };

@@ -20,7 +20,7 @@ export type Nomination = {
   originUsername: string;
   originRank: number | null;
   destinationWallet: string;
-  destinationUsername: string | null;
+  destinationUsername: string;
   destinationRank: number | null;
   createdAt: string;
 };
@@ -86,7 +86,7 @@ export const getNomination = async (
     destinationUsername:
       nomination.wallets?.users?.username ??
       nomination.wallets?.username ??
-      null,
+      abbreviateWalletAddress(nomination.destination_wallet_id),
     destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
   };
@@ -128,7 +128,9 @@ export const getNominationsUserReceived = async (
   const nominations = await supabase
     .from("users")
     .select(SELECT_NOMINATIONS_TO_USER)
-    .order("created_at", { ascending: false })
+    .order("created_at", {
+      ascending: false,
+    })
     .eq("id", user.id)
     .limit(10)
     .single()
@@ -144,7 +146,9 @@ export const getNominationsUserReceived = async (
       bossPointsReceived: nomination.boss_points_received,
       bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
-      destinationUsername: user.username,
+      destinationUsername:
+        user.username ??
+        abbreviateWalletAddress(nomination.destination_wallet_id),
       destinationRank: nomination?.users?.boss_leaderboard?.rank ?? null,
       createdAt: nomination.created_at,
     })) ?? []
@@ -261,7 +265,9 @@ export const createNewNomination = async (
     bossPointsReceived: nomination.boss_points_received,
     bossPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
-    destinationUsername: nomination.wallets?.users?.username ?? null,
+    destinationUsername:
+      nomination.wallets?.users?.username ??
+      abbreviateWalletAddress(nomination.destination_wallet_id),
     destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
   };
