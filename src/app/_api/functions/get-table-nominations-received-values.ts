@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { DateTime } from "luxon";
-import { TableNominationsReceivedValue } from "@/app/_components/table-nominations-recieved";
+import { TableNominationsReceivedValue } from "@/app/_components/table-nominations-received";
 import { getNominationsUserReceived } from "../data/nominations";
 import { getCurrentUser } from "../data/users";
 

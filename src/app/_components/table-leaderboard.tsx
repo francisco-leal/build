@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
 export type TableLeaderboardValue = {
   id: string;
@@ -40,7 +40,7 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
           values.map((val) => (
             <tr key={val.id} className={val.highlight ? "blue" : ""}>
               <td>{val.rank}</td>
-              <td>{val.name}</td>
+              <td>{abbreviateWalletAddress(val.name)}</td>
               <td>{formatLargeNumber(val.bossScore)}</td>
               <td>{Math.round(val.builderScore)}</td>
               <td>{val.nominationsReceived}</td>
