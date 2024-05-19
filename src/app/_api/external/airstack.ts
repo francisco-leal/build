@@ -1,5 +1,5 @@
-import { rollbarError } from "@/services/rollbar";
 import { fetchQuery, init } from "@airstack/node";
+import { rollbarError } from "@/services/rollbar";
 
 export type LensSearchResult = {
   userAddress: string;
@@ -41,13 +41,13 @@ export const searchLensBuilderProfiles = async (
     const response = await fetchQuery(airstackQuery);
 
     if (response.error) {
-      rollbarError("Error fetching airstack lens profiles ", response.error)
+      rollbarError("Error fetching airstack lens profiles ", response.error);
       return [];
     }
     const data: LensSearchResult[] = response.data?.Socials?.Social ?? [];
     return data;
   } catch (error) {
-    rollbarError("Error fetching LensBuilder profiles", error as Error)
+    rollbarError("Error fetching LensBuilder profiles", error as Error);
     return [];
   }
 };
@@ -80,7 +80,7 @@ export const getLensBuilderProfile = async (
   try {
     const result = await fetchQuery(query);
     if (result.error) {
-      rollbarError("Error fetching airstack lens profile", result.error)
+      rollbarError("Error fetching airstack lens profile", result.error);
       return null;
     }
 
@@ -93,7 +93,7 @@ export const getLensBuilderProfile = async (
 
     return lensSocial || null;
   } catch (error) {
-    rollbarError("Error fetching LensBuilder profile", error as Error)
+    rollbarError("Error fetching LensBuilder profile", error as Error);
     return null;
   }
 };
