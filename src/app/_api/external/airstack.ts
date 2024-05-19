@@ -14,32 +14,41 @@ init(process.env.AIRSTACK_API_KEY!);
 export const searchLensBuilderProfiles = async (
   query: string,
 ): Promise<LensSearchResult[]> => {
-  const response = await fetchQuery(`
-      query QueryUserOnLensAndFarcaster {
-        Socials(
-          input: {
-            filter: {
-                dappName: { _in: [lens] },
-                profileName: { _regex: "${query}" }
-            },
-            blockchain: ethereum
-          }
-        ) {
-          Social {
-            userAddress
-            dappName
-            profileName
-            profileImage
-            userAssociatedAddresses
-            profileTokenId
-          }
-        }
+  const airstackQuery = `
+  query QueryUserOnLensAndFarcaster {
+    Socials(
+      input: {
+        filter: {
+            dappName: { _in: [lens] },
+            profileName: { _regex: "${query}" }
+        },
+        blockchain: ethereum
       }
-    `);
+    ) {
+      Social {
+        userAddress
+        dappName
+        profileName
+        profileImage
+        userAssociatedAddresses
+        profileTokenId
+      }
+    }
+  }
+`;
+  try {
+    const response = await fetchQuery(airstackQuery);
 
-  if (response.error) throw new Error(response.error);
-  const data: LensSearchResult[] = response.data?.Socials?.Social ?? [];
-  return data;
+    if (response.error) {
+      console.error("Error fetching airstack lens profiles ", response.error);
+      return [];
+    }
+    const data: LensSearchResult[] = response.data?.Socials?.Social ?? [];
+    return data;
+  } catch (error) {
+    console.error("Error fetching LensBuilder profiles ", error);
+    return [];
+  }
 };
 
 export const getLensBuilderProfile = async (
@@ -66,15 +75,24 @@ export const getLensBuilderProfile = async (
           }
       }
     }`;
-  const result = await fetchQuery(query);
-  if (result.error) throw new Error(result.error);
 
-  const socials = result.data.Socials.Social;
-  if (!socials || socials.length === 0) return null;
+  try {
+    const result = await fetchQuery(query);
+    if (result.error) {
+      console.error("Error fetching airstack lens profile ", result.error);
+      return null;
+    }
 
-  const lensSocial = socials.find(
-    (social: any) => social.dappName === "lens",
-  ) as LensSearchResult | undefined;
+    const socials = result.data.Socials.Social;
+    if (!socials || socials.length === 0) return null;
 
-  return lensSocial || null;
+    const lensSocial = socials.find(
+      (social: any) => social.dappName === "lens",
+    ) as LensSearchResult | undefined;
+
+    return lensSocial || null;
+  } catch (error) {
+    console.error("Error fetching LensBuilder profile ", error);
+    return null;
+  }
 };
