@@ -46,6 +46,15 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
     };
   }
 
+  lensUser?.userAssociatedAddresses?.forEach(async (wallet) => {
+    wallets[wallet] = {
+      ...wallets[wallet],
+      wallet: wallet,
+      user_id: userId,
+      username: lensUser.profileName,
+    };
+  });
+
   talentUser?.verified_wallets?.forEach(async (verifiedWallet) => {
     wallets[verifiedWallet] = {
       ...wallets[verifiedWallet],
@@ -63,15 +72,6 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
       farcaster_id: farcasterUser.fid,
       user_id: userId,
       username: farcasterUser.username,
-    };
-  });
-
-  lensUser?.userAssociatedAddresses?.forEach(async (wallet) => {
-    wallets[wallet] = {
-      ...wallets[wallet],
-      wallet: wallet,
-      user_id: userId,
-      username: lensUser.profileName,
     };
   });
 

@@ -26,6 +26,10 @@ export const createUserConnections = async (user: User, newWallet: string) => {
 
   const allWallets: PartialWallet[] = [
     ...(existingWallets ?? []),
+    ...(lensUser?.userAssociatedAddresses ?? []).map((w) => ({
+      wallet: w,
+      user_id: user.id,
+    })),
     ...(talentUser?.verified_wallets ?? []).map((w) => ({
       wallet: w,
       passport_id: talentUser?.passport_id,
@@ -34,10 +38,6 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     ...(farcasterUser?.verified_addresses?.eth_addresses ?? []).map((w) => ({
       wallet: w,
       farcaster_id: farcasterUser?.fid,
-      user_id: user.id,
-    })),
-    ...(lensUser?.userAssociatedAddresses ?? []).map((w) => ({
-      wallet: w,
       user_id: user.id,
     })),
   ].reduce<PartialWallet[]>((acc, w) => {
