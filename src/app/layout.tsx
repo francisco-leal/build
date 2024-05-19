@@ -43,7 +43,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <meta
           property="fc:frame:image"
-          content="https://build.top/images/frame-landing.png?2"
+          content="https://build-top-images.s3.eu-west-2.amazonaws.com/frame-landing.png?1"
         />
         <meta property="og:type" content="website" />
         <meta
@@ -52,7 +52,7 @@ export default function RootLayout({
         />
         <meta
           name="og:image"
-          content="https://build.top/images/BUILD-thumbnail.jpg?2"
+          content="https://build-top-images.s3.eu-west-2.amazonaws.com/BUILD-thumbnail.jpg?1"
         />
         <meta name="og:title" content="build.top" />
         <meta
@@ -62,7 +62,7 @@ export default function RootLayout({
         <meta name="X:card" content="summary_large_image" />
         <meta
           name="X:image"
-          content="https://build.top/images/BUILD-thumbnail.jpg?2"
+          content="https://build-top-images.s3.eu-west-2.amazonaws.com/BUILD-thumbnail.jpg?1"
         />
         <meta name="twitter:title" content="build.top" />
         <meta
@@ -72,7 +72,7 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:image"
-          content="https://build.top/images/BUILD-thumbnail.jpg?2"
+          content="https://build-top-images.s3.eu-west-2.amazonaws.com/BUILD-thumbnail.jpg?1"
         />
       </head>
       <ThemeRegistry options={{ key: "joy" }}>

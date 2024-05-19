@@ -13,7 +13,7 @@ type PassportResult = {
   passport_profile: {
     image_url: string;
     name: string;
-  } | null;
+  };
   verified_wallets: Array<string>;
 };
 
@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
 
   const passportId = data.passport_id;
   const builderScore = data.score;
+  const passportName = data.passport_profile.name;
 
   const userId = await supabase
     .from("wallets")
@@ -51,13 +52,13 @@ export async function POST(request: NextRequest) {
   if (userId) {
     userData = await supabase
       .from("users")
-      .update({ passport_builder_score: builderScore, passport_id: passportId })
+      .update({ passport_builder_score: builderScore, passport_id: passportId, username: passportName })
       .eq("id", userId)
       .select("id");
   } else {
     userData = await supabase
       .from("users")
-      .update({ passport_builder_score: builderScore })
+      .update({ passport_builder_score: builderScore, username: passportName })
       .eq("passport_id", passportId)
       .select("id");
   }
