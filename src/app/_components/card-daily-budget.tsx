@@ -2,7 +2,7 @@
 
 import { FunctionComponent } from "react";
 import { useTransition } from "react";
-import { Link, Stack, Typography, Button } from "@mui/joy";
+import { Stack, Typography, Button } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { Dice } from "@/shared/icons/dice";
 import { formatNumber } from "@/shared/utils/format-number";

@@ -1,7 +1,6 @@
 "use client";
 
 import { FunctionComponent, useState } from "react";
-import { usePathname } from "next/navigation";
 import {
   Avatar,
   Button,
@@ -20,7 +19,6 @@ import {
   Grid,
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
-import { z } from "zod";
 import { useShareLink } from "@/app/_hooks/useShareLink";
 import { useDebounce } from "@/shared/hooks/use-debounce";
 import { LogoShort } from "@/shared/icons/logo-short";
