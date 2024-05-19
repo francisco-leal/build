@@ -4,6 +4,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { supabase } from "@/db";
 import { getCurrentUser } from "../data/users";
 import { CacheKey } from "../helpers/cache-keys";
+import { rollbarError } from "@/services/rollbar";
 
 export const recalculateBuilderBudget = async (): Promise<number> => {
   const user = await getCurrentUser();
@@ -18,7 +19,7 @@ export const recalculateBuilderBudget = async (): Promise<number> => {
   });
 
   if (result.error) {
-    console.error(result.error);
+    rollbarError(`Error Recalculating builder budget: ${result.error.message}`);
     return 0;
   }
 
