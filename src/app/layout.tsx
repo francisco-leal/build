@@ -54,7 +54,7 @@ export default function RootLayout({
           name="og:image"
           content="https://build.top/images/BUILD-thumbnail.jpg?2"
         />
-        <meta name="og:title" content="Passport App by Talent Protocol" />
+        <meta name="og:title" content="build.top" />
         <meta
           name="og:description"
           content="BUILD is a social game on Base and Farcaster that rewards onchain builders via peer nominations."
@@ -64,7 +64,7 @@ export default function RootLayout({
           name="X:image"
           content="https://build.top/images/BUILD-thumbnail.jpg?2"
         />
-        <meta name="twitter:title" content="Passport App by Talent Protocol" />
+        <meta name="twitter:title" content="build.top" />
         <meta
           name="twitter:description"
           content="BUILD is a social game on Base and Farcaster that rewards onchain builders via peer nominations."
