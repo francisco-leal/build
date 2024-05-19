@@ -6,6 +6,7 @@ import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
+import { getLensBuilderProfile } from "../external/airstack";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
 import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
@@ -81,6 +82,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
   const walletLc = wallet.toLowerCase();
   const talentUser = await getTalentProtocolUser(walletLc);
   const farcasterUser = await getFarcasterUser(walletLc);
+  const lensUser = await getLensBuilderProfile(walletLc);
 
   const allWallets: PartialWallet[] = [
     ...(talentUser?.verified_wallets ?? []).map((w) => ({
@@ -90,6 +92,9 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     ...(farcasterUser?.verified_addresses?.eth_addresses ?? []).map((w) => ({
       wallet: w,
       farcaster_id: farcasterUser?.fid,
+    })),
+    ...(lensUser?.userAssociatedAddresses ?? []).map((w) => ({
+      wallet: w,
     })),
   ];
 
@@ -108,7 +113,11 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
   }
 
   const newUser: Omit<RawUser, "created_at" | "id"> = {
-    username: farcasterUser?.username ?? talentUser?.user?.username ?? walletLc,
+    username:
+      farcasterUser?.username ??
+      talentUser?.user?.username ??
+      lensUser?.profileName ??
+      walletLc,
     manifesto_nft_token_id: await hasMintedManifestoNFT(walletLc),
     boss_budget: 0,
     boss_score: 0,
