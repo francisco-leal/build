@@ -20,6 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
       url: "https://build.top",
       images: ["https://build.top/images/BUILD-thumbnail.jpg"],
     },
+    twitter: {
+      title: "BUILD",
+      description: description,
+      images: ["https://build.top/images/BUILD-thumbnail.jpg"],
+    },
     other: {
       ...(await fetchMetadata(new URL(FRAMES_BASE_PATH, appURL()))),
     },
