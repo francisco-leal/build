@@ -895,12 +895,12 @@ export const GET = imagesWorker(async (jsx) => {
   } else if (page === "builder-daily-nominations") {
     const currentUsername = jsx.props.children[1].props.children;
     const currentImgUrl = jsx.props.children[2].props.children;
-    const firstUsername = jsx.props.children[3].props.children;
-    const firstImgUrl = jsx.props.children[4].props.children;
-    const secondUsername = jsx.props.children[5].props.children;
-    const secondImgUrl = jsx.props.children[6].props.children;
-    const thirdUsername = jsx.props.children[7].props.children;
-    const thirdImgUrl = jsx.props.children[8].props.children;
+    const firstUsername = jsx.props.children[3]?.props.children;
+    const firstImgUrl = jsx.props.children[4]?.props.children;
+    const secondUsername = jsx.props.children[5]?.props.children;
+    const secondImgUrl = jsx.props.children[6]?.props.children;
+    const thirdUsername = jsx.props.children[7]?.props.children;
+    const thirdImgUrl = jsx.props.children[8]?.props.children;
 
     const svg = await satori(
       <div
