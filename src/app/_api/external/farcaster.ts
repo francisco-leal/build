@@ -75,3 +75,31 @@ export const getFarcasterUser = async (
     { revalidate: CACHE_5_MINUTES },
   )(walletId);
 };
+
+export const getFarcasterUserById = async (
+  id: number,
+): Promise<FarcasterAPIUser | null> => {
+  return unstable_cache(
+    async (id: number) => {
+      const url = `https://api.neynar.com/v2/farcaster/user/bulk?fids=${id}`;
+      const apiToken = process.env.NEYNAR_API_KEY || "";
+      const headers = {
+        api_key: apiToken,
+        accept: "application/json",
+        "Content-Type": "application/json",
+      };
+
+      const response = await fetch(url, { headers });
+      const data = (await response.json()) as {
+        users: FarcasterAPIUser[];
+      };
+
+      if (!response.ok) return null;
+      if (response.status !== 200) return null;
+      if (!data.users) return null;
+      return data["users"].find((v) => v.fid === id) ?? null;
+    },
+    [`farcaster_${id}`] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )(id);
+};
