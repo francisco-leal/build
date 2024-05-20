@@ -15,12 +15,14 @@ const handler = frames(async (ctx) => {
   }
   const userAddress =
     ctx.url.pathname.split("/frames/nominations/")[1].toLowerCase() ?? "";
+  console.log({ userAddress });
   if (!userAddress) throw new BadRequestError("Missing Wallet address");
 
   const [currentUser, currentFarcasterUser] = await Promise.all([
     getConnectedUserProfile(userAddress),
     getFarcasterUser(userAddress),
   ]);
+  console.log({ currentUser, currentFarcasterUser });
   if (!currentFarcasterUser) throw new BadRequestError("User not found");
   const dailyNominations = await getNominationsFromUserToday(currentUser);
   console.log({ dailyNominations });
