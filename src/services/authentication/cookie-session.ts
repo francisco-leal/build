@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { unsealData } from "iron-session";
-import { rollbarError } from "../rollbar";
+import { rollbarError, rollbarWarn } from "../rollbar";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
@@ -28,7 +28,7 @@ export async function getSession(): Promise<SessionUser | null> {
   
     return session ? (JSON.parse(session) as SessionUser) : null;
   } catch (e) {
-    rollbarError("Error retrieving user session", e as Error);
+    rollbarWarn("Unable to retrieve existing user session", e as Error);
     return null;
   }
 }
