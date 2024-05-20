@@ -73,40 +73,4 @@ export const createUserConnections = async (user: User, newWallet: string) => {
   await supabase.rpc("update_boss_score_for_user", {
     user_to_update: user.id,
   });
-
-  const nominationsForUser = await supabase
-    .from("boss_nominations")
-    .select("*, wallets:destination_wallet_id(wallet, user_id)")
-    .eq("wallets.user_id", user.id)
-    .throwOnError()
-    .then((res) => res.data);
-
-  if (!nominationsForUser || nominationsForUser.length === 0) return null;
-
-  const uniqueNominatorUsers = Array.from(
-    new Set(nominationsForUser.map((n) => n.origin_user_id)),
-  );
-
-  uniqueNominatorUsers.forEach(async (userId) => {
-    const nominationsByUser = nominationsForUser
-      .filter((n) => n.origin_user_id === userId)
-      .sort((a, b) => {
-        const initial = new Date(a.created_at).getTime();
-        const final = new Date(b.created_at).getTime();
-        return initial - final;
-      });
-
-    if (nominationsByUser.length > 1) {
-      const nominationsToInvalidate = nominationsByUser.slice(1);
-
-      await supabase
-        .from("boss_nominations")
-        .update({ valid: false })
-        .in(
-          "id",
-          nominationsToInvalidate.map((n) => n.id),
-        )
-        .throwOnError();
-    }
-  });
 };
