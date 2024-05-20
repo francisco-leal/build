@@ -41,10 +41,6 @@ export default function RootLayout({
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta
-          property="fc:frame:image"
-          content="https://build-top-images.s3.eu-west-2.amazonaws.com/frame-landing.png?1"
-        />
         <meta property="og:type" content="website" />
         <meta
           name="description"
