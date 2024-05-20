@@ -61,7 +61,7 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     });
 
     if (result.error) {
-      rollbarError(result.error);
+      rollbarError("calculate_boss_budget_user failed", result.error.message); 
     }
   }
 

@@ -2,7 +2,7 @@ import Rollbar from "rollbar";
 
 const accessToken = process.env.ROLLBAR_SERVER_TOKEN;
 
-export function rollbarError(message: string, error?: Error | undefined) {
+export function rollbarError(message: string, error?: Error | string) {
   console.error(message, error);
   if (!accessToken) return;
 
@@ -28,7 +28,7 @@ export function rollbarInfo(message: string) {
   });
 }
 
-export function rollbarWarn(message: string, error?: Error | undefined) {
+export function rollbarWarn(message: string, error?: Error | string) {
   console.warn(message, error);
   if (!accessToken) return;
 
