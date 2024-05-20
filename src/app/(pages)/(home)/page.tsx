@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ],
     },
     other: {
-      ...(await fetchMetadata(new URL(FRAMES_BASE_PATH, appURL()))),
+      ...(await fetchMetadata(new URL(FRAMES_BASE_PATH, appURL())).catch(() => ({}))),
     },
   };
 }
