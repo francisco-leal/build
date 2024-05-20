@@ -260,7 +260,7 @@ export const createNewNomination = async (
 
   if (nominatedWallet.userId) {
     await supabase.rpc("update_boss_score_for_user", {
-      user_to_update: nominatedWallet.userId ?? "explode",
+      user_to_update: nominatedWallet.userId,
     });
   }
 
