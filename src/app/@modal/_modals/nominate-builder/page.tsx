@@ -5,6 +5,7 @@ import {
   getNomination,
   getNominationsFromUserToday,
   hasExceededNominationsToday,
+  hasNoDailyBudget,
   isSelfNomination,
   isUpdatingLeaderboard,
 } from "@/app/_api/data/nominations";
@@ -189,7 +190,7 @@ export default async function NominateBuilder({
     );
   }
 
-  if ((await userBalances.dailyBudget) < 0) {
+  if (await hasNoDailyBudget(currentUser)) {
     return (
       <Modal title="Nominate Builder">
         {builderProfile}

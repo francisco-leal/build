@@ -206,13 +206,17 @@ export const hasExceededNominationsToday = async (nominatorUser: User) => {
   return (nominations?.length || 0) >= 3;
 };
 
+export const hasNoDailyBudget = async (nominatorUser: User) => {
+  return nominatorUser.boss_budget <= 0;
+};
+
 export const createNewNomination = async (
   nominatorUser: User,
   nominatedWallet: WalletInfo,
   // TODO formalize this, instead of it being a complete hack
   origin_wallet_id?: string,
 ): Promise<Nomination> => {
-  if (nominatorUser.boss_budget === 0) {
+  if (await hasNoDailyBudget(nominatorUser)) {
     throw new BadRequestError("You need a BUILD budget to nominate!");
   }
   if (await isSelfNomination(nominatorUser, nominatedWallet)) {
