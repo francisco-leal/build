@@ -258,9 +258,11 @@ export const createNewNomination = async (
     user_to_update: nominatorUser.id,
   });
 
-  await supabase.rpc("update_boss_score_for_user", {
-    user_to_update: nominatedWallet.userId ?? "explode",
-  });
+  if (nominatedWallet.userId) {
+    await supabase.rpc("update_boss_score_for_user", {
+      user_to_update: nominatedWallet.userId ?? "explode",
+    });
+  }
 
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
