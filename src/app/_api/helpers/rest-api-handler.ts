@@ -15,7 +15,7 @@ export const restApiHandler = (fn: Fn) => {
       return Response.json(data);
     } catch (error) {
       if (error instanceof ZodError) {
-        console.error("ZOD validation error", error);
+        console.warning("ZOD validation error", error);
         return Response.json(
           { error: "Invalid request data" },
           { status: 400 },

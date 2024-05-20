@@ -35,7 +35,7 @@ export async function hasMintedManifestoNFT(
   
     return Number(balanceOf);
   } catch (e) {
-    console.error(`Error checking if user ${wallet_address} has minted NFT`, e);
+    console.warn(`Error checking if user ${wallet_address} has minted NFT`, e);
     return 0;
   }
 }
