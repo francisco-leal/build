@@ -1,35 +1,20 @@
 import { Metadata } from "next";
 import { fetchMetadata } from "frames.js/next";
-import Nothing from "@/app/@modal/default";
+import NominateBuilder from "@/app/_modals/nominate-builder/page";
 import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
 
-const description = [
-  "BUILD is a meme and a social game designed to reward builders via",
-  "onchain nominations.",
-].join(" ");
-
-export async function generateMetadata({
-  params: { walletId },
-}: {
+type Props = {
   params: { walletId: string };
-}): Promise<Metadata> {
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const walletId = params.walletId;
+  const url = new URL(FRAMES_BASE_PATH + `/nominate/${walletId}`, appURL());
   return {
-    title: "BUILD",
-    description: description,
-    openGraph: {
-      title: "BUILD",
-      description: description,
-      type: "website",
-      url: "https://build.top",
-      images: ["https://build.top/images/BUILD-thumbnail.jpg"],
-    },
-    other: {
-      ...(await fetchMetadata(
-        new URL(FRAMES_BASE_PATH + `/nominate/${walletId}`, appURL()),
-      )),
-    },
+    other: await fetchMetadata(url).catch(() => ({})),
   };
 }
 
-export const maxDuration = 60;
-export default Nothing;
+export default NominateBuilder;
+
+export const dynamic = "force-dynamic";
