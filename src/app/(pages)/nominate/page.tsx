@@ -26,7 +26,7 @@ export async function generateMetadata({
     other: {
       ...(await fetchMetadata(
         new URL(FRAMES_BASE_PATH + `/nominate`, appURL()),
-      )),
+      ).catch(() => ({}))),
     },
   };
 }
