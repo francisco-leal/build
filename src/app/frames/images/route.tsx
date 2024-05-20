@@ -591,7 +591,7 @@ export const GET = imagesWorker(async (jsx) => {
               fontSize: "48px",
             }}
           >
-            Search for builders👇
+            Search for builders
           </p>
         </div>
       </div>,

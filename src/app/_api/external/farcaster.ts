@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
+import { rollbarError } from "@/services/rollbar";
 import { CACHE_5_MINUTES } from "../helpers/cache-keys";
 import { CacheKey } from "../helpers/cache-keys";
 
@@ -58,18 +59,23 @@ export const getFarcasterUser = async (
         "Content-Type": "application/json",
       };
 
-      const response = await fetch(url, { headers });
-      const data = (await response.json()) as {
-        [key: string]: FarcasterAPIUser[];
-      };
+      try {
+        const response = await fetch(url, { headers });
+        const data = (await response.json()) as {
+          [key: string]: FarcasterAPIUser[];
+        };
 
-      if (!response.ok) return null;
-      if (response.status !== 200) return null;
-      if (!data[walletId]) return null;
-      return (
-        data[walletId].filter((v) => !!v.display_name || !!v.pfp_url).at(0) ??
-        null
-      );
+        if (!response.ok) return null;
+        if (response.status !== 200) return null;
+        if (!data[walletId]) return null;
+        return (
+          data[walletId].filter((v) => !!v.display_name || !!v.pfp_url).at(0) ??
+          null
+        );
+      } catch (error) {
+        rollbarError("Error fetching Farcaster user", error as Error);
+        return null;
+      }
     },
     [`farcaster_${walletId}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },

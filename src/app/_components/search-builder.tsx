@@ -36,7 +36,7 @@ type SearchResponseUser = {
 const SearchOptions: Record<string, string> = {
   farcaster: "Farcaster",
   talent_protocol: "Talent Protocol",
-  lens: "Lens",
+  // lens: "Lens",
   // ENS: "ENS",
 } as const;
 
@@ -48,7 +48,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
 
   const searchQuery = useQuery({
     queryKey: ["search", debouncedSearchValue, searchDomain],
-    enabled: debouncedSearchValue.length >= 2,
+    enabled: debouncedSearchValue.length >= 1,
     placeholderData: [],
     queryFn: async (): Promise<SearchResponseUser[]> => {
       const baseUrl = window.location.origin;
@@ -114,7 +114,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
         const isError =
           searchQuery.isError || typeof searchQuery.data === "undefined";
 
-        if (searchValue.length < 2) {
+        if (searchValue.length < 1) {
           return (
             <>
               <Divider sx={{ my: 2 }}>
