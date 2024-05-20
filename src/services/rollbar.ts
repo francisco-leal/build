@@ -1,37 +1,43 @@
 import Rollbar from "rollbar";
 
-export function rollbarError(message: string, error?: Error | undefined) {
-  if (!process.env.ROLLBAR_SERVER_TOKEN) return;
+const accessToken = process.env.ROLLBAR_SERVER_TOKEN;
 
-  const rollbar = new Rollbar({
-    accessToken: process.env.ROLLBAR_SERVER_TOKEN,
-  });
-
+export function rollbarError(message: string, error?: Error | string) {
   console.error(message, error);
+  if (!accessToken) return;
+
+  const rollbar = new Rollbar({ accessToken });
+
   rollbar.error(message, error, (rollbarError) => {
-    if (rollbarError) {
-      console.error("Rollbar error reporting failed:");
-      console.error(rollbarError);
-      return;
-    }
-    console.log("Reported error to Rollbar");
+    if (!rollbarError) return;
+    console.error("Rollbar error reporting failed:", rollbarError);
   });
 }
 
 export function rollbarInfo(message: string) {
-  if (!process.env.ROLLBAR_SERVER_TOKEN) return;
+  console.info(message);
+  if (!accessToken) return;
 
   const rollbar = new Rollbar({
     accessToken: process.env.ROLLBAR_SERVER_TOKEN,
   });
 
-  console.log(message);
   rollbar.info(message, (rollbarError) => {
-    if (rollbarError) {
-      console.error("Rollbar info reporting failed:");
-      console.error(rollbarError);
-      return;
-    }
-    console.log("Reported info to Rollbar");
+    if (!rollbarError) return;
+    console.error("Rollbar info reporting failed:", rollbarError);
+  });
+}
+
+export function rollbarWarn(message: string, error?: Error | string) {
+  console.warn(message, error);
+  if (!accessToken) return;
+
+  const rollbar = new Rollbar({
+    accessToken: process.env.ROLLBAR_SERVER_TOKEN,
+  });
+
+  rollbar.warn(message, error, (rollbarError) => {
+    if (!rollbarError) return;
+    console.error("Rollbar warn reporting failed:", rollbarError);
   });
 }
