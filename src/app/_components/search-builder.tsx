@@ -36,7 +36,7 @@ type SearchResponseUser = {
 const SearchOptions: Record<string, string> = {
   farcaster: "Farcaster",
   talent_protocol: "Talent Protocol",
-  lens: "Lens",
+  // lens: "Lens",
   // ENS: "ENS",
 } as const;
 

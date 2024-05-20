@@ -97,7 +97,7 @@ export const getLensBuilderProfile = async (
   } catch (error) {
     // this is happening too often, so we're disabling it for now
     // rollbarError("Error fetching LensBuilder profile", error as Error);
-    console.log("Error fetching airstack lens profile", result.error);
+    console.log("Error fetching airstack lens profile", error);
     return null;
   }
 };
