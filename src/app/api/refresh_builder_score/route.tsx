@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
   const passportId = data.passport_id;
   const builderScore = data.score;
-  const passportName = data.passport_profile.name;
+  const passportName = data.passport_profile?.name;
 
   const userId = await supabase
     .from("wallets")
@@ -52,7 +52,11 @@ export async function POST(request: NextRequest) {
   if (userId) {
     userData = await supabase
       .from("users")
-      .update({ passport_builder_score: builderScore, passport_id: passportId, username: passportName })
+      .update({
+        passport_builder_score: builderScore,
+        passport_id: passportId,
+        username: passportName,
+      })
       .eq("id", userId)
       .select("id");
   } else {

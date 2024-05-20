@@ -6,6 +6,7 @@ import { searchBuilders } from "@/app/_api/functions/search-builders";
 import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
+export const maxDuration = 60;
 const handler = frames(async (ctx) => {
   try {
     if (ctx.message && !ctx.message?.isValid) {
