@@ -1,5 +1,6 @@
 import { createPublicClient, getContract, http } from "viem";
 import { base } from "viem/chains";
+import { rollbarWarn } from "./rollbar";
 
 const ManifestoNFTContractAddress =
   "0x4ce28eb5f17fb5ce747e699d2200ed55e4bc0f49";
@@ -33,7 +34,7 @@ export async function hasMintedManifestoNFT(
 
     return Number(balanceOf);
   } catch (e) {
-    console.warn(`Error checking if user ${wallet_address} has minted NFT`, e);
+    rollbarWarn(`Error checking if user ${wallet_address} has minted NFT`, e);
     return 0;
   }
 }

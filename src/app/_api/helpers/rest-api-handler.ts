@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { ZodError } from "zod";
+import { rollbarError, rollbarWarn } from "@/services/rollbar";
 import {
   BadRequestError,
   NotFoundError,
@@ -15,7 +16,7 @@ export const restApiHandler = (fn: Fn) => {
       return Response.json(data);
     } catch (error) {
       if (error instanceof ZodError) {
-        console.warning("ZOD validation error", error);
+        rollbarWarn("ZOD validation error", error);
         return Response.json(
           { error: "Invalid request data" },
           { status: 400 },
@@ -31,7 +32,7 @@ export const restApiHandler = (fn: Fn) => {
         return Response.json({ error: error.message }, { status: 404 });
       }
 
-      console.error("500 error", error);
+      rollbarError("500 error", error as Error);
       return Response.json({ error: "Server Error" }, { status: 500 });
     }
   };

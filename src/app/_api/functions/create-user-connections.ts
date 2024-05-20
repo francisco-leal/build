@@ -1,5 +1,6 @@
 import { supabase } from "@/db";
 import { getBalance } from "@/services/boss-tokens";
+import { rollbarError } from "@/services/rollbar";
 import { PartialWallet, User } from "../data/users";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
@@ -60,7 +61,7 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     });
 
     if (result.error) {
-      console.error(result.error);
+      rollbarError(result.error);
     }
   }
 
