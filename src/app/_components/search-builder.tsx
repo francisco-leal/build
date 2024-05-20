@@ -1,13 +1,14 @@
 "use client";
 
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
+import { default as NextLink } from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Avatar,
   Button,
   CircularProgress,
   Divider,
   Input,
-  Link,
   List,
   ListItem,
   Sheet,
@@ -17,6 +18,7 @@ import {
   Select,
   Option,
   Grid,
+  Link,
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
 import { useShareLink } from "@/app/_hooks/useShareLink";
@@ -44,6 +46,8 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
   const [shareLink, onShareLink] = useShareLink();
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchDomain, setSearchDomain] = useState<string>("farcaster");
+  const [loadingUser, setLoadingUser] = useState<string>();
+  const pathname = usePathname();
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const searchQuery = useQuery({
@@ -58,6 +62,11 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
       const data = await fetch(endpoint.toString()).then((res) => res.json());
       return data as SearchResponseUser[];
     },
+  });
+
+  useEffect(function clearLoadingUser() {
+    if (pathname.includes("nominate"))
+      setTimeout(() => setLoadingUser(undefined), 500);
   });
 
   return (
@@ -258,15 +267,16 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                     </Typography>
                   </Stack>
                   <Button
-                    // Scroll is not recognized by ButtonProps, but it's part of Next Link
-                    {...{ scroll: false }}
-                    component={Link}
+                    component={NextLink}
+                    scroll={false}
                     href={`/nominate/${user.wallet}`}
-                    disabled={!user.wallet}
+                    disabled={!!loadingUser && loadingUser !== user.wallet}
+                    loading={loadingUser === user.wallet}
+                    onClick={() => setLoadingUser(user.wallet)}
                     variant="solid"
                     sx={{ height: "auto" }}
                   >
-                    {user.wallet ? "Nominate" : "No wallet"}
+                    Nominate
                   </Button>
                 </ListItem>
               ))}

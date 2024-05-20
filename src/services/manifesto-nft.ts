@@ -1,5 +1,6 @@
 import { createPublicClient, getContract, http } from "viem";
 import { base } from "viem/chains";
+import { rollbarWarn } from "./rollbar";
 
 const ManifestoNFTContractAddress =
   "0x4ce28eb5f17fb5ce747e699d2200ed55e4bc0f49";
@@ -17,20 +18,26 @@ const wagmiAbi = [
 export async function hasMintedManifestoNFT(
   wallet_address: string,
 ): Promise<number> {
-  const publicClient = createPublicClient({
-    chain: base,
-    transport: http(),
-  });
+  try {
+    const publicClient = createPublicClient({
+      chain: base,
+      transport: http(),
+    });
 
-  const contract = getContract({
-    address: ManifestoNFTContractAddress,
-    abi: wagmiAbi,
-    client: publicClient,
-  });
+    const contract = getContract({
+      address: ManifestoNFTContractAddress,
+      abi: wagmiAbi,
+      client: publicClient,
+    });
 
-  const balanceOf: bigint = (await contract.read.balanceOf([
-    wallet_address,
-  ])) as bigint;
+    const balanceOf = await contract.read.balanceOf([wallet_address]);
 
-  return Number(balanceOf);
+    return Number(balanceOf);
+  } catch (e) {
+    rollbarWarn(
+      `Error checking if user ${wallet_address} has minted NFT`,
+      e as Error,
+    );
+    return 0;
+  }
 }
