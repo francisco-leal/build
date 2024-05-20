@@ -4,7 +4,7 @@ import { restApiHandler } from "@/app/_api/helpers/rest-api-handler";
 import { rollbarError, rollbarInfo } from "@/services/rollbar";
 
 const searchParamsSchema = z.object({
-  query: z.string().min(2),
+  query: z.string().min(1),
   domain: z.string(),
 });
 
