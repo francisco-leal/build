@@ -17,20 +17,25 @@ const wagmiAbi = [
 export async function hasMintedManifestoNFT(
   wallet_address: string,
 ): Promise<number> {
-  const publicClient = createPublicClient({
-    chain: base,
-    transport: http(),
-  });
-
-  const contract = getContract({
-    address: ManifestoNFTContractAddress,
-    abi: wagmiAbi,
-    client: publicClient,
-  });
-
-  const balanceOf: bigint = (await contract.read.balanceOf([
-    wallet_address,
-  ])) as bigint;
-
-  return Number(balanceOf);
+  try {
+    const publicClient = createPublicClient({
+      chain: base,
+      transport: http(),
+    });
+  
+    const contract = getContract({
+      address: ManifestoNFTContractAddress,
+      abi: wagmiAbi,
+      client: publicClient,
+    });
+  
+    const balanceOf = (await contract.read.balanceOf([
+      wallet_address,
+    ]));
+  
+    return Number(balanceOf);
+  } catch (e) {
+    console.error(`Error checking if user ${wallet_address} has minted NFT`, e);
+    return 0;
+  }
 }
