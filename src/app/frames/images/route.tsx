@@ -892,6 +892,74 @@ export const GET = imagesWorker(async (jsx) => {
       },
     );
     pngBuffer = await sharp(Buffer.from(svg)).toFormat("png").toBuffer();
+  } else if (page === "builder-daily-nominations") {
+    const currentUsername = jsx.props.children[1].props.children;
+    const currentImgUrl = jsx.props.children[2].props.children;
+    const firstUsername = jsx.props.children[3].props.children;
+    const firstImgUrl = jsx.props.children[4].props.children;
+    const secondUsername = jsx.props.children[5].props.children;
+    const secondImgUrl = jsx.props.children[6].props.children;
+    const thirdUsername = jsx.props.children[7].props.children;
+    const thirdImgUrl = jsx.props.children[8].props.children;
+
+    const svg = await satori(
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "#0042F5",
+          color: "#FFFFFF",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            padding: "0px 20px",
+            width: "auto",
+            color: "#fff",
+            marginBottom: "50px",
+          }}
+        >
+          <img
+            src={currentImgUrl}
+            alt="profile image"
+            width={"120px"}
+            height={"120px"}
+            style={{ borderRadius: "100%", marginRight: "20px" }}
+          />
+          <p
+            style={{
+              fontWeight: "700",
+              fontFamily: "Bricolage-Bold",
+              fontSize: "78px",
+            }}
+          >
+            {currentUsername}
+          </p>
+        </div>
+      </div>,
+      {
+        width: 1080,
+        height: 1080,
+        fonts: [
+          {
+            data: regularFontData,
+            name: "Bricolage-Regular",
+          },
+          {
+            data: boldFontData,
+            name: "Bricolage-Bold",
+          },
+        ],
+      },
+    );
+    pngBuffer = await sharp(Buffer.from(svg)).toFormat("png").toBuffer();
   }
 
   return new Response(pngBuffer, {
