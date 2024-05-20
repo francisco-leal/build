@@ -206,6 +206,10 @@ export const hasExceededNominationsToday = async (nominatorUser: User) => {
   return (nominations?.length || 0) >= 3;
 };
 
+export const hasNoDailyBudget = async (nominatorUser: User) => {
+  return nominatorUser.boss_budget <= 0;
+};
+
 export const createNewNomination = async (
   nominatorUser: User,
   nominatedWallet: WalletInfo,
@@ -223,6 +227,11 @@ export const createNewNomination = async (
   }
   if (await hasExceededNominationsToday(nominatorUser)) {
     throw new BadRequestError("You have already nominated 3 builders today!");
+  }
+  if (await hasNoDailyBudget(nominatorUser)) {
+    throw new BadRequestError(
+      "You don't have a boss budget. You can increase your budget by creating a Talent Passport, or by buying $BOSS.",
+    );
   }
   if (await isUpdatingLeaderboard()) {
     throw new BadRequestError(
