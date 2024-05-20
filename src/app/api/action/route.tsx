@@ -8,9 +8,9 @@ export const GET = async (req: NextRequest) => {
       type: "post",
     },
     icon: "bold",
-    name: "Build.top Nominate",
+    name: "Nominate Builder",
     aboutUrl: `https://build.top`,
-    description: "Open a Frame to nominate for build.top",
+    description: "Opens a frame to nominate on build.top and earn BUILD.",
   };
 
   return Response.json(actionMetadata);
