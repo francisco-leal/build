@@ -8,7 +8,7 @@ export const GET = async (req: NextRequest) => {
     action: {
       type: "post",
     },
-    icon: "diamond",
+    icon: "star",
     name: "Nominate Builder",
     aboutUrl: `https://build.top`,
     description: "Opens a frame to nominate on build.top and earn BUILD.",
@@ -19,9 +19,7 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = frames(async (ctx) => {
   const castAuthorFid = ctx.message?.castId?.fid;
-  console.log("castAuthorFid", castAuthorFid);
   const castAuthor = await getFarcasterUserByFid(castAuthorFid!);
-  console.log("castAuthor", castAuthor);
   if (!castAuthor) {
     return Response.json({
       type: "frame",
