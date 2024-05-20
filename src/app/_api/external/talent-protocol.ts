@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
+import { rollbarError } from "@/services/rollbar";
 import { CACHE_5_MINUTES } from "../helpers/cache-keys";
 import { CacheKey } from "../helpers/cache-keys";
 
@@ -65,14 +66,19 @@ export const getTalentProtocolUser = async (walletId: string) => {
         "X-API-KEY": api_token || "",
       };
 
-      const response = await fetch(url, { headers });
-      const data = (await response.json()) as PassportResponse;
+      try {
+        const response = await fetch(url, { headers });
+        const data = (await response.json()) as PassportResponse;
 
-      if (!response.ok) return null;
-      if (response.status !== 200) return null;
-      if (data.error) return null;
-      if (!data.passport) return null;
-      return data.passport;
+        if (!response.ok) return null;
+        if (response.status !== 200) return null;
+        if (data.error) return null;
+        if (!data.passport) return null;
+        return data.passport;
+      } catch (error) {
+        rollbarError("Error fetching Talent Protocol user", error as Error);
+        return null;
+      }
     },
     [`talent_protocol_${walletId}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },
