@@ -4,6 +4,7 @@ import { createWallet, getWalletFromExternal } from "@/app/_api/data/wallets";
 import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
+export const maxDuration = 60;
 const handler = frames(async (ctx) => {
   const walletNominated =
     ctx.url.pathname.split("/frames/nominate/")[1].toLowerCase() ?? "";
