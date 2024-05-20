@@ -76,7 +76,7 @@ export const getFarcasterUser = async (
   )(walletId);
 };
 
-export const getFarcasterUserById = async (
+export const getFarcasterUserByFid = async (
   id: number,
 ): Promise<FarcasterAPIUser | null> => {
   return unstable_cache(
