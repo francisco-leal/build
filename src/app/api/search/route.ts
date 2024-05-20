@@ -8,6 +8,7 @@ const searchParamsSchema = z.object({
   domain: z.string(),
 });
 
+export const maxDuration = 60;
 export const GET = restApiHandler(async (request) => {
   const searchParams = searchParamsSchema.parse({
     query: request.nextUrl.searchParams.get("query"),

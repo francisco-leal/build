@@ -4,7 +4,6 @@ import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { removeDuplicates } from "@/shared/utils/remove-duplicates";
-import { getLensBuilderProfile } from "../external/airstack";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
 import { getUserFromWallet } from "./users";
@@ -27,10 +26,9 @@ export type WalletInfo = {
  * to the user associated to this wallet... if they exist.
  */
 export const createWallet = async (walletId: string): Promise<WalletInfo> => {
-  const [farcasterUser, talentUser, lensUser, bossUser] = await Promise.all([
+  const [farcasterUser, talentUser, bossUser] = await Promise.all([
     getFarcasterUser(walletId),
     getTalentProtocolUser(walletId),
-    getLensBuilderProfile(walletId),
     getUserFromWallet(walletId),
   ]);
 
@@ -45,15 +43,6 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
       user_id: userId,
     };
   }
-
-  lensUser?.userAssociatedAddresses?.forEach(async (wallet) => {
-    wallets[wallet] = {
-      ...wallets[wallet],
-      wallet: wallet,
-      user_id: userId,
-      username: lensUser.profileName,
-    };
-  });
 
   talentUser?.verified_wallets?.forEach(async (verifiedWallet) => {
     wallets[verifiedWallet] = {
@@ -129,15 +118,13 @@ export const getWalletFromExternal = async (
   walledId: string,
 ): Promise<WalletInfo | null> => {
   const walletLc = walledId.toLowerCase();
-  const [farcasterSocial, talentSocial, lensSocial, bossUser] =
-    await Promise.all([
-      getFarcasterUser(walletLc),
-      getTalentProtocolUser(walletLc),
-      getLensBuilderProfile(walletLc),
-      getUserFromWallet(walletLc),
-    ]);
+  const [farcasterSocial, talentSocial, bossUser] = await Promise.all([
+    getFarcasterUser(walletLc),
+    getTalentProtocolUser(walletLc),
+    getUserFromWallet(walletLc),
+  ]);
 
-  if (!farcasterSocial && !talentSocial && !lensSocial && !bossUser) {
+  if (!farcasterSocial && !talentSocial && !bossUser) {
     return null;
   }
 
@@ -146,7 +133,6 @@ export const getWalletFromExternal = async (
     ...(farcasterSocial?.verified_addresses?.eth_addresses ?? []),
     ...(talentSocial?.verified_wallets ?? []),
     ...(bossUser?.wallets.map((w) => w.wallet) ?? []),
-    ...(lensSocial?.userAssociatedAddresses ?? []),
   ]
     .filter(Boolean)
     .filter(removeDuplicates);
@@ -159,13 +145,11 @@ export const getWalletFromExternal = async (
     image:
       farcasterSocial?.pfp_url ??
       talentSocial?.user?.profile_picture_url ??
-      talentSocial?.passport_profile?.image_url ??
-      lensSocial?.profileImage,
+      talentSocial?.passport_profile?.image_url,
     username:
       farcasterSocial?.username ??
       talentSocial?.user?.username ??
       bossUser?.username ??
-      lensSocial?.profileName ??
       walledId.toLowerCase(),
     allWallets: allWallets,
   };
