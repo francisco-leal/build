@@ -80,7 +80,6 @@ export const getLensBuilderProfile = async (
   try {
     const result = await fetchQuery(query);
     if (result.error) {
-      // this is happening too often, so we're disabling it for now
       rollbarWarn("Error fetching airstack lens profile", result.error);
       return null;
     }
@@ -94,7 +93,6 @@ export const getLensBuilderProfile = async (
 
     return lensSocial || null;
   } catch (error) {
-    // this is happening too often, so we're disabling it for now
     rollbarWarn("Error fetching airstack lens profile", error as Error);
     return null;
   }
