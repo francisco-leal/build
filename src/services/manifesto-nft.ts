@@ -22,17 +22,15 @@ export async function hasMintedManifestoNFT(
       chain: base,
       transport: http(),
     });
-  
+
     const contract = getContract({
       address: ManifestoNFTContractAddress,
       abi: wagmiAbi,
       client: publicClient,
     });
-  
-    const balanceOf = (await contract.read.balanceOf([
-      wallet_address,
-    ]));
-  
+
+    const balanceOf = await contract.read.balanceOf([wallet_address]);
+
     return Number(balanceOf);
   } catch (e) {
     console.warn(`Error checking if user ${wallet_address} has minted NFT`, e);
