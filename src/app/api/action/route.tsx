@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { ActionMetadata } from "frames.js";
+import { getFarcasterUserByFid } from "@/app/_api/external/farcaster";
 import { frames } from "../../frames/frames";
 
 export const GET = async (req: NextRequest) => {
@@ -7,7 +8,7 @@ export const GET = async (req: NextRequest) => {
     action: {
       type: "post",
     },
-    icon: "bold",
+    icon: "diamond",
     name: "Nominate Builder",
     aboutUrl: `https://build.top`,
     description: "Opens a frame to nominate on build.top and earn BUILD.",
@@ -17,10 +18,9 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = frames(async (ctx) => {
-  const wallet = ctx.message?.requesterVerifiedAddresses
-    ? ctx.message?.requesterVerifiedAddresses[0]
-    : ctx.message?.requesterCustodyAddress;
-  if (!wallet) {
+  const castAuthorFid = ctx.message?.castId?.fid;
+  const castAuthor = await getFarcasterUserByFid(castAuthorFid!);
+  if (!castAuthor) {
     return Response.json({
       type: "frame",
       frameUrl: `https://build.top/`,
@@ -28,6 +28,6 @@ export const POST = frames(async (ctx) => {
   }
   return Response.json({
     type: "frame",
-    frameUrl: `https://build.top/nominate/${wallet}`,
+    frameUrl: `https://build.top/nominate/${castAuthor?.verified_addresses?.eth_addresses[0] || castAuthor?.custody_address}`,
   });
 });
