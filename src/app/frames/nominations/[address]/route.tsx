@@ -10,24 +10,22 @@ import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
   if (ctx.message && !ctx.message?.isValid) {
-    console.log("here");
     throw new BadRequestError("Invalid message");
   }
   const userAddress =
     ctx.url.pathname.split("/frames/nominations/")[1].toLowerCase() ?? "";
-  console.log({ userAddress });
   if (!userAddress) throw new BadRequestError("Missing Wallet address");
 
   const [currentUser, currentFarcasterUser] = await Promise.all([
     getConnectedUserProfile(userAddress),
     getFarcasterUser(userAddress),
   ]);
-  console.log({ currentUser, currentFarcasterUser });
   if (!currentFarcasterUser) throw new BadRequestError("User not found");
   const dailyNominations = await getNominationsFromUserToday(currentUser);
-  console.log({ dailyNominations });
   const [firstUser, secondUser, thirdUser] = await Promise.all(
-    dailyNominations.map((n) => getFarcasterUser(n.destinationWallet)),
+    dailyNominations
+      .reverse()
+      .map((n) => getFarcasterUser(n.destinationWallet)),
   );
   return {
     image: (
@@ -35,12 +33,17 @@ const handler = frames(async (ctx) => {
         <div>builder-daily-nominations</div>
         <div>{currentFarcasterUser.username}</div>
         <div>{currentFarcasterUser.pfp_url}</div>
+        <div>{firstUser?.username}</div>
+        <div>{firstUser?.pfp_url}</div>
+        <div>{secondUser?.username}</div>
+        <div>{secondUser?.pfp_url}</div>
+        <div>{thirdUser?.username}</div>
+        <div>{thirdUser?.pfp_url}</div>
       </div>
     ),
-    textInput: "Search with farcaster handle",
     buttons: [
-      <Button action="post" key="1" target="/nominate">
-        Search
+      <Button action="post" key="1" target="/">
+        Nominate Builders
       </Button>,
     ],
     imageOptions: {

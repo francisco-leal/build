@@ -902,6 +902,12 @@ export const GET = imagesWorker(async (jsx) => {
     const thirdUsername = jsx.props.children[7]?.props.children;
     const thirdImgUrl = jsx.props.children[8]?.props.children;
 
+    const nominatedUsers = [
+      { username: firstUsername, imgUrl: firstImgUrl },
+      { username: secondUsername, imgUrl: secondImgUrl },
+      { username: thirdUsername, imgUrl: thirdImgUrl },
+    ];
+
     const svg = await satori(
       <div
         style={{
@@ -911,7 +917,7 @@ export const GET = imagesWorker(async (jsx) => {
           flexDirection: "column",
           backgroundColor: "#0042F5",
           color: "#FFFFFF",
-          justifyContent: "center",
+          justifyContent: "space-between",
           alignItems: "center",
           padding: "20px",
         }}
@@ -919,29 +925,109 @@ export const GET = imagesWorker(async (jsx) => {
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
-            padding: "0px 20px",
+            flexDirection: "column",
+            backgroundColor: "#0042F5",
+            color: "#FFFFFF",
+            alignItems: "center",
+            padding: "20px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: "40px",
+              marginTop: "50px",
+              width: "auto",
+              color: "#fff",
+            }}
+          >
+            <img
+              src={currentImgUrl}
+              alt="profile image"
+              width={"120px"}
+              height={"120px"}
+              style={{ borderRadius: "100%", marginRight: "20px" }}
+            />
+            <p
+              style={{
+                fontWeight: "700",
+                fontFamily: "Bricolage-Bold",
+                fontSize: "78px",
+              }}
+            >
+              {currentUsername}
+            </p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              padding: "0px 20px",
+              backgroundColor: "#fff",
+              color: "#0042F5",
+              width: "auto",
+              border: "4px solid #000",
+              borderBottom: "15px solid #000",
+              borderRight: "15px solid #000",
+            }}
+          >
+            <p
+              style={{
+                fontWeight: "700",
+                fontFamily: "Bricolage-Bold",
+                fontSize: "48px",
+              }}
+            >
+              Daily Nominations
+            </p>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
             width: "auto",
             color: "#fff",
             marginBottom: "50px",
+            alignItems: "flex-start",
+            gap: "20px",
+            justifyContent: "flex-start",
           }}
         >
-          <img
-            src={currentImgUrl}
-            alt="profile image"
-            width={"120px"}
-            height={"120px"}
-            style={{ borderRadius: "100%", marginRight: "20px" }}
-          />
-          <p
-            style={{
-              fontWeight: "700",
-              fontFamily: "Bricolage-Bold",
-              fontSize: "78px",
-            }}
-          >
-            {currentUsername}
-          </p>
+          {nominatedUsers.map((user, index) => (
+            <div
+              key={index}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                padding: "0px 60px",
+                width: "auto",
+                color: "#fff",
+                marginBottom: "50px",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+              }}
+            >
+              <img
+                src={user.imgUrl}
+                alt="profile image"
+                width={"100px"}
+                height={"100px"}
+                style={{ borderRadius: "100%", marginRight: "20px" }}
+              />
+              <p
+                style={{
+                  fontWeight: "700",
+                  fontFamily: "Bricolage-Bold",
+                  fontSize: "64px",
+                }}
+              >
+                {user.username}
+              </p>
+            </div>
+          ))}
         </div>
       </div>,
       {
