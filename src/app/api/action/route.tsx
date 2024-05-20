@@ -19,9 +19,7 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = frames(async (ctx) => {
   const castAuthorFid = ctx.message?.castId?.fid;
-  console.log("castAuthorFid", castAuthorFid);
   const castAuthor = await getFarcasterUserByFid(castAuthorFid!);
-  console.log("castAuthor", castAuthor);
   if (!castAuthor) {
     return Response.json({
       type: "frame",
