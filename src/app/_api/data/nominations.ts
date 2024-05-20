@@ -229,9 +229,7 @@ export const createNewNomination = async (
     throw new BadRequestError("You have already nominated 3 builders today!");
   }
   if (await hasNoDailyBudget(nominatorUser)) {
-    throw new BadRequestError(
-      "You don't have a boss budget. You can increase your budget by creating a Talent Passport, or by buying $BOSS.",
-    );
+    throw new BadRequestError("You need a BUILD budget to nominate!");
   }
   if (await isUpdatingLeaderboard()) {
     throw new BadRequestError(
