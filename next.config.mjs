@@ -23,6 +23,11 @@ const nextConfig = {
         destination: "/stats",
         permanent: true,
       },
+      {
+        source: "/leaderboard",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };

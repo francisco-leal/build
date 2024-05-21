@@ -6,7 +6,11 @@ import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
-import { CacheKey, CACHE_5_MINUTES } from "../helpers/cache-keys";
+import {
+  CacheKey,
+  CACHE_5_MINUTES,
+  CACHE_1_MINUTE,
+} from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
@@ -310,6 +314,6 @@ export const getNominationsCountOverall = async (): Promise<number> => {
       return count || 0;
     },
     ["nominations_count"] as CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
+    { revalidate: CACHE_1_MINUTE },
   )();
 };
