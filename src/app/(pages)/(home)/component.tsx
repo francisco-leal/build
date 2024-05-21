@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 import { getNominationsCountOverall } from "@/app/_api/data/nominations";
 import { BackgroundImage } from "@/app/_components/background-image";
 import { HowToPlay } from "@/app/_components/how-to-play";
+import { IncrementingNumber } from "@/app/_components/incrementing-number";
 import { SearchBuilder } from "@/app/_components/search-builder";
 import {
   TableLeaderboard,
@@ -111,43 +112,27 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
       <HeroSection
         sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
       >
-        <BlockyCard sx={{ minHeight: 164 }}>
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
             Total Builders
           </Typography>
-          <Typography
-            textColor="neutral.900"
-            sx={{
-              fontWeight: 700,
-              lineHeight: "133%",
-              fontSize: "36px",
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />{" "}
-            {usersCount}
-          </Typography>
+          <IncrementingNumber
+            start={usersCount ? usersCount - 50 : 0}
+            end={usersCount ?? 0}
+            interval={1000}
+            icon={<MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />}
+          />
         </BlockyCard>
-        <BlockyCard sx={{ minHeight: 164 }}>
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
             Total Nominations
           </Typography>
-          <Typography
-            textColor="neutral.900"
-            sx={{
-              fontWeight: 700,
-              lineHeight: "133%",
-              fontSize: "36px",
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <Interface sx={{ "&&": { height: 32, width: 32 } }} />{" "}
-            {nominationsCount}
-          </Typography>
+          <IncrementingNumber
+            start={nominationsCount ? nominationsCount - 100 : 0}
+            end={nominationsCount ?? 0}
+            interval={500}
+            icon={<Interface sx={{ "&&": { height: 32, width: 32 } }} />}
+          />
         </BlockyCard>
       </HeroSection>
       <HeroSection
