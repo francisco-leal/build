@@ -69,7 +69,7 @@ export const getTableLeaderboardValues = async (): Promise<
       bossScore: entry.boss_score,
       nominationsReceived: entry.nominations_received,
       rank: entry.rank?.toString() ?? "---",
-      farcaster_id: entry.users?.farcaster_id,
-      passport_id: entry.users?.passport_id,
+      farcaster_id: entry.users?.farcaster_id ?? undefined,
+      passport_id: entry.users?.passport_id ?? undefined,
     }));
 };
