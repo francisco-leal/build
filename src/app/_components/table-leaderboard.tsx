@@ -31,8 +31,8 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
           <th>Rank</th>
           <th>Name</th>
           <th>Build Points</th>
+          <th>Nominations</th>
           <th>Builder Score</th>
-          <th>Nominations Received</th>
         </tr>
       </thead>
       <tbody>
@@ -42,8 +42,8 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
               <td>{val.rank}</td>
               <td>{abbreviateWalletAddress(val.name)}</td>
               <td>{formatLargeNumber(val.bossScore)}</td>
-              <td>{Math.round(val.builderScore)}</td>
               <td>{val.nominationsReceived}</td>
+              <td>{Math.round(val.builderScore)}</td>
             </tr>
           ))}
         {loading &&

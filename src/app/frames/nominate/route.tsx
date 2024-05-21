@@ -7,6 +7,7 @@ import { frames, getFramesUser } from "@/app/frames/frames";
 import { BadRequestError } from "@/shared/utils/error";
 
 export const maxDuration = 60;
+export const dynamic = "force-dynamic";
 const handler = frames(async (ctx) => {
   try {
     if (ctx.message && !ctx.message?.isValid) {

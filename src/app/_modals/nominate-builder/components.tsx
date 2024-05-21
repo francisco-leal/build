@@ -4,9 +4,12 @@ import { FunctionComponent, ReactNode, useEffect, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Avatar,
+  Badge,
   Button,
+  Chip,
   Divider,
   Modal as JoyModal,
+  Link,
   ModalClose,
   ModalDialog,
   ModalOverflow,
@@ -15,6 +18,7 @@ import {
   Typography,
   modalDialogClasses,
 } from "@mui/joy";
+import { SxProps } from "@mui/joy/styles/types";
 import { toast } from "sonner";
 import { createNewNominationForCurrentUser } from "@/app/_api/data/nominations";
 import { forcePathRevalidation } from "@/app/_api/functions/force-path-revalidation";
@@ -134,23 +138,61 @@ export type ModalBuilderProfileProps = {};
 
 export const ModalBuilderProfile: FunctionComponent<{
   loading?: boolean;
+  builderRank?: number;
   builderImage?: string;
   builderUsername?: string;
   builderWallet?: string;
-}> = ({ loading, builderImage, builderUsername, builderWallet }) => (
+  builderFarcasterLink?: string;
+  builderTalentLink?: string;
+}> = ({
+  loading,
+  builderImage,
+  builderUsername,
+  builderWallet,
+  builderRank,
+  builderFarcasterLink,
+  builderTalentLink,
+}) => (
   <Stack sx={{ alignItems: "center", mt: 2 }}>
     {loading ? (
       <Skeleton variant="circular" sx={{ width: "48px", height: "48px" }} />
     ) : (
-      <Avatar
-        sx={{ width: "48px", height: "48px" }}
-        src={builderImage}
-        alt={builderUsername}
-      />
+      <Badge
+        badgeContent={builderRank ? `#${builderRank}` : "#---"}
+        size="sm"
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Avatar
+          sx={{ width: "48px", height: "48px" }}
+          src={builderImage}
+          alt={builderUsername}
+        />
+      </Badge>
     )}
     <Typography level="title-lg" textColor="common.black" sx={{ mb: 0 }}>
       {loading ? "---" : builderUsername}
     </Typography>
+    <Stack direction="row" gap={0.5} width={"100%"} justifyContent={"center"}>
+      <Link
+        disabled={!builderFarcasterLink}
+        href={builderFarcasterLink ?? "#"}
+        target="_blank"
+        level="body-sm"
+        sx={{ width: 200, alignItems: "center", justifyContent: "flex-end" }}
+      >
+        {loading ? "---" : "Farcaster "}
+      </Link>
+      <Divider orientation="vertical" sx={{ bgcolor: "neutral.400" }} />
+      <Link
+        disabled={!builderTalentLink}
+        href={builderTalentLink ?? "#"}
+        target="_blank"
+        level="body-sm"
+        sx={{ width: 200, alignItems: "center", justifyContent: "flex-start" }}
+      >
+        {loading ? "---" : "Talent"}
+      </Link>
+    </Stack>
     <Typography level="body-sm" sx={{ mb: 0 }}>
       {loading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
     </Typography>
@@ -181,8 +223,13 @@ export const ModalNominationValues: FunctionComponent<{
 
 export const ModalActionMessage: FunctionComponent<{
   children: ReactNode;
-}> = ({ children }) => (
-  <Typography level="body-sm" textAlign={"center"} sx={{ mr: 1, flex: 1 }}>
+  sx?: SxProps;
+}> = ({ children, sx }) => (
+  <Typography
+    level="body-sm"
+    textAlign={"center"}
+    sx={{ mr: 1, flex: 1, ...sx }}
+  >
     {children}
   </Typography>
 );
