@@ -143,3 +143,17 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
   allWallets.forEach((w) => revalidatePath(`wallet_info_${w.wallet}`));
   return user;
 };
+
+export const getUsersCountOverall = async (): Promise<number> => {
+  return unstable_cache(
+    async () => {
+      const { data: users, count } = await supabase
+        .from("users")
+        .select("id", { count: "exact", head: true });
+
+      return count || 0;
+    },
+    ["users_count"] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )();
+};
