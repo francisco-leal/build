@@ -8,7 +8,11 @@ import { getSession } from "@/services/authentication/cookie-session";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
-import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
+import {
+  CACHE_5_MINUTES,
+  CacheKey,
+  CACHE_1_MINUTE,
+} from "../helpers/cache-keys";
 
 type Tables = Database["public"]["Tables"];
 
@@ -154,6 +158,6 @@ export const getUsersCountOverall = async (): Promise<number> => {
       return count || 0;
     },
     ["users_count"] as CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
+    { revalidate: CACHE_1_MINUTE },
   )();
 };
