@@ -1,5 +1,7 @@
 import { FunctionComponent } from "react";
 import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { FarcasterLink } from "@/shared/components/farcaster-link";
+import { TalentProtocolLink } from "@/shared/components/talentprotocol-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 
@@ -11,6 +13,8 @@ export type TableLeaderboardValue = {
   bossScore: number;
   nominationsReceived: number;
   highlight: boolean;
+  farcaster_id?: number;
+  passport_id?: number;
 };
 
 export type LeaderboardTableProps = {
@@ -40,7 +44,20 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
           values.map((val) => (
             <tr key={val.id} className={val.highlight ? "blue" : ""}>
               <td>{val.rank}</td>
-              <td>{abbreviateWalletAddress(val.name)}</td>
+              <td
+                style={{
+                  display: "flex",
+                  gap: "16px",
+                  alignItems: "center",
+                }}
+              >
+                <TalentProtocolLink passport_id={val.passport_id} />{" "}
+                <FarcasterLink
+                  farcaster_id={val.farcaster_id}
+                  username={val.name}
+                />
+                {abbreviateWalletAddress(val.name)}{" "}
+              </td>
               <td>{formatLargeNumber(val.bossScore)}</td>
               <td>{val.nominationsReceived}</td>
               <td>{Math.round(val.builderScore)}</td>
