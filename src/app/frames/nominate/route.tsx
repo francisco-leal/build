@@ -1,13 +1,220 @@
+import fs from "node:fs";
+import path from "node:path";
 import { Button } from "frames.js/next";
 import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getUserBalances } from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { searchBuilders } from "@/app/_api/functions/search-builders";
 import { frames, getFramesUser } from "@/app/frames/frames";
+import { appURL } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
+
+const frameDefaultUser = fs.readFileSync(
+  path.join(
+    path.resolve(process.cwd(), "public", "images"),
+    "frame-default-user.png",
+  ),
+);
+
+type INominateFrameProps = {
+  farcasterPfp: string | undefined;
+  farcasterUsername: string | null;
+  nominatedImage: string | undefined;
+  nominatedUsername: string;
+  dailyBudget: number | undefined;
+  pointsGiven: number | undefined;
+  pointsEarned: number | undefined;
+  todayNominations: number | undefined;
+};
+
+export const NominateFrame = ({
+  farcasterPfp,
+  farcasterUsername,
+  nominatedImage,
+  nominatedUsername,
+  dailyBudget,
+  pointsGiven,
+  pointsEarned,
+  todayNominations,
+}: INominateFrameProps) => {
+  return (
+    <div tw="relative w-full h-full flex bg-[#0042F5] text-white">
+      <img src={`${appURL()}/images/frame-bg.png`} tw="w-full" />
+      <div tw="absolute top-0 left-0 w-full h-full flex flex-col justify-start p-[20px]">
+        <div tw="flex items-center">
+          {!!farcasterPfp ? (
+            <img
+              src={farcasterPfp}
+              tw="w-[70px] h-[70px] rounded-full mr-[20px] object-cover"
+            />
+          ) : null}
+          <p
+            tw="text-[52px] font-bold"
+            style={{ fontFamily: "Bricolage-Bold" }}
+          >
+            {farcasterUsername}
+          </p>
+        </div>
+        <div
+          tw={`flex flex-col items-center justify-center ${dailyBudget ? "mt-[60px]" : "mt-[300px]"}`}
+        >
+          <div tw="flex px-[20px] bg-white text-[#0042F5] w-auto border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
+            <p
+              tw="text-[48px] font-bold"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              Nominate
+            </p>
+          </div>
+          <div tw="flex p-[20px] text-white w-auto">
+            <img
+              src={nominatedImage}
+              tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+            />
+            <p
+              tw="text-[78px] font-bold"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              {nominatedUsername}
+            </p>
+          </div>
+          {dailyBudget ? (
+            <div tw="px-[20px] flex flex-col gap-0 w-full">
+              <div tw="flex justify-between w-full border-t-[3px] border-white">
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  My Daily Budget
+                </p>
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {dailyBudget.toFixed(2)}
+                </p>
+              </div>
+              <div tw="flex justify-between w-full">
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  BUILD Points Sent
+                </p>
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {pointsGiven?.toFixed(2)}
+                </p>
+              </div>
+              <div tw="flex justify-between w-full">
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  BUILD Points Earned
+                </p>
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {pointsEarned?.toFixed(2)}
+                </p>
+              </div>
+              <div tw="flex justify-between w-full border-t-[3px] border-white">
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  Daily Nominations
+                </p>
+                <p
+                  tw="text-[48px] font-bold"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {`${todayNominations}/3`}
+                </p>
+              </div>
+            </div>
+          ) : null}
+          {todayNominations && todayNominations >= 3 ? (
+            <div tw="flex px-[20px] bg-white text-[#0042F5] w-auto border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
+              <p
+                tw="text-[48px] font-bold"
+                style={{ fontFamily: "Bricolage-Bold" }}
+              >
+                You&apos;re out of nominations for today
+              </p>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const NominateBuilderError = ({
+  builderImage,
+  builderUsername,
+  errorTitle,
+  errorMessage,
+}: {
+  builderImage: string | undefined;
+  builderUsername: string | undefined;
+  errorTitle: string;
+  errorMessage: string | undefined;
+}) => {
+  return (
+    <div tw="relative w-full h-full flex bg-[#0042F5] text-white">
+      <img src={`${appURL()}/images/frame-bg.png`} tw="w-full" />
+      <div tw="absolute top-0 left-0 w-full h-full flex flex-col p-[20px]">
+        <div tw="flex flex-col gap-4 justify-center items-center h-full mx-auto">
+          <div tw="flex px-[20px] w-auto text-white mb-[50px] items-center">
+            {builderImage ? (
+              <img
+                src={builderImage}
+                tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+              />
+            ) : null}
+            <p
+              tw="text-[78px] font-bold"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              {builderUsername
+                ? builderUsername.length > 15
+                  ? `${builderUsername.slice(0, 15)}...`
+                  : builderUsername
+                : ""}
+            </p>
+          </div>
+          <div tw="w-auto flex px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
+            <p
+              tw="text-[48px] font-bold"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              {errorTitle}
+            </p>
+          </div>
+          {errorMessage ? (
+            <div tw="w-auto flex px-[20px] text-white mb-[50px] justify-center items-center">
+              <p
+                tw="text-[78px] font-bold text-center mx-auto"
+                style={{ fontFamily: "Bricolage-Bold" }}
+              >
+                {errorMessage}
+              </p>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const handler = frames(async (ctx) => {
   try {
     if (ctx.message && !ctx.message?.isValid) {
@@ -22,10 +229,39 @@ const handler = frames(async (ctx) => {
     if (!userNominated && !walletNominated) {
       return {
         image: (
-          <div>
-            <div>nominate-builder</div>
-            <div>{farcasterPfp}</div>
-            <div>{!!farcasterUsername ? farcasterUsername : ""}</div>
+          <div tw="relative w-full h-full flex bg-[#0042F5] text-white">
+            <img src={`${appURL()}/images/frame-bg.png`} tw="w-full" />
+            <div tw="absolute top-0 left-0 w-full h-full flex flex-col p-[20px]">
+              <div tw="flex flex-col gap-4 justify-center items-center h-full mx-auto">
+                <div tw="flex px-[20px] w-auto text-white">
+                  {!!farcasterPfp ? (
+                    <img
+                      src={farcasterPfp}
+                      tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={`data:image/png;base64,${frameDefaultUser.toString("base64")}`}
+                      tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+                    />
+                  )}
+                  <p
+                    tw="text-[60px] font-bold"
+                    style={{ fontFamily: "Bricolage-Bold" }}
+                  >
+                    {!!farcasterUsername ? farcasterUsername : ""}
+                  </p>
+                </div>
+                <div tw="flex px-[20px] bg-white text-[#0042F5] w-[600px] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
+                  <p
+                    tw="text-[48px] font-bold mx-auto"
+                    style={{ fontFamily: "Bricolage-Bold" }}
+                  >
+                    Search for builders
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         ),
         textInput: "Search with farcaster handle",
@@ -54,10 +290,12 @@ const handler = frames(async (ctx) => {
     if (!walletProfile) {
       return {
         image: (
-          <div>
-            <div>nominate-builder-not-found</div>
-            <div>{userNominated}</div>
-          </div>
+          <NominateBuilderError
+            builderImage={undefined}
+            builderUsername={userNominated}
+            errorTitle="Builder not found"
+            errorMessage=""
+          />
         ),
         textInput: "Search with farcaster handle",
         buttons: [
@@ -79,20 +317,16 @@ const handler = frames(async (ctx) => {
 
     return {
       image: (
-        <div>
-          <div>nominate-builder-found</div>
-          <div>{farcasterPfp}</div>
-          <div>{farcasterUsername}</div>
-          <div>{walletProfile.image}</div>
-          <div>{walletProfile.username}</div>
-          <div>{userBalances.dailyBudget?.toFixed(2)}</div>
-          <div>{userBalances.pointsGiven?.toFixed(2)}</div>
-          <div>{userBalances.pointsEarned?.toFixed(2)}</div>
-          <div>{`${todayNominations.length}/3`}</div>
-          {todayNominations.length >= 3 && (
-            <div>You&apos;re out of nominations for today</div>
-          )}
-        </div>
+        <NominateFrame
+          farcasterPfp={farcasterPfp}
+          farcasterUsername={farcasterUsername}
+          nominatedImage={walletProfile.image}
+          nominatedUsername={walletProfile.username}
+          dailyBudget={userBalances.dailyBudget}
+          pointsGiven={userBalances.pointsGiven}
+          pointsEarned={userBalances.pointsEarned}
+          todayNominations={todayNominations.length}
+        />
       ),
       buttons:
         todayNominations.length < 3
@@ -121,11 +355,12 @@ const handler = frames(async (ctx) => {
     const errorMessage = (error as Error)?.message || "An error occurred";
     return {
       image: (
-        <div>
-          <div>builder-nomination-error</div>
-          <div>{""}</div>
-          <div>{errorMessage}</div>
-        </div>
+        <NominateBuilderError
+          builderImage={undefined}
+          builderUsername={""}
+          errorTitle="Builder Nomination Error"
+          errorMessage={errorMessage}
+        />
       ),
       textInput: "Search with farcaster handle",
       buttons: [
