@@ -103,7 +103,15 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
           className="no-overflow"
           textColor={"common.white"}
         >
-          Leaderboard
+          Undiscovered Builders
+        </Typography>
+        <Typography
+          level="body-sm"
+          className="no-overflow"
+          sx={{ color: "common.white", marginBottom: 2 }}
+        >
+          These builders have received few nominations but have received a high
+          signal from other builders.
         </Typography>
         <Stack className="overflow">
           <TableLeaderboard loading={loading} values={tableLeaderboardValues} />
