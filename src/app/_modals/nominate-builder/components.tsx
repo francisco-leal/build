@@ -1,6 +1,7 @@
 "use client";
 
 import { FunctionComponent, ReactNode, useEffect, useTransition } from "react";
+import { default as NextLink } from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Avatar,
@@ -22,6 +23,8 @@ import { SxProps } from "@mui/joy/styles/types";
 import { toast } from "sonner";
 import { createNewNominationForCurrentUser } from "@/app/_api/data/nominations";
 import { forcePathRevalidation } from "@/app/_api/functions/force-path-revalidation";
+import { Farcaster } from "@/shared/icons/farcaster";
+import { TalentProtocol } from "@/shared/icons/talent-protocol";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 
 export const Modal: FunctionComponent<{
@@ -50,6 +53,7 @@ export const Modal: FunctionComponent<{
             width: "100%",
             maxWidth: { xs: "lg", md: "sm" },
             color: "neutral.500",
+            justifyContent: "center",
             [`&.${modalDialogClasses.layoutCenter}`]: {
               minHeight: { xs: "100vh", md: "auto" },
             },
@@ -155,47 +159,69 @@ export const ModalBuilderProfile: FunctionComponent<{
 }) => (
   <Stack sx={{ alignItems: "center", mt: 2 }}>
     {loading ? (
-      <Skeleton variant="circular" sx={{ width: "48px", height: "48px" }} />
+      <>
+        <Skeleton variant="circular" sx={{ width: "48px", height: "48px" }} />
+        <Typography level="title-lg" textColor="common.black" sx={{ mb: 0 }}>
+          <Skeleton width={"3em"} />
+        </Typography>
+        <Typography level="body-sm" sx={{ mb: 0 }}>
+          <Skeleton width={"5em"} />
+        </Typography>
+      </>
     ) : (
-      <Badge
-        badgeContent={builderRank ? `#${builderRank}` : "#---"}
-        size="sm"
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Avatar
-          sx={{ width: "48px", height: "48px" }}
-          src={builderImage}
-          alt={builderUsername}
-        />
-      </Badge>
+      <>
+        <Badge
+          badgeContent={builderRank ? `#${builderRank}` : "#---"}
+          size="sm"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Avatar
+            sx={{ width: "48px", height: "48px" }}
+            src={builderImage}
+            alt={builderUsername}
+          />
+        </Badge>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          sx={{
+            mt: 1,
+            "p + a": {
+              ml: 0.5,
+            },
+            "a +a ": {
+              ml: 1,
+            },
+            "& a": {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 200,
+              height: 20,
+              width: 20,
+            },
+          }}
+        >
+          <Typography level="title-lg" textColor="common.black">
+            {builderUsername}
+          </Typography>
+          {builderFarcasterLink && (
+            <Link href={builderFarcasterLink} target="_blank" variant="solid">
+              <Farcaster sx={{ p: 0.25, width: 16, height: 16 }} />
+            </Link>
+          )}
+          {builderTalentLink && (
+            <Link href={builderTalentLink} target="_blank" variant="solid">
+              <TalentProtocol sx={{ width: 16, height: 16 }} />
+            </Link>
+          )}
+        </Stack>
+        <Typography level="body-sm" sx={{ mb: 0 }}>
+          {loading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
+        </Typography>
+      </>
     )}
-    <Typography level="title-lg" textColor="common.black" sx={{ mb: 0 }}>
-      {loading ? "---" : builderUsername}
-    </Typography>
-    <Stack direction="row" gap={0.5} width={"100%"} justifyContent={"center"}>
-      <Link
-        disabled={!builderFarcasterLink}
-        href={builderFarcasterLink ?? "#"}
-        target="_blank"
-        level="body-sm"
-        sx={{ width: 200, alignItems: "center", justifyContent: "flex-end" }}
-      >
-        {loading ? "---" : "Farcaster "}
-      </Link>
-      <Divider orientation="vertical" sx={{ bgcolor: "neutral.400" }} />
-      <Link
-        disabled={!builderTalentLink}
-        href={builderTalentLink ?? "#"}
-        target="_blank"
-        level="body-sm"
-        sx={{ width: 200, alignItems: "center", justifyContent: "flex-start" }}
-      >
-        {loading ? "---" : "Talent"}
-      </Link>
-    </Stack>
-    <Typography level="body-sm" sx={{ mb: 0 }}>
-      {loading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
-    </Typography>
   </Stack>
 );
 
