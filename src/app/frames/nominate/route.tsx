@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import { Button } from "frames.js/next";
 import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getUserBalances } from "@/app/_api/data/users";
@@ -12,12 +10,45 @@ import { BadRequestError } from "@/shared/utils/error";
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 
-const frameDefaultUser = fs.readFileSync(
-  path.join(
-    path.resolve(process.cwd(), "public", "images"),
-    "frame-default-user.png",
-  ),
-);
+const SearchBuildersFrame = ({
+  farcasterPfp,
+  farcasterUsername,
+}: {
+  farcasterPfp: string | undefined;
+  farcasterUsername: string | null;
+}) => {
+  return (
+    <div tw="relative w-full h-full flex bg-[#0042F5] text-white">
+      <img src={`${appURL()}/images/frame-bg.png`} tw="w-full" />
+      <div tw="absolute top-0 left-0 w-full h-full flex flex-col p-[20px]">
+        <div tw="flex flex-col gap-4 justify-center items-center h-full mx-auto">
+          <div tw="flex px-[20px] w-auto text-white">
+            {!!farcasterPfp ? (
+              <img
+                src={farcasterPfp}
+                tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+              />
+            ) : null}
+            <p
+              tw="text-[60px] font-bold"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              {!!farcasterUsername ? farcasterUsername : ""}
+            </p>
+          </div>
+          <div tw="flex px-[20px] bg-white text-[#0042F5] w-[600px] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
+            <p
+              tw="text-[48px] font-bold mx-auto"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              Search for builders
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 type INominateFrameProps = {
   farcasterPfp: string | undefined;
@@ -229,40 +260,10 @@ const handler = frames(async (ctx) => {
     if (!userNominated && !walletNominated) {
       return {
         image: (
-          <div tw="relative w-full h-full flex bg-[#0042F5] text-white">
-            <img src={`${appURL()}/images/frame-bg.png`} tw="w-full" />
-            <div tw="absolute top-0 left-0 w-full h-full flex flex-col p-[20px]">
-              <div tw="flex flex-col gap-4 justify-center items-center h-full mx-auto">
-                <div tw="flex px-[20px] w-auto text-white">
-                  {!!farcasterPfp ? (
-                    <img
-                      src={farcasterPfp}
-                      tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={`data:image/png;base64,${frameDefaultUser.toString("base64")}`}
-                      tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
-                    />
-                  )}
-                  <p
-                    tw="text-[60px] font-bold"
-                    style={{ fontFamily: "Bricolage-Bold" }}
-                  >
-                    {!!farcasterUsername ? farcasterUsername : ""}
-                  </p>
-                </div>
-                <div tw="flex px-[20px] bg-white text-[#0042F5] w-[600px] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
-                  <p
-                    tw="text-[48px] font-bold mx-auto"
-                    style={{ fontFamily: "Bricolage-Bold" }}
-                  >
-                    Search for builders
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <SearchBuildersFrame
+            farcasterPfp={farcasterPfp}
+            farcasterUsername={farcasterUsername}
+          />
         ),
         textInput: "Search with farcaster handle",
         buttons: [
@@ -353,6 +354,28 @@ const handler = frames(async (ctx) => {
     };
   } catch (error) {
     const errorMessage = (error as Error)?.message || "An error occurred";
+    if (errorMessage === "Frame user not found") {
+      return {
+        image: (
+          <SearchBuildersFrame
+            farcasterPfp={undefined}
+            farcasterUsername={null}
+          />
+        ),
+        textInput: "Search with farcaster handle",
+        buttons: [
+          <Button action="post" key="1" target="/nominate">
+            Search
+          </Button>,
+          <Button action="post" key="2" target="/">
+            Back
+          </Button>,
+        ],
+        imageOptions: {
+          aspectRatio: "1:1",
+        },
+      };
+    }
     return {
       image: (
         <NominateBuilderError
