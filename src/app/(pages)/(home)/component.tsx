@@ -126,7 +126,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
               alignItems: "center",
             }}
           >
-            <MusicHeadset sx={{ height: 32, width: 32 }} /> {usersCount}
+            <MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />{" "}
+            {usersCount}
           </Typography>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164 }}>
@@ -144,7 +145,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
               alignItems: "center",
             }}
           >
-            <Interface /> {nominationsCount}
+            <Interface sx={{ "&&": { height: 32, width: 32 } }} />{" "}
+            {nominationsCount}
           </Typography>
         </BlockyCard>
       </HeroSection>
