@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/joy";
+import { Link, Stack, Typography } from "@mui/joy";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableNominationsReceivedValues } from "@/app/_api/functions/get-table-nominations-received-values";
 import { getTableNominationsSentValues } from "@/app/_api/functions/get-table-nominations-sent-values";
@@ -58,9 +58,33 @@ export default async function AirdropPage() {
         </Stack>
       </HeroSection>
       <HeroSectionWithOverflow id="nominations">
-        <Typography level="h2" className="no-overflow">
-          Nominations Made
-        </Typography>
+        <Stack
+          sx={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          <Typography
+            level="h2"
+            className="no-overflow"
+            sx={{ marginTop: 0, marginBottom: 0 }}
+          >
+            Nominations Made
+          </Typography>
+          <Link
+            href={`https://warpcast.com/~/compose?text=Just%nominated%20this%20builder%20for%20today%20/build%20nominations&embeds%5B%5D=https://build.top/nominations/${user.wallet}`}
+            target="_blank"
+            sx={{
+              color: "common.white",
+              textDecoration: "underline",
+              marginBottom: 0,
+            }}
+          >
+            Share on Warpcast
+          </Link>
+        </Stack>
         <Stack className="overflow">
           <TableNominationsSent values={nominationsSent} />
         </Stack>

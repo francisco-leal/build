@@ -99,6 +99,14 @@ export default async function NominateBuilder({
             You nominated {builder.username}!<br />
             <small>(You can only nominate each builder once)</small>
           </ModalActionMessage>
+          <ModalActionMessage>
+            <a
+              href={`https://warpcast.com/~/compose?text=Just%nominated%20@${builder.username}%20for%20today%20/build%20nominations&embeds%5B%5D=https://build.top`}
+              target="_blank"
+            >
+              Share on Warpcast
+            </a>
+          </ModalActionMessage>
         </ModalActions>
       </Modal>
     );
