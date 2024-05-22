@@ -135,8 +135,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
           className="no-overflow"
           sx={{ color: "common.white", marginBottom: 2 }}
         >
-          These builders have received few nominations but have received a high
-          signal from other builders.
+          Builders that received valuable nominations, but still have 3 or less
+          total nominations.
         </Typography>
         <Stack className="overflow">
           <TableLeaderboard loading={loading} values={tableLeaderboardValues} />
