@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { Button, Stack, Typography, Link } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { Dice } from "@/shared/icons/dice";
-import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
 export type CardBossPointsProps = {
   points?: number;
