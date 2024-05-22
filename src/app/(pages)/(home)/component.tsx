@@ -1,18 +1,12 @@
 import { FunctionComponent } from "react";
 import { Typography, Stack, Button, Link, Box } from "@mui/joy";
-import { DateTime } from "luxon";
 import { BackgroundImage } from "@/app/_components/background-image";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { IncrementingNumber } from "@/app/_components/incrementing-number";
 import { SearchBuilder } from "@/app/_components/search-builder";
-import {
-  TableLeaderboard,
-  TableLeaderboardValue,
-} from "@/app/_components/table-leaderboard";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
@@ -20,22 +14,14 @@ import { Terminal } from "@/shared/icons/terminal";
 
 type HomePageComponentProps = {
   loading?: boolean;
-  tableLeaderboardValues?: TableLeaderboardValue[];
   nominationsCount?: number;
   usersCount?: number;
 };
 
 export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
-  loading,
-  tableLeaderboardValues,
   nominationsCount,
   usersCount,
 }) => {
-  const now = DateTime.utc().startOf("hour");
-  const shortFormat = "LLL dd, hh:mm a 'UTC'";
-  const lastUpdate = now.toFormat(shortFormat);
-  const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
-
   return (
     <Stack component="main" sx={{ position: "relative" }}>
       <BackgroundImage />
@@ -121,37 +107,6 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             See BUILD budget
           </Button>
         </BlockyCard>
-      </HeroSection>
-      <HeroSectionWithOverflow id="leaderboard">
-        <Typography
-          level="h2"
-          className="no-overflow"
-          textColor={"common.white"}
-        >
-          Undiscovered Builders
-        </Typography>
-        <Typography
-          level="body-sm"
-          className="no-overflow"
-          sx={{ color: "common.white", marginBottom: 2 }}
-        >
-          Builders that received valuable nominations, but still have 3 or less
-          total nominations.
-        </Typography>
-        <Stack className="overflow">
-          <TableLeaderboard loading={loading} values={tableLeaderboardValues} />
-        </Stack>
-      </HeroSectionWithOverflow>
-      <HeroSection
-        sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
-      >
-        <Typography
-          className="no-overflow"
-          level="body-sm"
-          sx={{ color: "common.white" }}
-        >
-          Last update on {lastUpdate}. Next update on {nextUpdate}
-        </Typography>
       </HeroSection>
       <HeroSection>
         <HowToPlay />
