@@ -2,6 +2,7 @@ import { Stack, Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableLeaderboardValues } from "@/app/_api/functions/get-table-leaderboard-values";
+import { getTableUndiscoveredBuildersValues } from "@/app/_api/functions/get-table-undiscovered-builders-values";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { TableLeaderboard } from "@/app/_components/table-leaderboard";
@@ -16,7 +17,9 @@ export default async function AirdropPage() {
   const shortFormat = "LLL dd, hh:mm a 'UTC'";
   const lastUpdate = now.toFormat(shortFormat);
   const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
-  const tableLeaderboardValues = await getTableLeaderboardValues();
+  const topLeaderboardValues = await getTableLeaderboardValues();
+  const undiscoveredBuildersLeaderboardValues =
+    await getTableUndiscoveredBuildersValues();
 
   return (
     <Stack component="main">
@@ -26,10 +29,28 @@ export default async function AirdropPage() {
           className="no-overflow"
           textColor={"common.white"}
         >
+          Undiscovered Builders
+        </Typography>
+        <Typography
+          level="body-sm"
+          className="no-overflow"
+          sx={{ color: "common.white", marginBottom: 2 }}
+        >
+          Builders that received valuable nominations, but still have 3 or less
+          total nominations.
+        </Typography>
+        <Stack className="overflow">
+          <TableLeaderboard values={undiscoveredBuildersLeaderboardValues} />
+        </Stack>
+        <Typography
+          level="h2"
+          className="no-overflow"
+          textColor={"common.white"}
+        >
           Leaderboard
         </Typography>
         <Stack className="overflow">
-          <TableLeaderboard values={tableLeaderboardValues} />
+          <TableLeaderboard values={topLeaderboardValues} />
         </Stack>
         <Typography
           className="no-overflow"
