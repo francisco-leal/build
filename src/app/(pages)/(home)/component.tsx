@@ -1,17 +1,12 @@
 import { FunctionComponent } from "react";
 import { Typography, Stack, Button, Link, Box } from "@mui/joy";
-import { DateTime } from "luxon";
 import { BackgroundImage } from "@/app/_components/background-image";
 import { HowToPlay } from "@/app/_components/how-to-play";
+import { IncrementingNumber } from "@/app/_components/incrementing-number";
 import { SearchBuilder } from "@/app/_components/search-builder";
-import {
-  TableLeaderboard,
-  TableLeaderboardValue,
-} from "@/app/_components/table-leaderboard";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
-import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
@@ -19,18 +14,14 @@ import { Terminal } from "@/shared/icons/terminal";
 
 type HomePageComponentProps = {
   loading?: boolean;
-  tableLeaderboardValues?: TableLeaderboardValue[];
+  nominationsCount?: number;
+  usersCount?: number;
 };
 
 export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
-  loading,
-  tableLeaderboardValues,
+  nominationsCount,
+  usersCount,
 }) => {
-  const now = DateTime.utc().startOf("hour");
-  const shortFormat = "LLL dd, hh:mm a 'UTC'";
-  const lastUpdate = now.toFormat(shortFormat);
-  const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
-
   return (
     <Stack component="main" sx={{ position: "relative" }}>
       <BackgroundImage />
@@ -46,6 +37,32 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
+      <HeroSection
+        sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
+      >
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            Total Builders
+          </Typography>
+          <IncrementingNumber
+            start={usersCount ? usersCount - 50 : 0}
+            end={usersCount ?? 0}
+            interval={1000}
+            icon={<MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />}
+          />
+        </BlockyCard>
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            Total Nominations
+          </Typography>
+          <IncrementingNumber
+            start={nominationsCount ? nominationsCount - 100 : 0}
+            end={nominationsCount ?? 0}
+            interval={500}
+            icon={<Interface sx={{ "&&": { height: 32, width: 32 } }} />}
+          />
+        </BlockyCard>
+      </HeroSection>
       <HeroSection
         sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
       >
@@ -91,26 +108,6 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
           </Button>
         </BlockyCard>
       </HeroSection>
-      <HeroSectionWithOverflow id="leaderboard">
-        <Typography
-          level="h2"
-          className="no-overflow"
-          textColor={"common.white"}
-        >
-          Leaderboard
-        </Typography>
-        <Stack className="overflow">
-          <TableLeaderboard loading={loading} values={tableLeaderboardValues} />
-        </Stack>
-
-        <Typography
-          className="no-overflow"
-          level="body-sm"
-          sx={{ color: "common.white" }}
-        >
-          Last update on {lastUpdate}. Next update on {nextUpdate}
-        </Typography>
-      </HeroSectionWithOverflow>
       <HeroSection>
         <HowToPlay />
       </HeroSection>

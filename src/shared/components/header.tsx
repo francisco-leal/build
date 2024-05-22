@@ -1,6 +1,7 @@
 "use client";
 
 import { FunctionComponent, useRef } from "react";
+import { default as NextLink } from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Box,
@@ -72,8 +73,11 @@ export const Header: FunctionComponent = () => {
           }}
         >
           <Link href="/">Home</Link>
+          <Link disabled={activePath === "leaderboard"} href="/leaderboard">
+            Leaderboard
+          </Link>
           <Link disabled={activePath === "stats"} href="/stats">
-            My Stats
+            My&nbsp;Stats
           </Link>
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             Tokenomics
@@ -158,40 +162,40 @@ export const Header: FunctionComponent = () => {
         }}
       >
         <Link
-          // Prefetch is not recognized by LinkProps, but it's part of Next Link
-          {...{ prefetch: true }}
+          component={NextLink}
+          prefetch={true}
           href="/"
           onClick={drawer.close}
         >
           Home
         </Link>
         <Link
-          // Prefetch is not recognized by LinkProps, but it's part of Next Link
-          {...{ prefetch: true }}
+          component={NextLink}
+          prefetch={true}
           href="/stats"
           onClick={drawer.close}
         >
           My Stats
         </Link>
         <Link
-          // Prefetch is not recognized by LinkProps, but it's part of Next Link
-          {...{ prefetch: true }}
+          component={NextLink}
+          prefetch={true}
           href="/stats#nominations"
           onClick={drawer.close}
         >
           Nominations
         </Link>
         <Link
-          // Prefetch is not recognized by LinkProps, but it's part of Next Link
-          {...{ prefetch: true }}
-          href="/#leaderboard"
+          component={NextLink}
+          prefetch={true}
+          href="/leaderboard"
           onClick={drawer.close}
         >
           Leaderboard
         </Link>
         <Link
-          // Prefetch is not recognized by LinkProps, but it's part of Next Link
-          {...{ prefetch: true }}
+          component={NextLink}
+          prefetch={true}
           href="/tokenomics"
           onClick={drawer.close}
         >

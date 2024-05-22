@@ -1,6 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest } from "next/server";
 import { DateTime } from "luxon";
+import { CacheKey } from "@/app/_api/helpers/cache-keys";
 import { JobTypes } from "@/app/_api/helpers/job-types";
 import { supabase } from "@/db";
 import { computeLeaderboard } from "@/services/crons";
@@ -32,6 +33,7 @@ export async function GET(request: NextRequest) {
       .eq("id", leaderboardUpdate.id);
   }
 
-  revalidateTag("leaderboard");
+  revalidateTag("leaderboard_top_50" satisfies CacheKey);
+  revalidateTag("leaderboard_undiscovered" satisfies CacheKey);
   return Response.json({}, { status: 200 });
 }

@@ -15,10 +15,13 @@ export type WalletInfo = {
   username: string;
   wallet: string;
   allWallets: string[];
+  rank: number;
   image?: string;
   farcasterId?: number;
   passportId?: number;
   userId?: string;
+  farcasterProfileLink?: string;
+  talentProfileLink?: string;
 };
 
 /**
@@ -67,7 +70,7 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
   const newWallets = await supabase
     .from("wallets")
     .upsert(Object.values(wallets))
-    .select("*, users(username, id, wallets(wallet))")
+    .select("*, users(username, id, wallets(wallet), boss_leaderboard(rank))")
     .throwOnError()
     .then((res) =>
       (res.data ?? []).map(
@@ -77,6 +80,7 @@ export const createWallet = async (walletId: string): Promise<WalletInfo> => {
           wallet: wallet.wallet,
           allWallets: wallet.users?.wallets.map((w) => w.wallet) ?? [],
           image: "",
+          rank: wallet.users?.boss_leaderboard?.rank ?? 0,
           farcasterId: wallet.farcaster_id ?? undefined,
           passportId: wallet.passport_id ?? undefined,
           userId: wallet.user_id ?? undefined,
@@ -95,7 +99,7 @@ export const getWallets = async (
 ): Promise<WalletInfo[]> => {
   return await supabase
     .from("wallets")
-    .select("*, users(username, id, wallets(wallet))")
+    .select("*, users(username, id, wallets(wallet), boss_leaderboard(rank))")
     .in("wallet", walletIds)
     .throwOnError()
     .then((res) =>
@@ -106,6 +110,7 @@ export const getWallets = async (
           wallet: wallet.wallet,
           allWallets: wallet.users?.wallets.map((w) => w.wallet) ?? [],
           image: "",
+          rank: wallet.users?.boss_leaderboard?.rank ?? 0,
           farcasterId: wallet.farcaster_id ?? undefined,
           passportId: wallet.passport_id ?? undefined,
           userId: wallet.user_id ?? undefined,
@@ -151,7 +156,15 @@ export const getWalletFromExternal = async (
       talentSocial?.user?.username ??
       bossUser?.username ??
       walledId.toLowerCase(),
+    rank: bossUser?.boss_leaderboard?.rank ?? 0,
     allWallets: allWallets,
+    farcasterProfileLink:
+      farcasterSocial?.fid && farcasterSocial?.username
+        ? `https://warpcast.com/${farcasterSocial.username}`
+        : undefined,
+    talentProfileLink: talentSocial?.passport_id
+      ? `https://passport.talentprotocol.com/profile/${talentSocial.passport_id}`
+      : undefined,
   };
 
   return walletInfo;

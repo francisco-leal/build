@@ -8,7 +8,11 @@ import { getSession } from "@/services/authentication/cookie-session";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
-import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
+import {
+  CACHE_5_MINUTES,
+  CacheKey,
+  CACHE_1_MINUTE,
+} from "../helpers/cache-keys";
 
 type Tables = Database["public"]["Tables"];
 
@@ -142,4 +146,18 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
 
   allWallets.forEach((w) => revalidatePath(`wallet_info_${w.wallet}`));
   return user;
+};
+
+export const getUsersCountOverall = async (): Promise<number> => {
+  return unstable_cache(
+    async () => {
+      const { data: users, count } = await supabase
+        .from("users")
+        .select("id", { count: "exact", head: true });
+
+      return count || 0;
+    },
+    ["users_count"] as CacheKey[],
+    { revalidate: CACHE_1_MINUTE },
+  )();
 };

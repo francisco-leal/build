@@ -6,7 +6,11 @@ import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
-import { CacheKey } from "../helpers/cache-keys";
+import {
+  CacheKey,
+  CACHE_5_MINUTES,
+  CACHE_1_MINUTE,
+} from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
@@ -298,4 +302,18 @@ export const createNewNominationForCurrentUser = async (
   if (!currentUser) throw new BadRequestError("Could not find user");
   if (!walletInfo) throw new BadRequestError("Could not find wallet info");
   return createNewNomination(currentUser, walletInfo, currentUser.wallet);
+};
+
+export const getNominationsCountOverall = async (): Promise<number> => {
+  return unstable_cache(
+    async () => {
+      const { data: nominations, count } = await supabase
+        .from("boss_nominations")
+        .select("id", { count: "exact", head: true });
+
+      return count || 0;
+    },
+    ["nominations_count"] as CacheKey[],
+    { revalidate: CACHE_1_MINUTE },
+  )();
 };

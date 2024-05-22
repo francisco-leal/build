@@ -131,19 +131,12 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                   Or
                 </Typography>
               </Divider>
-              {shareLink ? (
-                <Link
-                  href={shareLink}
-                  sx={{ color: "common.white", textDecoration: "underline" }}
-                  onClick={onShareLink}
-                >
-                  Share your nomination link
-                </Link>
-              ) : (
-                <Typography level="body-lg" sx={{ color: "common.white" }}>
-                  Connect your wallet to share your nomination link
-                </Typography>
-              )}
+              <Link
+                href={"/leaderboard"}
+                sx={{ color: "common.white", textDecoration: "underline" }}
+              >
+                Don&apos;t know who to nominate? Check this leaderboard.
+              </Link>
             </>
           );
         }

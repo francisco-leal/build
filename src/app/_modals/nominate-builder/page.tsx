@@ -40,9 +40,12 @@ export default async function NominateBuilder({
 
   const builderProfile = (
     <ModalBuilderProfile
+      builderRank={builder.rank}
       builderImage={builder.image}
       builderUsername={builder.username}
       builderWallet={builder.wallet}
+      builderFarcasterLink={builder.farcasterProfileLink}
+      builderTalentLink={builder.talentProfileLink}
     />
   );
 
@@ -131,7 +134,7 @@ export default async function NominateBuilder({
           ]}
         />
         <ModalActions>
-          <ModalActionMessage>
+          <ModalActionMessage sx={{ textAlign: "right" }}>
             You are trying to nominate yourself!
             <br />
             Be a good sport and nominate someone else.

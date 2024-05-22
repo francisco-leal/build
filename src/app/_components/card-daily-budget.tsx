@@ -42,7 +42,7 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
 
       <Typography textColor="neutral.500">
         Recalculated daily at <strong>00:00 UTC</strong>, based on Points
-        earned, Builder Score, and Streak.
+        earned, Builder Score, $BUILD Tokens and Streak.
       </Typography>
 
       {recalculate && budget === 0 && (
