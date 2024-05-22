@@ -850,10 +850,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-5.0.18.tgz#eaddac790ee74b70932030f37ebaa9fc76decbd8"
   integrity sha512-YCsoYPTcs713sI7tLtxaPrIhXAXvEetGg5Ry02ivA8qUOb3fQHojbK/X9HLD5OOKvFUNR2Ynkwb1kR1hVKQHpw==
 
-"@frames.js/debugger@^0.2.8":
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/@frames.js/debugger/-/debugger-0.2.8.tgz#265f963d01aa1944f8d67214b29c5d85057ee8aa"
-  integrity sha512-ITYy9gMYieK4S9GonwUvSlerGU++kgW4ZvYjIw/YnhLH7scxvi+notfIEmgtfD0EjT8rwTZTzq/hS7N7dTVghQ==
+"@frames.js/debugger@^0.2.9":
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/@frames.js/debugger/-/debugger-0.2.9.tgz#5b4559a950c4c7fcd6411fcbce3c231efa708672"
+  integrity sha512-RCBLeL3YR1r9ftZgUMn6WzivwLS/cRAXi7ypdxDUQBDWXNakoKKN+WgzPKo24TnYN04LA4ad5ymgH3jaTBO0bA==
   dependencies:
     "@xmtp/xmtp-js" "^11.5.0"
     is-port-reachable "^4.0.0"

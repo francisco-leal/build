@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "frames.js/next";
 import { frames } from "@/app/frames/frames";
+import { appURL } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
@@ -11,9 +12,8 @@ const handler = frames(async (ctx) => {
 
   return {
     image: (
-      <div>
-        <div>landing</div>
-        <div>namo</div>
+      <div tw="relative flex flex-col text-center items-center justify-center">
+        <img src={`${appURL()}/images/frame-landing.png`} tw="w-full" />
       </div>
     ),
     buttons: [
