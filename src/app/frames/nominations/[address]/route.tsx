@@ -27,18 +27,56 @@ const handler = frames(async (ctx) => {
       .reverse()
       .map((n) => getFarcasterUser(n.destinationWallet)),
   );
+  const nominatedUsers = [
+    { username: firstUser?.username, imgUrl: firstUser?.pfp_url },
+    { username: secondUser?.username, imgUrl: secondUser?.pfp_url },
+    { username: thirdUser?.username, imgUrl: thirdUser?.pfp_url },
+  ];
   return {
     image: (
-      <div>
-        <div>builder-daily-nominations</div>
-        <div>{currentFarcasterUser.username}</div>
-        <div>{currentFarcasterUser.pfp_url}</div>
-        <div>{firstUser?.username}</div>
-        <div>{firstUser?.pfp_url}</div>
-        <div>{secondUser?.username}</div>
-        <div>{secondUser?.pfp_url}</div>
-        <div>{thirdUser?.username}</div>
-        <div>{thirdUser?.pfp_url}</div>
+      <div tw="w-full h-full flex flex-col bg-[#0042F5] text-white justify-between items-center p-[20px]">
+        <div tw="flex flex-col bg-[#0042F5] text-white items-center p-[20px]">
+          <div tw="flex p-[40px] mt-[50px] w-auto text-white">
+            <img
+              src={currentFarcasterUser.pfp_url}
+              tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+            />
+            <p
+              tw="font-bold text-[78px]"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              {currentFarcasterUser.username}
+            </p>
+          </div>
+          <div tw="flex px-[20px] bg-white text-[#0042F5] w-auto border-black border-t-4 border-l-4 border-b-15 border-r-15">
+            <p
+              tw="font-bold text-[48px]"
+              style={{ fontFamily: "Bricolage-Bold" }}
+            >
+              Daily Nominations
+            </p>
+          </div>
+        </div>
+
+        <div tw="flex flex-col w-auto text-white items-center mb-[50px] items-start gap-[20px] justify-start">
+          {nominatedUsers.map((user, index) => (
+            <div
+              key={index}
+              tw="flex px-[60px] mb-[50px] w-auto text-white items-start justify-start"
+            >
+              <img
+                src={user.imgUrl}
+                tw="w-[100px] h-[100px] rounded-full mr-[20px] object-cover"
+              />
+              <p
+                tw="font-bold text-[64px]"
+                style={{ fontFamily: "Bricolage-Bold" }}
+              >
+                {user.username}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     ),
     buttons: [
