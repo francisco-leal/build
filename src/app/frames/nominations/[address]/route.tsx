@@ -1,93 +1,114 @@
 import { Button } from "frames.js/next";
-import {
-  createNewNomination,
-  getNominationsFromUserToday,
-} from "@/app/_api/data/nominations";
+import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
-import { frames, getFramesUser } from "@/app/frames/frames";
+import { frames } from "@/app/frames/frames";
+import { appURL } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
+import { NominateBuilderError } from "../../nominate/route";
 
 const handler = frames(async (ctx) => {
-  if (ctx.message && !ctx.message?.isValid) {
-    throw new BadRequestError("Invalid message");
-  }
   const userAddress =
     ctx.url.pathname.split("/frames/nominations/")[1].toLowerCase() ?? "";
-  if (!userAddress) throw new BadRequestError("Missing Wallet address");
+  try {
+    if (ctx.message && !ctx.message?.isValid) {
+      throw new BadRequestError("Invalid message");
+    }
+    if (!userAddress) throw new BadRequestError("Missing Wallet address");
 
-  const [currentUser, currentFarcasterUser] = await Promise.all([
-    getConnectedUserProfile(userAddress),
-    getFarcasterUser(userAddress),
-  ]);
-  if (!currentFarcasterUser) throw new BadRequestError("User not found");
-  const dailyNominations = await getNominationsFromUserToday(currentUser);
-  const [firstUser, secondUser, thirdUser] = await Promise.all(
-    dailyNominations
-      .reverse()
-      .map((n) => getFarcasterUser(n.destinationWallet)),
-  );
-  const nominatedUsers = [
-    { username: firstUser?.username, imgUrl: firstUser?.pfp_url },
-    { username: secondUser?.username, imgUrl: secondUser?.pfp_url },
-    { username: thirdUser?.username, imgUrl: thirdUser?.pfp_url },
-  ];
-  return {
-    image: (
-      <div tw="w-full h-full flex flex-col bg-[#0042F5] text-white justify-between items-center p-[20px]">
-        <div tw="flex flex-col bg-[#0042F5] text-white items-center p-[20px]">
-          <div tw="flex p-[40px] mt-[50px] w-auto text-white">
-            <img
-              src={currentFarcasterUser.pfp_url}
-              tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
-            />
-            <p
-              tw="font-bold text-[78px]"
-              style={{ fontFamily: "Bricolage-Bold" }}
-            >
-              {currentFarcasterUser.username}
-            </p>
-          </div>
-          <div tw="flex px-[20px] bg-white text-[#0042F5] w-auto border-black border-t-4 border-l-4 border-b-15 border-r-15">
-            <p
-              tw="font-bold text-[48px]"
-              style={{ fontFamily: "Bricolage-Bold" }}
-            >
-              Daily Nominations
-            </p>
-          </div>
-        </div>
-
-        <div tw="flex flex-col w-auto text-white items-center mb-[50px] items-start gap-[20px] justify-start">
-          {nominatedUsers.map((user, index) => (
-            <div
-              key={index}
-              tw="flex px-[60px] mb-[50px] w-auto text-white items-start justify-start"
-            >
-              <img
-                src={user.imgUrl}
-                tw="w-[100px] h-[100px] rounded-full mr-[20px] object-cover"
-              />
-              <p
-                tw="font-bold text-[64px]"
-                style={{ fontFamily: "Bricolage-Bold" }}
-              >
-                {user.username}
-              </p>
+    const [currentUser, currentFarcasterUser] = await Promise.all([
+      getConnectedUserProfile(userAddress),
+      getFarcasterUser(userAddress),
+    ]);
+    if (!currentFarcasterUser) throw new BadRequestError("User not found");
+    const dailyNominations = await getNominationsFromUserToday(currentUser);
+    const nominatedUsers = await Promise.all(
+      dailyNominations
+        .reverse()
+        .map((n) => getFarcasterUser(n.destinationWallet))
+        .slice(0, 3),
+    );
+    return {
+      image: (
+        <div tw="relative w-full h-full flex bg-[#0042F5] text-white">
+          <img src={`${appURL()}/images/frame-bg.png`} tw="w-full" />
+          <div tw="absolute top-0 left-0 w-full h-full flex flex-col justify-start p-[20px]">
+            <div tw="flex flex-col text-white items-center p-[20px]">
+              <div tw="flex p-[40px] mt-[50px] w-auto text-white">
+                <img
+                  src={currentFarcasterUser.pfp_url}
+                  tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+                />
+                <p
+                  tw="font-bold text-[78px]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {currentFarcasterUser.username}
+                </p>
+              </div>
+              <div tw="flex px-[20px] bg-white text-[#0042F5] w-auto border-black border-t-4 border-l-4 border-b-15 border-r-15">
+                <p
+                  tw="font-bold text-[48px]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  Daily Nominations
+                </p>
+              </div>
             </div>
-          ))}
+
+            <div tw="flex flex-col w-auto text-white items-center mb-[50px] items-start gap-[20px] justify-start">
+              {nominatedUsers.length > 0 ? (
+                nominatedUsers.map((user, index) => (
+                  <div
+                    key={index}
+                    tw="flex items-center mx-auto mb-[50px] w-auto text-white justify-center"
+                  >
+                    <img
+                      src={user?.pfp_url ? user.pfp_url : ""}
+                      tw="w-[100px] h-[100px] rounded-full mr-[20px] object-cover"
+                    />
+                    <p
+                      tw="font-bold text-[64px]"
+                      style={{ fontFamily: "Bricolage-Bold" }}
+                    >
+                      {user?.username ? user.username : " "}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div tw="flex flex-col mx-auto items-center">
+                  <p tw="text-[48px]">No nominations yet</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-    ),
-    buttons: [
-      <Button action="post" key="1" target="/">
-        Nominate Builders
-      </Button>,
-    ],
-    imageOptions: {
-      aspectRatio: "1:1",
-    },
-  };
+      ),
+      buttons: [
+        <Button action="post" key="1" target="/nominate">
+          Nominate Builders
+        </Button>,
+      ],
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
+    };
+  } catch (error) {
+    return {
+      image: (
+        <NominateBuilderError
+          builderImage={undefined}
+          builderUsername={`${userAddress.slice(0, 8)}...${userAddress.slice(-4)}`}
+          errorTitle="Builder not found"
+          errorMessage=""
+        />
+      ),
+      buttons: [],
+      imageOptions: {
+        aspectRatio: "1:1",
+      },
+    };
+  }
 });
 
 export const GET = handler;
