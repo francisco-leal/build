@@ -4,29 +4,28 @@ import { unstable_cache } from "next/cache";
 import { supabase } from "@/db";
 import { TableLeaderboardValue } from "../../_components/table-leaderboard";
 import { getCurrentUser } from "../data/users";
-import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
+import { CacheKey } from "../helpers/cache-keys";
 
-const getLeaderboardTop50 = unstable_cache(
-  async () => {
-    const { data: leaderboardData } = await supabase
-      .from("boss_leaderboard")
-      .select("*, users(farcaster_id, passport_id)")
-      .order("rank", { ascending: true })
-      .order("passport_builder_score", { ascending: false })
-      .limit(50)
-      .throwOnError();
+const getLeaderboardUndiscoveredBuilders = unstable_cache(async () => {
+  const { data: leaderboardData } = await supabase
+    .from("boss_leaderboard")
+    .select("*, users(farcaster_id, passport_id)")
+    .gt("nominations_received", 1)
+    .lt("nominations_received", 4)
+    .gt("passport_builder_score", 10)
+    .gt("boss_score", 6000)
+    .order("boss_score", { ascending: false })
+    .limit(10)
+    .throwOnError();
 
-    return leaderboardData ?? [];
-  },
-  ["leaderboard_top_50" satisfies CacheKey],
-  { revalidate: CACHE_5_MINUTES },
-);
+  return leaderboardData ?? [];
+}, ["leaderboard_undiscovered" satisfies CacheKey]);
 
-export const getTableLeaderboardValues = async (): Promise<
+export const getTableUndiscoveredBuildersValues = async (): Promise<
   TableLeaderboardValue[]
 > => {
   const user = await getCurrentUser();
-  const leaderboard = await getLeaderboardTop50();
+  const leaderboard = await getLeaderboardUndiscoveredBuilders();
   const containsUser = leaderboard.some((l) => l.user_id === user?.id);
 
   if (!containsUser && user?.boss_leaderboard) {

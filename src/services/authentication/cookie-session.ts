@@ -25,7 +25,7 @@ export async function getSession(): Promise<SessionUser | null> {
           password: sessionPassword,
         })) as string)
       : null;
-  
+
     return session ? (JSON.parse(session) as SessionUser) : null;
   } catch (e) {
     rollbarWarn("Unable to retrieve existing user session", e as Error);

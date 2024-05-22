@@ -2,7 +2,8 @@ export type CacheKey =
   | `user_${string}`
   | `wallet_info_${string}`
   | "nominations"
-  | "leaderboard"
+  | "leaderboard_top_50"
+  | "leaderboard_undiscovered"
   | "search_builders"
   | `talent_protocol_${string}`
   | `talent_protocol_search_${string}`
