@@ -19,7 +19,6 @@ const getLeaderboardTop50 = unstable_cache(
     return leaderboardData ?? [];
   },
   ["leaderboard_top_50" satisfies CacheKey],
-  { revalidate: CACHE_5_MINUTES },
 );
 
 export const getTableLeaderboardValues = async (): Promise<
