@@ -167,7 +167,9 @@ export const getNominationsUserReceived = async (
   );
 };
 
-export const getNominationsFromUserToday = async (user: User) => {
+export const getNominationsFromUserToday = async (
+  user: User,
+): Promise<Nomination[]> => {
   const nominations = await getNominationsUserSent(user);
   const fromDate = DateTime.utc().startOf("day");
   const toDate = fromDate.plus({ hours: 24 });
