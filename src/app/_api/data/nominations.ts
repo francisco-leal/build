@@ -272,6 +272,24 @@ export const createNewNomination = async (
     });
   }
 
+  // call the buildbot API
+  const buildbotResponse = await fetch(`${process.env.BUILDBOT_API_URL}/webhooks/mentions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-webhook-key": `${process.env.BUILDBOT_WEBHOOK_KEY}`,
+    },
+    body: JSON.stringify({
+      points: balances.pointsGiven,
+      nominatorWallet: origin_wallet_id,
+      nominatedWallet: nominatedWallet.wallet,
+    }),
+  })
+
+  if (!buildbotResponse.ok) {
+    console.error(`an error occurred while calling the buildbot API`)
+  }
+
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
   revalidatePath(`/nominate/${nominatedWallet.wallet}`);
