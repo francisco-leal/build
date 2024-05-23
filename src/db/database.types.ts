@@ -131,6 +131,7 @@ export type Database = {
           created_at: string;
           farcaster_id: number | null;
           id: string;
+          last_wallet: string | null;
           manifesto_nft_token_id: number | null;
           passport_builder_score: number;
           passport_id: number | null;
@@ -144,6 +145,7 @@ export type Database = {
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
+          last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
@@ -157,6 +159,7 @@ export type Database = {
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
+          last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
@@ -214,6 +217,10 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
+      calculate_boss_budget_temp: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
       calculate_boss_budget_user: {
         Args: {
           user_to_update: string;
@@ -224,8 +231,21 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
+      increment_nomination_streak_for_yesterday: {
+        Args: {
+          target_date: string;
+        };
+        Returns: undefined;
+      };
       reset_nomination_streak: {
         Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
+      update_boss_budget_batch: {
+        Args: {
+          batch_size: number;
+          offset_value: number;
+        };
         Returns: undefined;
       };
       update_boss_daily_streak_for_user: {
