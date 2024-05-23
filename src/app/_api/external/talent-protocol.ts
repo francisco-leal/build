@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { rollbarError } from "@/services/rollbar";
+import { User } from "../data/users";
 import { CACHE_5_MINUTES } from "../helpers/cache-keys";
 import { CacheKey } from "../helpers/cache-keys";
 
@@ -83,4 +84,44 @@ export const getTalentProtocolUser = async (walletId: string) => {
     [`talent_protocol_${walletId}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )(walletId);
+};
+
+export const resyncPassportForUser = async (user: User) => {
+  const wallets = user.wallets.map((wallet) => wallet.wallet);
+
+  const api_url = process.env.PASSPORT_API_URL;
+  const api_token = process.env.PASSPORT_API_TOKEN;
+
+  if (!api_token || !api_url) {
+    throw new Error("API token or URL not found");
+  }
+  const url = `${api_url}/api/v2/passports`;
+  const headers = {
+    "Content-Type": "application/json",
+    "X-API-KEY": api_token || "",
+  };
+
+  const passports = await Promise.all(
+    wallets.map(async (wallet) => {
+      return fetch(`${url}/${wallet}`, { headers });
+    }),
+  );
+
+  const passportData = (await Promise.all(
+    passports.map(async (passport) => {
+      if (passport.ok) {
+        return passport.json();
+      }
+      return null;
+    }),
+  )) as PassportResponse[];
+
+  // find the passport with the highest score
+  const highestScore = passportData.reduce((acc, curr) => {
+    if (!curr) return acc;
+    if (!acc) return curr;
+    return curr.passport.score > (acc?.passport?.score ?? 0) ? curr : acc;
+  }, {} as PassportResponse);
+
+  return highestScore.passport;
 };
