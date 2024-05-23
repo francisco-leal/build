@@ -18,8 +18,7 @@ export default async function AirdropPage() {
   const lastUpdate = now.toFormat(shortFormat);
   const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
   const topLeaderboardValues = await getTableLeaderboardValues();
-  const undiscoveredBuildersLeaderboardValues =
-    await getTableUndiscoveredBuildersValues();
+  const undiscoveredBoardValues = await getTableUndiscoveredBuildersValues();
 
   return (
     <Stack component="main">
@@ -40,7 +39,7 @@ export default async function AirdropPage() {
           total nominations.
         </Typography>
         <Stack className="overflow">
-          <TableLeaderboard values={undiscoveredBuildersLeaderboardValues} />
+          <TableLeaderboard values={undiscoveredBoardValues} />
         </Stack>
         <Typography
           level="h2"

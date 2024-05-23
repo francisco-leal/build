@@ -16,6 +16,7 @@ export const getTableNominationsReceivedValues = async (): Promise<
       key: `${n.createdAt}-${n.destinationWallet}`,
       date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
       name: n.originUsername,
+      walletAddress: n.originWallet,
       rank: n.originRank,
       pointsGiven: n.bossPointsSent,
       pointsEarned: n.bossPointsReceived,

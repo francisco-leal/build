@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
-import { Box, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { default as NextLink } from "next/link";
+import { Box, Link, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 
@@ -52,7 +53,15 @@ export const TableNominationsSent: FunctionComponent<
                 </>
               ) : (
                 <>
-                  <td> {abbreviateWalletAddress(val.name)}</td>
+                  <td>
+                    <Link
+                      component={NextLink}
+                      href={`/nominate/${val.wallet}`}
+                      scroll={false}
+                    >
+                      {abbreviateWalletAddress(val.name)}
+                    </Link>
+                  </td>
                   <td>{val.rank ?? "---"}</td>
                   <td>{formatLargeNumber(val.pointsGiven ?? 0)}</td>
                 </>
