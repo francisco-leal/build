@@ -7,9 +7,13 @@ export const TalentProtocolLink = ({ passportId }: { passportId: number }) => {
       href={`https://passport.talentprotocol.com/profile/${passportId}`}
       target="_blank"
       variant="outlined"
-      sx={{ color: "primary.500", alignSelf: "flex-end" }}
+      sx={{
+        color: "primary.500",
+        alignSelf: "flex-end",
+        "&:hover": { backgroundColor: "primary.400" },
+      }}
     >
-      <TalentProtocol sx={{ p: 0.25, width: 16, height: 16 }} />
+      <TalentProtocol sx={{ width: 16, height: 16 }} />
     </Link>
   );
 };

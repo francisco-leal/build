@@ -57,8 +57,10 @@ export default async function NominateBuilder({
       builderImage={builder.image}
       builderUsername={builder.username}
       builderWallet={builder.wallet}
-      builderFarcasterLink={builder.farcasterProfileLink}
-      builderTalentLink={builder.talentProfileLink}
+      builderTalentId={builder.passportId}
+      builderFarcasterUsername={
+        builder.farcasterId ? builder.username : undefined
+      }
     />
   );
 

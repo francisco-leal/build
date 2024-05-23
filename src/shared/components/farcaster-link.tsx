@@ -7,9 +7,13 @@ export const FarcasterLink = ({ username }: { username: string }) => {
       href={`https://warpcast.com/${username}`}
       target="_blank"
       variant="outlined"
-      sx={{ color: "primary.500", alignSelf: "flex-end" }}
+      sx={{
+        color: "primary.500",
+        alignSelf: "flex-end",
+        "&:hover": { backgroundColor: "primary.400" },
+      }}
     >
-      <Farcaster sx={{ p: 0.25, width: 16, height: 16 }} />
+      <Farcaster sx={{ width: 16, height: 16 }} />
     </Link>
   );
 };

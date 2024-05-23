@@ -175,8 +175,10 @@ export const ModalBuilderProfile: FunctionComponent<{
     <Typography level="body-sm" sx={{ mb: 0 }}>
       {loading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
     </Typography>
-    <Stack direction="row" gap={1} justifyContent={"center"}>
-      {builderTalentId && <TalentProtocolLink passportId={builderTalentId} />}
+    <Stack direction="row" spacing={0.5} pt={1} justifyContent={"center"}>
+      {builderTalentId && !loading && (
+        <TalentProtocolLink passportId={builderTalentId} />
+      )}
       {builderFarcasterUsername && !loading && (
         <FarcasterLink username={builderFarcasterUsername} />
       )}
