@@ -190,14 +190,15 @@ export const isSelfNomination = async (
 };
 
 export const isUpdatingLeaderboard = async () => {
-  const { data: updates } = await supabase
-    .from("scheduled_updates")
-    .select("*")
-    .is("finished_at", null)
-    .eq("job_type", "leaderboard" satisfies JobTypes);
+  // disable this for now
+  // const { data: updates } = await supabase
+  //   .from("scheduled_updates")
+  //   .select("*")
+  //   .is("finished_at", null)
+  //   .eq("job_type", "leaderboard" satisfies JobTypes);
 
-  if (!updates) return true;
-  if (updates.length > 0) return true;
+  // if (!updates) return true;
+  // if (updates.length > 0) return true;
   return false;
 };
 
