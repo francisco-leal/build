@@ -25,10 +25,8 @@ export function getWarpcastSharableLinkSingleBuilder(
   builderUsername: string,
   userWallet: string,
 ): string {
-  console.log(builderUsername, userWallet);
   let sharableText = `I just nominated @${builderUsername} for /build because...`;
   let sharableTextUriEncoded = "";
-  console.log(sharableText);
   try {
     sharableTextUriEncoded = encodeURI(sharableText);
   } catch (e) {
