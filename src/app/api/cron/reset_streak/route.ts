@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     .from("scheduled_updates")
     .insert({
       job_type: "nomination_streak" as JobTypes,
-      started_at: DateTime.utc().toISODate(),
+      started_at: DateTime.utc().toISO(),
     })
     .select("*")
     .single();
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     await supabase
       .from("scheduled_updates")
       .update({
-        finished_at: DateTime.utc().toISODate(),
+        finished_at: DateTime.utc().toISO(),
       })
       .eq("id", resetMissedStreaksUpdate.id);
   }

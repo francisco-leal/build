@@ -24,7 +24,7 @@ export const recalculateBuilderBudget = async (): Promise<number> => {
   }
 
   revalidateTag(`user_${user.id}` as CacheKey);
-  revalidatePath("/airdrop");
+  revalidatePath("/stats");
 
   return result.data;
 };

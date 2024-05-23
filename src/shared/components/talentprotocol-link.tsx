@@ -1,21 +1,19 @@
 import { Link } from "@mui/joy";
 import { TalentProtocol } from "../icons/talent-protocol";
 
-export const TalentProtocolLink = ({
-  passport_id,
-}: {
-  passport_id: number | undefined;
-}) => {
-  if (!passport_id) return null;
-
+export const TalentProtocolLink = ({ passportId }: { passportId: number }) => {
   return (
     <Link
-      href={`https://passport.talentprotocol.com/profile/${passport_id}`}
+      href={`https://passport.talentprotocol.com/profile/${passportId}`}
       target="_blank"
       variant="outlined"
-      sx={{ color: "primary.500", alignSelf: "flex-end" }}
+      sx={{
+        color: "primary.500",
+        alignSelf: "flex-end",
+        "&:hover": { backgroundColor: "primary.400" },
+      }}
     >
-      <TalentProtocol sx={{ p: 0.25, width: 16, height: 16 }} />
+      <TalentProtocol sx={{ width: 16, height: 16 }} />
     </Link>
   );
 };

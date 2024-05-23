@@ -1,4 +1,4 @@
-export default async function HomePageLayout({
+export default async function StatsPageLayout({
   children,
   modal,
 }: {
