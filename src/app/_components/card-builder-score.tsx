@@ -56,6 +56,13 @@ export const CardBuilderScore: FunctionComponent<
         color="primary"
         loading={isTransition}
         onClick={() => recalculateScore()}
+        sx={{
+          "& svg": {
+            color: "primary.500",
+            width: 20,
+            height: 20,
+          },
+        }}
       >
         Refresh Score
       </Button>
