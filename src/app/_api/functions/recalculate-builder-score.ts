@@ -3,13 +3,15 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { supabase } from "@/db";
 import { rollbarError } from "@/services/rollbar";
+import { BadRequestError } from "@/shared/utils/error";
 import { getCurrentUser } from "../data/users";
 import { resyncPassportForUser } from "../external/talent-protocol";
 import { CacheKey } from "../helpers/cache-keys";
 
 export const recalculateBuilderScore = async (): Promise<number> => {
   const user = await getCurrentUser();
-  if (!user) return 0;
+  if (!user)
+    throw new BadRequestError("You must have a wallet connected to refresh!");
 
   const highestPassport = await resyncPassportForUser(user);
   await supabase
@@ -18,7 +20,8 @@ export const recalculateBuilderScore = async (): Promise<number> => {
       passport_id: highestPassport.passport_id,
       passport_builder_score: highestPassport.score,
     })
-    .eq("id", user.id);
+    .eq("id", user.id)
+    .throwOnError();
 
   if (user.boss_budget === 0) {
     const result = await supabase.rpc("calculate_boss_budget_user", {
@@ -26,10 +29,10 @@ export const recalculateBuilderScore = async (): Promise<number> => {
     });
 
     if (result.error) {
-      rollbarError(
-        `Error Recalculating builder budget: ${result.error.message}`,
+      rollbarError("Error Recalculating builder budget", result.error.message);
+      throw new BadRequestError(
+        "Couldn't update your budget, try again later.",
       );
-      return 0;
     }
   }
 

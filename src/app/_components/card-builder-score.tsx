@@ -3,6 +3,7 @@
 import { FunctionComponent } from "react";
 import { useTransition } from "react";
 import { Button, Stack, Typography, Link } from "@mui/joy";
+import { toast } from "sonner";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { UserShield } from "@/shared/icons/user-shield";
 import { formatNumber } from "@/shared/utils/format-number";
@@ -20,7 +21,7 @@ export const CardBuilderScore: FunctionComponent<
 
   const recalculateScore = () =>
     transition(() => {
-      if (recalculate) recalculate();
+      if (recalculate) recalculate().catch((e) => toast.error(e.message));
     });
 
   return (
