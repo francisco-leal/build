@@ -9,7 +9,7 @@ import { CacheKey } from "../helpers/cache-keys";
 const getLeaderboardUndiscoveredBuilders = unstable_cache(async () => {
   const { data: leaderboardData } = await supabase
     .from("boss_leaderboard")
-    .select("*, users(farcaster_id, passport_id)")
+    .select("*, users(farcaster_id, passport_id, last_wallet)")
     .gt("nominations_received", 1)
     .lt("nominations_received", 4)
     .gt("passport_builder_score", 10)
@@ -26,14 +26,6 @@ export const getTableUndiscoveredBuildersValues = async (): Promise<
 > => {
   const user = await getCurrentUser();
   const leaderboard = await getLeaderboardUndiscoveredBuilders();
-  const containsUser = leaderboard.some((l) => l.user_id === user?.id);
-
-  if (!containsUser && user?.boss_leaderboard) {
-    leaderboard.push({
-      ...user.boss_leaderboard,
-      users: { farcaster_id: null, passport_id: null },
-    });
-  }
 
   return leaderboard
     .filter((v) => !!v.id)
@@ -45,7 +37,8 @@ export const getTableUndiscoveredBuildersValues = async (): Promise<
       bossScore: entry.boss_score,
       nominationsReceived: entry.nominations_received,
       rank: entry.rank?.toString() ?? "---",
-      farcaster_id: entry.users?.farcaster_id ?? undefined,
-      passport_id: entry.users?.passport_id ?? undefined,
+      farcasterId: entry.users?.farcaster_id ?? null,
+      passportId: entry.users?.passport_id ?? null,
+      walletAddress: entry.users?.last_wallet ?? null,
     }));
 };

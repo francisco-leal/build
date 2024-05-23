@@ -6,10 +6,8 @@ import {
   Avatar,
   Badge,
   Button,
-  Chip,
   Divider,
   Modal as JoyModal,
-  Link,
   ModalClose,
   ModalDialog,
   ModalOverflow,
@@ -22,6 +20,8 @@ import { SxProps } from "@mui/joy/styles/types";
 import { toast } from "sonner";
 import { createNewNominationForCurrentUser } from "@/app/_api/data/nominations";
 import { forcePathRevalidation } from "@/app/_api/functions/force-path-revalidation";
+import { FarcasterLink } from "@/shared/components/farcaster-link";
+import { TalentProtocolLink } from "@/shared/components/talentprotocol-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 
 export const Modal: FunctionComponent<{
@@ -142,16 +142,16 @@ export const ModalBuilderProfile: FunctionComponent<{
   builderImage?: string;
   builderUsername?: string;
   builderWallet?: string;
-  builderFarcasterLink?: string;
-  builderTalentLink?: string;
+  builderFarcasterUsername?: string;
+  builderTalentId?: number;
 }> = ({
   loading,
   builderImage,
   builderUsername,
   builderWallet,
   builderRank,
-  builderFarcasterLink,
-  builderTalentLink,
+  builderFarcasterUsername,
+  builderTalentId,
 }) => (
   <Stack sx={{ alignItems: "center", mt: 2 }}>
     {loading ? (
@@ -172,30 +172,17 @@ export const ModalBuilderProfile: FunctionComponent<{
     <Typography level="title-lg" textColor="common.black" sx={{ mb: 0 }}>
       {loading ? "---" : builderUsername}
     </Typography>
-    <Stack direction="row" gap={0.5} width={"100%"} justifyContent={"center"}>
-      <Link
-        disabled={!builderFarcasterLink}
-        href={builderFarcasterLink ?? "#"}
-        target="_blank"
-        level="body-sm"
-        sx={{ width: 200, alignItems: "center", justifyContent: "flex-end" }}
-      >
-        {loading ? "---" : "Farcaster "}
-      </Link>
-      <Divider orientation="vertical" sx={{ bgcolor: "neutral.400" }} />
-      <Link
-        disabled={!builderTalentLink}
-        href={builderTalentLink ?? "#"}
-        target="_blank"
-        level="body-sm"
-        sx={{ width: 200, alignItems: "center", justifyContent: "flex-start" }}
-      >
-        {loading ? "---" : "Talent"}
-      </Link>
-    </Stack>
     <Typography level="body-sm" sx={{ mb: 0 }}>
       {loading ? "---" : abbreviateWalletAddress(builderWallet ?? "")}
     </Typography>
+    <Stack direction="row" spacing={0.5} pt={1} justifyContent={"center"}>
+      {builderTalentId && !loading && (
+        <TalentProtocolLink passportId={builderTalentId} />
+      )}
+      {builderFarcasterUsername && !loading && (
+        <FarcasterLink username={builderFarcasterUsername} />
+      )}
+    </Stack>
   </Stack>
 );
 

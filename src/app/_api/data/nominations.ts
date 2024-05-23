@@ -3,14 +3,9 @@
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { DateTime, Interval } from "luxon";
 import { supabase } from "@/db";
-import { getSession } from "@/services/authentication/cookie-session";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
-import {
-  CacheKey,
-  CACHE_5_MINUTES,
-  CACHE_1_MINUTE,
-} from "../helpers/cache-keys";
+import { CacheKey, CACHE_1_MINUTE } from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
@@ -22,6 +17,7 @@ export type Nomination = {
   bossPointsSent: number;
   originUserId: string;
   originUsername: string;
+  originWallet: string;
   originRank: number | null;
   destinationWallet: string;
   destinationUsername: string;
@@ -34,6 +30,7 @@ const SELECT_NOMINATIONS_FROM_USER = `
   boss_points_received,
   boss_points_sent,
   origin_user_id,
+  origin_wallet_id,
   destination_wallet_id,
   created_at,
   wallets (
@@ -93,6 +90,7 @@ export const getNomination = async (
     originUserId: nomination.origin_user_id,
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
     originRank: user.boss_leaderboard?.rank ?? null,
+    originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
     bossPointsReceived: nomination.boss_points_received,
     bossPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
@@ -121,6 +119,7 @@ export const getNominationsUserSent = async (
       originUserId: user.id,
       originUsername: user.username ?? "", // TODO: a default here should be redundant.
       originRank: user.boss_leaderboard?.rank ?? null,
+      originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
       bossPointsReceived: nomination.boss_points_received,
       bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
@@ -154,6 +153,7 @@ export const getNominationsUserReceived = async (
       originUserId: nomination.origin_user_id,
       originUsername: nomination?.users?.username ?? "",
       originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
+      originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
       bossPointsReceived: nomination.boss_points_received,
       bossPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
@@ -284,6 +284,7 @@ export const createNewNomination = async (
     originUserId: nomination.origin_user_id,
     originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
     originRank: nominatorUser.boss_leaderboard?.rank ?? null,
+    originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
     bossPointsReceived: nomination.boss_points_received,
     bossPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,

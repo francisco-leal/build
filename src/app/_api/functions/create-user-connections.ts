@@ -55,6 +55,11 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     .upsert(allWallets.map((w) => ({ ...w })))
     .throwOnError();
 
+  await supabase
+    .from("users")
+    .upsert({ id: user.id, last_wallet: newWallet })
+    .throwOnError();
+
   if (user.boss_budget === 0) {
     const result = await supabase.rpc("calculate_boss_budget_user", {
       user_to_update: user.id,
