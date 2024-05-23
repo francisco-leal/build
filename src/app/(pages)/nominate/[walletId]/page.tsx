@@ -17,7 +17,7 @@ import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
 import { formatLargeNumber } from "@/shared/utils/format-number";
-import { getWarpcastSharableLink } from "@/shared/utils/sharable-warpcast-link";
+import { getWarpcastSharableLinkSingleBuilder } from "@/shared/utils/sharable-warpcast-link";
 import {
   Modal,
   ModalActionMessage,
@@ -89,8 +89,8 @@ export default async function NominateBuilder({
 
   const userBalances = await getUserBalances(currentUser);
   const todaysNominations = await getNominationsFromUserToday(currentUser);
-  const sharableWarpcastLink = getWarpcastSharableLink(
-    todaysNominations,
+  const sharableWarpcastLink = getWarpcastSharableLinkSingleBuilder(
+    builder.username,
     currentUser.wallet,
   );
   const previousNomination = await getNomination(currentUser, builder);

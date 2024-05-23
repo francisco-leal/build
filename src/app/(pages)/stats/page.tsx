@@ -88,24 +88,26 @@ export default async function AirdropPage() {
             </Typography>
           </Grid>
           <Grid xs={2} sm alignContent="center" padding={0}>
-            <Stack
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "end",
-                padding: 0,
-              }}
-            >
-              <Button
-                href={sharableWarpcastLink}
-                target="_blank"
-                component={Link}
-                variant="solid"
-                color="neutral"
+            {todayNominations?.length > 0 && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "end",
+                  padding: 0,
+                }}
               >
-                Share
-              </Button>
-            </Stack>
+                <Button
+                  href={sharableWarpcastLink}
+                  target="_blank"
+                  component={Link}
+                  variant="solid"
+                  color="neutral"
+                >
+                  Share
+                </Button>
+              </Stack>
+            )}
           </Grid>
         </Grid>
         <Stack className="overflow">
