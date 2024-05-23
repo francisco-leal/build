@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { fetchMetadata } from "frames.js/next";
 import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
-import Nothing from "../../(home)/@modal/page";
+import Nothing from "../../@modal/(home)/page";
 
 const description = [
   "BUILD is a meme and a social game designed to reward builders via",

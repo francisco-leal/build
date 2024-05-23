@@ -23,7 +23,7 @@ import {
   ModalGoBackButton,
   ModalNominationValues,
   ModalSubmitButton,
-} from "./components";
+} from "../../(pages)/nominate/[walletId]/components";
 
 export const maxDuration = 60;
 
@@ -46,8 +46,8 @@ export default async function NominateBuilder({
       builderImage={builder.image}
       builderUsername={builder.username}
       builderWallet={builder.wallet}
-      builderFarcasterLink={builder.farcasterProfileLink}
-      builderTalentLink={builder.talentProfileLink}
+      // builderFarcasterLink={builder.farcasterProfileLink}
+      // builderTalentLink={builder.talentProfileLink}
     />
   );
 
