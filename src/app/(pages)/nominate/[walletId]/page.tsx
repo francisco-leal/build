@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { Button, Grid, Link } from "@mui/joy";
 import { fetchMetadata } from "frames.js/next";
 import { DateTime } from "luxon";
 import {
@@ -16,6 +17,7 @@ import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
 import { formatLargeNumber } from "@/shared/utils/format-number";
+import { getWarpcastSharableLink } from "@/shared/utils/sharable-warpcast-link";
 import {
   Modal,
   ModalActionMessage,
@@ -87,6 +89,10 @@ export default async function NominateBuilder({
 
   const userBalances = await getUserBalances(currentUser);
   const todaysNominations = await getNominationsFromUserToday(currentUser);
+  const sharableWarpcastLink = getWarpcastSharableLink(
+    todaysNominations,
+    currentUser.wallet,
+  );
   const previousNomination = await getNomination(currentUser, builder);
   if (previousNomination) {
     const previousDate = DateTime.fromISO(previousNomination.createdAt);
@@ -110,10 +116,41 @@ export default async function NominateBuilder({
           ]}
         />
         <ModalActions>
-          <ModalActionMessage>
-            You nominated {builder.username}!<br />
-            <small>(You can only nominate each builder once)</small>
-          </ModalActionMessage>
+          <Grid
+            container
+            spacing={3}
+            sx={{
+              width: "100%",
+              paddingRight: "32px",
+            }}
+          >
+            <Grid xs={12} sm></Grid>
+            <Grid xs={10} sm={6} alignContent="center">
+              <ModalActionMessage>
+                You nominated {builder.username}!<br />
+                <small>(You can only nominate each builder once)</small>
+              </ModalActionMessage>
+            </Grid>
+            <Grid
+              xs={2}
+              sm
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+                alignContent: "center",
+              }}
+            >
+              <Button
+                href={sharableWarpcastLink}
+                target="_blank"
+                component={Link}
+                variant="solid"
+                color="primary"
+              >
+                Share
+              </Button>
+            </Grid>
+          </Grid>
         </ModalActions>
       </Modal>
     );
