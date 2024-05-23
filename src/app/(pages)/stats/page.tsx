@@ -1,4 +1,5 @@
-import { Link, Stack, Typography } from "@mui/joy";
+import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
+import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableNominationsReceivedValues } from "@/app/_api/functions/get-table-nominations-received-values";
 import { getTableNominationsSentValues } from "@/app/_api/functions/get-table-nominations-sent-values";
@@ -17,6 +18,7 @@ import { default as backgroundImage } from "@/app/_images/icons-background.png";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
+import { getWarpcastSharableLink } from "@/shared/utils/sharable-warpcast-link";
 
 export default async function AirdropPage() {
   const user = await getCurrentUser();
@@ -24,6 +26,11 @@ export default async function AirdropPage() {
 
   const nominationsSent = await getTableNominationsSentValues();
   const nominationsReceived = await getTableNominationsReceivedValues();
+  const todayNominations = await getNominationsFromUserToday(user);
+  const sharableWarpcastLink = getWarpcastSharableLink(
+    todayNominations,
+    user.wallet,
+  );
 
   return (
     <Stack component="main" sx={{ color: "common.white" }}>
@@ -58,33 +65,48 @@ export default async function AirdropPage() {
         </Stack>
       </HeroSection>
       <HeroSectionWithOverflow id="nominations">
-        <Stack
+        <Grid
+          container
+          spacing={1}
           sx={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
+            width: "100%",
+            paddingRight: "32px",
           }}
         >
-          <Typography
-            level="h2"
-            className="no-overflow"
-            sx={{ marginTop: 0, marginBottom: 0 }}
-          >
-            Nominations Made
-          </Typography>
-          <Link
-            href={`https://warpcast.com/~/compose?text=Just%nominated%20this%20builder%20for%20today%20/build%20nominations&embeds%5B%5D=https://build.top/nominations/${user.wallet}`}
-            target="_blank"
-            sx={{
-              color: "common.white",
-              textDecoration: "underline",
-              marginBottom: 0,
-            }}
-          >
-            Share on Warpcast
-          </Link>
-        </Stack>
+          <Grid xs={12} sm></Grid>
+          <Grid xs={10} sm={6} alignContent="center">
+            <Typography
+              level="h2"
+              className="no-overflow"
+              sx={{
+                width: "100%",
+                margin: 0,
+              }}
+            >
+              Nominations Made
+            </Typography>
+          </Grid>
+          <Grid xs={2} sm alignContent="center" padding={0}>
+            <Stack
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "end",
+                padding: 0,
+              }}
+            >
+              <Button
+                href={sharableWarpcastLink}
+                target="_blank"
+                component={Link}
+                variant="solid"
+                color="neutral"
+              >
+                Share
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
         <Stack className="overflow">
           <TableNominationsSent values={nominationsSent} />
         </Stack>

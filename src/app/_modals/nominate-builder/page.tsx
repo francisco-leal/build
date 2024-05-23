@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { Button, Grid, Link } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
   getNomination,
@@ -13,6 +14,7 @@ import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { formatLargeNumber } from "@/shared/utils/format-number";
+import { getWarpcastSharableLink } from "@/shared/utils/sharable-warpcast-link";
 import {
   Modal,
   ModalActionMessage,
@@ -75,6 +77,12 @@ export default async function NominateBuilder({
   const previousNomination = await getNomination(currentUser, builder);
   if (previousNomination) {
     const previousDate = DateTime.fromISO(previousNomination.createdAt);
+
+    const sharableWarpcastLink = getWarpcastSharableLink(
+      todaysNominations,
+      currentUser.wallet,
+    );
+
     return (
       <Modal title="Nominated Builder" disableGoBack={disableGoBack}>
         {builderProfile}
@@ -94,19 +102,43 @@ export default async function NominateBuilder({
             },
           ]}
         />
+
         <ModalActions>
-          <ModalActionMessage>
-            You nominated {builder.username}!<br />
-            <small>(You can only nominate each builder once)</small>
-          </ModalActionMessage>
-          <ModalActionMessage>
-            <a
-              href={`https://warpcast.com/~/compose?text=Just%nominated%20@${builder.username}%20for%20today%20/build%20nominations&embeds%5B%5D=https://build.top`}
-              target="_blank"
+          <Grid
+            container
+            spacing={3}
+            sx={{
+              width: "100%",
+              paddingRight: "32px",
+            }}
+          >
+            <Grid xs={12} sm></Grid>
+            <Grid xs={10} sm={6} alignContent="center">
+              <ModalActionMessage>
+                You nominated {builder.username}!<br />
+                <small>(You can only nominate each builder once)</small>
+              </ModalActionMessage>
+            </Grid>
+            <Grid
+              xs={2}
+              sm
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+                alignContent: "center",
+              }}
             >
-              Share on Warpcast
-            </a>
-          </ModalActionMessage>
+              <Button
+                href={sharableWarpcastLink}
+                target="_blank"
+                component={Link}
+                variant="solid"
+                color="primary"
+              >
+                Share
+              </Button>
+            </Grid>
+          </Grid>
         </ModalActions>
       </Modal>
     );
