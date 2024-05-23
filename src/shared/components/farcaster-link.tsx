@@ -1,16 +1,7 @@
 import { Link } from "@mui/joy";
 import { Farcaster } from "../icons/farcaster";
 
-export const FarcasterLink = ({
-  farcaster_id,
-  username,
-}: {
-  farcaster_id: number | undefined;
-  username: string | undefined;
-}) => {
-  if (!farcaster_id) return null;
-  if (!username) return null;
-
+export const FarcasterLink = ({ username }: { username: string }) => {
   return (
     <Link
       href={`https://warpcast.com/${username}`}

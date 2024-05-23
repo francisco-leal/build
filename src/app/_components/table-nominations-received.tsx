@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Box, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { Box, Link, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 
@@ -8,6 +8,7 @@ export type TableNominationsReceivedValue = {
   date: string;
   name: string | null;
   rank: number | null;
+  walletAddress: string | null;
   pointsEarned: number | null;
   pointsGiven: number | null;
 };
@@ -35,7 +36,14 @@ export const TableNominationsReceived: FunctionComponent<
           values.map((val, i) => (
             <Box component={"tr"} key={val.key} className={i % 2 ? "odd" : ""}>
               <td>{val.date}</td>
-              <td>{abbreviateWalletAddress(val.name)}</td>
+              <td>
+                <Link
+                  href={`/nominate/${val.walletAddress}`}
+                  disabled={!val.walletAddress}
+                >
+                  {abbreviateWalletAddress(val.name)}
+                </Link>
+              </td>
               <td>{val.rank ?? "---"}</td>
               <td>{formatLargeNumber(val.pointsGiven ?? 0)}</td>
             </Box>

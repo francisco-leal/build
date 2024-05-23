@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
-import { Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
+import { default as NextLink } from "next/link";
+import { Link, Sheet, SheetProps, Skeleton, Stack, Table } from "@mui/joy";
 import { FarcasterLink } from "@/shared/components/farcaster-link";
 import { TalentProtocolLink } from "@/shared/components/talentprotocol-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
@@ -13,8 +14,9 @@ export type TableLeaderboardValue = {
   bossScore: number;
   nominationsReceived: number;
   highlight: boolean;
-  farcaster_id?: number;
-  passport_id?: number;
+  farcasterId: number | null;
+  passportId: number | null;
+  walletAddress: string | null;
 };
 
 export type LeaderboardTableProps = {
@@ -33,6 +35,7 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
       <thead>
         <tr>
           <th>Rank</th>
+          <th>Profiles</th>
           <th>Name</th>
           <th>Build Points</th>
           <th>Nominations</th>
@@ -44,20 +47,27 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
           values.map((val) => (
             <tr key={val.id} className={val.highlight ? "blue" : ""}>
               <td>{val.rank}</td>
-              <td
-                style={{
-                  display: "flex",
-                  gap: "16px",
-                  alignItems: "center",
-                }}
-              >
-                <TalentProtocolLink passport_id={val.passport_id} />{" "}
-                <FarcasterLink
-                  farcaster_id={val.farcaster_id}
-                  username={val.name}
-                />
-                {abbreviateWalletAddress(val.name)}{" "}
+              <td>
+                <Stack direction="row" spacing={1}>
+                  {val.passportId && (
+                    <TalentProtocolLink passportId={val.passportId} />
+                  )}
+                  {val.farcasterId && val.name && (
+                    <FarcasterLink username={val.name} />
+                  )}
+                </Stack>
               </td>
+              <td>
+                <Link
+                  component={NextLink}
+                  href={`/nominate/${val.walletAddress}`}
+                  disabled={!val.walletAddress}
+                  scroll={false}
+                >
+                  {abbreviateWalletAddress(val.name)}
+                </Link>
+              </td>
+
               <td>{formatLargeNumber(val.bossScore)}</td>
               <td>{val.nominationsReceived}</td>
               <td>{Math.round(val.builderScore)}</td>
@@ -66,7 +76,7 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
         {loading &&
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
             <tr key={i}>
-              <td colSpan={5}>
+              <td colSpan={6}>
                 <Skeleton variant="text" />
               </td>
             </tr>

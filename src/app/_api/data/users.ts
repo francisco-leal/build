@@ -121,6 +121,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     farcaster_id: farcasterUser?.fid ?? null,
     passport_id: talentUser?.passport_id ?? null,
     coinvise_nft: COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT[walletLc],
+    last_wallet: walletLc,
   };
 
   const user = await supabase
