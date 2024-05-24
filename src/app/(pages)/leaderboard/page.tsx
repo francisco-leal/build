@@ -18,12 +18,12 @@ export default async function AirdropPage() {
   const lastUpdate = now.toFormat(shortFormat);
   const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
   const topLeaderboardValues = await getTableLeaderboardValues();
-  const undiscoveredBoardValues = await getTableUndiscoveredBuildersValues();
+  // const undiscoveredBoardValues = await getTableUndiscoveredBuildersValues();
 
   return (
     <Stack component="main">
       <HeroSectionWithOverflow sx={{ mt: 0 }}>
-        <Typography
+        {/* <Typography
           level="h2"
           className="no-overflow"
           textColor={"common.white"}
@@ -40,7 +40,7 @@ export default async function AirdropPage() {
         </Typography>
         <Stack className="overflow">
           <TableLeaderboard values={undiscoveredBoardValues} />
-        </Stack>
+        </Stack> */}
         <Typography
           level="h2"
           className="no-overflow"
