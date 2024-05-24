@@ -172,9 +172,9 @@ export const getNominationsFromUserToday = async (
   user: User,
 ): Promise<Nomination[]> => {
   const nominations = await getNominationsUserSent(user);
-  const fromDate = DateTime.utc().startOf("day");
-  const toDate = fromDate.plus({ hours: 24 });
-  const interval = Interval.fromDateTimes(fromDate, toDate);
+  const today = DateTime.local().startOf("day");
+  const tomorrow = today.plus({ days: 1 });
+  const interval = Interval.fromDateTimes(today, tomorrow);
   return nominations.filter((n) =>
     interval.contains(DateTime.fromISO(n.createdAt)),
   );
