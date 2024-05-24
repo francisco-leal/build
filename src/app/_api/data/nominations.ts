@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { DateTime, Interval } from "luxon";
+import { notifyBuildBot } from "@/app/_api/external/buildbot";
 import { supabase } from "@/db";
 import { getSession } from "@/services/authentication/cookie-session";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
@@ -272,23 +273,11 @@ export const createNewNomination = async (
     });
   }
 
-  // call the buildbot API
-  const buildbotResponse = await fetch(`${process.env.BUILDBOT_API_URL}/webhooks/mentions`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-webhook-key": `${process.env.BUILDBOT_WEBHOOK_KEY}`,
-    },
-    body: JSON.stringify({
-      points: balances.pointsGiven,
-      nominatorWallet: origin_wallet_id,
-      nominatedWallet: nominatedWallet.wallet,
-    }),
-  })
-
-  if (!buildbotResponse.ok) {
-    console.error(`an error occurred while calling the buildbot API`)
-  }
+  await notifyBuildBot(
+    origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",
+    nominatedWallet.wallet,
+    balances.pointsGiven,
+  );
 
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
