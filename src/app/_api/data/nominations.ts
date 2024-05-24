@@ -2,6 +2,7 @@
 
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { DateTime, Interval } from "luxon";
+import { notifyBuildBot } from "@/app/_api/external/buildbot";
 import { supabase } from "@/db";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
@@ -274,6 +275,12 @@ export const createNewNomination = async (
       user_to_update: nominatedWallet.userId,
     });
   }
+
+  await notifyBuildBot(
+    origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",
+    nominatedWallet.wallet,
+    balances.pointsGiven,
+  );
 
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
