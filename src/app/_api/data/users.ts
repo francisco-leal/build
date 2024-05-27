@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, unstable_cache } from "next/cache";
+import { revalidateTag, revalidatePath, unstable_cache } from "next/cache";
 import { DateTime } from "luxon";
 import { COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT } from "@/config/coinvise-wallets";
 import { supabase } from "@/db";
@@ -89,6 +89,7 @@ export const getUserBalances = async (user: User) => {
       user_budget = result.data;
       user.boss_budget = user_budget;
       revalidatePath(`/stats`);
+      revalidateTag(`user_${user.id}`);
     }
   }
 
