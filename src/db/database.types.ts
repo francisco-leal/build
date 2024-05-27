@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      api_keys: {
+        Row: {
+          access_level: string;
+          active: boolean;
+          app_name: string;
+          created_at: string;
+          id: number;
+          key: string;
+        };
+        Insert: {
+          access_level?: string;
+          active?: boolean;
+          app_name: string;
+          created_at?: string;
+          id?: number;
+          key: string;
+        };
+        Update: {
+          access_level?: string;
+          active?: boolean;
+          app_name?: string;
+          created_at?: string;
+          id?: number;
+          key?: string;
+        };
+        Relationships: [];
+      };
       boss_leaderboard: {
         Row: {
           boss_score: number;
@@ -127,10 +154,12 @@ export type Database = {
           boss_budget: number;
           boss_nomination_streak: number;
           boss_score: number;
+          budget_multiplier: number;
           coinvise_nft: boolean;
           created_at: string;
           farcaster_id: number | null;
           id: string;
+          last_budget_calculation: string | null;
           last_wallet: string | null;
           manifesto_nft_token_id: number | null;
           passport_builder_score: number;
@@ -141,10 +170,12 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
+          budget_multiplier?: number;
           coinvise_nft?: boolean;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
+          last_budget_calculation?: string | null;
           last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
           passport_builder_score?: number;
@@ -155,10 +186,12 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
+          budget_multiplier?: number;
           coinvise_nft?: boolean;
           created_at?: string;
           farcaster_id?: number | null;
           id?: string;
+          last_budget_calculation?: string | null;
           last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
           passport_builder_score?: number;
