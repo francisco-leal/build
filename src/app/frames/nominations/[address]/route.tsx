@@ -3,7 +3,7 @@ import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
-import { appURL } from "@/shared/frames/utils";
+import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
 import { NominateBuilderError } from "../../nominate/route";
 
@@ -90,6 +90,7 @@ const handler = frames(async (ctx) => {
         </Button>,
       ],
       imageOptions: {
+        ...imageOptions,
         aspectRatio: "1:1",
       },
     };
@@ -105,6 +106,7 @@ const handler = frames(async (ctx) => {
       ),
       buttons: [],
       imageOptions: {
+        ...imageOptions,
         aspectRatio: "1:1",
       },
     };

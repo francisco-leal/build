@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "frames.js/next";
 import { frames } from "@/app/frames/frames";
-import { appURL } from "@/shared/frames/utils";
+import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
@@ -28,6 +28,7 @@ const handler = frames(async (ctx) => {
       </Button>,
     ],
     imageOptions: {
+      ...imageOptions,
       aspectRatio: "1:1",
     },
   };

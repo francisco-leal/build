@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import * as path from "node:path";
 import { headers } from "next/headers";
 
 const DEFAULT_DEBUGGER_URL =
@@ -49,3 +51,26 @@ export function createDebugUrl(frameURL: string | URL): string {
 }
 
 export const FRAMES_BASE_PATH = "/frames";
+
+const regularFontData = fs.readFileSync(
+  path.join(process.cwd(), "public/assets", "BricolageGrotesque-Regular.ttf"),
+);
+
+const boldFontData = fs.readFileSync(
+  path.join(process.cwd(), "public/assets", "BricolageGrotesque-Bold.ttf"),
+);
+export const imageOptions = {
+  debug: false,
+  width: 1200,
+  height: 1200,
+  fonts: [
+    {
+      data: regularFontData,
+      name: "Bricolage-Regular",
+    },
+    {
+      data: boldFontData,
+      name: "Bricolage-Bold",
+    },
+  ],
+};

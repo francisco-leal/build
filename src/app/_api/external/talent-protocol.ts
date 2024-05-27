@@ -25,6 +25,7 @@ export type PassportResult = {
   passport_profile: {
     image_url: string;
     name: string;
+    bio: string;
   } | null;
   verified_wallets: Array<string>;
 };
@@ -70,7 +71,6 @@ export const getTalentProtocolUser = async (walletId: string) => {
       try {
         const response = await fetch(url, { headers });
         const data = (await response.json()) as PassportResponse;
-
         if (!response.ok) return null;
         if (response.status !== 200) return null;
         if (data.error) return null;

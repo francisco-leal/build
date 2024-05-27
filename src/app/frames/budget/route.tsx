@@ -4,7 +4,7 @@ import path from "node:path";
 import { Button } from "frames.js/next";
 import { getUserBalances } from "@/app/_api/data/users";
 import { frames, getFramesUser } from "@/app/frames/frames";
-import { appURL } from "@/shared/frames/utils";
+import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
 
 const frameDice = fs.readFileSync(
@@ -94,6 +94,7 @@ const handler = frames(async (ctx) => {
         </Button>,
       ],
       imageOptions: {
+        ...imageOptions,
         aspectRatio: "1:1",
       },
     };
@@ -118,6 +119,7 @@ const handler = frames(async (ctx) => {
         </Button>,
       ],
       imageOptions: {
+        ...imageOptions,
         aspectRatio: "1:1",
       },
     };
