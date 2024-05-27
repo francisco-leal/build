@@ -5,8 +5,6 @@ export const notifyBuildBot = async (
   nominatedWallet: string,
   points: number,
 ) => {
-  if (points < 2000) return;
-
   try {
     const buildbotResponse = await fetch(
       `${process.env.BUILDBOT_API_URL}/webhooks/mentions`,
