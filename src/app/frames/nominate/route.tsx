@@ -114,9 +114,9 @@ export const NominateFrame = ({
             </p>
           </div>
           <div
-            tw={`flex flex-col w-[915px] mt-[20px] ${dailyBudget ? "text-white" : "pt-[50px] text-[#0042F5] bg-white border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]"}`}
+            tw={`flex flex-col gap-[27px] w-[915px] mt-[20px] ${dailyBudget ? "text-white" : "pt-[50px] text-[#0042F5] bg-white border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]"}`}
           >
-            <div tw="flex flex-row px-[20px]">
+            <div tw="flex flex-row px-[40px]">
               <img
                 src={nominatedImage}
                 tw="w-[240px] h-[240px] rounded-full mr-[30px] object-cover"
@@ -136,7 +136,7 @@ export const NominateFrame = ({
               </div>
             </div>
             {dailyBudget ? (
-              <div tw="mt-[20px] px-[20px] flex flex-col gap-0 w-full text-white">
+              <div tw="mt-[20px] px-[40px] flex flex-col gap-0 w-full text-white">
                 <div tw="flex justify-between w-full border-t-[3px] border-white">
                   <p
                     tw="text-[48px] font-bold"
@@ -195,11 +195,11 @@ export const NominateFrame = ({
                 </div>
               </div>
             ) : (
-              <div tw="flex flex-col h-fit -pb-4">
-                <div tw="flex p-[20px] w-[880px]">
+              <div tw="flex flex-col h-fit">
+                <div tw="flex w-[900px] px-[40px]">
                   <p tw="text-[32px] text-[#636B74]">{nominatedBio}</p>
                 </div>
-                <div tw="flex bg-[#0042F5] text-white w-auto h-[350px]">
+                <div tw="flex bg-[#0042F5] text-white w-auto h-[310px]">
                   <div tw="flex flex-col text-center items-center justify-center my-0 px-[30px] py-[50px] w-[300px]">
                     <svg
                       width="44"
@@ -330,7 +330,7 @@ export const NominateFrame = ({
                       </defs>
                     </svg>
                     <p
-                      tw="text-[26px] font-bold h-[50px]"
+                      tw="text-[22px] font-bold h-[50px]"
                       style={{ fontFamily: "Bricolage-Bold" }}
                     >
                       BUILDER SCORE
@@ -502,7 +502,7 @@ export const NominateFrame = ({
                       </defs>
                     </svg>
                     <p
-                      tw="text-[26px] h-[50px]"
+                      tw="text-[22px] h-[50px]"
                       style={{ fontFamily: "Bricolage-Bold" }}
                     >
                       NOMINATIONS RECEIVED
@@ -564,7 +564,7 @@ export const NominateFrame = ({
                       </defs>
                     </svg>
                     <p
-                      tw="text-[26px] font-bold h-[50px]"
+                      tw="text-[22px] font-bold h-[50px]"
                       style={{ fontFamily: "Bricolage-Bold" }}
                     >
                       BUILD points
