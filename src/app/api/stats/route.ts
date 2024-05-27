@@ -33,7 +33,7 @@ export const GET = restApiHandler(async (request) => {
     throw new BadRequestError("Invalid wallet address");
   }
 
-  const userStats = await getUserStats(statsParams.wallet);
+  const userStats = await getUserStats(statsParams.wallet.toLowerCase());
 
   if (!userStats) {
     throw new NotFoundError("User not found");
