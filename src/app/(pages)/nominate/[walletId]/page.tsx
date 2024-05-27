@@ -116,41 +116,14 @@ export default async function NominateBuilder({
           ]}
         />
         <ModalActions>
-          <Grid
-            container
-            spacing={3}
-            sx={{
-              width: "100%",
-              paddingRight: "32px",
-            }}
-          >
-            <Grid xs={12} sm></Grid>
-            <Grid xs={10} sm={6} alignContent="center">
-              <ModalActionMessage>
-                You nominated {builder.username}!<br />
-                <small>(You can only nominate each builder once)</small>
-              </ModalActionMessage>
-            </Grid>
-            <Grid
-              xs={2}
-              sm
-              sx={{
-                display: "flex",
-                justifyContent: "end",
-                alignContent: "center",
-              }}
-            >
-              <Button
-                href={sharableWarpcastLink}
-                target="_blank"
-                component={Link}
-                variant="solid"
-                color="primary"
-              >
-                Share
-              </Button>
-            </Grid>
-          </Grid>
+          <ModalActionMessage>
+            You nominated {builder.username}!<br />
+            <small>(You can only nominate each builder once)</small>
+            <br />
+            <Link href={sharableWarpcastLink} target="_blank">
+              Share in Warpcaster
+            </Link>
+          </ModalActionMessage>
         </ModalActions>
       </Modal>
     );
