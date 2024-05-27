@@ -224,6 +224,8 @@ export const createNewNomination = async (
   // TODO formalize this, instead of it being a complete hack
   origin_wallet_id?: string,
 ): Promise<Nomination> => {
+  const balances = await getUserBalances(nominatorUser);
+
   if (await hasNoDailyBudget(nominatorUser)) {
     throw new BadRequestError("You need a BUILD budget to nominate!");
   }
@@ -243,8 +245,6 @@ export const createNewNomination = async (
   }
 
   await createWallet(nominatedWallet.wallet);
-
-  const balances = await getUserBalances(nominatorUser);
 
   const nomination = await supabase
     .from("boss_nominations")

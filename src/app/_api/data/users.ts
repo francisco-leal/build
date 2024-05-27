@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
+import { revalidatePath, unstable_cache } from "next/cache";
+import { DateTime } from "luxon";
 import { COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT } from "@/config/coinvise-wallets";
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
@@ -66,11 +67,36 @@ export const getUserFromWallet = async (
 };
 
 export const getUserBalances = async (user: User) => {
+  let user_budget = user.boss_budget;
+  const today = DateTime.local().startOf("day");
+  const lastUpdateOfBudget = DateTime.fromISO(
+    user.last_budget_calculation ?? "1970-01-01T00:00:00.000Z",
+  );
+  const shouldUpdateBudget =
+    !user.last_budget_calculation ||
+    today.diff(lastUpdateOfBudget, "days").days > 0;
+
+  if (shouldUpdateBudget) {
+    const result = await supabase.rpc("calculate_boss_budget_user", {
+      user_to_update: user.id,
+    });
+
+    if (result.error) {
+      console.error(
+        `Error Recalculating builder budget: ${result.error.message}`,
+      );
+    } else {
+      user_budget = result.data;
+      user.boss_budget = user_budget;
+      revalidatePath(`/stats`);
+    }
+  }
+
   return {
-    dailyBudget: user.boss_budget,
-    pointsGiven: user.boss_budget * 0.9,
-    pointsEarned: user.boss_budget * 0.1,
-    totalPoints: user.boss_score + user.boss_budget * 0.1,
+    dailyBudget: user_budget,
+    pointsGiven: user_budget * 0.9,
+    pointsEarned: user_budget * 0.1,
+    totalPoints: user.boss_score + user_budget * 0.1,
   };
 };
 
@@ -122,6 +148,8 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     passport_id: talentUser?.passport_id ?? null,
     coinvise_nft: COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT[walletLc],
     last_wallet: walletLc,
+    last_budget_calculation: null,
+    budget_multiplier: 1,
   };
 
   const user = await supabase
