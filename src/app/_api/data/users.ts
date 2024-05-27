@@ -191,3 +191,13 @@ export const getUsersCountOverall = async (): Promise<number> => {
     { revalidate: CACHE_1_MINUTE },
   )();
 };
+
+export const getAPIUser = async (wallet: string): Promise<User | null> => {
+  return unstable_cache(
+    async (wallet: string) => {
+      return await getUserFromWallet(wallet);
+    },
+    [`api_user_${wallet}`] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )(wallet);
+};
