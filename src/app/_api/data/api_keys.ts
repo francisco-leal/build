@@ -21,7 +21,7 @@ export const getApiKey = async (apiKey: string): Promise<ApiKey | null> => {
 
       return data;
     },
-    [`api_user_${apiKey}`] as CacheKey[],
+    [`api_key_${apiKey}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )(apiKey);
 };
