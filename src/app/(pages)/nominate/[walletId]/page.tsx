@@ -118,10 +118,8 @@ export default async function NominateBuilder({
         <ModalActions>
           <ModalActionMessage>
             You nominated {builder.username}!<br />
-            <small>(You can only nominate each builder once)</small>
-            <br />
             <Link href={sharableWarpcastLink} target="_blank">
-              Share in Warpcaster
+            Share on Farcaster
             </Link>
           </ModalActionMessage>
         </ModalActions>
