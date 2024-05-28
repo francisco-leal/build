@@ -6,7 +6,11 @@ import { notifyBuildBot } from "@/app/_api/external/buildbot";
 import { supabase } from "@/db";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
-import { CacheKey, CACHE_1_MINUTE } from "../helpers/cache-keys";
+import {
+  CacheKey,
+  CACHE_1_MINUTE,
+  CACHE_5_MINUTES,
+} from "../helpers/cache-keys";
 import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
@@ -363,6 +367,6 @@ export const getTopNominationsForUser = async (
       );
     },
     [`api_nominations_received_${user.id}`] as CacheKey[],
-    { revalidate: CACHE_1_MINUTE },
+    { revalidate: CACHE_5_MINUTES },
   )();
 };
