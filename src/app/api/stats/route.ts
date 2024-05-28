@@ -1,29 +1,16 @@
 import { z } from "zod";
-import { getApiKey } from "@/app/_api/data/api_keys";
 import { getUserStats } from "@/app/_api/data/stats";
 import { restApiHandler } from "@/app/_api/helpers/rest-api-handler";
-import {
-  BadRequestError,
-  NotFoundError,
-  UnauthorizedError,
-} from "@/shared/utils/error";
+import { BadRequestError, NotFoundError } from "@/shared/utils/error";
 
 const statsParamsSchema = z.object({
   wallet: z.string(),
-  api_key: z.string(),
 });
 
 export const GET = restApiHandler(async (request) => {
   const statsParams = statsParamsSchema.parse({
     wallet: request.nextUrl.searchParams.get("wallet"),
-    api_key: request.headers.get("x-api-key"),
   });
-
-  const apiKey = await getApiKey(statsParams.api_key);
-
-  if (!apiKey || !apiKey.active) {
-    throw new UnauthorizedError("Invalid API key");
-  }
 
   if (
     !statsParams.wallet ||
