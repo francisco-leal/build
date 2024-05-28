@@ -6,13 +6,29 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "@/shared/utils/error";
+import { getApiKey } from "../data/api_keys";
 
-type Fn = (request: NextRequest) => Promise<unknown>;
+type Params = Record<string, string>;
+type Fn = (request: NextRequest, params?: Params) => Promise<unknown>;
 
-export const restApiHandler = (fn: Fn) => {
-  return async (request: NextRequest) => {
+export const restApiHandler = (fn: Fn, options?: { skipAuth: boolean }) => {
+  return async (request: NextRequest, context: { params: Params }) => {
     try {
-      const data = await fn(request);
+      const skipAPIAuth = options?.skipAuth || false;
+      if (!skipAPIAuth) {
+        const request_api_key = request.headers.get("x-api-key");
+        if (!request_api_key) {
+          throw new UnauthorizedError("Missing API key");
+        }
+
+        const apiKey = await getApiKey(request_api_key);
+
+        if (!apiKey || !apiKey.active) {
+          throw new UnauthorizedError("Invalid API key");
+        }
+      }
+
+      const data = await fn(request, context.params ?? {});
       return Response.json(data);
     } catch (error) {
       if (error instanceof ZodError) {

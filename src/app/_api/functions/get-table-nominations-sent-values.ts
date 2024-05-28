@@ -26,7 +26,7 @@ export const getTableNominationsSentValues = async (): Promise<
       missed: false,
       name: n.destinationUsername,
       rank: n.destinationRank,
-      pointsGiven: n.bossPointsSent,
+      pointsGiven: n.buildPointsSent,
       wallet: n.destinationWallet,
     }),
   );
