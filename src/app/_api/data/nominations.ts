@@ -328,3 +328,41 @@ export const getNominationsCountOverall = async (): Promise<number> => {
     { revalidate: CACHE_1_MINUTE },
   )();
 };
+
+export const getTopNominationsForUser = async (
+  user: User,
+): Promise<Nomination[]> => {
+  return unstable_cache(
+    async () => {
+      const nominations = await supabase
+        .from("boss_nominations")
+        .select(SELECT_NOMINATIONS_TO_USER)
+        .eq("wallets.user_id", user.id)
+        .order("boss_points_sent", { ascending: false })
+        .limit(5)
+        .throwOnError()
+        .then((res) => res.data ?? []);
+
+      return (
+        nominations?.map((nomination) => ({
+          id: nomination.id,
+          originUserId: nomination.origin_user_id,
+          originUsername: nomination?.users?.username ?? "",
+          originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
+          originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
+          buildPointsReceived: nomination.boss_points_received,
+          buildPointsSent: nomination.boss_points_sent,
+          destinationWallet: nomination.destination_wallet_id,
+          destinationUsername:
+            user.username ??
+            abbreviateWalletAddress(nomination.destination_wallet_id),
+          destinationRank:
+            nomination?.wallets?.users?.boss_leaderboard?.rank ?? null,
+          createdAt: nomination.created_at,
+        })) ?? []
+      );
+    },
+    [`api_nominations_received_${user.id}`] as CacheKey[],
+    { revalidate: CACHE_1_MINUTE },
+  )();
+};
