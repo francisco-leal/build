@@ -11,6 +11,8 @@ export type CacheKey =
   | `farcaster_search_${string}`
   | "users_count"
   | "nominations_count"
+  | `nominations_sent_${string}`
+  | `nominations_received_${string}`
   | `stats_${string}`
   | `api_key_${string}`
   | `api_user_${string}`
