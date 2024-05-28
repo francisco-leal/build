@@ -14,8 +14,8 @@ import { WalletInfo, createWallet, getWalletFromExternal } from "./wallets";
 
 export type Nomination = {
   id: number;
-  bossPointsReceived: number;
-  bossPointsSent: number;
+  buildPointsReceived: number;
+  buildPointsSent: number;
   originUserId: string;
   originUsername: string;
   originWallet: string;
@@ -92,8 +92,8 @@ export const getNomination = async (
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
     originRank: user.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    bossPointsReceived: nomination.boss_points_received,
-    bossPointsSent: nomination.boss_points_sent,
+    buildPointsReceived: nomination.boss_points_received,
+    buildPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
       nomination.wallets?.users?.username ??
@@ -121,8 +121,8 @@ export const getNominationsUserSent = async (
       originUsername: user.username ?? "", // TODO: a default here should be redundant.
       originRank: user.boss_leaderboard?.rank ?? null,
       originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-      bossPointsReceived: nomination.boss_points_received,
-      bossPointsSent: nomination.boss_points_sent,
+      buildPointsReceived: nomination.boss_points_received,
+      buildPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
       destinationUsername:
         nomination.wallets?.users?.username ??
@@ -155,8 +155,8 @@ export const getNominationsUserReceived = async (
       originUsername: nomination?.users?.username ?? "",
       originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
       originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-      bossPointsReceived: nomination.boss_points_received,
-      bossPointsSent: nomination.boss_points_sent,
+      buildPointsReceived: nomination.boss_points_received,
+      buildPointsSent: nomination.boss_points_sent,
       destinationWallet: nomination.destination_wallet_id,
       destinationUsername:
         user.username ??
@@ -294,8 +294,8 @@ export const createNewNomination = async (
     originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
     originRank: nominatorUser.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    bossPointsReceived: nomination.boss_points_received,
-    bossPointsSent: nomination.boss_points_sent,
+    buildPointsReceived: nomination.boss_points_received,
+    buildPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
       nomination.wallets?.users?.username ??

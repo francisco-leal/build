@@ -7,12 +7,13 @@ import {
   UnauthorizedError,
 } from "@/shared/utils/error";
 
-type Fn = (request: NextRequest) => Promise<unknown>;
+type Params = Record<string, string>;
+type Fn = (request: NextRequest, params?: Params) => Promise<unknown>;
 
 export const restApiHandler = (fn: Fn) => {
-  return async (request: NextRequest) => {
+  return async (request: NextRequest, context: { params: Params }) => {
     try {
-      const data = await fn(request);
+      const data = await fn(request, context.params ?? {});
       return Response.json(data);
     } catch (error) {
       if (error instanceof ZodError) {
