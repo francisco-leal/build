@@ -107,11 +107,11 @@ export default async function NominateBuilder({
             },
             {
               label: "Points given",
-              value: formatLargeNumber(previousNomination.bossPointsSent),
+              value: formatLargeNumber(previousNomination.buildPointsSent),
             },
             {
               label: "Points earned",
-              value: formatLargeNumber(previousNomination.bossPointsReceived),
+              value: formatLargeNumber(previousNomination.buildPointsReceived),
             },
           ]}
         />
@@ -119,7 +119,7 @@ export default async function NominateBuilder({
           <ModalActionMessage>
             You nominated {builder.username}!<br />
             <Link href={sharableWarpcastLink} target="_blank">
-            Share on Farcaster
+              Share on Farcaster
             </Link>
           </ModalActionMessage>
         </ModalActions>

@@ -18,8 +18,8 @@ export const getTableNominationsReceivedValues = async (): Promise<
       name: n.originUsername,
       walletAddress: n.originWallet,
       rank: n.originRank,
-      pointsGiven: n.bossPointsSent,
-      pointsEarned: n.bossPointsReceived,
+      pointsGiven: n.buildPointsSent,
+      pointsEarned: n.buildPointsReceived,
     }),
   );
 

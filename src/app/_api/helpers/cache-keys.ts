@@ -10,7 +10,10 @@ export type CacheKey =
   | `farcaster_${string}`
   | `farcaster_search_${string}`
   | "users_count"
-  | "nominations_count";
+  | "nominations_count"
+  | `stats_${string}`
+  | `api_key_${string}`
+  | `api_user_${string}`;
 
 export const CACHE_1_MINUTE = 60;
 export const CACHE_5_MINUTES = 60 * 5;
