@@ -23,8 +23,7 @@ export default async function AirdropPage() {
   if (!user) return <PlaceholderUserNotConnected />;
 
   const nominationsSent = await getTableNominationsSentValues();
-  // disable temporarily so stats doesnt crash
-  // const nominationsReceived = await getTableNominationsReceivedValues();
+  const nominationsReceived = await getTableNominationsReceivedValues();
   const todayNominations = await getNominationsFromUserToday(user);
   const sharableWarpcastLink = getWarpcastSharableLink(
     todayNominations,
@@ -115,14 +114,14 @@ export default async function AirdropPage() {
           <TableNominationsSent values={nominationsSent} />
         </Stack>
       </HeroSectionWithOverflow>
-      {/* <HeroSectionWithOverflow>
+      <HeroSectionWithOverflow>
         <Typography level="h2" className="no-overflow">
           Nominations Received
         </Typography>
         <Stack className="overflow">
           <TableNominationsReceived values={nominationsReceived} />
         </Stack>
-      </HeroSectionWithOverflow> */}
+      </HeroSectionWithOverflow>
       <HeroSection>
         <HowToPlay />
       </HeroSection>

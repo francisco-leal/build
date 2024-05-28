@@ -111,65 +111,77 @@ export const getNomination = async (
 export const getNominationsUserSent = async (
   user: User,
 ): Promise<Nomination[]> => {
-  const { data: nominations } = await supabase
-    .from("boss_nominations")
-    .select(SELECT_NOMINATIONS_FROM_USER)
-    .order("created_at", { ascending: false })
-    .eq("origin_user_id", user.id)
-    .throwOnError();
+  return unstable_cache(
+    async () => {
+      const { data: nominations } = await supabase
+        .from("boss_nominations")
+        .select(SELECT_NOMINATIONS_FROM_USER)
+        .order("created_at", { ascending: false })
+        .eq("origin_user_id", user.id)
+        .throwOnError();
 
-  return (
-    nominations?.map((nomination) => ({
-      id: nomination.id,
-      originUserId: user.id,
-      originUsername: user.username ?? "", // TODO: a default here should be redundant.
-      originRank: user.boss_leaderboard?.rank ?? null,
-      originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-      buildPointsReceived: nomination.boss_points_received,
-      buildPointsSent: nomination.boss_points_sent,
-      destinationWallet: nomination.destination_wallet_id,
-      destinationUsername:
-        nomination.wallets?.users?.username ??
-        nomination.wallets?.username ??
-        abbreviateWalletAddress(nomination.destination_wallet_id) ??
-        null,
-      destinationRank:
-        nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
-      createdAt: nomination.created_at,
-    })) ?? []
-  );
+      return (
+        nominations?.map((nomination) => ({
+          id: nomination.id,
+          originUserId: user.id,
+          originUsername: user.username ?? "", // TODO: a default here should be redundant.
+          originRank: user.boss_leaderboard?.rank ?? null,
+          originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
+          buildPointsReceived: nomination.boss_points_received,
+          buildPointsSent: nomination.boss_points_sent,
+          destinationWallet: nomination.destination_wallet_id,
+          destinationUsername:
+            nomination.wallets?.users?.username ??
+            nomination.wallets?.username ??
+            abbreviateWalletAddress(nomination.destination_wallet_id) ??
+            null,
+          destinationRank:
+            nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+          createdAt: nomination.created_at,
+        })) ?? []
+      );
+    },
+    [`nominations_sent_${user.id}`] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )();
 };
 
 export const getNominationsUserReceived = async (
   user: User,
 ): Promise<Nomination[]> => {
-  const nominations = await supabase
-    .from("boss_nominations")
-    .select(SELECT_NOMINATIONS_TO_USER)
-    .eq("wallets.user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(10)
-    .throwOnError()
-    .then((res) => res.data ?? []);
+  return unstable_cache(
+    async () => {
+      const nominations = await supabase
+        .from("boss_nominations")
+        .select(SELECT_NOMINATIONS_TO_USER)
+        .eq("wallets.user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(10)
+        .throwOnError()
+        .then((res) => res.data ?? []);
 
-  return (
-    nominations?.map((nomination) => ({
-      id: nomination.id,
-      originUserId: nomination.origin_user_id,
-      originUsername: nomination?.users?.username ?? "",
-      originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
-      originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-      buildPointsReceived: nomination.boss_points_received,
-      buildPointsSent: nomination.boss_points_sent,
-      destinationWallet: nomination.destination_wallet_id,
-      destinationUsername:
-        user.username ??
-        abbreviateWalletAddress(nomination.destination_wallet_id),
-      destinationRank:
-        nomination?.wallets?.users?.boss_leaderboard?.rank ?? null,
-      createdAt: nomination.created_at,
-    })) ?? []
-  );
+      return (
+        nominations?.map((nomination) => ({
+          id: nomination.id,
+          originUserId: nomination.origin_user_id,
+          originUsername: nomination?.users?.username ?? "",
+          originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
+          originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
+          buildPointsReceived: nomination.boss_points_received,
+          buildPointsSent: nomination.boss_points_sent,
+          destinationWallet: nomination.destination_wallet_id,
+          destinationUsername:
+            user.username ??
+            abbreviateWalletAddress(nomination.destination_wallet_id),
+          destinationRank:
+            nomination?.wallets?.users?.boss_leaderboard?.rank ?? null,
+          createdAt: nomination.created_at,
+        })) ?? []
+      );
+    },
+    [`nominations_received_${user.id}`] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )();
 };
 
 export const getNominationsFromUserToday = async (
@@ -290,8 +302,14 @@ export const createNewNomination = async (
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
   revalidatePath(`/nominate/${nominatedWallet.wallet}`);
   revalidateTag(`user_${nominatorUser.id}` as CacheKey);
-  revalidateTag(`user_${nominatedWallet.userId}` as CacheKey);
   revalidateTag(`nominations` as CacheKey);
+  revalidateTag(`nominations_sent_${nominatorUser.id}` as CacheKey);
+
+  if (nominatedWallet.userId) {
+    revalidateTag(`user_${nominatedWallet.userId}` as CacheKey);
+    revalidateTag(`nominations_received_${nominatedWallet.userId}` as CacheKey);
+  }
+
   return {
     id: nomination.id,
     originUserId: nomination.origin_user_id,
