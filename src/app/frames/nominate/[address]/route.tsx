@@ -1,7 +1,7 @@
 import { Button } from "frames.js/next";
 import {
   createNewNomination,
-  getNominationsUserReceived,
+  getNominationsCountForUser,
 } from "@/app/_api/data/nominations";
 import { getUserFromWallet } from "@/app/_api/data/users";
 import { createWallet, getWalletFromExternal } from "@/app/_api/data/wallets";
@@ -123,7 +123,7 @@ const handler = frames(async (ctx) => {
         };
       }
       const nominationsReceived =
-        await getNominationsUserReceived(nominatedUser);
+        await getNominationsCountForUser(nominatedUser);
 
       return {
         image: (
@@ -135,7 +135,7 @@ const handler = frames(async (ctx) => {
             nominatedWallet={walletNominated || ""}
             nominatedBio={walletProfile.bio || ""}
             nominatedBuilderScore={walletProfile.builderScore || 0}
-            nominatedUserNominationsReceived={nominationsReceived.length}
+            nominatedUserNominationsReceived={nominationsReceived}
             nominatedBuildPoints={nominatedUser?.boss_score || 0}
             dailyBudget={undefined}
             pointsGiven={undefined}
