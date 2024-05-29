@@ -3,6 +3,7 @@ import { default as NextLink } from "next/link";
 import { Link, Sheet, SheetProps, Skeleton, Stack, Table } from "@mui/joy";
 import { FarcasterLink } from "@/shared/components/farcaster-link";
 import { TalentProtocolLink } from "@/shared/components/talentprotocol-link";
+import { FarcasterPowerBadge } from "@/shared/icons/farcaster-power-user";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 
@@ -17,6 +18,7 @@ export type TableLeaderboardValue = {
   farcasterId: number | null;
   passportId: number | null;
   walletAddress: string | null;
+  farcasterPowerUser: boolean;
 };
 
 export type LeaderboardTableProps = {
@@ -64,6 +66,9 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
                   disabled={!val.walletAddress}
                   scroll={false}
                 >
+                  {val.farcasterPowerUser && (
+                    <FarcasterPowerBadge sx={{ marginRight: 1 }} />
+                  )}
                   {abbreviateWalletAddress(val.name)}
                 </Link>
               </td>
