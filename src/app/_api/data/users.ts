@@ -151,6 +151,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     last_wallet: walletLc,
     last_budget_calculation: null,
     budget_multiplier: 1,
+    farcaster_power_user: farcasterUser?.power_badge ?? false,
   };
 
   const user = await supabase

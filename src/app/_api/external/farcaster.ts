@@ -21,6 +21,7 @@ export type FarcasterAPIUser = {
   display_name: string;
   custody_address: string;
   pfp_url: string;
+  power_badge: boolean;
   verified_addresses: {
     eth_addresses: string[];
   };

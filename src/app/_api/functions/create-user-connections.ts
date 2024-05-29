@@ -57,7 +57,11 @@ export const createUserConnections = async (user: User, newWallet: string) => {
 
   await supabase
     .from("users")
-    .upsert({ id: user.id, last_wallet: newWallet })
+    .upsert({
+      id: user.id,
+      last_wallet: newWallet,
+      farcaster_power_user: farcasterUser?.power_badge ?? false,
+    })
     .throwOnError();
 
   if (user.boss_budget === 0) {
