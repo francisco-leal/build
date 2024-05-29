@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import { DateTime } from "luxon";
 import { supabase } from "@/db";
 import { CacheKey, CACHE_5_MINUTES } from "../helpers/cache-keys";
 
@@ -12,7 +13,7 @@ type API_NOMINATION = {
 };
 
 export const getNominationsForApi = async (params: {
-  cursor?: string;
+  cursor?: number;
   from?: string;
   to?: string;
 }): Promise<API_NOMINATION[]> => {
@@ -24,17 +25,18 @@ export const getNominationsForApi = async (params: {
         .order("created_at", { ascending: false });
 
       if (params.cursor) {
-        query.lt("created_at", params.cursor);
+        const cursor = DateTime.fromMillis(params.cursor);
+        query.lt("created_at", cursor.toISO());
       }
       if (
         params.from &&
         params.from.length === 42 &&
         params.from.startsWith("0x")
       ) {
-        query.eq("origin_wallet_id", params.from);
+        query.eq("origin_wallet_id", params.from.toLowerCase());
       }
       if (params.to && params.to.length === 42 && params.to.startsWith("0x")) {
-        query.eq("destination_wallet_id", params.to);
+        query.eq("destination_wallet_id", params.to.toLowerCase());
       }
 
       const nominations = await query
