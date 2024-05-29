@@ -1,13 +1,18 @@
 import { Button } from "frames.js/next";
-import { createNewNomination } from "@/app/_api/data/nominations";
+import {
+  createNewNomination,
+  getNominationsCountForUser,
+} from "@/app/_api/data/nominations";
+import { getUserFromWallet } from "@/app/_api/data/users";
 import { createWallet, getWalletFromExternal } from "@/app/_api/data/wallets";
 import { frames, getFramesUser } from "@/app/frames/frames";
-import { appURL } from "@/shared/frames/utils";
+import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
 import { NominateBuilderError, NominateFrame } from "../route";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
+
 const handler = frames(async (ctx) => {
   const walletNominated =
     ctx.url.pathname.split("/frames/nominate/")[1].toLowerCase() ?? "";
@@ -43,6 +48,13 @@ const handler = frames(async (ctx) => {
                 >
                   {walletInfo.username}
                 </p>
+
+                <p
+                  tw="font-bold text-[78px]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {walletInfo.rank}
+                </p>
               </div>
               <div tw="flex px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
                 <p
@@ -65,6 +77,7 @@ const handler = frames(async (ctx) => {
         </Button>,
       ],
       imageOptions: {
+        ...imageOptions,
         aspectRatio: "1:1",
       },
     };
@@ -76,11 +89,15 @@ const handler = frames(async (ctx) => {
       ctx.message?.verifiedWalletAddress;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
     let walletProfile = null;
+    let nominatedUser = null;
     try {
       walletProfile = await getWalletFromExternal(walletNominated);
+      nominatedUser = await getUserFromWallet(
+        walletProfile?.wallet || walletNominated,
+      );
     } catch (error) {}
     if (errorMessage === "Frame user not found") {
-      if (!walletProfile) {
+      if (!walletProfile || !nominatedUser) {
         return {
           image: (
             <NominateBuilderError
@@ -100,10 +117,13 @@ const handler = frames(async (ctx) => {
             </Button>,
           ],
           imageOptions: {
+            ...imageOptions,
             aspectRatio: "1:1",
           },
         };
       }
+      const nominationsReceived =
+        await getNominationsCountForUser(nominatedUser);
 
       return {
         image: (
@@ -112,6 +132,11 @@ const handler = frames(async (ctx) => {
             farcasterUsername={farcasterUsername?.toString() || null}
             nominatedImage={walletProfile.image}
             nominatedUsername={walletProfile.username}
+            nominatedWallet={walletNominated || ""}
+            nominatedBio={walletProfile.bio || ""}
+            nominatedBuilderScore={walletProfile.builderScore || 0}
+            nominatedUserNominationsReceived={nominationsReceived}
+            nominatedBuildPoints={nominatedUser?.boss_score || 0}
             dailyBudget={undefined}
             pointsGiven={undefined}
             pointsEarned={undefined}
@@ -131,6 +156,7 @@ const handler = frames(async (ctx) => {
           </Button>,
         ],
         imageOptions: {
+          ...imageOptions,
           aspectRatio: "1:1",
         },
       };
@@ -154,6 +180,7 @@ const handler = frames(async (ctx) => {
         </Button>,
       ],
       imageOptions: {
+        ...imageOptions,
         aspectRatio: "1:1",
       },
     };

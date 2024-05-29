@@ -50,29 +50,6 @@ const SELECT_NOMINATIONS_FROM_USER = `
   )       
 ` as const;
 
-const SELECT_NOMINATIONS_TO_USER = `
-  *,
-  wallets!inner(
-    user_id,
-    users (
-      id,
-      username,
-      boss_leaderboard (
-        id,
-        rank
-      )
-    ) 
-  ),
-  users (
-    id,
-    username,
-    boss_leaderboard (
-      id,
-      rank
-    )
-  )
-` as const;
-
 const SELECT_NOMINATIONS_TO_USER_SIMPLIFIED = `
   *,
   users (
@@ -396,6 +373,29 @@ export const getTopNominationsForUser = async (
       );
     },
     [`api_nominations_received_${user.id}`] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )();
+};
+
+export const getNominationsCountForUser = async (
+  user: User,
+): Promise<number> => {
+  return unstable_cache(
+    async () => {
+      const wallets = user.wallets.map((w) => w.wallet);
+      const nominationsCount = await supabase
+        .from("boss_nominations")
+        .select("id", {
+          count: "exact",
+          head: true,
+        })
+        .in("destination_wallet_id", wallets)
+        .throwOnError()
+        .then((res) => res.count ?? 0);
+
+      return nominationsCount;
+    },
+    [`count_nominations_received_${user.id}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )();
 };

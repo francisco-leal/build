@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 import { farcasterHubContext, openframes } from "frames.js/middleware";
-import { imagesWorkerMiddleware } from "frames.js/middleware/images-worker";
 import { createFrames } from "frames.js/next";
 import { getXmtpFrameMessage, isXmtpFrameActionPayload } from "frames.js/xmtp";
 import {
@@ -15,10 +14,6 @@ export const frames = createFrames({
   basePath: FRAMES_BASE_PATH,
   baseUrl: appURL(),
   middleware: [
-    imagesWorkerMiddleware({
-      imagesRoute: "/images",
-      secret: "MY_VERY_SECRET_SECRET",
-    }),
     farcasterHubContext({
       ...(process.env.NODE_ENV === "production"
         ? {

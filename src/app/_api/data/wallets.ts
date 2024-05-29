@@ -17,6 +17,8 @@ export type WalletInfo = {
   allWallets: string[];
   rank: number;
   image?: string;
+  bio?: string;
+  builderScore?: number;
   farcasterId?: number;
   passportId?: number;
   userId?: string;
@@ -147,6 +149,11 @@ export const getWalletFromExternal = async (
     userId: bossUser?.id,
     passportId: talentSocial?.passport_id ?? bossUser?.passport_id ?? undefined,
     farcasterId: farcasterSocial?.fid ?? bossUser?.farcaster_id ?? undefined,
+    bio:
+      farcasterSocial?.profile.bio.text ??
+      talentSocial?.passport_profile?.bio ??
+      "",
+    builderScore: talentSocial?.score ?? 0,
     image:
       farcasterSocial?.pfp_url ??
       talentSocial?.user?.profile_picture_url ??

@@ -16,6 +16,7 @@ CREATE UNIQUE INDEX idx_unique_user_wallet_nominations ON boss_nominations (orig
 CREATE INDEX idx_wallet_origin ON boss_nominations (destination_wallet_id);
 CREATE INDEX idx_wallet_destination ON boss_nominations (origin_user_id);
 CREATE INDEX idx_rank ON boss_leaderboard (rank);
+CREATE INDEX idx_nominations_created_at ON boss_nominations (created_at);
 ```
 
 </details>
