@@ -28,8 +28,11 @@ CREATE INDEX idx_nominations_created_at ON boss_nominations (created_at);
 CREATE OR REPLACE FUNCTION update_leaderboard()
 RETURNS VOID AS $$
 BEGIN
+    -- Clear the current leaderboard ranks
+    TRUNCATE TABLE boss_leaderboard;
+
     WITH user_scores AS (
-        SELECT u.id as user_id,
+        SELECT u.id AS user_id,
                u.boss_score,
                u.passport_builder_score,
                u.username,
@@ -37,6 +40,7 @@ BEGIN
         FROM users u
         LEFT JOIN wallets w ON w.user_id = u.id
         LEFT JOIN boss_nominations bn ON w.wallet = bn.destination_wallet_id
+        WHERE u.farcaster_power_user = true
         GROUP BY u.id
     )
     INSERT INTO boss_leaderboard (user_id, rank, boss_score, passport_builder_score, username, nominations_received)
