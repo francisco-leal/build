@@ -21,13 +21,14 @@ export const formatNumber = (n: number, decimalPoints: number = 2) => {
  */
 export const formatLargeNumber = (n: number) => {
   const [divider, suffix] = (() => {
-    if (n > 1e12) return [1e9, "B"];
-    if (n > 1e9) return [1e6, "M"];
-    if (n > 1e6) return [1e3, "K"];
+    if (n > 1e12) return [1e12, "T"];
+    if (n > 1e9) return [1e9, "B"];
+    if (n > 1e6) return [1e6, "M"];
+    if (n > 1e3) return [1e3, "K"];
     return [1, ""];
   })();
 
   const basedNumber = n / divider;
-  const localizedNumber = formatNumber(basedNumber, 0);
+  const localizedNumber = formatNumber(basedNumber, 2);
   return `${localizedNumber}${suffix}`;
 };
