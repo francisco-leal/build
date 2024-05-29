@@ -183,7 +183,7 @@ export const getNominationsUserReceived = async (
           buildPointsReceived: nomination.boss_points_received,
           buildPointsSent: nomination.boss_points_sent,
           createdAt: nomination.created_at,
-          destinationWallet: "", // not used
+          destinationWallet: nomination.destination_wallet_id,
           destinationUsername: "", // not used
           destinationRank: null, // not used
         })) ?? []
