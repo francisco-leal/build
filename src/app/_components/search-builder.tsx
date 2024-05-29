@@ -132,10 +132,14 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                 </Typography>
               </Divider>
               <Link
-                href={"/leaderboard"}
+                href={
+                  "https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=74"
+                }
+                target="_blank"
                 sx={{ color: "common.white", textDecoration: "underline" }}
               >
-                Don&apos;t know who to nominate? Check this leaderboard.
+                Check the eligibility criteria to claim $BUILD tokens from
+                Airdrop 1
               </Link>
             </>
           );
