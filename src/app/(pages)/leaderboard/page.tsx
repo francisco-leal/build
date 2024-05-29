@@ -2,7 +2,6 @@ import { Stack, Typography } from "@mui/joy";
 import { DateTime } from "luxon";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableLeaderboardValues } from "@/app/_api/functions/get-table-leaderboard-values";
-import { getTableUndiscoveredBuildersValues } from "@/app/_api/functions/get-table-undiscovered-builders-values";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { TableLeaderboard } from "@/app/_components/table-leaderboard";
