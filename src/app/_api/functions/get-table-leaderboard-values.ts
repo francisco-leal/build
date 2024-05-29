@@ -9,7 +9,9 @@ import { CacheKey } from "../helpers/cache-keys";
 const getLeaderboardTop50 = unstable_cache(async () => {
   const { data: leaderboardData } = await supabase
     .from("boss_leaderboard")
-    .select("*, users(farcaster_id, passport_id, last_wallet)")
+    .select(
+      "*, users(farcaster_id, passport_id, last_wallet, farcaster_power_user)",
+    )
     .order("rank", { ascending: true })
     .order("passport_builder_score", { ascending: false })
     .limit(50)
@@ -29,9 +31,10 @@ export const getTableLeaderboardValues = async (): Promise<
     leaderboard.push({
       ...user.boss_leaderboard,
       users: {
-        farcaster_id: null,
-        passport_id: null,
+        farcaster_id: user.farcaster_id,
+        passport_id: user.passport_id,
         last_wallet: user.wallet,
+        farcaster_power_user: user.farcaster_power_user,
       },
     });
   }
@@ -49,5 +52,6 @@ export const getTableLeaderboardValues = async (): Promise<
       farcasterId: entry.users?.farcaster_id ?? null,
       passportId: entry.users?.passport_id ?? null,
       walletAddress: entry.users?.last_wallet ?? null,
+      farcasterPowerUser: entry.users?.farcaster_power_user ?? false,
     }));
 };
