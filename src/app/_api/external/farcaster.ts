@@ -12,6 +12,11 @@ type FarcasterAPISearchResponse = {
 
 export type FarcasterAPIUser = {
   fid: number;
+  profile: {
+    bio: {
+      text: string;
+    };
+  };
   username: string;
   display_name: string;
   custody_address: string;
@@ -64,7 +69,6 @@ export const getFarcasterUser = async (
         const data = (await response.json()) as {
           [key: string]: FarcasterAPIUser[];
         };
-
         if (!response.ok) return null;
         if (response.status !== 200) return null;
         if (!data[walletId]) return null;
