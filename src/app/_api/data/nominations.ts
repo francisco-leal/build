@@ -50,29 +50,6 @@ const SELECT_NOMINATIONS_FROM_USER = `
   )       
 ` as const;
 
-const SELECT_NOMINATIONS_TO_USER = `
-  *,
-  wallets!inner(
-    user_id,
-    users (
-      id,
-      username,
-      boss_leaderboard (
-        id,
-        rank
-      )
-    ) 
-  ),
-  users (
-    id,
-    username,
-    boss_leaderboard (
-      id,
-      rank
-    )
-  )
-` as const;
-
 const SELECT_NOMINATIONS_TO_USER_SIMPLIFIED = `
   *,
   users (
