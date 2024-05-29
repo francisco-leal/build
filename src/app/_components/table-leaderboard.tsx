@@ -1,6 +1,14 @@
 import { FunctionComponent } from "react";
 import { default as NextLink } from "next/link";
-import { Link, Sheet, SheetProps, Skeleton, Stack, Table } from "@mui/joy";
+import {
+  Link,
+  Sheet,
+  SheetProps,
+  Skeleton,
+  Stack,
+  Table,
+  Tooltip,
+} from "@mui/joy";
 import { FarcasterLink } from "@/shared/components/farcaster-link";
 import { TalentProtocolLink } from "@/shared/components/talentprotocol-link";
 import { FarcasterPowerBadge } from "@/shared/icons/farcaster-power-user";
@@ -67,7 +75,19 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
                   scroll={false}
                 >
                   {val.farcasterPowerUser && (
-                    <FarcasterPowerBadge sx={{ marginRight: 1 }} />
+                    <Tooltip
+                      variant="outlined"
+                      title={
+                        <>
+                          We&apos;re hiding participants without a Power Badge
+                          or builder score above 50 from public leaderboards.
+                          <br />
+                          This doesn&apos;t affect Daily Budget or Build Points.
+                        </>
+                      }
+                    >
+                      <FarcasterPowerBadge sx={{ marginRight: 1 }} />
+                    </Tooltip>
                   )}
                   {abbreviateWalletAddress(val.name)}
                 </Link>
