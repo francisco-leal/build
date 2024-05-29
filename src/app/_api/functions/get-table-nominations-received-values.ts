@@ -13,7 +13,7 @@ export const getTableNominationsReceivedValues = async (): Promise<
 
   const values = nominations.map(
     (n): TableNominationsReceivedValue => ({
-      key: `${n.createdAt}-${n.destinationWallet}`,
+      key: `${n.createdAt}-${n.originWallet}`,
       date: DateTime.fromISO(n.createdAt).toFormat("LLL dd"),
       name: n.originUsername,
       walletAddress: n.originWallet,

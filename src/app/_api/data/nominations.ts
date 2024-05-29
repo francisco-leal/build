@@ -74,6 +74,18 @@ const SELECT_NOMINATIONS_TO_USER = `
   )
 ` as const;
 
+const SELECT_NOMINATIONS_TO_USER_SIMPLIFIED = `
+  *,
+  users (
+    id,
+    username,
+    boss_leaderboard (
+      id,
+      rank
+    )
+  )
+` as const;
+
 export const getNomination = async (
   user: User,
   wallet: WalletInfo,
@@ -151,10 +163,11 @@ export const getNominationsUserReceived = async (
 ): Promise<Nomination[]> => {
   return unstable_cache(
     async () => {
+      const walletsForUser = user.wallets.map((w) => w.wallet);
       const nominations = await supabase
         .from("boss_nominations")
-        .select(SELECT_NOMINATIONS_TO_USER)
-        .eq("wallets.user_id", user.id)
+        .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
+        .in("destination_wallet_id", walletsForUser)
         .order("created_at", { ascending: false })
         .limit(10)
         .throwOnError()
@@ -169,13 +182,10 @@ export const getNominationsUserReceived = async (
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
           buildPointsReceived: nomination.boss_points_received,
           buildPointsSent: nomination.boss_points_sent,
-          destinationWallet: nomination.destination_wallet_id,
-          destinationUsername:
-            user.username ??
-            abbreviateWalletAddress(nomination.destination_wallet_id),
-          destinationRank:
-            nomination?.wallets?.users?.boss_leaderboard?.rank ?? null,
           createdAt: nomination.created_at,
+          destinationWallet: "", // not used
+          destinationUsername: "", // not used
+          destinationRank: null, // not used
         })) ?? []
       );
     },
