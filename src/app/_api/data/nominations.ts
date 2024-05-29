@@ -11,7 +11,6 @@ import {
   CACHE_1_MINUTE,
   CACHE_5_MINUTES,
 } from "../helpers/cache-keys";
-import { JobTypes } from "../helpers/job-types";
 import { getCurrentUser, getUserBalances } from "./users";
 import { User } from "./users";
 import { WalletInfo, createWallet, getWalletFromExternal } from "./wallets";
@@ -183,9 +182,11 @@ export const getNominationsUserReceived = async (
           buildPointsReceived: nomination.boss_points_received,
           buildPointsSent: nomination.boss_points_sent,
           createdAt: nomination.created_at,
-          destinationWallet: "", // not used
-          destinationUsername: "", // not used
-          destinationRank: null, // not used
+          destinationWallet: nomination.destination_wallet_id,
+          destinationUsername:
+            user.username ??
+            abbreviateWalletAddress(nomination.destination_wallet_id), // not used
+          destinationRank: user.boss_leaderboard?.rank ?? null, // not used
         })) ?? []
       );
     },
@@ -366,10 +367,11 @@ export const getTopNominationsForUser = async (
 ): Promise<Nomination[]> => {
   return unstable_cache(
     async () => {
+      const wallets = user.wallets.map((w) => w.wallet);
       const nominations = await supabase
         .from("boss_nominations")
-        .select(SELECT_NOMINATIONS_TO_USER)
-        .eq("wallets.user_id", user.id)
+        .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
+        .in("destination_wallet_id", wallets)
         .order("boss_points_sent", { ascending: false })
         .limit(5)
         .throwOnError()
@@ -388,8 +390,7 @@ export const getTopNominationsForUser = async (
           destinationUsername:
             user.username ??
             abbreviateWalletAddress(nomination.destination_wallet_id),
-          destinationRank:
-            nomination?.wallets?.users?.boss_leaderboard?.rank ?? null,
+          destinationRank: user.boss_leaderboard?.rank ?? null,
           createdAt: nomination.created_at,
         })) ?? []
       );
