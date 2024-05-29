@@ -58,8 +58,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
           <IncrementingNumber
             start={nominationsCount ? nominationsCount - 100 : 0}
             end={nominationsCount ?? 0}
-            interval={1000}
-            icon={<MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />}
+            interval={500}
+            icon={<Interface sx={{ "&&": { height: 32, width: 32 } }} />}
           />
         </BlockyCard>
       </HeroSection>
