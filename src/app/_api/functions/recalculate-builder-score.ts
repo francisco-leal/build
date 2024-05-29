@@ -13,7 +13,15 @@ export const recalculateBuilderScore = async (): Promise<number> => {
   if (!user)
     throw new BadRequestError("You must have a wallet connected to refresh!");
 
-  const highestPassport = await resyncPassportForUser(user);
+  let highestPassport;
+  try {
+    highestPassport = await resyncPassportForUser(user);
+  } catch (error) {
+    rollbarError(`Error Resyncing Passport for user: ${user.id}`);
+    throw new BadRequestError(
+      "Couldn't resync your passport, try again later.",
+    );
+  }
   await supabase
     .from("users")
     .update({

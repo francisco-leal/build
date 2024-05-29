@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Typography } from "@mui/joy";
-import { formatLargeNumber } from "@/shared/utils/format-number";
+import { formatNumber } from "@/shared/utils/format-number";
 import type { TypographyProps } from "@mui/joy";
 import type { FunctionComponent, ReactNode } from "react";
 
@@ -40,7 +40,7 @@ export const IncrementingNumber: FunctionComponent<IncrementingNumberProps> = ({
   icon,
   ...props
 }) => {
-  const [text, setText] = useState(formatLargeNumber(start));
+  const [text, setText] = useState(formatNumber(start, 0));
   const generator = useMemo(
     () => incrementNumber(start, end, step, interval),
     [start, end, step, interval],
@@ -52,7 +52,7 @@ export const IncrementingNumber: FunctionComponent<IncrementingNumberProps> = ({
     (async () => {
       for await (const value of generator) {
         if (isMounted) {
-          setText(formatLargeNumber(value));
+          setText(formatNumber(value, 0));
         }
       }
     })();
