@@ -399,3 +399,49 @@ export const getNominationsCountForUser = async (
     { revalidate: CACHE_5_MINUTES },
   )();
 };
+
+export const getNominationsWeeklyStatsForUser = async (
+  user: User,
+): Promise<{
+  nominationsReceived: number;
+  nominationsSent: number;
+  pointsEarned: number;
+}> => {
+  return unstable_cache(
+    async () => {
+      const wallets = user.wallets.map((w) => w.wallet);
+      const [nominationsReceived, nominationsSent] = await Promise.all([
+        supabase
+          .from("boss_nominations")
+          .select("boss_points_received")
+          .in("destination_wallet_id", wallets)
+          .gte("created_at", DateTime.local().minus({ days: 7 }).toISO())
+          .throwOnError()
+          .then((res) => res.data ?? []),
+        supabase
+          .from("boss_nominations")
+          .select("boss_points_received")
+          .in("origin_wallet_id", wallets)
+          .gte("created_at", DateTime.local().minus({ days: 7 }).toISO())
+          .throwOnError()
+          .then((res) => res.data ?? []),
+      ]);
+
+      return {
+        nominationsReceived: nominationsReceived.length,
+        nominationsSent: nominationsSent.length,
+        pointsEarned:
+          nominationsReceived.reduce(
+            (acc, curr) => acc + curr.boss_points_received,
+            0,
+          ) +
+          nominationsSent.reduce(
+            (acc, curr) => acc + curr.boss_points_received,
+            0,
+          ),
+      };
+    },
+    [`nominations_weekly_stats_${user.id}`] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )();
+};
