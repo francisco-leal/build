@@ -38,9 +38,6 @@ export const POST = restApiHandler(
     const { originWallet, walletToNominate } =
       (await request.json()) as CreateNominationRequest;
 
-    console.log("originWallet", originWallet);
-    console.log("walletToNominate", walletToNominate);
-
     const userNominating = await createNewUserForWallet(originWallet);
     const walletInfo = await getWalletFromExternal(walletToNominate);
 
