@@ -61,8 +61,8 @@ const boldFontData = fs.readFileSync(
 );
 export const imageOptions = {
   debug: false,
-  width: 1200,
-  height: 1200,
+  width: 1080,
+  height: 1080,
   fonts: [
     {
       data: regularFontData,

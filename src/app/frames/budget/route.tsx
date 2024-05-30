@@ -6,6 +6,7 @@ import { getUserBalances } from "@/app/_api/data/users";
 import { frames, getFramesUser } from "@/app/frames/frames";
 import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
 const frameDice = fs.readFileSync(
   path.join(path.resolve(process.cwd(), "public", "images"), "frame-dice.png"),
@@ -63,7 +64,7 @@ const handler = frames(async (ctx) => {
                   tw="ml-[50px] text-[188px] font-bold"
                   style={{ fontFamily: "Bricolage-Bold" }}
                 >
-                  {userBalances.dailyBudget.toFixed(2)}
+                  {formatLargeNumber(userBalances.dailyBudget)}
                 </p>
               </div>
               <div tw="flex px-[20px] w-auto text-white">
