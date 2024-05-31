@@ -410,35 +410,34 @@ export const getNominationsWeeklyStatsForUser = async (
   return unstable_cache(
     async () => {
       const wallets = user.wallets.map((w) => w.wallet);
+      const filterDate = DateTime.local().minus({ days: 7 }).toISO();
       const [nominationsReceived, nominationsSent] = await Promise.all([
         supabase
-          .from("boss_nominations")
-          .select("boss_points_received")
-          .in("destination_wallet_id", wallets)
-          .gte("created_at", DateTime.local().minus({ days: 7 }).toISO())
+          .rpc("calculate_stats_received", {
+            wallets_to_update: wallets,
+            filter_date: filterDate,
+          })
+          .select("*")
+          .single()
           .throwOnError()
-          .then((res) => res.data ?? []),
+          .then((res) => res.data),
         supabase
-          .from("boss_nominations")
-          .select("boss_points_received")
-          .in("origin_wallet_id", wallets)
-          .gte("created_at", DateTime.local().minus({ days: 7 }).toISO())
+          .rpc("calculate_stats_sent", {
+            user_id: user.id,
+            filter_date: filterDate,
+          })
+          .select("*")
+          .single()
           .throwOnError()
-          .then((res) => res.data ?? []),
+          .then((res) => res.data),
       ]);
 
       return {
-        nominationsReceived: nominationsReceived.length,
-        nominationsSent: nominationsSent.length,
+        nominationsReceived: nominationsReceived?.nominations_received ?? 0,
+        nominationsSent: nominationsSent?.nominations_made ?? 0,
         pointsEarned:
-          nominationsReceived.reduce(
-            (acc, curr) => acc + curr.boss_points_received,
-            0,
-          ) +
-          nominationsSent.reduce(
-            (acc, curr) => acc + curr.boss_points_received,
-            0,
-          ),
+          (nominationsSent?.build_points_sent ?? 0) +
+          (nominationsReceived?.build_points_received ?? 0),
       };
     },
     [`nominations_weekly_stats_${user.id}`] as CacheKey[],

@@ -199,3 +199,51 @@ $$ LANGUAGE plpgsql;
 ```
 
 </details>
+
+<details>
+<summary><b>[FUNCTION] Calculate total nominations received for a given set of wallets</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION calculate_stats_received(wallets_to_update text[], filter_date timestamp) RETURNS TABLE (
+    nominations_received bigint,
+    build_points_received NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        count(id) AS nominations_received,
+        sum(boss_nominations.boss_points_earned) AS build_points_received
+    FROM
+        boss_nominations
+    WHERE
+        destination_wallet_id = ANY(wallets_to_update)
+        AND created_at >= filter_date;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>
+
+<details>
+<summary><b>[FUNCTION] Calculate total nominations received for a given user</b></summary>
+
+```sql
+CREATE OR REPLACE FUNCTION calculate_stats_sent(user_id uuid, filter_date timestamp) RETURNS TABLE (
+    nominations_made bigint,
+    build_points_sent NUMERIC
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        count(id) AS nominations_made,
+        sum(boss_nominations.boss_points_received) AS build_points_sent
+    FROM
+        boss_nominations
+    WHERE
+        origin_user_id = user_id
+        AND created_at >= filter_date;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+</details>
