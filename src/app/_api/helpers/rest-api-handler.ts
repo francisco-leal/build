@@ -11,7 +11,13 @@ import { getApiKey } from "../data/api_keys";
 type Params = Record<string, string>;
 type Fn = (request: NextRequest, params?: Params) => Promise<unknown>;
 
-export const restApiHandler = (fn: Fn, options?: { skipAuth: boolean }) => {
+export const restApiHandler = (
+  fn: Fn,
+  options?: {
+    skipAuth?: boolean;
+    validateWriteAccess?: boolean;
+  },
+) => {
   return async (request: NextRequest, context: { params: Params }) => {
     try {
       const skipAPIAuth = options?.skipAuth || false;
@@ -25,6 +31,11 @@ export const restApiHandler = (fn: Fn, options?: { skipAuth: boolean }) => {
 
         if (!apiKey || !apiKey.active) {
           throw new UnauthorizedError("Invalid API key");
+        }
+
+        const validateWriteAccess = options?.validateWriteAccess || false;
+        if (validateWriteAccess && apiKey?.access_level !== "write") {
+          throw new UnauthorizedError("No write permission");
         }
       }
 

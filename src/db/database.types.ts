@@ -263,6 +263,26 @@ export type Database = {
         };
         Returns: number;
       };
+      calculate_stats_received: {
+        Args: {
+          wallets_to_update: string[];
+          filter_date: string;
+        };
+        Returns: {
+          nominations_received: number;
+          build_points_received: number;
+        }[];
+      };
+      calculate_stats_sent: {
+        Args: {
+          user_id: string;
+          filter_date: string;
+        };
+        Returns: {
+          nominations_made: number;
+          build_points_sent: number;
+        }[];
+      };
       increment_nomination_streak: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;

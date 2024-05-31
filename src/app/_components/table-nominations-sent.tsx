@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { default as NextLink } from "next/link";
 import { Box, Link, Sheet, SheetProps, Skeleton, Table } from "@mui/joy";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
-import { formatLargeNumber } from "@/shared/utils/format-number";
+import { formatNumber } from "@/shared/utils/format-number";
 
 export type TableNominationsSentValue = {
   key: string;
@@ -63,7 +63,7 @@ export const TableNominationsSent: FunctionComponent<
                     </Link>
                   </td>
                   <td>{val.rank ?? "---"}</td>
-                  <td>{formatLargeNumber(val.pointsGiven ?? 0)}</td>
+                  <td>{formatNumber(val.pointsGiven ?? 0, 0)}</td>
                 </>
               )}
             </Box>

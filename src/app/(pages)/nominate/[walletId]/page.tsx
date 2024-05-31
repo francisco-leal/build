@@ -16,7 +16,7 @@ import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
-import { formatLargeNumber } from "@/shared/utils/format-number";
+import { formatNumber } from "@/shared/utils/format-number";
 import { getWarpcastSharableLinkSingleBuilder } from "@/shared/utils/sharable-warpcast-link";
 import {
   Modal,
@@ -106,11 +106,11 @@ export default async function NominateBuilder({
             },
             {
               label: "Points given",
-              value: formatLargeNumber(previousNomination.buildPointsSent),
+              value: formatNumber(previousNomination.buildPointsSent),
             },
             {
               label: "Points earned",
-              value: formatLargeNumber(previousNomination.buildPointsReceived),
+              value: formatNumber(previousNomination.buildPointsReceived),
             },
           ]}
         />
@@ -147,7 +147,7 @@ export default async function NominateBuilder({
             },
             {
               label: "Daily Budget (Per nomination)",
-              value: formatLargeNumber(userBalances.dailyBudget),
+              value: formatNumber(userBalances.dailyBudget),
             },
             {
               label: "Daily Nominations",
@@ -178,15 +178,15 @@ export default async function NominateBuilder({
         },
         {
           label: "Points to be given",
-          value: formatLargeNumber(userBalances.pointsGiven),
+          value: formatNumber(userBalances.pointsGiven),
         },
         {
           label: "Points to be earned",
-          value: formatLargeNumber(userBalances.pointsEarned),
+          value: formatNumber(userBalances.pointsEarned),
         },
         {
           label: "Daily Budget (Per nomination)",
-          value: formatLargeNumber(userBalances.dailyBudget),
+          value: formatNumber(userBalances.dailyBudget),
         },
         {
           label: "Daily Nominations",
