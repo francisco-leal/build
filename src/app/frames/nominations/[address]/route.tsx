@@ -3,9 +3,9 @@ import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
+import { NominateBuilderError } from "@/shared/components/frames/nominate-builder-error";
 import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
-import { NominateBuilderError } from "../../nominate/route";
 
 const handler = frames(async (ctx) => {
   const userAddress =
@@ -95,9 +95,14 @@ const handler = frames(async (ctx) => {
       },
     };
   } catch (error) {
+    const farcasterUsername = ctx.message?.requesterUserData?.displayName || "";
+    const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
+
     return {
       image: (
         <NominateBuilderError
+          farcasterUsername={farcasterUsername}
+          farcasterPfp={farcasterPfp}
           builderImage={undefined}
           builderUsername={`${userAddress.slice(0, 8)}...${userAddress.slice(-4)}`}
           errorTitle="Builder not found"

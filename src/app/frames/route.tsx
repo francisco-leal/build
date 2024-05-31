@@ -11,11 +11,7 @@ const handler = frames(async (ctx) => {
   }
 
   return {
-    image: (
-      <div tw="relative flex flex-col text-center items-center justify-center">
-        <img src={`${appURL()}/images/frame-landing.png`} tw="w-full" />
-      </div>
-    ),
+    image: `${appURL()}/images/frame-landing.png`,
     buttons: [
       <Button action="post" key="1" target="/nominate">
         Nominate
