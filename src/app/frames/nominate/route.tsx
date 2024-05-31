@@ -1,6 +1,10 @@
 import { Button } from "frames.js/next";
 import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
-import { getUserBalances, getUserFromWallet } from "@/app/_api/data/users";
+import {
+  createNewUserForWallet,
+  getUserBalances,
+  getUserFromWallet,
+} from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { searchBuilders } from "@/app/_api/functions/search-builders";
 import { frames, getFramesUser } from "@/app/frames/frames";
@@ -84,34 +88,37 @@ const handler = frames(async (ctx) => {
         },
       };
     }
-    const nominatedUser = await getUserFromWallet(walletProfile.wallet);
+    let nominatedUser = await getUserFromWallet(walletProfile.wallet);
     if (!nominatedUser) {
       // create user to be nominated
-      return {
-        image: (
-          <NominateBuilderError
-            farcasterPfp={farcasterPfp}
-            farcasterUsername={farcasterUsername}
-            builderImage={undefined}
-            builderUsername={userNominated}
-            errorTitle="Builder not found"
-            errorMessage=""
-          />
-        ),
-        textInput: "Search with farcaster handle",
-        buttons: [
-          <Button action="post" key="1" target="/nominate">
-            Search
-          </Button>,
-          <Button action="post" key="2" target="/">
-            Back
-          </Button>,
-        ],
-        imageOptions: {
-          ...imageOptions,
-          aspectRatio: "1:1",
-        },
-      };
+      nominatedUser = await createNewUserForWallet(walletProfile.wallet);
+      if (!nominatedUser) {
+        return {
+          image: (
+            <NominateBuilderError
+              farcasterPfp={farcasterPfp}
+              farcasterUsername={farcasterUsername}
+              builderImage={undefined}
+              builderUsername={userNominated}
+              errorTitle="Builder not found"
+              errorMessage=""
+            />
+          ),
+          textInput: "Search with farcaster handle",
+          buttons: [
+            <Button action="post" key="1" target="/nominate">
+              Search
+            </Button>,
+            <Button action="post" key="2" target="/">
+              Back
+            </Button>,
+          ],
+          imageOptions: {
+            ...imageOptions,
+            aspectRatio: "1:1",
+          },
+        };
+      }
     }
     const [todayNominations, userBalances] = await Promise.all([
       getNominationsFromUserToday(farcasterUser),
