@@ -94,7 +94,8 @@ export const NominateFrame = ({
           {!!farcasterPfp ? (
             <img
               src={farcasterPfp}
-              tw="w-[70px] h-[70px] rounded-full mr-[20px] object-cover"
+              tw="w-[70px] h-[70px] rounded-full mr-[20px]"
+              style={{ objectFit: "cover" }}
             />
           ) : null}
           <p
@@ -114,22 +115,25 @@ export const NominateFrame = ({
             </p>
           </div>
           <div
-            tw={`flex flex-col gap-[27px] w-[915px] mt-[20px] ${dailyBudget ? "text-white" : "pt-[50px] text-[#0042F5] bg-white border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]"}`}
+            tw={`flex flex-col mx-auto mt-[20px] w-[825px] ${dailyBudget ? "text-white" : "pt-[50px] text-[#0042F5] bg-white border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]"}`}
           >
             <div tw="flex flex-row px-[40px]">
               <img
                 src={nominatedImage}
-                tw="w-[240px] h-[240px] rounded-full mr-[30px] object-cover"
+                width={160}
+                height={160}
+                tw="rounded-full mr-[30px]"
+                style={{ objectFit: "cover" }}
               />
-              <div tw="flex flex-col gap-1 justify-center">
+              <div tw="flex flex-col justify-center">
                 <p
-                  tw="text-[78px] font-bold my-0"
+                  tw="text-[50px] my-0"
                   style={{ fontFamily: "Bricolage-Bold" }}
                 >
                   {nominatedUsername}
                 </p>
                 <p
-                  tw={`text-[32px] my-0 ${dailyBudget ? "" : "text-[#636B74]"}`}
+                  tw={`text-[25px] my-0 ${dailyBudget ? "" : "text-[#636B74]"}`}
                 >
                   {abbreviateWalletAddress(nominatedWallet)}
                 </p>
@@ -195,12 +199,15 @@ export const NominateFrame = ({
                 </div>
               </div>
             ) : (
-              <div tw="flex flex-col h-fit">
-                <div tw="flex w-[900px] px-[40px]">
-                  <p tw="text-[32px] text-[#636B74]">{nominatedBio}</p>
+              <div tw="flex flex-col">
+                <div
+                  tw="flex w-[810px] px-[40px] min-h-[200px]"
+                  style={{ overflow: "hidden" }}
+                >
+                  <p tw="text-[28px] text-[#636B74]">{nominatedBio}</p>
                 </div>
-                <div tw="flex bg-[#0042F5] text-white w-auto h-[310px]">
-                  <div tw="flex flex-col text-center items-center justify-center my-0 px-[30px] py-[50px] w-[300px]">
+                <div tw="flex bg-[#0042F5] text-white w-auto h-[320px] border-black border-t-4 py-0 my-0">
+                  <div tw="flex flex-col text-center items-center justify-center my-0 px-[30px] py-[70px] w-[270px]">
                     <svg
                       width="44"
                       height="45"
@@ -342,7 +349,7 @@ export const NominateFrame = ({
                       {nominatedBuilderScore}
                     </p>
                   </div>
-                  <div tw="flex flex-col text-center items-center justify-center my-0 px-[30px] py-[50px] w-[300px] border-black border-r-4 border-l-4">
+                  <div tw="flex flex-col text-center items-center justify-center my-0 px-[30px] py-[70px] w-[270px] border-black border-r-4 border-l-4">
                     <svg
                       width="44"
                       height="45"
@@ -514,63 +521,68 @@ export const NominateFrame = ({
                       {nominatedUserNominationsReceived}
                     </p>
                   </div>
-                  <div tw="flex flex-col text-center items-center justify-center my-0 px-[30px] py-[50px] w-[300px]">
+                  <div tw="flex flex-col text-center items-center justify-center my-0 px-[30px] py-[70px] w-[270px]">
                     <svg
-                      width="44"
-                      height="45"
-                      viewBox="0 0 44 45"
+                      width="38"
+                      height="38"
+                      viewBox="0 0 38 38"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <g clip-path="url(#clip0_1241_4342)">
-                        <path
-                          d="M2.09 13.0671H41.91V40.3059H44V4.69336H41.91V10.9771H2.09V4.69336H0V40.3059H2.09V13.0671Z"
-                          fill="#FBFCFE"
-                        />
-                        <path
-                          d="M41.9098 40.3066H2.08984V42.4104H41.9098V40.3066Z"
-                          fill="#FBFCFE"
-                        />
-                        <path
-                          d="M6.28516 17.2617V36.1267H37.7177V17.2617H6.28516ZM18.8527 27.7392H16.7627V29.8292H14.6727V31.933H12.5689V29.8292H14.6727V27.7392H16.7627V25.6492H14.6727V23.5455H12.5689V21.4555H14.6727V23.5455H16.7627V25.6492H18.8527V27.7392ZM31.4339 27.7392H23.0464V25.6492H31.4339V27.7392Z"
-                          fill="#FBFCFE"
-                        />
-                        <path
-                          d="M14.6702 6.7832H12.5664V8.88695H14.6702V6.7832Z"
-                          fill="#FBFCFE"
-                        />
-                        <path
-                          d="M10.4767 6.7832H8.38672V8.88695H10.4767V6.7832Z"
-                          fill="#FBFCFE"
-                        />
-                        <path
-                          d="M6.28531 6.7832H4.19531V8.88695H6.28531V6.7832Z"
-                          fill="#FBFCFE"
-                        />
-                        <path
-                          d="M41.9098 2.58984H2.08984V4.69359H41.9098V2.58984Z"
-                          fill="#FBFCFE"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_1241_4342">
-                          <rect
-                            width="44"
-                            height="44"
-                            fill="white"
-                            transform="translate(0 0.5)"
-                          />
-                        </clipPath>
-                      </defs>
+                      <path
+                        d="M3.8 7.6L3.8 30.4H0L9.9662e-07 7.6H3.8Z"
+                        fill="#FBFCFE"
+                      />
+                      <path
+                        d="M15.2 7.6L15.2 30.4H11.4L11.4 7.6H15.2Z"
+                        fill="#FBFCFE"
+                      />
+                      <path
+                        d="M26.6 11.4V17.1H22.8V11.4H26.6Z"
+                        fill="#FBFCFE"
+                      />
+                      <path
+                        d="M26.6 20.9V26.6H22.8V20.9H26.6Z"
+                        fill="#FBFCFE"
+                      />
+                      <path d="M22.8 7.6V11.4H15.2V7.6H22.8Z" fill="#FBFCFE" />
+                      <path
+                        d="M22.8 17.1V20.9H15.2V17.1H22.8Z"
+                        fill="#FBFCFE"
+                      />
+                      <path
+                        d="M22.8 26.6V30.4H15.2L15.2 26.6H22.8Z"
+                        fill="#FBFCFE"
+                      />
+                      <path d="M7.6 3.8V7.6L3.8 7.6V3.8H7.6Z" fill="#FBFCFE" />
+                      <path
+                        d="M34.2 3.8V7.6L30.4 7.6V3.8H34.2Z"
+                        fill="#FBFCFE"
+                      />
+                      <path
+                        d="M7.6 30.4V34.2H3.8L3.8 30.4H7.6Z"
+                        fill="#FBFCFE"
+                      />
+                      <path
+                        d="M34.2 30.4V34.2H30.4V30.4H34.2Z"
+                        fill="#FBFCFE"
+                      />
+                      <path d="M30.4 34.2V38H7.6V34.2H30.4Z" fill="#FBFCFE" />
+                      <path
+                        d="M30.4 9.9662e-07V3.8H7.6V0L30.4 9.9662e-07Z"
+                        fill="#FBFCFE"
+                      />
+                      <path d="M38 7.6V30.4H34.2V7.6L38 7.6Z" fill="#FBFCFE" />
                     </svg>
+
                     <p
                       tw="text-[22px] font-bold h-[50px]"
                       style={{ fontFamily: "Bricolage-Bold" }}
                     >
-                      BUILD points
+                      BUILD POINTS
                     </p>
                     <p
-                      tw="text-[64px] font-bold text-[#51D7D0]"
+                      tw="text-[64px] text-[#51D7D0]"
                       style={{ fontFamily: "Bricolage-Bold" }}
                     >
                       {formatLargeNumber(nominatedBuildPoints)}
