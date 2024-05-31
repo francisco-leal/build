@@ -127,7 +127,10 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
   const existingWallets = await supabase
     .from("wallets")
     .select("user_id")
-    .in("wallet", allWallets)
+    .in(
+      "wallet",
+      allWallets.map((w) => w.wallet),
+    )
     .throwOnError()
     .then((res) => res.data);
 
