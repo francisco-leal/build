@@ -60,7 +60,7 @@ const boldFontData = fs.readFileSync(
   path.join(process.cwd(), "public/assets", "BricolageGrotesque-Bold.ttf"),
 );
 export const imageOptions = {
-  debug: false,
+  debug: true,
   width: 1080,
   height: 1080,
   fonts: [

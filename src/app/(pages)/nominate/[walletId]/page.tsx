@@ -91,7 +91,6 @@ export default async function NominateBuilder({
   const todaysNominations = await getNominationsFromUserToday(currentUser);
   const sharableWarpcastLink = getWarpcastSharableLinkSingleBuilder(
     builder.username,
-    currentUser.wallet,
   );
   const previousNomination = await getNomination(currentUser, builder);
   if (previousNomination) {

@@ -6,9 +6,11 @@ import {
 import { getUserFromWallet } from "@/app/_api/data/users";
 import { createWallet, getWalletFromExternal } from "@/app/_api/data/wallets";
 import { frames, getFramesUser } from "@/app/frames/frames";
+import { NominateBuilder } from "@/shared/components/frames/nominate-builder";
+import { NominateBuilderError } from "@/shared/components/frames/nominate-builder-error";
 import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
-import { NominateBuilderError, NominateFrame } from "../route";
+import { getWarpcastSharableLinkSingleBuilder } from "@/shared/utils/sharable-warpcast-link";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
@@ -57,10 +59,7 @@ const handler = frames(async (ctx) => {
                 </p>
               </div>
               <div tw="flex px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
-                <p
-                  tw="text-[48px] font-bold"
-                  style={{ fontFamily: "Bricolage-Bold" }}
-                >
+                <p tw="text-[48px]" style={{ fontFamily: "Bricolage-Bold" }}>
                   Builder Nominated
                 </p>
               </div>
@@ -72,7 +71,7 @@ const handler = frames(async (ctx) => {
         <Button action="post" key="1" target="/nominate">
           Nominate a new builder
         </Button>,
-        <Button action="link" key="1" target="https://build.top/">
+        <Button action="link" key="2" target="https://build.top/">
           Learn More
         </Button>,
       ],
@@ -85,11 +84,12 @@ const handler = frames(async (ctx) => {
     const errorMessage = (error as Error)?.message || "An error occurred";
     const farcasterUsername =
       ctx.message?.requesterUserData?.displayName ||
-      ctx.message?.requesterFid ||
+      ctx.message?.requesterFid.toString() ||
       ctx.message?.verifiedWalletAddress;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
     let walletProfile = null;
     let nominatedUser = null;
+
     try {
       walletProfile = await getWalletFromExternal(walletNominated);
       nominatedUser = await getUserFromWallet(
@@ -101,6 +101,8 @@ const handler = frames(async (ctx) => {
         return {
           image: (
             <NominateBuilderError
+              farcasterPfp={farcasterPfp}
+              farcasterUsername={farcasterUsername || null}
               builderImage={undefined}
               builderUsername={`${walletNominated.slice(0, 8)}...${walletNominated.slice(-4)}`}
               errorTitle="Builder Not Found"
@@ -127,7 +129,7 @@ const handler = frames(async (ctx) => {
 
       return {
         image: (
-          <NominateFrame
+          <NominateBuilder
             farcasterPfp={farcasterPfp.toString() || undefined}
             farcasterUsername={farcasterUsername?.toString() || null}
             nominatedImage={walletProfile.image}
@@ -137,9 +139,6 @@ const handler = frames(async (ctx) => {
             nominatedBuilderScore={walletProfile.builderScore || 0}
             nominatedUserNominationsReceived={nominationsReceived}
             nominatedBuildPoints={nominatedUser?.boss_score || 0}
-            dailyBudget={undefined}
-            pointsGiven={undefined}
-            pointsEarned={undefined}
             todayNominations={undefined}
           />
         ),
@@ -161,9 +160,16 @@ const handler = frames(async (ctx) => {
         },
       };
     }
+    const hasShareButton =
+      errorMessage === "You already nominated this builder before!";
+    const sharableWarpcastLink = hasShareButton
+      ? getWarpcastSharableLinkSingleBuilder(walletProfile?.username || "")
+      : "";
     return {
       image: (
         <NominateBuilderError
+          farcasterPfp={farcasterPfp.toString() || undefined}
+          farcasterUsername={farcasterUsername?.toString() || null}
           builderImage={walletProfile?.image || undefined}
           builderUsername={
             walletProfile?.username ||
@@ -178,6 +184,11 @@ const handler = frames(async (ctx) => {
         <Button action="post" key="1" target="/nominate">
           Search
         </Button>,
+        hasShareButton ? (
+          <Button action="link" key="2" target={sharableWarpcastLink}>
+            Share
+          </Button>
+        ) : undefined,
       ],
       imageOptions: {
         ...imageOptions,
