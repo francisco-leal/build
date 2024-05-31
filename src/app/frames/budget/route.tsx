@@ -6,6 +6,7 @@ import { getUserBalances } from "@/app/_api/data/users";
 import { frames, getFramesUser } from "@/app/frames/frames";
 import { appURL, imageOptions } from "@/shared/frames/utils";
 import { BadRequestError } from "@/shared/utils/error";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
 const frameDice = fs.readFileSync(
   path.join(path.resolve(process.cwd(), "public", "images"), "frame-dice.png"),
@@ -36,7 +37,7 @@ const handler = frames(async (ctx) => {
                 tw="w-[72px] h-[72px] rounded-full mr-[20px] object-cover"
               />
               <p
-                tw="text-[60px] font-bold"
+                tw="text-[60px]"
                 style={{
                   fontFamily: "Bricolage-Bold",
                 }}
@@ -46,10 +47,7 @@ const handler = frames(async (ctx) => {
             </div>
             <div tw="w-full h-full -mt-[100px] flex flex-col items-center justify-center">
               <div tw="flex px-[20px] bg-white text-[#0042F5] w-auto border-black border-4 border-l-4 border-b-[15px] border-r-[15px]">
-                <p
-                  tw="text-[48px] font-bold"
-                  style={{ fontFamily: "Bricolage-Bold" }}
-                >
+                <p tw="text-[48px]" style={{ fontFamily: "Bricolage-Bold" }}>
                   Daily Points budget
                 </p>
               </div>
@@ -60,17 +58,14 @@ const handler = frames(async (ctx) => {
                   width={"132px"}
                 />
                 <p
-                  tw="ml-[50px] text-[188px] font-bold"
+                  tw="ml-[50px] text-[188px]"
                   style={{ fontFamily: "Bricolage-Bold" }}
                 >
-                  {userBalances.dailyBudget.toFixed(2)}
+                  {formatLargeNumber(userBalances.dailyBudget)}
                 </p>
               </div>
               <div tw="flex px-[20px] w-auto text-white">
-                <p
-                  tw="text-[48px] font-bold"
-                  style={{ fontFamily: "Bricolage-Bold" }}
-                >
+                <p tw="text-[48px]" style={{ fontFamily: "Bricolage-Bold" }}>
                   Increase budget 10x with Builder Score.
                 </p>
               </div>
@@ -102,11 +97,7 @@ const handler = frames(async (ctx) => {
     const errorMessage = (error as Error)?.message || "An error occurred";
     console.error(errorMessage);
     return {
-      image: (
-        <div tw="relative flex flex-col text-center items-center justify-center">
-          <img src={`${appURL()}/images/frame-landing.png`} tw="w-full" />
-        </div>
-      ),
+      image: `${appURL()}/images/frame-landing.png`,
       buttons: [
         <Button action="post" key="1" target="/nominate">
           Nominate

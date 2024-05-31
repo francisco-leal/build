@@ -18,12 +18,11 @@ export function getWarpcastSharableLink(
   } catch (e) {
     sharableTextUriEncoded = encodeURI("My daily nominations for /build:\n\n");
   }
-  return `https://warpcast.com/~/compose?text=${sharableTextUriEncoded}&embeds%5B%5D=https://build.top/nominations/${userWallet}`;
+  return `https://warpcast.com/~/compose?text=${sharableTextUriEncoded}&embeds%5B%5D=https://build.top/nominations/${userWallet}?t=${Date.now()}`;
 }
 
 export function getWarpcastSharableLinkSingleBuilder(
   builderUsername: string,
-  userWallet: string,
 ): string {
   let sharableText = `I just nominated @${builderUsername} for /build because...`;
   let sharableTextUriEncoded = "";
