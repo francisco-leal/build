@@ -29,8 +29,8 @@ export const GET = restApiHandler(async (request) => {
   return {
     id: userStats.id,
     wallet: statsParams.wallet,
-    boss_score: userStats.boss_score,
-    boss_budget: userStats.boss_budget,
+    build_score: userStats.boss_score,
+    build_budget: userStats.boss_budget,
     rank: userStats.boss_leaderboard?.rank,
     nominations_received: userStats.boss_leaderboard?.nominations_received ?? 0,
     nominations_given: userStats.nominations_count,

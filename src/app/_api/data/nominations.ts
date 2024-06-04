@@ -228,6 +228,15 @@ export const createNewNomination = async (
   // TODO formalize this, instead of it being a complete hack
   origin_wallet_id?: string,
 ): Promise<Nomination> => {
+  const currentTime = DateTime.local();
+  const endOfNominationPeriod = DateTime.fromISO("2024-06-04T21:00:00.000Z");
+
+  if (currentTime >= endOfNominationPeriod) {
+    throw new BadRequestError(
+      "Nomination period for Airdrop 1 has ended! Nominations will resume soon.",
+    );
+  }
+
   const balances = await getUserBalances(nominatorUser);
 
   if (await hasNoDailyBudget(nominatorUser)) {
