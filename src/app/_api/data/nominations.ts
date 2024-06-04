@@ -229,7 +229,7 @@ export const createNewNomination = async (
   origin_wallet_id?: string,
 ): Promise<Nomination> => {
   const currentTime = DateTime.local();
-  const endOfNominationPeriod = DateTime.fromISO("2024-06-05T00:00:00.000Z");
+  const endOfNominationPeriod = DateTime.fromISO("2024-06-04T21:00:00.000Z");
 
   if (currentTime >= endOfNominationPeriod) {
     throw new BadRequestError(
