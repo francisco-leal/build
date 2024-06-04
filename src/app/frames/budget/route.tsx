@@ -102,11 +102,8 @@ const handler = frames(async (ctx) => {
         <Button action="post" key="1" target="/nominate">
           Nominate
         </Button>,
-        <Button action="post" key="2" target="/budget">
-          See my budget
-        </Button>,
-        <Button action="link" key="3" target="https://build.top/">
-          Learn more
+        <Button action="link" key="2" target="https://www.build.top/stats">
+          My Stats
         </Button>,
       ],
       imageOptions: {
