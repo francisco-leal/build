@@ -32,9 +32,7 @@ export default async function EligibilityPage() {
             </Link>
             .
           </Typography>
-          <EligibilityChecker
-            calculateEligibility={calculateEligibility}
-          />
+          <EligibilityChecker calculateEligibility={calculateEligibility} />
         </Stack>
       </HeroSection>
       <HeroSection>
