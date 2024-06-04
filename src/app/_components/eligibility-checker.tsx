@@ -100,7 +100,7 @@ export const EligibilityChecker = ({ calculateEligibility }: Props) => {
         )}
         {eligibilityState?.isEligible && (
           <Typography level="body-lg" sx={{ py: 2 }}>
-            <strong>You are eligible</strong> for Airdrop 1 🎉
+            <strong>You are eligible</strong> for Airdrop 1 🎉 <br></br>Claiming period starts June 11th.
           </Typography>
         )}
         {eligibilityState?.isEligible === false && (
