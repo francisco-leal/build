@@ -11,6 +11,7 @@ import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
 import { Terminal } from "@/shared/icons/terminal";
+import { formatNumber } from "@/shared/utils/format-number";
 
 type HomePageComponentProps = {
   loading?: boolean;
@@ -56,7 +57,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />
-            {usersCount?? 0}
+            {formatNumber(usersCount ?? 0, 0)}
           </Typography>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
@@ -75,7 +76,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Interface sx={{ "&&": { height: 32, width: 32 } }} />
-            {nominationsCount?? 0}
+            {formatNumber(nominationsCount ?? 0, 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
