@@ -157,6 +157,7 @@ export type Database = {
           budget_multiplier: number;
           coinvise_nft: boolean;
           created_at: string;
+          eligible: boolean | null;
           farcaster_id: number | null;
           farcaster_power_user: boolean | null;
           id: string;
@@ -166,6 +167,9 @@ export type Database = {
           passport_builder_score: number;
           passport_id: number | null;
           username: string | null;
+          valid_ens: boolean | null;
+          valid_farcaster_id: boolean | null;
+          valid_passport: boolean | null;
         };
         Insert: {
           boss_budget?: number;
@@ -174,6 +178,7 @@ export type Database = {
           budget_multiplier?: number;
           coinvise_nft?: boolean;
           created_at?: string;
+          eligible?: boolean | null;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
           id?: string;
@@ -183,6 +188,9 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
+          valid_ens?: boolean | null;
+          valid_farcaster_id?: boolean | null;
+          valid_passport?: boolean | null;
         };
         Update: {
           boss_budget?: number;
@@ -191,6 +199,7 @@ export type Database = {
           budget_multiplier?: number;
           coinvise_nft?: boolean;
           created_at?: string;
+          eligible?: boolean | null;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
           id?: string;
@@ -200,6 +209,9 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
+          valid_ens?: boolean | null;
+          valid_farcaster_id?: boolean | null;
+          valid_passport?: boolean | null;
         };
         Relationships: [];
       };

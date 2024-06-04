@@ -18,7 +18,8 @@ export type CacheKey =
   | `api_user_${string}`
   | `api_nominations_received_${string}`
   | `count_nominations_received_${string}`
-  | `nominations_weekly_stats_${string}`;
+  | `nominations_weekly_stats_${string}`
+  | `eligibility_${string}`;
 
 export const CACHE_1_MINUTE = 60;
 export const CACHE_5_MINUTES = 60 * 5;
