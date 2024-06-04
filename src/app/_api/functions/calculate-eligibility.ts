@@ -60,7 +60,7 @@ const getAndStoreEligibility = async (
         const credentialsResult = await checkCredentials(user);
 
         if (!credentialsResult) {
-          eligibilityStatus.credentialsResult = "Credentials not found";
+          eligibilityStatus.credentialsResult = "Not found";
         } else {
           eligibilityStatus.isEligible = true;
           eligibilityStatus.credentialsResult = "✅";
