@@ -34,7 +34,7 @@ export const EligibilityChecker = ({ calculateEligibility }: Props) => {
           }}
         >
           <Typography level="body-md" sx={{ pt: 2 }}>
-            Farcaster eligibility
+            Farcaster ID prior to May 15th
           </Typography>
           <Typography level="body-md" sx={{ pt: 2 }}>
             {eligibilityState
@@ -52,7 +52,7 @@ export const EligibilityChecker = ({ calculateEligibility }: Props) => {
           }}
         >
           <Typography level="body-md" sx={{ pt: 2 }}>
-            ENS eligibility
+            ENS domain prior to May 15th
           </Typography>
           <Typography level="body-md" sx={{ pt: 2 }}>
             {eligibilityState
@@ -70,7 +70,7 @@ export const EligibilityChecker = ({ calculateEligibility }: Props) => {
           }}
         >
           <Typography level="body-md" sx={{ pt: 2 }}>
-            Talent Passport eligibility
+            Proof of Humanity on Talent Passport
           </Typography>
           <Typography level="body-md" sx={{ pt: 2 }}>
             {eligibilityState
@@ -100,12 +100,12 @@ export const EligibilityChecker = ({ calculateEligibility }: Props) => {
         )}
         {eligibilityState?.isEligible && (
           <Typography level="body-lg" sx={{ py: 2 }}>
-            You are eligible for the airdrop! 🎉
+            <strong>You are eligible</strong> for Airdrop 1 🎉
           </Typography>
         )}
         {eligibilityState?.isEligible === false && (
           <Typography level="body-lg" sx={{ py: 2 }}>
-            You are not eligible for the airdrop.
+            <strong>You are not eligible</strong> for Airdrop 1 😔
           </Typography>
         )}
       </BlockyCard>

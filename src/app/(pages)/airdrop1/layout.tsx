@@ -1,4 +1,4 @@
-export default async function EligibilityPageLayout({
+export default async function Airdrop1EligibilityPageLayout({
   children,
   modal,
 }: {

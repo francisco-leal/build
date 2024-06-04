@@ -139,10 +139,12 @@ export const checkEns = async (user: User): Promise<boolean> => {
 
   if (wallets.length === 0) return false;
 
+  const walletsString = wallets.map((w) => `"${w}"`).join(", ");
+
   const airstackQuery = `
     query CheckResolvedAddress {
       Domains(
-        input: {filter: {owner: {_in: ${wallets}}}, blockchain: ethereum, limit: 50}
+        input: {filter: {owner: {_in: [${walletsString}]}}, blockchain: ethereum, limit: 50}
       ) {
         Domain {
           name

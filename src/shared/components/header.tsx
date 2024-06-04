@@ -82,8 +82,8 @@ export const Header: FunctionComponent = () => {
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             Tokenomics
           </Link>
-          <Link disabled={activePath === "eligibility"} href="/eligibility">
-            Eligibility
+          <Link disabled={activePath === "airdrop-1"} href="/airdrop1">
+            Airdrop
           </Link>
           <Link
             href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
@@ -207,10 +207,10 @@ export const Header: FunctionComponent = () => {
         <Link
           component={NextLink}
           prefetch={true}
-          href="/eligibility"
+          href="/airdrop1"
           onClick={drawer.close}
         >
-          Eligibility
+          Airdrop
         </Link>
         <Link
           target="_blank"
