@@ -57,7 +57,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(usersCount?? 0)}
+            {formatNumber(usersCount ?? 0, 0)}
           </Typography>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
@@ -76,7 +76,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Interface sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(nominationsCount?? 0)}
+            {formatNumber(nominationsCount ?? 0, 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
