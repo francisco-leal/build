@@ -16,6 +16,7 @@ export type EligibilityState = {
   farcasterResult: string;
   ensResult: string;
   credentialsResult: string;
+  nominationsMade: number;
 };
 
 const getAndStoreEligibility = async (
@@ -28,6 +29,7 @@ const getAndStoreEligibility = async (
         farcasterResult: "",
         ensResult: "",
         credentialsResult: "",
+        nominationsMade: 0,
       };
 
       try {
@@ -69,6 +71,24 @@ const getAndStoreEligibility = async (
         eligibilityStatus.credentialsResult = "Couldn't validate credentials";
       }
 
+      try {
+        const { count, error } = await supabase
+          .from("boss_nominations")
+          .select("*", { count: "exact", head: true })
+          .eq("origin_user_id", user.id);
+
+        if (error) {
+          throw new Error("Couldn't fetch nominations");
+        }
+
+        eligibilityStatus.nominationsMade = count ?? 0;
+        if (eligibilityStatus.nominationsMade === 0) {
+          eligibilityStatus.isEligible = false;
+        }
+      } catch {
+        eligibilityStatus.nominationsMade = 0;
+      }
+
       const { error } = await supabase
         .from("users")
         .update({
@@ -76,6 +96,7 @@ const getAndStoreEligibility = async (
           valid_farcaster_id: eligibilityStatus.farcasterResult === "✅",
           valid_ens: eligibilityStatus.ensResult === "✅",
           valid_passport: eligibilityStatus.credentialsResult === "✅",
+          nominations_made: eligibilityStatus.nominationsMade,
         })
         .eq("id", user.id);
 
