@@ -164,6 +164,7 @@ export type Database = {
           last_budget_calculation: string | null;
           last_wallet: string | null;
           manifesto_nft_token_id: number | null;
+          nominations_made: number | null;
           passport_builder_score: number;
           passport_id: number | null;
           username: string | null;
@@ -185,6 +186,7 @@ export type Database = {
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
+          nominations_made?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
@@ -206,6 +208,7 @@ export type Database = {
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
+          nominations_made?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;

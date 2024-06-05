@@ -20,7 +20,10 @@ export default async function Airdrop1Page() {
           }}
         >
           <Typography level="title-lg" sx={{ pb: 8, maxWidth: "800px" }}>
-            Airdrop 1 nominations period ends on June 4th, at 9pm UTC, with a data snapshot. To be eligible for claiming $BUILD Tokens, you need to comply with at least 1 of these 3 conditions below. The Airdrop 1 token claiming period starts on June 11th.<br></br>
+            Airdrop 1 nominations period ends on June 4th, at 9pm UTC, with a
+            data snapshot. To be eligible for claiming $BUILD Tokens, you need
+            to comply with at least 1 of these 3 conditions below. The Airdrop 1
+            token claiming period starts on June 11th.<br></br>
             <Link
               href="https://paragraph.xyz/@macedo/build-announcement-2"
               target="_blank"
