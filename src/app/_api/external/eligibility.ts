@@ -135,7 +135,7 @@ type ENSAirstackQuery = {
 };
 
 export const checkEns = async (user: User): Promise<boolean> => {
-  const wallets = user.wallets.map((w) => w.wallet);
+  const wallets = user.wallets.map((w) => w.wallet.toLowerCase());
 
   if (wallets.length === 0) return false;
 
@@ -182,19 +182,20 @@ export const checkEns = async (user: User): Promise<boolean> => {
         return {
           owner: domain.owner,
           createdAt: DateTime.fromISO(domain.createdAtBlockTimestamp),
+          expiresAt: DateTime.fromISO(domain.expiryTimestamp),
           lastUpdated: DateTime.fromISO(domain.lastUpdatedBlockTimestamp),
           lastTransfer: DateTime.fromISO(domain.tokenNft.lastTransferTimestamp),
         };
       })
-      .filter((d) => wallets.includes(d.owner));
+      .filter((d) => wallets.includes(d.owner.toLowerCase()));
 
     const cutoffDate = DateTime.fromISO("2024-05-16T00:00:00.000Z");
 
     const staleDomains = relevantDates.filter((domain) => {
       return (
         domain.createdAt > cutoffDate ||
-        domain.lastUpdated > cutoffDate ||
-        domain.lastTransfer > cutoffDate
+        domain.lastTransfer > cutoffDate ||
+        domain.expiresAt < cutoffDate
       );
     });
 
