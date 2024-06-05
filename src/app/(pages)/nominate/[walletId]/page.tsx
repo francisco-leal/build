@@ -126,141 +126,180 @@ export default async function NominateBuilder({
     );
   }
 
-  if (await isSelfNomination(currentUser, builder)) {
-    return (
-      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
-        {builderProfile}
-        <ModalNominationValues
-          entries={[
-            {
-              label: "Date",
-              value: today,
-            },
-
-            {
-              label: "Points to be given",
-              value: "---",
-            },
-            {
-              label: "Points to be earned",
-              value: "---",
-            },
-            {
-              label: "Daily Budget (Per nomination)",
-              value: formatNumber(userBalances.dailyBudget),
-            },
-            {
-              label: "Daily Nominations",
-              value: `${todaysNominations.length}/3`,
-            },
-          ]}
-        />
-        <ModalActions>
-          <ModalActionMessage sx={{ textAlign: "right" }}>
-            You are trying to nominate yourself!
-            <br />
-            Be a good sport and nominate someone else.
-          </ModalActionMessage>
-          <ModalGoBackButton disableGoBack={disableGoBack}>
-            Close
-          </ModalGoBackButton>
-        </ModalActions>
-      </Modal>
-    );
-  }
-
-  const nominationValues = (
-    <ModalNominationValues
-      entries={[
-        {
-          label: "Date",
-          value: today,
-        },
-        {
-          label: "Points to be given",
-          value: formatNumber(userBalances.pointsGiven),
-        },
-        {
-          label: "Points to be earned",
-          value: formatNumber(userBalances.pointsEarned),
-        },
-        {
-          label: "Daily Budget (Per nomination)",
-          value: formatNumber(userBalances.dailyBudget),
-        },
-        {
-          label: "Daily Nominations",
-          value: `${todaysNominations.length}/3`,
-        },
-      ]}
-    />
-  );
-
-  if (await hasExceededNominationsToday(currentUser)) {
-    return (
-      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
-        {builderProfile}
-        {nominationValues}
-        <ModalActions>
-          <ModalActionMessage>
-            You already nominated 3 builders today!
-            <br />
-            Come back tomorrow!
-          </ModalActionMessage>
-          <ModalGoBackButton disableGoBack={disableGoBack}>
-            Close
-          </ModalGoBackButton>
-        </ModalActions>
-      </Modal>
-    );
-  }
-
-  if (await hasNoDailyBudget(currentUser)) {
-    return (
-      <Modal title="Nominate Builder">
-        {builderProfile}
-        {nominationValues}
-        <ModalActions>
-          <ModalGoBackButton disableGoBack={disableGoBack}>
-            Close
-          </ModalGoBackButton>
-          <ModalActionMessage>
-            You don&apos;t have a boss budget. You can increase your budget by
-            creating a Talent Passport, or by buying $BOSS.
-          </ModalActionMessage>
-        </ModalActions>
-      </Modal>
-    );
-  }
-
-  if (await isUpdatingLeaderboard()) {
-    return (
-      <Modal title="Nominate Builder" pokeForUpdate>
-        {builderProfile}
-        {nominationValues}
-        <ModalActions>
-          <ModalActionMessage>
-            Leaderboard is currently updating. This should only take a minute or
-            two...
-          </ModalActionMessage>
-          <ModalSubmitButton wallet={builder.wallet} loading />
-        </ModalActions>
-      </Modal>
-    );
-  }
-
   return (
-    <Modal title="Nominate Builder">
+    <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
       {builderProfile}
-      {nominationValues}
+      <ModalNominationValues
+        entries={[
+          {
+            label: "Date",
+            value: today,
+          },
+
+          {
+            label: "Points to be given",
+            value: "---",
+          },
+          {
+            label: "Points to be earned",
+            value: "---",
+          },
+          {
+            label: "Daily Budget (Per nomination)",
+            value: formatNumber(userBalances.dailyBudget),
+          },
+          {
+            label: "Daily Nominations",
+            value: `${todaysNominations.length}/3`,
+          },
+        ]}
+      />
       <ModalActions>
+        <ModalActionMessage sx={{ textAlign: "right" }}>
+          Nominations are paused while Airdrop 1 is being calculated.
+        </ModalActionMessage>
         <ModalGoBackButton disableGoBack={disableGoBack}>
           Close
         </ModalGoBackButton>
-        <ModalSubmitButton wallet={builder.wallet} />
       </ModalActions>
     </Modal>
   );
+
+  // if (await isSelfNomination(currentUser, builder)) {
+  //   return (
+  //     <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
+  //       {builderProfile}
+  //       <ModalNominationValues
+  //         entries={[
+  //           {
+  //             label: "Date",
+  //             value: today,
+  //           },
+
+  //           {
+  //             label: "Points to be given",
+  //             value: "---",
+  //           },
+  //           {
+  //             label: "Points to be earned",
+  //             value: "---",
+  //           },
+  //           {
+  //             label: "Daily Budget (Per nomination)",
+  //             value: formatNumber(userBalances.dailyBudget),
+  //           },
+  //           {
+  //             label: "Daily Nominations",
+  //             value: `${todaysNominations.length}/3`,
+  //           },
+  //         ]}
+  //       />
+  //       <ModalActions>
+  //         <ModalActionMessage sx={{ textAlign: "right" }}>
+  //           You are trying to nominate yourself!
+  //           <br />
+  //           Be a good sport and nominate someone else.
+  //         </ModalActionMessage>
+  //         <ModalGoBackButton disableGoBack={disableGoBack}>
+  //           Close
+  //         </ModalGoBackButton>
+  //       </ModalActions>
+  //     </Modal>
+  //   );
+  // }
+
+  // const nominationValues = (
+  //   <ModalNominationValues
+  //     entries={[
+  //       {
+  //         label: "Date",
+  //         value: today,
+  //       },
+  //       {
+  //         label: "Points to be given",
+  //         value: formatNumber(userBalances.pointsGiven),
+  //       },
+  //       {
+  //         label: "Points to be earned",
+  //         value: formatNumber(userBalances.pointsEarned),
+  //       },
+  //       {
+  //         label: "Daily Budget (Per nomination)",
+  //         value: formatNumber(userBalances.dailyBudget),
+  //       },
+  //       {
+  //         label: "Daily Nominations",
+  //         value: `${todaysNominations.length}/3`,
+  //       },
+  //     ]}
+  //   />
+  // );
+
+  // if (await hasExceededNominationsToday(currentUser)) {
+  //   return (
+  //     <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
+  //       {builderProfile}
+  //       {nominationValues}
+  //       <ModalActions>
+  //         <ModalActionMessage>
+  //           You already nominated 3 builders today!
+  //           <br />
+  //           Come back tomorrow!
+  //         </ModalActionMessage>
+  //         <ModalGoBackButton disableGoBack={disableGoBack}>
+  //           Close
+  //         </ModalGoBackButton>
+  //       </ModalActions>
+  //     </Modal>
+  //   );
+  // }
+
+  // if (await hasNoDailyBudget(currentUser)) {
+  //   return (
+  //     <Modal title="Nominate Builder">
+  //       {builderProfile}
+  //       {nominationValues}
+  //       <ModalActions>
+  //         <ModalGoBackButton disableGoBack={disableGoBack}>
+  //           Close
+  //         </ModalGoBackButton>
+  //         <ModalActionMessage>
+  //           You don&apos;t have a boss budget. You can increase your budget by
+  //           creating a Talent Passport, or by buying $BOSS.
+  //         </ModalActionMessage>
+  //       </ModalActions>
+  //     </Modal>
+  //   );
+  // }
+
+  // if (await isUpdatingLeaderboard()) {
+  //   return (
+  //     <Modal title="Nominate Builder" pokeForUpdate>
+  //       {builderProfile}
+  //       {nominationValues}
+  //       <ModalActions>
+  //         <ModalActionMessage>
+  //           Leaderboard is currently updating. This should only take a minute or
+  //           two...
+  //         </ModalActionMessage>
+  //         <ModalSubmitButton wallet={builder.wallet} loading />
+  //       </ModalActions>
+  //     </Modal>
+  //   );
+  // }
+
+  // return (
+  //   <Modal title="Nominate Builder">
+  //     {builderProfile}
+  //     {nominationValues}
+  //     <ModalActions>
+  //       <ModalGoBackButton disableGoBack={disableGoBack}>
+  //         Close
+  //       </ModalGoBackButton>
+  //       <ModalSubmitButton wallet={builder.wallet} />
+  //     </ModalActions>
+  //   </Modal>
+  // );
 }
 
 export const maxDuration = 60;
