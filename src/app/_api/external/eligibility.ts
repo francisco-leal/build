@@ -144,7 +144,7 @@ export const checkEns = async (user: User): Promise<boolean> => {
   const airstackQuery = `
     query CheckResolvedAddress {
       Domains(
-        input: {filter: {owner: {_in: [${walletsString}]}}, blockchain: ethereum, isPrimary: {_eq: true}, limit: 50}
+        input: {filter: {owner: {_in: [${walletsString}]}, isPrimary: {_eq: true}}, blockchain: ethereum, limit: 50}
       ) {
         Domain {
           name
