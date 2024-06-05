@@ -19,4 +19,4 @@ yarn-error.log*
 
 *.pem
 *.tsbuildinfo
-src/app/api/cron/scripts/route.ts
+src/app/api/cron/scripts/*
