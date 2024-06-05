@@ -22,6 +22,33 @@ const handler = frames(async (ctx) => {
     if (ctx.message && !ctx.message?.isValid) {
       throw new BadRequestError("Invalid message");
     }
+    const farcasterUsername = ctx.message?.requesterUserData?.displayName || "";
+    const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
+    return {
+      image: (
+        <NominateBuilderError
+          farcasterUsername={null}
+          farcasterPfp={undefined}
+          builderImage={farcasterPfp}
+          builderUsername={farcasterUsername}
+          errorTitle="Nominations Paused"
+          errorMessage="Nominations are paused while Airdrop 1 is being calculated"
+        />
+      ),
+      buttons: [
+        <Button action="link" key="1" target="https://www.build.top/airdrop1">
+          Check eligibility
+        </Button>,
+        <Button action="post" key="2" target="/">
+          Back
+        </Button>,
+      ],
+      imageOptions: {
+        ...imageOptions,
+        aspectRatio: "1:1",
+      },
+    };
+    /*
     const farcasterUser = await getFramesUser(ctx);
     if (!walletNominated) throw new BadRequestError("Missing Wallet address");
 
@@ -121,7 +148,35 @@ const handler = frames(async (ctx) => {
         aspectRatio: "1:1",
       },
     };
+    */
   } catch (error) {
+    const farcasterUsername = ctx.message?.requesterUserData?.displayName || "";
+    const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
+    return {
+      image: (
+        <NominateBuilderError
+          farcasterUsername={null}
+          farcasterPfp={undefined}
+          builderImage={farcasterPfp}
+          builderUsername={farcasterUsername}
+          errorTitle="Nominations Paused"
+          errorMessage="Nominations are paused while Airdrop 1 is being calculated cane"
+        />
+      ),
+      buttons: [
+        <Button action="link" key="1" target="https://www.build.top/airdrop1">
+          Check eligibility
+        </Button>,
+        <Button action="post" key="2" target="/">
+          Back
+        </Button>,
+      ],
+      imageOptions: {
+        ...imageOptions,
+        aspectRatio: "1:1",
+      },
+    };
+    /*
     const errorMessage = (error as Error)?.message || "An error occurred";
     const farcasterUsername =
       ctx.message?.requesterUserData?.displayName ||
@@ -236,6 +291,7 @@ const handler = frames(async (ctx) => {
         aspectRatio: "1:1",
       },
     };
+    */
   }
 });
 

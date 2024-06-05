@@ -26,6 +26,32 @@ const handler = frames(async (ctx) => {
     const farcasterUsername = farcasterUser.username;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
 
+    return {
+      image: (
+        <NominateBuilderError
+          farcasterUsername={null}
+          farcasterPfp={undefined}
+          builderImage={farcasterPfp}
+          builderUsername={farcasterUsername ?? ""}
+          errorTitle="Nominations Paused"
+          errorMessage="Nominations are paused while Airdrop 1 is being calculated"
+        />
+      ),
+      buttons: [
+        <Button action="link" key="1" target="https://www.build.top/airdrop1">
+          Check eligibility
+        </Button>,
+        <Button action="post" key="2" target="/">
+          Back
+        </Button>,
+      ],
+      imageOptions: {
+        ...imageOptions,
+        aspectRatio: "1:1",
+      },
+    };
+
+    /*
     const userNominated = ctx.message?.inputText;
     let walletNominated = ctx.url.searchParams.get("wallet")?.toLowerCase();
 
@@ -163,10 +189,36 @@ const handler = frames(async (ctx) => {
         aspectRatio: "1:1",
       },
     };
+    */
   } catch (error) {
-    const errorMessage = (error as Error)?.message || "An error occurred";
     const farcasterUsername = ctx.message?.requesterUserData?.displayName || "";
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
+    return {
+      image: (
+        <NominateBuilderError
+          farcasterUsername={null}
+          farcasterPfp={undefined}
+          builderImage={farcasterPfp}
+          builderUsername={farcasterUsername}
+          errorTitle="Nominations Paused"
+          errorMessage="Nominations are paused while Airdrop 1 is being calculated"
+        />
+      ),
+      buttons: [
+        <Button action="link" key="1" target="https://www.build.top/airdrop1">
+          Check eligibility
+        </Button>,
+        <Button action="post" key="2" target="/">
+          Back
+        </Button>,
+      ],
+      imageOptions: {
+        ...imageOptions,
+        aspectRatio: "1:1",
+      },
+    };
+    /*
+    const errorMessage = (error as Error)?.message || "An error occurred";
     if (errorMessage === "Frame user not found") {
       return {
         image: <SearchBuilders />,
@@ -210,6 +262,7 @@ const handler = frames(async (ctx) => {
         aspectRatio: "1:1",
       },
     };
+    */
   }
 });
 
