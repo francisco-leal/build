@@ -109,7 +109,7 @@ export const EligibilityChecker = ({ calculateEligibility }: Props) => {
             <strong>You are not eligible</strong> for Airdrop 1 😔
             {eligibilityState.nominationsMade === 0 && (
               <>
-                <br></br>You didn't nominate anyone.
+                <br></br>You didn&apos;t nominate anyone.
               </>
             )}
           </Typography>
