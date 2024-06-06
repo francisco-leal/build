@@ -37,7 +37,8 @@ const handler = frames(async (ctx) => {
               <div tw="flex p-[40px] mt-[50px] w-auto text-white">
                 <img
                   src={currentFarcasterUser.pfp_url}
-                  tw="w-[120px] h-[120px] rounded-full mr-[20px] object-cover"
+                  tw="w-[120px] h-[120px] rounded-full mr-[20px]"
+                  style={{ objectFit: "cover" }}
                 />
                 <p
                   tw="font-bold text-[78px]"
@@ -65,7 +66,8 @@ const handler = frames(async (ctx) => {
                   >
                     <img
                       src={user?.pfp_url ? user.pfp_url : ""}
-                      tw="w-[100px] h-[100px] rounded-full mr-[20px] object-cover"
+                      tw="w-[100px] h-[100px] rounded-full mr-[20px]"
+                      style={{ objectFit: "cover" }}
                     />
                     <p
                       tw="font-bold text-[64px]"
