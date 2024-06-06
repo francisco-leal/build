@@ -14,29 +14,23 @@ type Fn = (request: NextRequest, params?: Params) => Promise<unknown>;
 export const restApiHandler = (
   fn: Fn,
   options?: {
-    skipAuth?: boolean;
     validateWriteAccess?: boolean;
   },
 ) => {
   return async (request: NextRequest, context: { params: Params }) => {
     try {
-      const skipAPIAuth = options?.skipAuth || false;
-      if (!skipAPIAuth) {
+      const validateWriteAccess = options?.validateWriteAccess || false;
+      if (validateWriteAccess) {
         const request_api_key = request.headers.get("x-api-key");
         if (!request_api_key) {
           throw new UnauthorizedError("Missing API key");
         }
-
         const apiKey = await getApiKey(request_api_key);
 
         if (!apiKey || !apiKey.active) {
           throw new UnauthorizedError("Invalid API key");
         }
-
-        const validateWriteAccess = options?.validateWriteAccess || false;
-        if (validateWriteAccess && apiKey?.access_level !== "write") {
-          throw new UnauthorizedError("No write permission");
-        }
+        throw new UnauthorizedError("No write permission");
       }
 
       const data = await fn(request, context.params ?? {});

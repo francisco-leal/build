@@ -2,9 +2,9 @@ import { unstable_cache } from "next/cache";
 import { DateTime } from "luxon";
 import { supabase } from "@/db";
 import { CacheKey, CACHE_5_MINUTES } from "../helpers/cache-keys";
+import { getUserFromWallet } from "./users";
 
 type API_NOMINATION = {
-  id: number;
   origin_wallet: string;
   build_points_received: number;
   build_points_sent: number;
@@ -33,7 +33,8 @@ export const getNominationsForApi = async (params: {
         params.from.length === 42 &&
         params.from.startsWith("0x")
       ) {
-        query.eq("origin_wallet_id", params.from.toLowerCase());
+        const user = await getUserFromWallet(params.from.toLowerCase());
+        if (user) query.eq("origin_user_id", user.id);
       }
       if (params.to && params.to.length === 42 && params.to.startsWith("0x")) {
         query.eq("destination_wallet_id", params.to.toLowerCase());
@@ -46,7 +47,6 @@ export const getNominationsForApi = async (params: {
 
       return (
         nominations?.map((nomination) => ({
-          id: nomination.id,
           origin_wallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
           build_points_received: nomination.boss_points_received,
           build_points_sent: nomination.boss_points_sent,
@@ -55,7 +55,9 @@ export const getNominationsForApi = async (params: {
         })) ?? []
       );
     },
-    [`api_nominations_${params.cursor ?? "latest"}`] as CacheKey[],
+    [
+      `api_nominations_${params.cursor ?? "latest"}_${params.from ?? 0}_${params.to ?? 0}`,
+    ] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )();
 };
