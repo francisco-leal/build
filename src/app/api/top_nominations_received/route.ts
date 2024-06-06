@@ -8,9 +8,9 @@ const statsParamsSchema = z.object({
   wallet: z.string().optional(),
 });
 
-export const GET = restApiHandler(async (request, params) => {
+export const GET = restApiHandler(async (request) => {
   const nominationsReceivedParams = statsParamsSchema.parse({
-    wallet: params?.wallet,
+    wallet: request.nextUrl.searchParams.get("wallet"),
   });
 
   if (

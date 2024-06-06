@@ -19,7 +19,7 @@ export type EligibilityState = {
   nominationsMade: number;
 };
 
-const getAndStoreEligibility = async (
+export const getAndStoreEligibility = async (
   user: User,
 ): Promise<EligibilityState> => {
   return unstable_cache(
