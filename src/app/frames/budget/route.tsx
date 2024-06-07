@@ -34,7 +34,8 @@ const handler = frames(async (ctx) => {
               <img
                 src={farcasterPfp}
                 alt="profile image"
-                tw="w-[72px] h-[72px] rounded-full mr-[20px] object-cover"
+                tw="w-[72px] h-[72px] rounded-full mr-[20px]"
+                style={{ objectFit: "cover" }}
               />
               <p
                 tw="text-[60px]"
