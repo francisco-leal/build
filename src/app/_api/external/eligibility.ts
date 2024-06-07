@@ -238,7 +238,7 @@ export const checkCredentials = async (user: User): Promise<boolean> => {
     const response = await fetch(url, { headers });
     const data = (await response.json()) as PassportCredentials;
 
-    const hasHumanityCredential = data.passport_credentials.some(
+    const hasHumanityCredential = data.passport_credentials.filter((c) => c.score > 0.0).some(
       (credential) =>
         credential.type === "PassportCredentials::Worldcoin" ||
         credential.type === "PassportCredentials::Gitcoin",
