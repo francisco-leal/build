@@ -73,6 +73,9 @@ export const Header: FunctionComponent = () => {
           }}
         >
           <Link href="/">Home</Link>
+          <Link disabled={activePath === "airdrop-1"} href="/airdrop1">
+            Airdrop
+          </Link>
           <Link disabled={activePath === "leaderboard"} href="/leaderboard">
             Leaderboard
           </Link>
@@ -81,9 +84,6 @@ export const Header: FunctionComponent = () => {
           </Link>
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             Tokenomics
-          </Link>
-          <Link disabled={activePath === "airdrop-1"} href="/airdrop1">
-            Airdrop
           </Link>
           <Link
             href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
@@ -175,6 +175,14 @@ export const Header: FunctionComponent = () => {
         <Link
           component={NextLink}
           prefetch={true}
+          href="/airdrop1"
+          onClick={drawer.close}
+        >
+          Airdrop
+        </Link>
+        <Link
+          component={NextLink}
+          prefetch={true}
           href="/stats"
           onClick={drawer.close}
         >
@@ -203,14 +211,6 @@ export const Header: FunctionComponent = () => {
           onClick={drawer.close}
         >
           Tokenomics
-        </Link>
-        <Link
-          component={NextLink}
-          prefetch={true}
-          href="/airdrop1"
-          onClick={drawer.close}
-        >
-          Airdrop
         </Link>
         <Link
           target="_blank"
