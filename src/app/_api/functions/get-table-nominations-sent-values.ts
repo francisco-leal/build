@@ -14,7 +14,7 @@ export const getTableNominationsSentValues = async (): Promise<
   const firstDate = firstNominationIso
     ? DateTime.fromISO(firstNominationIso)
     : DateTime.utc();
-  const lastDate = DateTime.utc();
+  const lastDate = DateTime.fromISO("2024-06-04T21:00:00.000Z");
 
   const numberOfDays = lastDate.diff(firstDate, "days").days;
 
