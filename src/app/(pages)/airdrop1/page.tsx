@@ -30,7 +30,7 @@ export default async function Airdrop1Page() {
           Claim <Helicopter /> Airdrop
         </Typography>
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          The Airdrop 1 token claiming period is openning soon, for{" "}
+          The Airdrop 1 token claiming period is opening soon, for{" "}
           <Link
             href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
             target="_blank"
