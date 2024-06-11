@@ -93,6 +93,14 @@ export const theme = extendTheme({
       marginTop: 1 * 8,
       marginBottom: 1 * 8,
     },
+    "title-sm": {
+      overflow: "hidden",
+      fontFamily: "Inter Variable",
+      fontSize: "14px",
+      fontStyle: "normal",
+      fontWeight: "600",
+      lineHeight: "142%"
+    },
     "body-lg": {
       fontFamily: "Inter Variable",
       fontSize: "18px",
