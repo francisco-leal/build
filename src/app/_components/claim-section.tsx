@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button, Typography, Stack, Divider } from "@mui/joy";
+import { Button, Typography, Stack, Divider, Link } from "@mui/joy";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { toast } from "sonner";
 import { parseEther } from "viem";
@@ -14,7 +14,10 @@ import {
 } from "wagmi";
 import { useSwitchChain } from "wagmi";
 import { BlockyCard } from "@/shared/components/blocky-card";
+import { BlueCheck } from "@/shared/icons/blue-check";
 import { LogoShort } from "@/shared/icons/logo-short";
+import { MusicHeadset } from "@/shared/icons/music-headset";
+import { RedCross } from "@/shared/icons/red-cross";
 import MerkleDistributionAbi from "@/shared/utils/MerkleDistributionAbi.json";
 import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
 import merkleTree from "@/shared/utils/merkleTree.json";
@@ -36,8 +39,9 @@ export const ClaimSection = ({ details }: Props) => {
     isSuccess: isConfirmed,
     isError,
   } = useWaitForTransactionReceipt({
-    hash,
+    hash: hash,
   });
+  // add here the TX hash for the claim
 
   const [claiming, setClaiming] = useState<boolean>(false);
 
@@ -46,7 +50,8 @@ export const ClaimSection = ({ details }: Props) => {
       setClaiming(true);
     }
     if (isConfirmed) {
-      toast.success("Transaction confirmed! Tx: " + hash);
+      toast.success("Transaction confirmed! " + hash);
+      setShowClaimFlow(false);
       setClaiming(false);
     }
     if (isError) {
@@ -67,8 +72,22 @@ export const ClaimSection = ({ details }: Props) => {
       return;
     }
 
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (!details || !details?.receiving_wallet) {
+      toast.error(
+        "We couldn't figure out the wallet that is associated for your airdrop, reach out to us.",
+      );
+      return;
+    }
+
+    if (address.toLowerCase() !== details?.receiving_wallet?.toLowerCase()) {
+      toast.error(
+        "The wallet that is associated to your nominations is: " +
+          details?.receiving_wallet,
+      );
+    }
+
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
@@ -80,12 +99,12 @@ export const ClaimSection = ({ details }: Props) => {
     );
     const proof = tree.getProof([address, parseEther("100")]);
 
-    await writeContract({
+    writeContract({
       abi: MerkleDistributionAbi.abi,
       address: "0x7fAEA5E40A2cD5ca4f81713cE8def97b52F83aF7",
       functionName: "donate",
       args: [proof, parseEther("100")],
-      chainId: baseSepolia.id,
+      chainId: base.id,
     });
   };
 
@@ -95,8 +114,8 @@ export const ClaimSection = ({ details }: Props) => {
       return;
     }
 
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
@@ -111,7 +130,7 @@ export const ClaimSection = ({ details }: Props) => {
       address: "0x7fAEA5E40A2cD5ca4f81713cE8def97b52F83aF7",
       functionName: "donateAndClaim",
       args: [proof, parseEther("100")],
-      chainId: baseSepolia.id,
+      chainId: base.id,
     });
   };
 
@@ -123,8 +142,9 @@ export const ClaimSection = ({ details }: Props) => {
           color="neutral"
           onClick={() => setShowClaimFlow(true)}
           sx={{ mt: 2 }}
+          disabled={true}
         >
-          Claim $BUILD
+          Coming Soon
         </Button>
       )}
       {showClaimFlow && !!details && step === 0 && (
@@ -144,70 +164,8 @@ export const ClaimSection = ({ details }: Props) => {
                 gap: 1,
               }}
             >
-              <Typography level="h3" sx={{ mt: 0 }}>
-                Are you a Builder or a Quitter?
-              </Typography>
-              <Typography level="body-md" sx={{ textAlign: "start" }}>
-                Airdrop 1 was a successful and fun first experiment, but BUILD
-                still has so much room to grow. Now, we as a community, have a
-                choice: we either commit or quit.
-              </Typography>
-              <Typography level="body-md" sx={{ textAlign: "start" }}>
-                We can commit to grow BUILD into an onchain builder economy that
-                rewards builders with both social and financial capital. 🫡
-                <br></br>
-                Or we can all claim our $BUILD tokens and kill this experiment.
-                🪦
-              </Typography>
-              <Typography level="body-md" sx={{ textAlign: "start" }}>
-                If we reach 75B $BUILD committed (50% of Airdrop 1) by the end
-                of June, the team will continue building during Onchain Summer
-                and launch Airdrop 2 in September.<br></br>Read more about the
-                future of BUILD here.
-              </Typography>
-              <Stack
-                sx={{
-                  alignSelf: "end",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  mt: 2,
-                }}
-              >
-                <Typography level="body-md" sx={{ mr: 2 }}>
-                  Real builders commit! Will you?
-                </Typography>
-                <Button
-                  variant="solid"
-                  color="primary"
-                  onClick={() => setStep(1)}
-                >
-                  Continue
-                </Button>
-              </Stack>
-            </Stack>
-          </BlockyCard>
-        </Stack>
-      )}
-      {showClaimFlow && !!details && step === 1 && (
-        <Stack
-          sx={{
-            flexDirection: "column",
-            mt: 4,
-            maxWidth: "600px",
-          }}
-        >
-          <BlockyCard>
-            <Stack
-              sx={{
-                flexDirection: "column",
-                alignItems: "start",
-                minWidth: "400px",
-                gap: 1,
-              }}
-            >
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
-                Total $BUILD Tokens
+                Potential Token Allocation
               </Typography>
               <Typography
                 level="h2"
@@ -268,7 +226,7 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <Typography level="title-lg" textColor={"primary.500"}>
-                  $BUILD Allocation x 10
+                  $BUILD Allocation x 10*
                 </Typography>
                 <Typography level="title-lg" textColor={"primary.500"}>
                   {formatNumber(details.build_points ?? 0)}
@@ -276,9 +234,10 @@ export const ClaimSection = ({ details }: Props) => {
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="body-sm" sx={{ textAlign: "start" }}>
-                Builder or not, all eligible users are able to claim tokens. But
-                we reward verifiable builders and token holders with an airdrop
-                allocation multiplier.
+                *Builder or not, all eligible users are able to claim tokens.
+                But we reward verifiable builders and $BUILD token holders with
+                an airdrop allocation multiplier. The multiplier only applies if
+                you commit some tokens, in the next steps.
               </Typography>
               <Stack
                 sx={{
@@ -296,6 +255,72 @@ export const ClaimSection = ({ details }: Props) => {
                 >
                   Cancel
                 </Button>
+                <Button
+                  variant="solid"
+                  color="primary"
+                  onClick={() => setStep(1)}
+                >
+                  Continue
+                </Button>
+              </Stack>
+            </Stack>
+          </BlockyCard>
+        </Stack>
+      )}
+      {showClaimFlow && !!details && step === 1 && (
+        <Stack
+          sx={{
+            flexDirection: "column",
+            mt: 4,
+            maxWidth: "600px",
+          }}
+        >
+          <BlockyCard>
+            <Stack
+              sx={{
+                flexDirection: "column",
+                alignItems: "start",
+                minWidth: "400px",
+                gap: 1,
+              }}
+            >
+              <Typography level="h3" sx={{ my: 0, alignSelf: "center" }}>
+                <MusicHeadset />
+              </Typography>
+              <Typography level="h3" sx={{ mt: 0, alignSelf: "center" }}>
+                Quit or Commit?
+              </Typography>
+              <Typography level="body-md" sx={{ textAlign: "start" }}>
+                Airdrop 1 was a successful first experiment, but BUILD is just
+                getting started. Now the community has a choice: we either
+                commit or quit.
+                <br></br>
+                <br></br>
+                We can commit to grow BUILD into a real onchain builder economy
+                🫡 Or we can all claim our $BUILD tokens and kill this
+                experiment 🪦
+                <br></br>
+                <br></br>
+                If the community <strong>commits 75B $BUILD</strong> (50% of
+                Airdrop 1), by the end of June, we will release a new
+                nominations game for Onchain Summer and start preparing Airdrop
+                2 for September.
+                <br></br>
+                <br></br>
+                Read more about the future of BUILD{" "}
+                <Link href="https://google.com">here</Link>.<br></br>
+                <br></br>
+                Real builders commit! Will you?
+              </Typography>
+              <Stack
+                sx={{
+                  alignSelf: "end",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  mt: 2,
+                }}
+              >
                 <Button
                   variant="solid"
                   color="primary"
@@ -326,7 +351,7 @@ export const ClaimSection = ({ details }: Props) => {
               }}
             >
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
-                Total $BUILD Tokens
+                Potential Token Allocation
               </Typography>
               <Typography
                 level="h2"
@@ -342,184 +367,411 @@ export const ClaimSection = ({ details }: Props) => {
                 <LogoShort sx={{ "&&": { height: 40, width: 40 } }} />{" "}
                 {formatLargeNumber(details.build_points ?? 0)}
               </Typography>
-              <Divider sx={{ backgroundColor: "neutral.400", my: 2 }} />
-              <Typography level="title-md">Pay It All Forward</Typography>
-              <Stack
+              <BlockyCard
                 sx={{
-                  flexDirection: "row",
-                  gap: 1,
-                  minWidth: "100%",
+                  boxShadow: (theme) =>
+                    `12px 12px 0px 0px ${theme.vars.palette.primary["500"]}`,
+                  borderColor: "primary.500",
                 }}
               >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  Commit 100% of your tokens to the BUILD Summer Fund.
-                </Typography>
-              </Stack>
-              <Stack
+                <Typography level="title-lg">Pay It All Forward</Typography>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                    alignItems: "center",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Commit 100% of your tokens to the BUILD Summer Fund.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Airdrop allocation multiplier applied to tokens committed.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Participate in BUILD governance decisions (coming soon).
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Budget for future airdrops based on tokens committed.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Featured in new leaderboard, ranked by tokens committed.
+                  </Typography>
+                </Stack>
+                <Button
+                  variant="solid"
+                  color="primary"
+                  onClick={() => claimFull()}
+                  sx={{
+                    alignSelf: "center",
+                    mt: 2,
+                    "& svg": {
+                      color: "primary.500",
+                      width: 20,
+                      height: 20,
+                    },
+                  }}
+                  loading={claiming}
+                >
+                  Commit 100%
+                </Button>
+              </BlockyCard>
+              <BlockyCard
                 sx={{
-                  flexDirection: "row",
-                  gap: 1,
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  BUILD Budget for future airdrops based on tokens committed.
-                </Typography>
-              </Stack>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  gap: 1,
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  Participate in BUILD governance decisions (coming soon).
-                </Typography>
-              </Stack>
-              <Button
-                variant="solid"
-                color="primary"
-                onClick={() => claimFull()}
-                sx={{
-                  alignSelf: "center",
                   mt: 2,
-                  "& svg": {
-                    color: "primary.500",
-                    width: 20,
-                    height: 20,
-                  },
-                }}
-                loading={claiming}
-              >
-                Commit 100%
-              </Button>
-              <Divider sx={{ backgroundColor: "neutral.400", my: 2 }} />
-              <Typography level="title-md">Split & Commit Half</Typography>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  gap: 1,
                   minWidth: "100%",
                 }}
               >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  Commit 50% of your tokens to the BUILD Summer Fund.
-                </Typography>
-              </Stack>
-              <Stack
+                <Typography level="title-lg">Split & Commit Half</Typography>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Commit 50% of your tokens to the BUILD Summer Fund.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Claim 50% of $BUILD tokens now, with allocation multiplier.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Budget for future airdrops based on tokens committed.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Featured in a new leaderboard, ranked by tokens committed.
+                  </Typography>
+                </Stack>
+                <Button
+                  variant="outlined"
+                  color="neutral"
+                  sx={{
+                    borderColor: "neutral.500",
+                    alignSelf: "center",
+                    mt: 2,
+                    "& svg": {
+                      color: "primary.500",
+                      width: 20,
+                      height: 20,
+                    },
+                  }}
+                  onClick={() => claimHalf()}
+                  loading={claiming}
+                >
+                  Commit 50%
+                </Button>
+              </BlockyCard>
+              <BlockyCard
                 sx={{
-                  flexDirection: "row",
-                  gap: 1,
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  Claim $BUILD tokens now, with multiplier.
-                </Typography>
-              </Stack>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  gap: 1,
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  Featured in a new leaderboard, ranked by tokens committed.
-                </Typography>
-              </Stack>
-              <Button
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  borderColor: "neutral.500",
-                  alignSelf: "center",
                   mt: 2,
-                  "& svg": {
-                    color: "primary.500",
-                    width: 20,
-                    height: 20,
-                  },
-                }}
-                onClick={() => claimHalf()}
-                loading={claiming}
-              >
-                Commit 50%
-              </Button>
-              <Divider sx={{ backgroundColor: "neutral.400", my: 2 }} />
-              <Typography level="title-md">Claim & Quit</Typography>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  gap: 1,
                   minWidth: "100%",
                 }}
               >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  Allocation multiplier will not be considered.
-                </Typography>
-              </Stack>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  gap: 1,
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  Claim tokens only on June 18th.
-                </Typography>
-              </Stack>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  gap: 1,
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">✅</Typography>
-                <Typography level="body-sm">
-                  No BUILD budget for the next airdrops.
-                </Typography>
-              </Stack>
-              <Button
-                variant="outlined"
-                color="neutral"
-                disabled={true}
-                sx={{
-                  alignSelf: "center",
-                  mt: 2,
-                  "& svg": {
-                    color: "primary.500",
-                    width: 20,
-                    height: 20,
-                  },
-                }}
-              >
-                Claim on Jun 18
-              </Button>
+                <Typography level="title-lg">Claim XX $BUILD</Typography>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Claim tokens on June 18th.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    Allocation multiplier is not considered.
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    gap: 1,
+                    minWidth: "100%",
+                  }}
+                >
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                  <Typography level="body-sm">
+                    No BUILD budget for the next airdrops.
+                  </Typography>
+                </Stack>
+                <Button
+                  variant="outlined"
+                  color="neutral"
+                  disabled={true}
+                  sx={{
+                    alignSelf: "center",
+                    mt: 2,
+                    "& svg": {
+                      color: "primary.500",
+                      width: 20,
+                      height: 20,
+                    },
+                  }}
+                >
+                  Claim on Jun 18
+                </Button>
+              </BlockyCard>
             </Stack>
           </BlockyCard>
         </Stack>
+      )}
+      {!!details && isConfirmed && (
+        <Stack
+        sx={{
+          flexDirection: "column",
+          mt: 4,
+          maxWidth: "600px",
+        }}
+      >
+        <BlockyCard>
+          <Stack
+            sx={{
+              flexDirection: "column",
+              alignItems: "start",
+              minWidth: "400px",
+              gap: 1,
+            }}
+          >
+            <Typography level="body-lg" sx={{ alignSelf: "center" }}>
+              You are officially a BUILD OG!
+            </Typography>
+            <Typography level="body-md" sx={{ textAlign: "start" }}>
+              Thank you for committing $BUILD to the BUILD Summer Fund.
+            </Typography>
+            <Divider sx={{ backgroundColor: "neutral.400" }} />
+            <Typography level="title-sm">Airdrop 1 stats</Typography>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                minWidth: "100%",
+              }}
+            >
+              <Typography level="body-sm">Total nominations given</Typography>
+              <Typography level="body-sm">
+                {details.nominations_made ?? 0}
+              </Typography>
+            </Stack>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                minWidth: "100%",
+              }}
+            >
+              <Typography level="body-sm">Total nominations received</Typography>
+              <Typography level="body-sm">{details.nominations_received ?? 0}</Typography>
+            </Stack>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                minWidth: "100%",
+              }}
+            >
+              <Typography level="body-sm">Total points earned</Typography>
+              <Typography level="body-sm">{formatNumber(details.build_points ?? 0)}</Typography>
+            </Stack>
+            <Stack
+              sx={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                minWidth: "100%",
+              }}
+            >
+              <Typography level="body-sm">Final rank</Typography>
+              <Typography level="body-sm">{0}</Typography>
+            </Stack>
+            <Divider sx={{ backgroundColor: "neutral.400" }} />
+            <Stack
+              sx={{
+                alignSelf: "end",
+                display: "flex",
+                flexDirection: "row",
+                mt: 2,
+              }}
+            >
+              <Button
+                variant="solid"
+                color="primary"
+                onClick={() => window.open("https://warpcast.com", "_blank")}
+              >
+                Share on farcaster
+              </Button>
+            </Stack>
+          </Stack>
+        </BlockyCard>
+      </Stack>
       )}
       {showClaimFlow && !details && (
         <Stack
           sx={{
             flexDirection: "column",
+            mt: 4,
+            maxWidth: "600px",
           }}
         >
-          <Typography level="body-md" sx={{ pt: 2 }}>
-            You are not eligible for the airdrop.
-          </Typography>
+          <BlockyCard>
+            <Stack
+              sx={{
+                flexDirection: "column",
+                alignItems: "start",
+                minWidth: "400px",
+                gap: 1,
+              }}
+            >
+              <Typography level="body-lg" sx={{ alignSelf: "center" }}>
+                You&apos;re not eligible for Airdrop 1
+              </Typography>
+
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  gap: 1,
+                  minWidth: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                <Typography level="body-sm">
+                  You made at least one nomination
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  gap: 1,
+                  minWidth: "100%",
+                }}
+              >
+                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                <Typography level="body-sm">
+                  Farcaster ID, older than May 15th
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  gap: 1,
+                  minWidth: "100%",
+                }}
+              >
+                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                <Typography level="body-sm">
+                  ENS primary name, older than May 15th
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  gap: 1,
+                  minWidth: "100%",
+                }}
+              >
+                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                <Typography level="body-sm">
+                  Talent Passport w/ World ID credential
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  gap: 1,
+                  minWidth: "100%",
+                }}
+              >
+                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                <Typography level="body-sm">
+                  Talent Passport w/ Gitcoin credential
+                </Typography>
+              </Stack>
+              <Divider sx={{ backgroundColor: "neutral.400" }} />
+              <Typography level="body-sm" sx={{ textAlign: "start" }}>
+                BUILD Airdrop 1 ended on June 4th, at 9pm UTC, with a data
+                snapshot. Unfortunately this wallet doesn&apos;t meet any of the
+                criteria to be eligible to claim $BUILD tokens. Information
+                about the eligibility criteria has been public, since the
+                project launched on May 14th, in the FAQ and on Farcaster.
+              </Typography>
+            </Stack>
+          </BlockyCard>
         </Stack>
       )}
     </>

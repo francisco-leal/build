@@ -30,8 +30,17 @@ export default async function Airdrop1Page() {
           Claim <Helicopter /> Airdrop
         </Typography>
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Reward your favorite builders with $BUILD tokens, and earn 10% of
-          every nomination. Search for their name or share your custom link.
+          The Airdrop 1 token claiming period is opening soon, for{" "}
+          <Link
+            href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
+            target="_blank"
+            textColor={"common.white"}
+            underline="always"
+            sx={{ textDecoration: "underline"}}
+          >
+            eligible users
+          </Link>
+          , until June 30th.
         </Typography>
         <ClaimSection details={airdropDetails} />
       </HeroSection>

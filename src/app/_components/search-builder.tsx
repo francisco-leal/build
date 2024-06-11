@@ -133,13 +133,11 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
               </Divider>
               <Link
                 href={
-                  "https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=74"
+                  "/airdrop1"
                 }
-                target="_blank"
                 sx={{ color: "common.white", textDecoration: "underline" }}
               >
-                Check the eligibility criteria to claim $BUILD tokens from
-                Airdrop 1
+                Claim $BUILD tokens from Airdrop 1
               </Link>
             </>
           );
