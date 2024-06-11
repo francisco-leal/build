@@ -1,12 +1,13 @@
 import { FarcasterAPIUser } from "@/app/_api/external/farcaster";
+import { FrameNominatorUserType } from "@/shared/frames/get-top-nominators";
 import { appURL } from "@/shared/frames/utils";
-import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
 interface Airdrop1DetailsProps {
   currentFarcasterUser: FarcasterAPIUser;
   buildCommitted: number;
   rank: number;
-  topNominators: (FarcasterAPIUser | null)[];
+  topNominators: FrameNominatorUserType[];
 }
 const Airdrop1Details = ({
   currentFarcasterUser,
@@ -332,7 +333,11 @@ const Airdrop1Details = ({
                     tw="flex flex-col justify-between items-center mx-auto mb-[50px] w-auto text-white"
                   >
                     <img
-                      src={nominator?.pfp_url ? nominator.pfp_url : ""}
+                      src={
+                        nominator?.profile_picture_url
+                          ? nominator.profile_picture_url
+                          : ""
+                      }
                       tw="w-[136px] h-[136px] rounded-full mr-[20px]"
                       style={{ objectFit: "cover" }}
                     />

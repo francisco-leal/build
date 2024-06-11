@@ -1,12 +1,12 @@
 import { Button } from "frames.js/next";
 import { isAddress } from "viem";
-import { getTopNominationsForUser } from "@/app/_api/data/nominations";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
 import { getBuildCommitted } from "@/services/boss-tokens";
 import Airdrop1Details from "@/shared/components/frames/airdrop1-details";
 import { NominateBuilderError } from "@/shared/components/frames/nominate-builder-error";
+import { getTopNominators } from "@/shared/frames/get-top-nominators";
 import { imageOptions } from "@/shared/frames/utils";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
@@ -27,13 +27,7 @@ const handler = frames(async (ctx) => {
       getFarcasterUser(userAddress),
     ]);
     if (!currentFarcasterUser) throw new BadRequestError("User not found");
-    const topNominations = await getTopNominationsForUser(currentUser);
-    const topNominators = await Promise.all(
-      topNominations
-        .filter((n) => n.originWallet && n.originWallet !== "")
-        .map((n) => getFarcasterUser(n.originWallet.toLowerCase()))
-        .slice(0, 3),
-    );
+    const topNominators = (await getTopNominators(currentUser)).slice(0, 3);
     const buildCommitted = await getBuildCommitted(userAddress);
     const rank = 1463;
     return {

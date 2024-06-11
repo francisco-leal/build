@@ -6,6 +6,8 @@ import { notifyBuildBot } from "@/app/_api/external/buildbot";
 import { supabase } from "@/db";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
+import { getFarcasterUserByFid } from "../external/farcaster";
+import { getTalentProtocolUser } from "../external/talent-protocol";
 import {
   CacheKey,
   CACHE_1_MINUTE,
@@ -21,6 +23,8 @@ export type Nomination = {
   buildPointsSent: number;
   originUserId: string;
   originUsername: string;
+  originPassportId?: number | null;
+  originFarcasterId?: number | null;
   originWallet: string;
   originRank: number | null;
   destinationWallet: string;
@@ -55,6 +59,8 @@ const SELECT_NOMINATIONS_TO_USER_SIMPLIFIED = `
   users (
     id,
     username,
+    passport_id,
+    farcaster_id,
     boss_leaderboard (
       id,
       rank
@@ -368,6 +374,8 @@ export const getTopNominationsForUser = async (
           id: nomination.id,
           originUserId: nomination.origin_user_id,
           originUsername: nomination?.users?.username ?? "",
+          originPassportId: nomination?.users?.passport_id ?? null,
+          originFarcasterId: nomination?.users?.farcaster_id ?? null,
           originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
           buildPointsReceived: nomination.boss_points_received,
