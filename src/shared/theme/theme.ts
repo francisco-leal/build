@@ -99,7 +99,7 @@ export const theme = extendTheme({
       fontSize: "14px",
       fontStyle: "normal",
       fontWeight: "600",
-      lineHeight: "142%"
+      lineHeight: "142%",
     },
     "body-lg": {
       fontFamily: "Inter Variable",

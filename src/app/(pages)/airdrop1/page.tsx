@@ -33,7 +33,7 @@ export default async function Airdrop1Page() {
           Reward your favorite builders with $BUILD tokens, and earn 10% of
           every nomination. Search for their name or share your custom link.
         </Typography>
-        <ClaimSection details={airdropDetails}/>
+        <ClaimSection details={airdropDetails} />
       </HeroSection>
       <HeroSection>
         <HowToPlay />

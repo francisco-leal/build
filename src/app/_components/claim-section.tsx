@@ -1,11 +1,23 @@
 "use client";
 
-import { useTransition, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Typography, Stack, Divider } from "@mui/joy";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { toast } from "sonner";
+import { parseEther } from "viem";
+import { base, baseSepolia } from "viem/chains";
+import {
+  useAccount,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  useChainId,
+} from "wagmi";
+import { useSwitchChain } from "wagmi";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { LogoShort } from "@/shared/icons/logo-short";
+import MerkleDistributionAbi from "@/shared/utils/MerkleDistributionAbi.json";
 import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
+import merkleTree from "@/shared/utils/merkleTree.json";
 import { AirdropInfo } from "../_api/data/users";
 
 type Props = {
@@ -15,12 +27,93 @@ type Props = {
 export const ClaimSection = ({ details }: Props) => {
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
+  const { address } = useAccount();
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
+  const { data: hash, error, isPending, writeContract } = useWriteContract();
+  const {
+    isLoading: isConfirming,
+    isSuccess: isConfirmed,
+    isError,
+  } = useWaitForTransactionReceipt({
+    hash,
+  });
+
+  const [claiming, setClaiming] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isConfirming || isPending) {
+      setClaiming(true);
+    }
+    if (isConfirmed) {
+      toast.success("Transaction confirmed! Tx: " + hash);
+      setClaiming(false);
+    }
+    if (isError) {
+      toast.error("Transaction failed! " + error);
+      setClaiming(false);
+    }
+  }, [isConfirmed, isConfirming, isPending, isError]);
 
   useEffect(() => {
     if (!showClaimFlow) {
       setStep(0);
     }
   }, [showClaimFlow]);
+
+  const claimFull = async () => {
+    if (!address) {
+      toast.error("You must connect your wallet before you can claim");
+      return;
+    }
+
+    if (chainId !== baseSepolia.id) {
+      await switchChain({ chainId: baseSepolia.id });
+    }
+
+    setClaiming(true);
+    toast.info(
+      "We'll need you to sign a transaction, please check your wallet.",
+    );
+    const tree = StandardMerkleTree.load(
+      JSON.parse(merkleTree.toString()) as any,
+    );
+    const proof = tree.getProof([address, parseEther("100")]);
+
+    await writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: "0x7fAEA5E40A2cD5ca4f81713cE8def97b52F83aF7",
+      functionName: "donate",
+      args: [proof, parseEther("100")],
+      chainId: baseSepolia.id,
+    });
+  };
+
+  const claimHalf = async () => {
+    if (!address) {
+      toast.error("You must connect your wallet before you can claim");
+      return;
+    }
+
+    if (chainId !== baseSepolia.id) {
+      await switchChain({ chainId: baseSepolia.id });
+    }
+
+    setClaiming(true);
+    toast.info(
+      "We'll need you to sign a transaction, please check your wallet.",
+    );
+    const tree = StandardMerkleTree.load(merkleTree as any);
+    const proof = tree.getProof([address, parseEther("100")]);
+
+    writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: "0x7fAEA5E40A2cD5ca4f81713cE8def97b52F83aF7",
+      functionName: "donateAndClaim",
+      args: [proof, parseEther("100")],
+      chainId: baseSepolia.id,
+    });
+  };
 
   return (
     <>
@@ -62,33 +155,28 @@ export const ClaimSection = ({ details }: Props) => {
               <Typography level="body-md" sx={{ textAlign: "start" }}>
                 We can commit to grow BUILD into an onchain builder economy that
                 rewards builders with both social and financial capital. 🫡
-              </Typography>
-              <Typography level="body-md" sx={{ textAlign: "start" }}>
+                <br></br>
                 Or we can all claim our $BUILD tokens and kill this experiment.
                 🪦
               </Typography>
               <Typography level="body-md" sx={{ textAlign: "start" }}>
                 If we reach 75B $BUILD committed (50% of Airdrop 1) by the end
                 of June, the team will continue building during Onchain Summer
-                and launch Airdrop 2 in September. Read more about the future of
-                BUILD here.
+                and launch Airdrop 2 in September.<br></br>Read more about the
+                future of BUILD here.
               </Typography>
               <Stack
                 sx={{
                   alignSelf: "end",
                   display: "flex",
                   flexDirection: "row",
+                  alignItems: "center",
                   mt: 2,
                 }}
               >
-                <Button
-                  variant="outlined"
-                  color="neutral"
-                  onClick={() => setShowClaimFlow(false)}
-                  sx={{ mr: 2 }}
-                >
-                  Cancel
-                </Button>
+                <Typography level="body-md" sx={{ mr: 2 }}>
+                  Real builders commit! Will you?
+                </Typography>
                 <Button
                   variant="solid"
                   color="primary"
@@ -295,8 +383,17 @@ export const ClaimSection = ({ details }: Props) => {
               <Button
                 variant="solid"
                 color="primary"
-                onClick={() => setShowClaimFlow(false)}
-                sx={{ alignSelf: "center", mt: 2 }}
+                onClick={() => claimFull()}
+                sx={{
+                  alignSelf: "center",
+                  mt: 2,
+                  "& svg": {
+                    color: "primary.500",
+                    width: 20,
+                    height: 20,
+                  },
+                }}
+                loading={claiming}
               >
                 Commit 100%
               </Button>
@@ -341,7 +438,18 @@ export const ClaimSection = ({ details }: Props) => {
               <Button
                 variant="outlined"
                 color="neutral"
-                sx={{ borderColor: "neutral.500", alignSelf: "center", mt: 2 }}
+                sx={{
+                  borderColor: "neutral.500",
+                  alignSelf: "center",
+                  mt: 2,
+                  "& svg": {
+                    color: "primary.500",
+                    width: 20,
+                    height: 20,
+                  },
+                }}
+                onClick={() => claimHalf()}
+                loading={claiming}
               >
                 Commit 50%
               </Button>
@@ -387,7 +495,15 @@ export const ClaimSection = ({ details }: Props) => {
                 variant="outlined"
                 color="neutral"
                 disabled={true}
-                sx={{ alignSelf: "center", mt: 2 }}
+                sx={{
+                  alignSelf: "center",
+                  mt: 2,
+                  "& svg": {
+                    color: "primary.500",
+                    width: 20,
+                    height: 20,
+                  },
+                }}
               >
                 Claim on Jun 18
               </Button>

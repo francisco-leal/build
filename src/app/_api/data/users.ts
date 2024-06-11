@@ -109,18 +109,19 @@ export const getCurrentUser = async (): Promise<CurrentUser | null> => {
   return userFromID ? { ...userFromID, wallet: user.wallet } : null;
 };
 
-export const getAirdropInfoForCurrentUser = async (): Promise<AirdropInfo | null> => {
-  const user = await getCurrentUser();
-  if (!user) return null;
+export const getAirdropInfoForCurrentUser =
+  async (): Promise<AirdropInfo | null> => {
+    const user = await getCurrentUser();
+    if (!user) return null;
 
-  return await supabase
-    .from("airdrop")
-    .select("*")
-    .eq("user_id", user.id)
-    .single()
-    .throwOnError()
-    .then((res) => res.data);
-}
+    return await supabase
+      .from("airdrop")
+      .select("*")
+      .eq("user_id", user.id)
+      .single()
+      .throwOnError()
+      .then((res) => res.data);
+  };
 
 export const createNewUserForWallet = async (wallet: string): Promise<User> => {
   const walletLc = wallet.toLowerCase();
