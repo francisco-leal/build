@@ -114,13 +114,17 @@ export const getAirdropInfoForCurrentUser =
     const user = await getCurrentUser();
     if (!user) return null;
 
-    return await supabase
-      .from("airdrop")
-      .select("*")
-      .eq("user_id", user.id)
-      .single()
-      .throwOnError()
-      .then((res) => res.data);
+    try {
+      return await supabase
+        .from("airdrop")
+        .select("*")
+        .eq("user_id", user.id)
+        .single()
+        .throwOnError()
+        .then((res) => res.data);
+    } catch {
+      return null;
+    }
   };
 
 export const createNewUserForWallet = async (wallet: string): Promise<User> => {

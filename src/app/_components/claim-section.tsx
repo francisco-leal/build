@@ -594,91 +594,97 @@ export const ClaimSection = ({ details }: Props) => {
       )}
       {!!details && isConfirmed && (
         <Stack
-        sx={{
-          flexDirection: "column",
-          mt: 4,
-          maxWidth: "600px",
-        }}
-      >
-        <BlockyCard>
-          <Stack
-            sx={{
-              flexDirection: "column",
-              alignItems: "start",
-              minWidth: "400px",
-              gap: 1,
-            }}
-          >
-            <Typography level="body-lg" sx={{ alignSelf: "center" }}>
-              You are officially a BUILD OG!
-            </Typography>
-            <Typography level="body-md" sx={{ textAlign: "start" }}>
-              Thank you for committing $BUILD to the BUILD Summer Fund.
-            </Typography>
-            <Divider sx={{ backgroundColor: "neutral.400" }} />
-            <Typography level="title-sm">Airdrop 1 stats</Typography>
+          sx={{
+            flexDirection: "column",
+            mt: 4,
+            maxWidth: "600px",
+          }}
+        >
+          <BlockyCard>
             <Stack
               sx={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                minWidth: "100%",
+                flexDirection: "column",
+                alignItems: "start",
+                minWidth: "400px",
+                gap: 1,
               }}
             >
-              <Typography level="body-sm">Total nominations given</Typography>
-              <Typography level="body-sm">
-                {details.nominations_made ?? 0}
+              <Typography level="body-lg" sx={{ alignSelf: "center" }}>
+                You are officially a BUILD OG!
               </Typography>
-            </Stack>
-            <Stack
-              sx={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                minWidth: "100%",
-              }}
-            >
-              <Typography level="body-sm">Total nominations received</Typography>
-              <Typography level="body-sm">{details.nominations_received ?? 0}</Typography>
-            </Stack>
-            <Stack
-              sx={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                minWidth: "100%",
-              }}
-            >
-              <Typography level="body-sm">Total points earned</Typography>
-              <Typography level="body-sm">{formatNumber(details.build_points ?? 0)}</Typography>
-            </Stack>
-            <Stack
-              sx={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                minWidth: "100%",
-              }}
-            >
-              <Typography level="body-sm">Final rank</Typography>
-              <Typography level="body-sm">{0}</Typography>
-            </Stack>
-            <Divider sx={{ backgroundColor: "neutral.400" }} />
-            <Stack
-              sx={{
-                alignSelf: "end",
-                display: "flex",
-                flexDirection: "row",
-                mt: 2,
-              }}
-            >
-              <Button
-                variant="solid"
-                color="primary"
-                onClick={() => window.open("https://warpcast.com", "_blank")}
+              <Typography level="body-md" sx={{ textAlign: "start" }}>
+                Thank you for committing $BUILD to the BUILD Summer Fund.
+              </Typography>
+              <Divider sx={{ backgroundColor: "neutral.400" }} />
+              <Typography level="title-sm">Airdrop 1 stats</Typography>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
               >
-                Share on farcaster
-              </Button>
+                <Typography level="body-sm">Total nominations given</Typography>
+                <Typography level="body-sm">
+                  {details.nominations_made ?? 0}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">
+                  Total nominations received
+                </Typography>
+                <Typography level="body-sm">
+                  {details.nominations_received ?? 0}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">Total points earned</Typography>
+                <Typography level="body-sm">
+                  {formatNumber(details.build_points ?? 0)}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">Final rank</Typography>
+                <Typography level="body-sm">{0}</Typography>
+              </Stack>
+              <Divider sx={{ backgroundColor: "neutral.400" }} />
+              <Stack
+                sx={{
+                  alignSelf: "end",
+                  display: "flex",
+                  flexDirection: "row",
+                  mt: 2,
+                }}
+              >
+                <Button
+                  variant="solid"
+                  color="primary"
+                  onClick={() => window.open("https://warpcast.com", "_blank")}
+                >
+                  Share on farcaster
+                </Button>
+              </Stack>
             </Stack>
-          </Stack>
-        </BlockyCard>
-      </Stack>
+          </BlockyCard>
+        </Stack>
       )}
       {showClaimFlow && !details && (
         <Stack

@@ -36,7 +36,7 @@ export default async function Airdrop1Page() {
             target="_blank"
             textColor={"common.white"}
             underline="always"
-            sx={{ textDecoration: "underline"}}
+            sx={{ textDecoration: "underline" }}
           >
             eligible users
           </Link>

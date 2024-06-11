@@ -132,9 +132,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                 </Typography>
               </Divider>
               <Link
-                href={
-                  "/airdrop1"
-                }
+                href={"/airdrop1"}
                 sx={{ color: "common.white", textDecoration: "underline" }}
               >
                 Claim $BUILD tokens from Airdrop 1
