@@ -21,3 +21,16 @@ export async function getBalance(wallet: string): Promise<number> {
   // Readable balance
   return Number(balance) / 10 ** 18;
 }
+
+export async function getBuildCommitted(wallet: string): Promise<number> {
+  if (!process.env.BOSS_CONTRACT_ADDRESS && !baseRpcUrl) return 0;
+  const balance = await publicClient.readContract({
+    address: process.env.BOSS_CONTRACT_ADDRESS as Address,
+    abi: erc20Abi,
+    functionName: "balanceOf",
+    args: [wallet],
+  });
+
+  // Readable balance
+  return Number(balance) / 10 ** 18;
+}

@@ -1,8 +1,10 @@
 import { Button } from "frames.js/next";
+import { isAddress } from "viem";
 import { getTopNominationsForUser } from "@/app/_api/data/nominations";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
+import { getBuildCommitted } from "@/services/boss-tokens";
 import Airdrop1Details from "@/shared/components/frames/airdrop1-details";
 import { NominateBuilderError } from "@/shared/components/frames/nominate-builder-error";
 import { imageOptions } from "@/shared/frames/utils";
@@ -17,7 +19,8 @@ const handler = frames(async (ctx) => {
     if (ctx.message && !ctx.message?.isValid) {
       throw new BadRequestError("Invalid message");
     }
-    if (!userAddress) throw new BadRequestError("Missing Wallet address");
+    if (!userAddress || !isAddress(userAddress))
+      throw new BadRequestError("Invalid wallet address");
 
     const [currentUser, currentFarcasterUser] = await Promise.all([
       getConnectedUserProfile(userAddress),
@@ -31,7 +34,7 @@ const handler = frames(async (ctx) => {
         .map((n) => getFarcasterUser(n.destinationWallet))
         .slice(0, 3),
     );
-    const buildCommitted = 123400;
+    const buildCommitted = await getBuildCommitted(userAddress);
     const rank = 1463;
     return {
       image: (
