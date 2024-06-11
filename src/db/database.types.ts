@@ -9,6 +9,96 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      airdrop: {
+        Row: {
+          airdrop_allocation: number | null;
+          airdrop_allocation_with_multiplier: number | null;
+          build_budget: number | null;
+          build_points: number | null;
+          build_points_received: number | null;
+          build_points_sent: number | null;
+          build_tokens: number | null;
+          created_at: string;
+          farcaster_id: number | null;
+          farmer: boolean | null;
+          id: number;
+          likely_builder: boolean | null;
+          multiplier: number | null;
+          no_info: boolean | null;
+          nominations_made: number | null;
+          nominations_received: number | null;
+          passport_id: number | null;
+          receiving_wallet: string | null;
+          token_holder: boolean | null;
+          user_id: string | null;
+          username: string | null;
+          verified_builder: boolean | null;
+        };
+        Insert: {
+          airdrop_allocation?: number | null;
+          airdrop_allocation_with_multiplier?: number | null;
+          build_budget?: number | null;
+          build_points?: number | null;
+          build_points_received?: number | null;
+          build_points_sent?: number | null;
+          build_tokens?: number | null;
+          created_at?: string;
+          farcaster_id?: number | null;
+          farmer?: boolean | null;
+          id?: number;
+          likely_builder?: boolean | null;
+          multiplier?: number | null;
+          no_info?: boolean | null;
+          nominations_made?: number | null;
+          nominations_received?: number | null;
+          passport_id?: number | null;
+          receiving_wallet?: string | null;
+          token_holder?: boolean | null;
+          user_id?: string | null;
+          username?: string | null;
+          verified_builder?: boolean | null;
+        };
+        Update: {
+          airdrop_allocation?: number | null;
+          airdrop_allocation_with_multiplier?: number | null;
+          build_budget?: number | null;
+          build_points?: number | null;
+          build_points_received?: number | null;
+          build_points_sent?: number | null;
+          build_tokens?: number | null;
+          created_at?: string;
+          farcaster_id?: number | null;
+          farmer?: boolean | null;
+          id?: number;
+          likely_builder?: boolean | null;
+          multiplier?: number | null;
+          no_info?: boolean | null;
+          nominations_made?: number | null;
+          nominations_received?: number | null;
+          passport_id?: number | null;
+          receiving_wallet?: string | null;
+          token_holder?: boolean | null;
+          user_id?: string | null;
+          username?: string | null;
+          verified_builder?: boolean | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "airdrop_receiving_wallet_fkey";
+            columns: ["receiving_wallet"];
+            isOneToOne: false;
+            referencedRelation: "wallets";
+            referencedColumns: ["wallet"];
+          },
+          {
+            foreignKeyName: "airdrop_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       api_keys: {
         Row: {
           access_level: string;
