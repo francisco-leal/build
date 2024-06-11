@@ -6,13 +6,13 @@ interface Airdrop1DetailsProps {
   currentFarcasterUser: FarcasterAPIUser;
   buildCommitted: number;
   rank: number;
-  nominatedUsers: (FarcasterAPIUser | null)[];
+  topNominators: (FarcasterAPIUser | null)[];
 }
 const Airdrop1Details = ({
   currentFarcasterUser,
   buildCommitted,
   rank,
-  nominatedUsers,
+  topNominators,
 }: Airdrop1DetailsProps) => {
   return (
     <div tw="relative w-full h-full flex bg-[#0042F5] text-white">
@@ -318,29 +318,35 @@ const Airdrop1Details = ({
               tw="mx-auto text-[64px] text-white"
               style={{ fontFamily: "Bricolage-Bold" }}
             >
-              Top {nominatedUsers.length} nominators
+              Top {topNominators.length > 0 ? topNominators.length : ""}{" "}
+              nominators
             </h1>
           </div>
           <div tw="flex w-full justify-between mx-auto items-center">
-            {nominatedUsers.length > 0 ? (
-              nominatedUsers.map((user, index) => (
-                <div
-                  key={index}
-                  tw="flex flex-col justify-between items-center mx-auto mb-[50px] w-auto text-white"
-                >
-                  <img
-                    src={user?.pfp_url ? user.pfp_url : ""}
-                    tw="w-[136px] h-[136px] rounded-full mr-[20px]"
-                    style={{ objectFit: "cover" }}
-                  />
-                  <p
-                    tw="font-bold text-[40px] py-[12px] px-[20px] text-[#0042F5] bg-white w-auto border-black border-t-4 border-l-4 border-b-[10px] border-r-[10px]"
-                    style={{ fontFamily: "Bricolage-Bold" }}
+            {topNominators.length > 0 ? (
+              topNominators.map((nominator, index) => {
+                if (!nominator) return null;
+                return (
+                  <div
+                    key={`${nominator.username}.${index}`}
+                    tw="flex flex-col justify-between items-center mx-auto mb-[50px] w-auto text-white"
                   >
-                    {user?.username ? user.username.slice(0, 14) : " "}
-                  </p>
-                </div>
-              ))
+                    <img
+                      src={nominator?.pfp_url ? nominator.pfp_url : ""}
+                      tw="w-[136px] h-[136px] rounded-full mr-[20px]"
+                      style={{ objectFit: "cover" }}
+                    />
+                    <p
+                      tw="font-bold text-[40px] py-[12px] px-[20px] text-[#0042F5] bg-white w-auto border-black border-t-4 border-l-4 border-b-[10px] border-r-[10px]"
+                      style={{ fontFamily: "Bricolage-Bold" }}
+                    >
+                      {nominator?.username
+                        ? nominator.username.slice(0, 14)
+                        : " "}
+                    </p>
+                  </div>
+                );
+              })
             ) : (
               <div tw="flex flex-col mx-auto items-center">
                 <p tw="text-[48px]" style={{ fontFamily: "Bricolage-Bold" }}>

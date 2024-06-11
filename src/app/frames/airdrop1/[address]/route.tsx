@@ -27,11 +27,11 @@ const handler = frames(async (ctx) => {
       getFarcasterUser(userAddress),
     ]);
     if (!currentFarcasterUser) throw new BadRequestError("User not found");
-    const dailyNominations = await getTopNominationsForUser(currentUser);
-    const nominatedUsers = await Promise.all(
-      dailyNominations
-        .reverse()
-        .map((n) => getFarcasterUser(n.destinationWallet))
+    const topNominations = await getTopNominationsForUser(currentUser);
+    const topNominators = await Promise.all(
+      topNominations
+        .filter((n) => n.originWallet && n.originWallet !== "")
+        .map((n) => getFarcasterUser(n.originWallet.toLowerCase()))
         .slice(0, 3),
     );
     const buildCommitted = await getBuildCommitted(userAddress);
@@ -42,7 +42,7 @@ const handler = frames(async (ctx) => {
           currentFarcasterUser={currentFarcasterUser}
           buildCommitted={buildCommitted}
           rank={rank}
-          nominatedUsers={nominatedUsers}
+          topNominators={topNominators}
         />
       ),
       buttons: [
