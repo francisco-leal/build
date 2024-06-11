@@ -244,7 +244,7 @@ export const ClaimSection = ({ details }: Props) => {
           onClick={() => setShowClaimFlow(true)}
           sx={{ mt: 2 }}
         >
-          Claim $BUILD
+          Check your allocation
         </Button>
       )}
       {showClaimFlow && !!details && step === 0 && (
