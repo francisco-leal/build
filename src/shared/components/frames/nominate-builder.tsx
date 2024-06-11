@@ -94,7 +94,7 @@ export const NominateBuilder = ({
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_1241_4271)">
+                    <g clipPath="url(#clip0_1241_4271)">
                       <path
                         d="M39.8048 6.7832H37.7148V29.8282H39.8048V6.7832Z"
                         fill="#FBFCFE"
@@ -236,8 +236,8 @@ export const NominateBuilder = ({
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clip-path="url(#clip0_1241_4303)">
-                      <g clip-path="url(#clip1_1241_4303)">
+                    <g clipPath="url(#clip0_1241_4303)">
+                      <g clipPath="url(#clip1_1241_4303)">
                         <path
                           d="M42.9455 29.8594H40.8555V40.3369H42.9455V29.8594Z"
                           fill="#FBFCFE"
