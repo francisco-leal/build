@@ -22,6 +22,13 @@ const handler = frames(async (ctx) => {
       <Button action="link" key="3" target="https://www.build.top/airdrop1">
         Check eligibility
       </Button>,
+      <Button
+        action="post"
+        key="4"
+        target="/airdrop1/0x699d04F9994f181F3E310F70cF6aC8E8445aCe9A"
+      >
+        Airdrop1
+      </Button>,
     ],
     imageOptions: {
       ...imageOptions,

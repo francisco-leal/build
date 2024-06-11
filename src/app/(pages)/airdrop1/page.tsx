@@ -1,10 +1,23 @@
+import { Metadata } from "next";
 import { Stack, Typography, Link } from "@mui/joy";
+import { fetchMetadata } from "frames.js/next";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { calculateEligibility } from "@/app/_api/functions/calculate-eligibility";
 import { EligibilityChecker } from "@/app/_components/eligibility-checker";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { HeroSection } from "@/shared/components/hero-section";
+import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    other: {
+      ...(await fetchMetadata(
+        new URL(FRAMES_BASE_PATH + `/airdrop1`, appURL()),
+      )),
+    },
+  };
+}
 
 export default async function Airdrop1Page() {
   const user = await getCurrentUser();
