@@ -40,7 +40,13 @@ export default async function Airdrop1Page() {
           >
             eligible users
           </Link>
-          , until June 30th.
+          , until June 30th. Read more about the future of BUILD <Link
+            href="https://paragraph.xyz/@macedo/build-announcement-4"
+            target="_blank"
+            textColor={"common.white"}
+            underline="always"
+            sx={{ textDecoration: "underline" }}
+          >here</Link>.
         </Typography>
         <ClaimSection details={airdropDetails} />
       </HeroSection>
