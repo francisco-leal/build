@@ -130,7 +130,8 @@ export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }
     const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
     toast.info(
-      "We'll need you to sign a transaction, please check your wallet.",
+      "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
+      { duration: 10000 },
     );
 
     await writeContract({
