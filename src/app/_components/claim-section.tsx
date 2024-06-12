@@ -25,14 +25,17 @@ import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
 import merkleTree from "@/shared/utils/merkleTree.json";
 import merkleTreeMultiplier from "@/shared/utils/merkleTreeMultiplier.json";
 import { AirdropInfo } from "../_api/data/users";
+import { User } from "../_api/data/users";
 
 type Props = {
   details: AirdropInfo | null;
+  user: User;
 };
 
-const MERKLE_DISTRIBUTION_CONTRACT = "0xc87c5103b11B070b5E2D6c1aE61ab1cb5472AE1C";
+const MERKLE_DISTRIBUTION_CONTRACT =
+  "0xc87c5103b11B070b5E2D6c1aE61ab1cb5472AE1C";
 
-export const ClaimSection = ({ details }: Props) => {
+export const ClaimSection = ({ details, user }: Props) => {
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const { address } = useAccount();
@@ -57,14 +60,14 @@ export const ClaimSection = ({ details }: Props) => {
   const [claiming, setClaiming] = useState<boolean>(false);
 
   useEffect(() => {
-    if(error) {
+    if (error) {
       toast.error("Transaction failed! " + error.cause);
       setClaiming(false);
     }
-  },[error]);
+  }, [error]);
 
   useEffect(() => {
-    if (donated as bigint > 0n) {
+    if ((donated as bigint) > 0n) {
       toast.info("You've already claimed your tokens");
       setShowClaimFlow(false);
       setClaiming(false);
@@ -243,7 +246,7 @@ export const ClaimSection = ({ details }: Props) => {
 
   return (
     <>
-      {!showClaimFlow && !(isConfirmed || (donated as bigint > 0n)) && (
+      {!showClaimFlow && !(isConfirmed || (donated as bigint) > 0n) && (
         <Button
           variant="solid"
           color="neutral"
@@ -730,7 +733,7 @@ export const ClaimSection = ({ details }: Props) => {
           </BlockyCard>
         </Stack>
       )}
-      {!!details && (isConfirmed || (donated as bigint > 0n)) && (
+      {!!details && (isConfirmed || (donated as bigint) > 0n) && (
         <Stack
           sx={{
             flexDirection: "column",
@@ -751,8 +754,15 @@ export const ClaimSection = ({ details }: Props) => {
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
                 You are officially a BUILD OG!
               </Typography>
-              <Typography level="body-md" sx={{ textAlign: "center", alignSelf: "center" }}>
-                Thank you for committing {donated as bigint > 0n ? `${formatLargeNumber(parseInt(formatEther(donated as bigint)))} ` : ""}$BUILD<br></br>to the{" "}
+              <Typography
+                level="body-md"
+                sx={{ textAlign: "center", alignSelf: "center" }}
+              >
+                Thank you for committing{" "}
+                {(donated as bigint) > 0n
+                  ? `${formatLargeNumber(parseInt(formatEther(donated as bigint)))} `
+                  : ""}
+                $BUILD<br></br>to the{" "}
                 <Link
                   href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
                   target="_blank"
@@ -874,6 +884,11 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_farcaster_id ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   Farcaster ID, older than May 15th
                 </Typography>
@@ -886,6 +901,11 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_ens ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   ENS primary name, older than May 15th
                 </Typography>
@@ -897,7 +917,11 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_passport ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   Talent Passport w/ World ID credential
                 </Typography>
@@ -909,7 +933,11 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_passport ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   Talent Passport w/ Gitcoin credential
                 </Typography>
