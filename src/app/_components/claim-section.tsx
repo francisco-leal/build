@@ -405,7 +405,7 @@ export const ClaimSection = ({ details }: Props) => {
                 <br></br>
                 <br></br>
                 We can commit to grow BUILD into a real onchain builder economy
-                🫡 Or we can all claim our $BUILD tokens and kill this
+                🫡<br></br>Or we can all claim our $BUILD tokens and kill this
                 experiment 🪦
                 <br></br>
                 <br></br>A collective commitment of {">"}50% from Airdrop 1 (75B
