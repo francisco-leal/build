@@ -1,4 +1,4 @@
-import { Stack, Typography, Link, Button } from "@mui/joy";
+import { Stack, Typography, Link } from "@mui/joy";
 import {
   getAirdropInfoForCurrentUser,
   getCurrentUser,
@@ -10,6 +10,7 @@ import { HeroSection } from "@/shared/components/hero-section";
 import { Helicopter } from "@/shared/icons/helicopter";
 import { getTreeProof, getTreeMultiplierProof } from "@/app/_api/functions/calculate-merkle-proof";
 
+export const maxDuration = 60;
 export default async function Airdrop1Page() {
   const user = await getCurrentUser();
   if (!user) return <PlaceholderUserNotConnected />;
