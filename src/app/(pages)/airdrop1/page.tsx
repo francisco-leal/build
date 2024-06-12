@@ -53,7 +53,7 @@ export default async function Airdrop1Page() {
           </Link>
           .
         </Typography>
-        <ClaimSection details={airdropDetails} />
+        <ClaimSection details={airdropDetails} user={user} />
       </HeroSection>
       <HeroSection>
         <HowToPlay />

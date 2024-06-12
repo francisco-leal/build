@@ -72,6 +72,7 @@ export const getNomination = async (
     .from("boss_nominations")
     .select(SELECT_NOMINATIONS_FROM_USER)
     .eq("origin_user_id", userId)
+    .eq("valid", true)
     .in("destination_wallet_id", wallet.allWallets)
     .throwOnError()
     .then((res) => res.data?.[0]);
@@ -106,6 +107,7 @@ export const getNominationsUserSent = async (
         .select(SELECT_NOMINATIONS_FROM_USER)
         .order("created_at", { ascending: false })
         .eq("origin_user_id", user.id)
+        .eq("valid", true)
         .throwOnError();
 
       return (
@@ -144,6 +146,7 @@ export const getNominationsUserReceived = async (
         .from("boss_nominations")
         .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
         .in("destination_wallet_id", walletsForUser)
+        .eq("valid", true)
         .order("created_at", { ascending: false })
         .limit(10)
         .throwOnError()
@@ -358,6 +361,7 @@ export const getTopNominationsForUser = async (
         .from("boss_nominations")
         .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
         .in("destination_wallet_id", wallets)
+        .eq("valid", true)
         .order("boss_points_sent", { ascending: false })
         .limit(5)
         .throwOnError()
@@ -398,6 +402,7 @@ export const getNominationsCountForUser = async (
           count: "exact",
           head: true,
         })
+        .eq("valid", true)
         .in("destination_wallet_id", wallets)
         .throwOnError()
         .then((res) => res.count ?? 0);
