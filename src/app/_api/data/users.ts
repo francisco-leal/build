@@ -127,6 +127,24 @@ export const getAirdropInfoForCurrentUser =
     }
   };
 
+export const getAirdropRankForUser = async (
+  user: User | null,
+): Promise<{ rank: Tables["airdrop"]["Row"]["rank"] } | null> => {
+  if (!user) return null;
+
+  try {
+    return await supabase
+      .from("airdrop")
+      .select("*")
+      .eq("user_id", user.id)
+      .single()
+      .throwOnError()
+      .then((res) => res.data);
+  } catch {
+    return null;
+  }
+};
+
 export const createNewUserForWallet = async (wallet: string): Promise<User> => {
   const walletLc = wallet.toLowerCase();
   const talentUser = await getTalentProtocolUser(walletLc);

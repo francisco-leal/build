@@ -5,6 +5,7 @@ import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
 import { NominateBuilderError } from "@/shared/components/frames/nominate-builder-error";
 import { appURL, imageOptions } from "@/shared/frames/utils";
+import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
 
 const handler = frames(async (ctx) => {
@@ -106,7 +107,7 @@ const handler = frames(async (ctx) => {
           farcasterUsername={farcasterUsername}
           farcasterPfp={farcasterPfp}
           builderImage={undefined}
-          builderUsername={`${userAddress.slice(0, 8)}...${userAddress.slice(-4)}`}
+          builderUsername={abbreviateWalletAddress(userAddress)}
           errorTitle="Builder not found"
           errorMessage=""
         />

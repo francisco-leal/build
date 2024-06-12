@@ -6,6 +6,8 @@ import { notifyBuildBot } from "@/app/_api/external/buildbot";
 import { supabase } from "@/db";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
+import { getFarcasterUserByFid } from "../external/farcaster";
+import { getTalentProtocolUser } from "../external/talent-protocol";
 import {
   CacheKey,
   CACHE_1_MINUTE,
@@ -21,6 +23,8 @@ export type Nomination = {
   buildPointsSent: number;
   originUserId: string;
   originUsername: string;
+  originPassportId?: number | null;
+  originFarcasterId?: number | null;
   originWallet: string;
   originRank: number | null;
   destinationWallet: string;
@@ -55,6 +59,8 @@ const SELECT_NOMINATIONS_TO_USER_SIMPLIFIED = `
   users (
     id,
     username,
+    passport_id,
+    farcaster_id,
     boss_leaderboard (
       id,
       rank
@@ -72,6 +78,7 @@ export const getNomination = async (
     .from("boss_nominations")
     .select(SELECT_NOMINATIONS_FROM_USER)
     .eq("origin_user_id", userId)
+    .eq("valid", true)
     .in("destination_wallet_id", wallet.allWallets)
     .throwOnError()
     .then((res) => res.data?.[0]);
@@ -106,6 +113,7 @@ export const getNominationsUserSent = async (
         .select(SELECT_NOMINATIONS_FROM_USER)
         .order("created_at", { ascending: false })
         .eq("origin_user_id", user.id)
+        .eq("valid", true)
         .throwOnError();
 
       return (
@@ -144,6 +152,7 @@ export const getNominationsUserReceived = async (
         .from("boss_nominations")
         .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
         .in("destination_wallet_id", walletsForUser)
+        .eq("valid", true)
         .order("created_at", { ascending: false })
         .limit(10)
         .throwOnError()
@@ -358,6 +367,7 @@ export const getTopNominationsForUser = async (
         .from("boss_nominations")
         .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
         .in("destination_wallet_id", wallets)
+        .eq("valid", true)
         .order("boss_points_sent", { ascending: false })
         .limit(5)
         .throwOnError()
@@ -368,6 +378,8 @@ export const getTopNominationsForUser = async (
           id: nomination.id,
           originUserId: nomination.origin_user_id,
           originUsername: nomination?.users?.username ?? "",
+          originPassportId: nomination?.users?.passport_id ?? null,
+          originFarcasterId: nomination?.users?.farcaster_id ?? null,
           originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
           buildPointsReceived: nomination.boss_points_received,
@@ -398,6 +410,7 @@ export const getNominationsCountForUser = async (
           count: "exact",
           head: true,
         })
+        .eq("valid", true)
         .in("destination_wallet_id", wallets)
         .throwOnError()
         .then((res) => res.count ?? 0);

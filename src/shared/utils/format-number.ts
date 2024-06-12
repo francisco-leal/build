@@ -19,7 +19,7 @@ export const formatNumber = (n: number, decimalPoints: number = 2) => {
  * i.e. 4_123_121_234_567 => 4,123B
  * i.e. 124.2412 => 124
  */
-export const formatLargeNumber = (n: number) => {
+export const formatLargeNumber = (n: number, decimalPoints: number = 2) => {
   const [divider, suffix] = (() => {
     if (n > 1e12) return [1e12, "T"];
     if (n > 1e9) return [1e9, "B"];
@@ -29,6 +29,6 @@ export const formatLargeNumber = (n: number) => {
   })();
 
   const basedNumber = n / divider;
-  const localizedNumber = formatNumber(basedNumber, 2);
+  const localizedNumber = formatNumber(basedNumber, decimalPoints);
   return `${localizedNumber}${suffix}`;
 };

@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { Button, Typography, Stack, Divider, Link } from "@mui/joy";
-import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { toast } from "sonner";
-import { parseEther } from "viem";
-import { base, baseSepolia } from "viem/chains";
+import { parseEther, formatEther, Address } from "viem";
+import { base } from "viem/chains";
 import {
   useAccount,
   useWriteContract,
   useWaitForTransactionReceipt,
   useChainId,
+  useReadContract,
 } from "wagmi";
 import { useSwitchChain } from "wagmi";
 import { BlockyCard } from "@/shared/components/blocky-card";
@@ -21,17 +21,25 @@ import { MusicHeadset } from "@/shared/icons/music-headset";
 import { RedCross } from "@/shared/icons/red-cross";
 import MerkleDistributionAbi from "@/shared/utils/MerkleDistributionAbi.json";
 import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
-// import merkleTree from "@/shared/utils/merkleTree.json";
-// import merkleTreeMultiplier from "@/shared/utils/merkleTreeMultiplier.json";
+import { getWarpcastSharableLinkAirdrop1 } from "@/shared/utils/sharable-warpcast-link";
 import { AirdropInfo } from "../_api/data/users";
+import { User } from "../_api/data/users";
 
 type Props = {
   details: AirdropInfo | null;
+  user: User;
+  getTreeProof: (index: number) => Promise<string[] | null>;
+  getMultiplierProof: (index: number) => Promise<string[] | null>;
 };
 
-const MERKLE_DISTRIBUTION_CONTRACT = "0x0";
+const MERKLE_DISTRIBUTION_CONTRACT = "0x556e182ad2b72f5934C2215d6A56cFC19936FdB7";
 
-export const ClaimSection = ({ details }: Props) => {
+export const ClaimSection = ({
+  details,
+  user,
+  getTreeProof,
+  getMultiplierProof,
+}: Props) => {
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const { address } = useAccount();
@@ -45,10 +53,30 @@ export const ClaimSection = ({ details }: Props) => {
   } = useWaitForTransactionReceipt({
     hash: hash,
   });
+  const { data: donated, refetch } = useReadContract({
+    abi: MerkleDistributionAbi.abi,
+    address: MERKLE_DISTRIBUTION_CONTRACT,
+    functionName: "donated",
+    args: [address],
+    chainId: base.id,
+  });
 
   const [claiming, setClaiming] = useState<boolean>(false);
 
   useEffect(() => {
+    if (error) {
+      toast.error("Transaction failed! " + error.cause);
+      setClaiming(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if ((donated as bigint) > 0n) {
+      toast.info("You've already claimed your tokens");
+      setShowClaimFlow(false);
+      setClaiming(false);
+    }
+
     if (isConfirming || isPending) {
       setClaiming(true);
     }
@@ -56,12 +84,13 @@ export const ClaimSection = ({ details }: Props) => {
       toast.success("Transaction confirmed! " + hash);
       setShowClaimFlow(false);
       setClaiming(false);
+      refetch();
     }
     if (isError) {
       toast.error("Transaction failed! " + error);
       setClaiming(false);
     }
-  }, [isConfirmed, isConfirming, isPending, isError]);
+  }, [isConfirmed, isConfirming, isPending, isError, donated]);
 
   useEffect(() => {
     if (!showClaimFlow) {
@@ -70,10 +99,6 @@ export const ClaimSection = ({ details }: Props) => {
   }, [showClaimFlow]);
 
   const claimFull = async () => {
-    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
-      return;
-    }
-
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
@@ -98,39 +123,30 @@ export const ClaimSection = ({ details }: Props) => {
       return;
     }
 
-    // @TODO: replace with base mainnet
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
+    toast.info(
+      "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
+      { duration: 30000 },
+    );
 
-    //   const tree = StandardMerkleTree.load(merkleTree as any);
-    //   const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    //   // @TODO: get the index from the database
-    //   const proof = tree.getProof(15362-1);
+    const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    const proof = await getTreeProof(details.tree_index ?? -1);
+    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
-    //   const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
-    //   // @TODO: get the index from the database
-    //   const proofMultiplier = treeMultiplier.getProof(15362-1);
-
-    //   toast.info(
-    //     "We'll need you to sign a transaction, please check your wallet.",
-    //   );
-
-    //   await writeContract({
-    //     abi: MerkleDistributionAbi.abi,
-    //     address: MERKLE_DISTRIBUTION_CONTRACT,
-    //     functionName: "donate",
-    //     args: [proof, amountToClaim, proofMultiplier, details.multiplier],
-    //     chainId: baseSepolia.id, // @TODO: replace with base mainnet
-    //   });
+    await writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: MERKLE_DISTRIBUTION_CONTRACT,
+      functionName: "donate",
+      args: [proof, amountToClaim, proofMultiplier, details.multiplier],
+      chainId: base.id,
+    });
   };
 
   const claimHalf = async () => {
-    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
-      return;
-    }
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
@@ -155,39 +171,30 @@ export const ClaimSection = ({ details }: Props) => {
       );
     }
 
-    // @TODO: replace with base mainnet
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
     toast.info(
-      "We'll need you to sign a transaction, please check your wallet.",
+      "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
+      { duration: 30000 },
     );
 
-    // const tree = StandardMerkleTree.load(merkleTree as any);
-    // const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    const proof = await getTreeProof(details.tree_index ?? -1);
+    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
-    // // @TODO: get the index from the database
-    // const proof = tree.getProof(15362-1);
-
-    // const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
-    // // @TODO: get the index from the database
-    // const proofMultiplier = treeMultiplier.getProof(15362-1);
-
-    // await writeContract({
-    //   abi: MerkleDistributionAbi.abi,
-    //   address: MERKLE_DISTRIBUTION_CONTRACT,
-    //   functionName: "donateAndClaim",
-    //   args: [proof, amountToClaim, proofMultiplier, details.multiplier],
-    //   chainId: baseSepolia.id, // @TODO: replace with base mainnet
-    // });
+    await writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: MERKLE_DISTRIBUTION_CONTRACT,
+      functionName: "donateAndClaim",
+      args: [proof, amountToClaim, proofMultiplier, details.multiplier],
+      chainId: base.id,
+    });
   };
 
   const claim = async () => {
-    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
-      return;
-    }
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
@@ -212,32 +219,31 @@ export const ClaimSection = ({ details }: Props) => {
       );
     }
 
-    // @TODO: replace with base mainnet
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
     toast.info(
-      "We'll need you to sign a transaction, please check your wallet.",
+      "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
+      { duration: 30000 },
     );
-    // const tree = StandardMerkleTree.load(merkleTree as any);
-    // const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    // // @TODO: get the index from the database
-    // const proof = tree.getProof(15362-1);
+    const amountToClaim = parseEther(details.airdrop_allocation.toString());
 
-    // await writeContract({
-    //   abi: MerkleDistributionAbi.abi,
-    //   address: MERKLE_DISTRIBUTION_CONTRACT,
-    //   functionName: "claim",
-    //   args: [proof, amountToClaim],
-    //   chainId: baseSepolia.id, // @TODO: replace with base mainnet
-    // });
+    const proof = await getTreeProof(details.tree_index ?? -1);
+
+    await writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: MERKLE_DISTRIBUTION_CONTRACT,
+      functionName: "claim",
+      args: [proof, amountToClaim],
+      chainId: base.id,
+    });
   };
 
   return (
     <>
-      {!showClaimFlow && !isConfirmed && (
+      {!showClaimFlow && !(isConfirmed || (donated as bigint) > 0n) && (
         <Button
           variant="solid"
           color="neutral"
@@ -304,6 +310,30 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
+                <Typography level="body-sm">Point to Token ratio</Typography>
+                <Typography level="body-sm">30</Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">
+                  My $BUILD Token allocation
+                </Typography>
+                <Typography level="body-sm">
+                  {formatNumber(details.airdrop_allocation ?? 0)}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
                 <Typography level="body-sm">Allocation multiplier</Typography>
                 <Typography level="body-sm">{details.multiplier}x</Typography>
               </Stack>
@@ -342,9 +372,8 @@ export const ClaimSection = ({ details }: Props) => {
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="body-sm" sx={{ textAlign: "start" }}>
-                *Builder or not, all eligible users are able to claim tokens.
-                But we reward verifiable builders and $BUILD token holders with
-                an airdrop allocation multiplier. The multiplier only applies if
+                *We reward verifiable builders and $BUILD token holders with an
+                airdrop allocation multiplier. The multiplier only applies if
                 you commit some tokens, in the next steps.
               </Typography>
               <Stack
@@ -400,20 +429,19 @@ export const ClaimSection = ({ details }: Props) => {
               </Typography>
               <Typography level="body-md" sx={{ textAlign: "start" }}>
                 Airdrop 1 was a successful first experiment, but BUILD is just
-                getting started. Now the community has a choice: we either
-                commit or quit.
+                getting started. Now the community has a choice: we either{" "}
+                <strong>commit</strong> or <strong>quit</strong>.<br></br>
+                <br></br>
+                We can commit to grow BUILD into the onchain builder economy
+                🫡
+                <br></br>
+                Or we can all claim our $BUILD tokens and quit this experiment
+                🪦
                 <br></br>
                 <br></br>
-                We can commit to grow BUILD into a real onchain builder economy
-                🫡<br></br>Or we can all claim our $BUILD tokens and kill this
-                experiment 🪦
-                <br></br>
-                <br></br>A collective commitment of {">"}50% from Airdrop 1 (75B
-                $BUILD), will be a strong signal for the team to keep building
-                during Onchain Summer.
-                <br></br>
-                <br></br>
-                Read more about the future of BUILD{" "}
+                Let&apos;s push for a collective commitment of {">"}50% on Airdrop 1
+                and keep building during Onchain Summer. Read more about the
+                future of BUILD{" "}
                 <Link
                   href="https://paragraph.xyz/@macedo/build-announcement-4"
                   target="_blank"
@@ -561,7 +589,6 @@ export const ClaimSection = ({ details }: Props) => {
                   variant="solid"
                   color="primary"
                   onClick={() => claimFull()}
-                  disabled={true}
                   sx={{
                     alignSelf: "center",
                     mt: 2,
@@ -573,7 +600,7 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                   loading={claiming}
                 >
-                  Commit 100% on June 12th
+                  Commit 100%
                 </Button>
               </BlockyCard>
               <BlockyCard
@@ -653,9 +680,8 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                   onClick={() => claimHalf()}
                   loading={claiming}
-                  disabled={true}
                 >
-                  Commit 50% on June 12th
+                  Commit 50%
                 </Button>
               </BlockyCard>
               <BlockyCard
@@ -701,7 +727,7 @@ export const ClaimSection = ({ details }: Props) => {
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm">
-                    No BUILD budget for the next airdrops.
+                    Lower BUILD budget for the next airdrops.
                   </Typography>
                 </Stack>
                 <Button
@@ -726,7 +752,7 @@ export const ClaimSection = ({ details }: Props) => {
           </BlockyCard>
         </Stack>
       )}
-      {!!details && isConfirmed && (
+      {!!details && (isConfirmed || (donated as bigint) > 0n) && (
         <Stack
           sx={{
             flexDirection: "column",
@@ -747,8 +773,15 @@ export const ClaimSection = ({ details }: Props) => {
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
                 You are officially a BUILD OG!
               </Typography>
-              <Typography level="body-md" sx={{ textAlign: "start" }}>
-                Thank you for committing $BUILD to the{" "}
+              <Typography
+                level="body-md"
+                sx={{ textAlign: "center", alignSelf: "center" }}
+              >
+                Thank you for committing{" "}
+                {(donated as bigint) > 0n
+                  ? <strong>{formatLargeNumber(parseInt(formatEther(donated as bigint)))}{" "}</strong>
+                  : ""}
+                $BUILD<br></br>to the{" "}
                 <Link
                   href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
                   target="_blank"
@@ -819,7 +852,15 @@ export const ClaimSection = ({ details }: Props) => {
                 <Button
                   variant="solid"
                   color="primary"
-                  onClick={() => window.open("https://warpcast.com", "_blank")}
+                  onClick={() =>
+                    window.open(
+                      getWarpcastSharableLinkAirdrop1(
+                        parseInt(formatEther(donated as bigint)),
+                        address!,
+                      ),
+                      "_blank",
+                    )
+                  }
                 >
                   Share on farcaster
                 </Button>
@@ -857,7 +898,11 @@ export const ClaimSection = ({ details }: Props) => {
                   alignItems: "center",
                 }}
               >
-                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {(user.nominations_made ?? 0) > 0 ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   You made at least one nomination
                 </Typography>
@@ -913,10 +958,17 @@ export const ClaimSection = ({ details }: Props) => {
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="body-sm" sx={{ textAlign: "start" }}>
                 BUILD Airdrop 1 ended on June 4th, at 9pm UTC, with a data
-                snapshot. Unfortunately this wallet doesn&apos;t meet any of the
-                criteria to be eligible to claim $BUILD tokens. Information
-                about the eligibility criteria has been public, since the
-                project launched on May 14th, in the FAQ and on Farcaster.
+                snapshot. Unfortunately this wallet doesn&apos;t meet the
+                minimum criteria to be eligible to claim $BUILD tokens.
+                Information about the eligibility criteria has been public,
+                since the project launched on May 14th, in the{" "}
+                <Link
+                  href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
+                  target="_blank"
+                >
+                  FAQ
+                </Link>{" "}
+                and on Farcaster.
               </Typography>
             </Stack>
           </BlockyCard>
