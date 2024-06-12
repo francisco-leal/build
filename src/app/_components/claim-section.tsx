@@ -130,7 +130,7 @@ export const ClaimSection = ({
     setClaiming(true);
     toast.info(
       "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
-      { duration: 10000 },
+      { duration: 30000 },
     );
 
     const amountToClaim = parseEther(details.airdrop_allocation.toString());
@@ -177,7 +177,8 @@ export const ClaimSection = ({
 
     setClaiming(true);
     toast.info(
-      "We'll need you to sign a transaction, please check your wallet.",
+      "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
+      { duration: 30000 },
     );
 
     const amountToClaim = parseEther(details.airdrop_allocation.toString());
@@ -224,7 +225,8 @@ export const ClaimSection = ({
 
     setClaiming(true);
     toast.info(
-      "We'll need you to sign a transaction, please check your wallet.",
+      "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
+      { duration: 30000 },
     );
     const amountToClaim = parseEther(details.airdrop_allocation.toString());
 
