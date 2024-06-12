@@ -332,7 +332,7 @@ export const ClaimSection = ({ details }: Props) => {
                   textColor={"primary.500"}
                   textAlign={"start"}
                 >
-                  $BUILD Allocation x 10*
+                  $BUILD Allocation x {details.multiplier ?? 1}*
                 </Typography>
                 <Typography level="title-lg" textColor={"primary.500"}>
                   {formatNumber(
