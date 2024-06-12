@@ -864,7 +864,11 @@ export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }
                   alignItems: "center",
                 }}
               >
-                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {(user.nominations_made ?? 0) > 0 ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   You made at least one nomination
                 </Typography>
