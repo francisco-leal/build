@@ -1,21 +1,40 @@
 "use server";
 
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import merkleTree from "@/shared/utils/merkleTree.json";
-import merkleTreeMultiplier from "@/shared/utils/merkleTreeMultiplier.json";
 
-const tree = StandardMerkleTree.load(merkleTree as any);
-
-export const getTreeProof = async (index: number) => {
-  if (!index || index < 0) return null;
-
-  return tree.getProof(index);
+const fetchJSONFromURL = async (url: string): Promise<any> => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+  }
+  return response.json();
 };
 
-const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
+let tree: any | null;
+let treeMultiplier: any | null;
+
+const loadTree = async () => {
+  if (!tree) {
+    const merkleTree = await fetchJSONFromURL('https://build-top-images.s3.eu-west-2.amazonaws.com/merkleTree.json');
+    tree = StandardMerkleTree.load(merkleTree);
+  }
+};
+
+const loadTreeMultiplier = async () => {
+  if (!treeMultiplier) {
+    const merkleTreeMultiplier = await fetchJSONFromURL('https://build-top-images.s3.eu-west-2.amazonaws.com/merkleTreeMultiplier.json');
+    treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier);
+  }
+};
+
+export const getTreeProof = async (index: number) => {
+  if (index == null || index < 0) return null;
+  await loadTree();
+  return tree?.getProof(index) || null;
+};
 
 export const getTreeMultiplierProof = async (index: number) => {
-  if (!index || index < 0) return null;
-
-  return treeMultiplier.getProof(index);
+  if (index == null || index < 0) return null;
+  await loadTreeMultiplier();
+  return treeMultiplier?.getProof(index) || null;
 };
