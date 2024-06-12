@@ -309,7 +309,7 @@ const Airdrop1Details = ({
             tw="text-[56px] ml-[20px] text-[#0042F5]"
             style={{ fontFamily: "Bricolage-Bold" }}
           >
-            {`#${rank}`}
+            {rank > -1 ? `#${rank}` : " "}
           </p>
         </div>
 

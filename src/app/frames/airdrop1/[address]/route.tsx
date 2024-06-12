@@ -1,5 +1,6 @@
 import { Button } from "frames.js/next";
 import { isAddress } from "viem";
+import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
@@ -27,16 +28,19 @@ const handler = frames(async (ctx) => {
       getFarcasterUser(userAddress),
     ]);
     if (!currentFarcasterUser) throw new BadRequestError("User not found");
-    const topNominators = (await getTopNominators(currentUser)).slice(0, 3);
-    const buildCommitted = await getBuildCommitted(userAddress);
-    const rank = 1463;
+    const [topNominators, builderWallet, buildCommitted] = await Promise.all([
+      getTopNominators(currentUser),
+      getWalletFromExternal(userAddress),
+      getBuildCommitted(userAddress),
+    ]);
+
     return {
       image: (
         <Airdrop1Details
           currentFarcasterUser={currentFarcasterUser}
           buildCommitted={buildCommitted}
-          rank={rank}
-          topNominators={topNominators}
+          rank={builderWallet?.rank || -1}
+          topNominators={topNominators.slice(0, 3)}
         />
       ),
       buttons: [

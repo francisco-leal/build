@@ -1,4 +1,5 @@
 import { Button } from "frames.js/next";
+import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { frames, getFramesUser } from "@/app/frames/frames";
 import { getBuildCommitted } from "@/services/boss-tokens";
@@ -20,17 +21,19 @@ const handler = frames(async (ctx) => {
 
     const currentFarcasterUser = await getFarcasterUser(currentUserAddress);
     if (!currentFarcasterUser) throw new BadRequestError("User not found");
-    const topNominators = (await getTopNominators(currentUser)).slice(0, 3);
-    const buildCommitted = await getBuildCommitted(currentUserAddress);
-    const rank = 1463;
+    const [topNominators, builderWallet, buildCommitted] = await Promise.all([
+      getTopNominators(currentUser),
+      getWalletFromExternal(currentUserAddress),
+      getBuildCommitted(currentUserAddress),
+    ]);
 
     return {
       image: (
         <Airdrop1Details
           currentFarcasterUser={currentFarcasterUser}
           buildCommitted={buildCommitted}
-          rank={rank}
-          topNominators={topNominators}
+          rank={builderWallet?.rank || -1}
+          topNominators={topNominators.slice(0, 3)}
         />
       ),
       buttons: [
