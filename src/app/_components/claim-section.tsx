@@ -553,7 +553,7 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                  <Typography level="body-sm">
+                  <Typography level="body-sm" textAlign={"start"}>
                     Featured in new leaderboard, ranked by tokens committed.
                   </Typography>
                 </Stack>
@@ -634,7 +634,7 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                  <Typography level="body-sm">
+                  <Typography level="body-sm" textAlign={"start"}>
                     Featured in a new leaderboard, ranked by tokens committed.
                   </Typography>
                 </Stack>
