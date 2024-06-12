@@ -28,6 +28,7 @@ export type Database = {
           nominations_made: number | null;
           nominations_received: number | null;
           passport_id: number | null;
+          rank: number | null;
           receiving_wallet: string | null;
           token_holder: boolean | null;
           user_id: string | null;
@@ -52,6 +53,7 @@ export type Database = {
           nominations_made?: number | null;
           nominations_received?: number | null;
           passport_id?: number | null;
+          rank?: number | null;
           receiving_wallet?: string | null;
           token_holder?: boolean | null;
           user_id?: string | null;
@@ -76,6 +78,7 @@ export type Database = {
           nominations_made?: number | null;
           nominations_received?: number | null;
           passport_id?: number | null;
+          rank?: number | null;
           receiving_wallet?: string | null;
           token_holder?: boolean | null;
           user_id?: string | null;

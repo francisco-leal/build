@@ -15,17 +15,21 @@ import {
 import { useSwitchChain } from "wagmi";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { BlueCheck } from "@/shared/icons/blue-check";
+import { Heart } from "@/shared/icons/heart";
 import { LogoShort } from "@/shared/icons/logo-short";
 import { MusicHeadset } from "@/shared/icons/music-headset";
 import { RedCross } from "@/shared/icons/red-cross";
 import MerkleDistributionAbi from "@/shared/utils/MerkleDistributionAbi.json";
 import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
-import merkleTree from "@/shared/utils/merkleTree.json";
+// import merkleTree from "@/shared/utils/merkleTree.json";
+// import merkleTreeMultiplier from "@/shared/utils/merkleTreeMultiplier.json";
 import { AirdropInfo } from "../_api/data/users";
 
 type Props = {
   details: AirdropInfo | null;
 };
+
+const MERKLE_DISTRIBUTION_CONTRACT = "0x0";
 
 export const ClaimSection = ({ details }: Props) => {
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
@@ -41,7 +45,6 @@ export const ClaimSection = ({ details }: Props) => {
   } = useWaitForTransactionReceipt({
     hash: hash,
   });
-  // add here the TX hash for the claim
 
   const [claiming, setClaiming] = useState<boolean>(false);
 
@@ -67,6 +70,10 @@ export const ClaimSection = ({ details }: Props) => {
   }, [showClaimFlow]);
 
   const claimFull = async () => {
+    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
+      return;
+    }
+
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
@@ -86,65 +93,158 @@ export const ClaimSection = ({ details }: Props) => {
       );
     }
 
-    if (chainId !== base.id) {
-      await switchChain({ chainId: base.id });
+    if (!details || !details?.airdrop_allocation) {
+      toast.error("We couldn't figure out your airdrop allocation.");
+      return;
+    }
+
+    // @TODO: replace with base mainnet
+    if (chainId !== baseSepolia.id) {
+      await switchChain({ chainId: baseSepolia.id });
     }
 
     setClaiming(true);
-    toast.info(
-      "We'll need you to sign a transaction, please check your wallet.",
-    );
-    const tree = StandardMerkleTree.load(
-      JSON.parse(merkleTree.toString()) as any,
-    );
-    const proof = tree.getProof([address, parseEther("100")]);
 
-    writeContract({
-      abi: MerkleDistributionAbi.abi,
-      address: "0x7fAEA5E40A2cD5ca4f81713cE8def97b52F83aF7",
-      functionName: "donate",
-      args: [proof, parseEther("100")],
-      chainId: base.id,
-    });
+    //   const tree = StandardMerkleTree.load(merkleTree as any);
+    //   const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    //   // @TODO: get the index from the database
+    //   const proof = tree.getProof(15362-1);
+
+    //   const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
+    //   // @TODO: get the index from the database
+    //   const proofMultiplier = treeMultiplier.getProof(15362-1);
+
+    //   toast.info(
+    //     "We'll need you to sign a transaction, please check your wallet.",
+    //   );
+
+    //   await writeContract({
+    //     abi: MerkleDistributionAbi.abi,
+    //     address: MERKLE_DISTRIBUTION_CONTRACT,
+    //     functionName: "donate",
+    //     args: [proof, amountToClaim, proofMultiplier, details.multiplier],
+    //     chainId: baseSepolia.id, // @TODO: replace with base mainnet
+    //   });
   };
 
   const claimHalf = async () => {
+    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
+      return;
+    }
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
     }
 
-    if (chainId !== base.id) {
-      await switchChain({ chainId: base.id });
+    if (!details || !details?.receiving_wallet) {
+      toast.error(
+        "We couldn't figure out the wallet that is associated for your airdrop, reach out to us.",
+      );
+      return;
+    }
+
+    if (!details || !details?.airdrop_allocation) {
+      toast.error("We couldn't figure out your airdrop allocation.");
+      return;
+    }
+
+    if (address.toLowerCase() !== details?.receiving_wallet?.toLowerCase()) {
+      toast.error(
+        "The wallet that is associated to your nominations is: " +
+          details?.receiving_wallet,
+      );
+    }
+
+    // @TODO: replace with base mainnet
+    if (chainId !== baseSepolia.id) {
+      await switchChain({ chainId: baseSepolia.id });
     }
 
     setClaiming(true);
     toast.info(
       "We'll need you to sign a transaction, please check your wallet.",
     );
-    const tree = StandardMerkleTree.load(merkleTree as any);
-    const proof = tree.getProof([address, parseEther("100")]);
 
-    writeContract({
-      abi: MerkleDistributionAbi.abi,
-      address: "0x7fAEA5E40A2cD5ca4f81713cE8def97b52F83aF7",
-      functionName: "donateAndClaim",
-      args: [proof, parseEther("100")],
-      chainId: base.id,
-    });
+    // const tree = StandardMerkleTree.load(merkleTree as any);
+    // const amountToClaim = parseEther(details.airdrop_allocation.toString());
+
+    // // @TODO: get the index from the database
+    // const proof = tree.getProof(15362-1);
+
+    // const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
+    // // @TODO: get the index from the database
+    // const proofMultiplier = treeMultiplier.getProof(15362-1);
+
+    // await writeContract({
+    //   abi: MerkleDistributionAbi.abi,
+    //   address: MERKLE_DISTRIBUTION_CONTRACT,
+    //   functionName: "donateAndClaim",
+    //   args: [proof, amountToClaim, proofMultiplier, details.multiplier],
+    //   chainId: baseSepolia.id, // @TODO: replace with base mainnet
+    // });
+  };
+
+  const claim = async () => {
+    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
+      return;
+    }
+    if (!address) {
+      toast.error("You must connect your wallet before you can claim");
+      return;
+    }
+
+    if (!details || !details?.receiving_wallet) {
+      toast.error(
+        "We couldn't figure out the wallet that is associated for your airdrop, reach out to us.",
+      );
+      return;
+    }
+
+    if (!details || !details?.airdrop_allocation) {
+      toast.error("We couldn't figure out your airdrop allocation.");
+      return;
+    }
+
+    if (address.toLowerCase() !== details?.receiving_wallet?.toLowerCase()) {
+      toast.error(
+        "The wallet that is associated to your nominations is: " +
+          details?.receiving_wallet,
+      );
+    }
+
+    // @TODO: replace with base mainnet
+    if (chainId !== baseSepolia.id) {
+      await switchChain({ chainId: baseSepolia.id });
+    }
+
+    setClaiming(true);
+    toast.info(
+      "We'll need you to sign a transaction, please check your wallet.",
+    );
+    // const tree = StandardMerkleTree.load(merkleTree as any);
+    // const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    // // @TODO: get the index from the database
+    // const proof = tree.getProof(15362-1);
+
+    // await writeContract({
+    //   abi: MerkleDistributionAbi.abi,
+    //   address: MERKLE_DISTRIBUTION_CONTRACT,
+    //   functionName: "claim",
+    //   args: [proof, amountToClaim],
+    //   chainId: baseSepolia.id, // @TODO: replace with base mainnet
+    // });
   };
 
   return (
     <>
-      {!showClaimFlow && (
+      {!showClaimFlow && !isConfirmed && (
         <Button
           variant="solid"
           color="neutral"
           onClick={() => setShowClaimFlow(true)}
           sx={{ mt: 2 }}
-          disabled={true}
         >
-          Coming Soon
+          Check your allocation
         </Button>
       )}
       {showClaimFlow && !!details && step === 0 && (
@@ -152,7 +252,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -160,7 +260,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
@@ -179,7 +279,9 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <LogoShort sx={{ "&&": { height: 40, width: 40 } }} />{" "}
-                {formatLargeNumber(details.build_points ?? 0)}
+                {formatLargeNumber(
+                  details.airdrop_allocation_with_multiplier ?? 0,
+                )}
               </Typography>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="title-sm">Allocation</Typography>
@@ -203,7 +305,7 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <Typography level="body-sm">Allocation multiplier</Typography>
-                <Typography level="body-sm">10x (Verified Builder)</Typography>
+                <Typography level="body-sm">{details.multiplier}x</Typography>
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Stack
@@ -215,7 +317,7 @@ export const ClaimSection = ({ details }: Props) => {
               >
                 <Typography level="title-lg">$BUILD Allocation</Typography>
                 <Typography level="title-lg">
-                  {formatNumber(details.build_points ?? 0)}
+                  {formatNumber(details.airdrop_allocation ?? 0)}
                 </Typography>
               </Stack>
               <Stack
@@ -225,11 +327,17 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <Typography level="title-lg" textColor={"primary.500"}>
+                <Typography
+                  level="title-lg"
+                  textColor={"primary.500"}
+                  textAlign={"start"}
+                >
                   $BUILD Allocation x 10*
                 </Typography>
                 <Typography level="title-lg" textColor={"primary.500"}>
-                  {formatNumber(details.build_points ?? 0)}
+                  {formatNumber(
+                    details.airdrop_allocation_with_multiplier ?? 0,
+                  )}
                 </Typography>
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
@@ -272,7 +380,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -280,7 +388,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
@@ -297,18 +405,22 @@ export const ClaimSection = ({ details }: Props) => {
                 <br></br>
                 <br></br>
                 We can commit to grow BUILD into a real onchain builder economy
-                🫡 Or we can all claim our $BUILD tokens and kill this
+                🫡<br></br>Or we can all claim our $BUILD tokens and kill this
                 experiment 🪦
                 <br></br>
-                <br></br>
-                If the community <strong>commits 75B $BUILD</strong> (50% of
-                Airdrop 1), by the end of June, we will release a new
-                nominations game for Onchain Summer and start preparing Airdrop
-                2 for September.
+                <br></br>A collective commitment of {">"}50% from Airdrop 1 (75B
+                $BUILD), will be a strong signal for the team to keep building
+                during Onchain Summer.
                 <br></br>
                 <br></br>
                 Read more about the future of BUILD{" "}
-                <Link href="https://google.com">here</Link>.<br></br>
+                <Link
+                  href="https://paragraph.xyz/@macedo/build-announcement-4"
+                  target="_blank"
+                >
+                  here
+                </Link>
+                .<br></br>
                 <br></br>
                 Real builders commit! Will you?
               </Typography>
@@ -338,7 +450,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -346,7 +458,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
@@ -365,7 +477,9 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <LogoShort sx={{ "&&": { height: 40, width: 40 } }} />{" "}
-                {formatLargeNumber(details.build_points ?? 0)}
+                {formatLargeNumber(
+                  details.airdrop_allocation_with_multiplier ?? 0,
+                )}
               </Typography>
               <BlockyCard
                 sx={{
@@ -385,7 +499,14 @@ export const ClaimSection = ({ details }: Props) => {
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm">
-                    Commit 100% of your tokens to the BUILD Summer Fund.
+                    Commit 100% of your tokens to the{" "}
+                    <Link
+                      href="https://paragraph.xyz/@macedo/build-announcement-4"
+                      target="_blank"
+                    >
+                      BUILD Summer Fund
+                    </Link>
+                    .
                   </Typography>
                 </Stack>
                 <Stack
@@ -409,7 +530,7 @@ export const ClaimSection = ({ details }: Props) => {
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm">
-                    Participate in BUILD governance decisions (coming soon).
+                    Participate in BUILD governance decisions (in the future).
                   </Typography>
                 </Stack>
                 <Stack
@@ -432,7 +553,7 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                  <Typography level="body-sm">
+                  <Typography level="body-sm" textAlign={"start"}>
                     Featured in new leaderboard, ranked by tokens committed.
                   </Typography>
                 </Stack>
@@ -440,6 +561,7 @@ export const ClaimSection = ({ details }: Props) => {
                   variant="solid"
                   color="primary"
                   onClick={() => claimFull()}
+                  disabled={true}
                   sx={{
                     alignSelf: "center",
                     mt: 2,
@@ -451,7 +573,7 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                   loading={claiming}
                 >
-                  Commit 100%
+                  Commit 100% on June 12th
                 </Button>
               </BlockyCard>
               <BlockyCard
@@ -470,7 +592,14 @@ export const ClaimSection = ({ details }: Props) => {
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm">
-                    Commit 50% of your tokens to the BUILD Summer Fund.
+                    Commit 50% of your tokens to the{" "}
+                    <Link
+                      href="https://paragraph.xyz/@macedo/build-announcement-4"
+                      target="_blank"
+                    >
+                      BUILD Summer Fund
+                    </Link>
+                    .
                   </Typography>
                 </Stack>
                 <Stack
@@ -505,7 +634,7 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                  <Typography level="body-sm">
+                  <Typography level="body-sm" textAlign={"start"}>
                     Featured in a new leaderboard, ranked by tokens committed.
                   </Typography>
                 </Stack>
@@ -524,8 +653,9 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                   onClick={() => claimHalf()}
                   loading={claiming}
+                  disabled={true}
                 >
-                  Commit 50%
+                  Commit 50% on June 12th
                 </Button>
               </BlockyCard>
               <BlockyCard
@@ -534,7 +664,10 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <Typography level="title-lg">Claim XX $BUILD</Typography>
+                <Typography level="title-lg">
+                  Claim {formatLargeNumber(details.airdrop_allocation ?? 0)}{" "}
+                  $BUILD
+                </Typography>
                 <Stack
                   sx={{
                     flexDirection: "row",
@@ -575,6 +708,7 @@ export const ClaimSection = ({ details }: Props) => {
                   variant="outlined"
                   color="neutral"
                   disabled={true}
+                  onClick={() => claim()}
                   sx={{
                     alignSelf: "center",
                     mt: 2,
@@ -597,7 +731,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -605,15 +739,23 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
+              <Heart sx={{ alignSelf: "center" }} />
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
                 You are officially a BUILD OG!
               </Typography>
               <Typography level="body-md" sx={{ textAlign: "start" }}>
-                Thank you for committing $BUILD to the BUILD Summer Fund.
+                Thank you for committing $BUILD to the{" "}
+                <Link
+                  href="https://paragraph.xyz/@macedo/build-announcement-4"
+                  target="_blank"
+                >
+                  BUILD Summer Fund
+                </Link>
+                .
               </Typography>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="title-sm">Airdrop 1 stats</Typography>
@@ -663,7 +805,7 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <Typography level="body-sm">Final rank</Typography>
-                <Typography level="body-sm">{0}</Typography>
+                <Typography level="body-sm">{details.rank ?? "---"}</Typography>
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Stack
@@ -691,7 +833,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -699,12 +841,12 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
-                You&apos;re not eligible for Airdrop 1
+                You were not eligible for Airdrop 1
               </Typography>
 
               <Stack
