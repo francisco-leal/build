@@ -372,9 +372,8 @@ export const ClaimSection = ({
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="body-sm" sx={{ textAlign: "start" }}>
-                *Builder or not, all eligible users are able to claim tokens.
-                But we reward verifiable builders and $BUILD token holders with
-                an airdrop allocation multiplier. The multiplier only applies if
+                *We reward verifiable builders and $BUILD token holders with an
+                airdrop allocation multiplier. The multiplier only applies if
                 you commit some tokens, in the next steps.
               </Typography>
               <Stack
@@ -430,20 +429,19 @@ export const ClaimSection = ({
               </Typography>
               <Typography level="body-md" sx={{ textAlign: "start" }}>
                 Airdrop 1 was a successful first experiment, but BUILD is just
-                getting started. Now the community has a choice: we either
-                commit or quit.
+                getting started. Now the community has a choice: we either{" "}
+                <strong>commit</strong> or <strong>quit</strong>.<br></br>
+                <br></br>
+                We can commit to grow BUILD into a the onchain builder economy
+                🫡
+                <br></br>
+                Or we can all claim our $BUILD tokens and quit this experiment
+                🪦
                 <br></br>
                 <br></br>
-                We can commit to grow BUILD into a real onchain builder economy
-                🫡<br></br>Or we can all claim our $BUILD tokens and kill this
-                experiment 🪦
-                <br></br>
-                <br></br>A collective commitment of {">"}50% from Airdrop 1 (75B
-                $BUILD), will be a strong signal for the team to keep building
-                during Onchain Summer.
-                <br></br>
-                <br></br>
-                Read more about the future of BUILD{" "}
+                Let's push for a collective commitment of {">"}50% on Airdrop 1
+                and keep building during Onchain Summer. Read more about the
+                future of BUILD{" "}
                 <Link
                   href="https://paragraph.xyz/@macedo/build-announcement-4"
                   target="_blank"
@@ -729,7 +727,7 @@ export const ClaimSection = ({
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm">
-                    No BUILD budget for the next airdrops.
+                    Lower BUILD budget for the next airdrops.
                   </Typography>
                 </Stack>
                 <Button
@@ -917,11 +915,6 @@ export const ClaimSection = ({
                 }}
               >
                 <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
-                {user.valid_farcaster_id ? (
-                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                ) : (
-                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
-                )}
                 <Typography level="body-sm">
                   Farcaster ID, older than May 15th
                 </Typography>
@@ -934,11 +927,6 @@ export const ClaimSection = ({
                 }}
               >
                 <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
-                {user.valid_ens ? (
-                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                ) : (
-                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
-                )}
                 <Typography level="body-sm">
                   ENS primary name, older than May 15th
                 </Typography>
@@ -950,11 +938,7 @@ export const ClaimSection = ({
                   minWidth: "100%",
                 }}
               >
-                {user.valid_passport ? (
-                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                ) : (
-                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
-                )}
+                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
                 <Typography level="body-sm">
                   Talent Passport w/ World ID credential
                 </Typography>
@@ -966,11 +950,7 @@ export const ClaimSection = ({
                   minWidth: "100%",
                 }}
               >
-                {user.valid_passport ? (
-                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
-                ) : (
-                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
-                )}
+                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
                 <Typography level="body-sm">
                   Talent Passport w/ Gitcoin credential
                 </Typography>
@@ -978,10 +958,17 @@ export const ClaimSection = ({
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="body-sm" sx={{ textAlign: "start" }}>
                 BUILD Airdrop 1 ended on June 4th, at 9pm UTC, with a data
-                snapshot. Unfortunately this wallet doesn&apos;t meet any of the
-                criteria to be eligible to claim $BUILD tokens. Information
-                about the eligibility criteria has been public, since the
-                project launched on May 14th, in the FAQ and on Farcaster.
+                snapshot. Unfortunately this wallet doesn&apos;t meet the
+                minimum criteria to be eligible to claim $BUILD tokens.
+                Information about the eligibility criteria has been public,
+                since the project launched on May 14th, in the{" "}
+                <Link
+                  href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
+                  target="_blank"
+                >
+                  FAQ
+                </Link>{" "}
+                and on Farcaster.
               </Typography>
             </Stack>
           </BlockyCard>
