@@ -501,7 +501,7 @@ export const ClaimSection = ({ details }: Props) => {
                   <Typography level="body-sm">
                     Commit 100% of your tokens to the{" "}
                     <Link
-                      href="https://paragraph.xyz/@macedo/build-announcement-4"
+                      href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
                       target="_blank"
                     >
                       BUILD Summer Fund
@@ -594,7 +594,7 @@ export const ClaimSection = ({ details }: Props) => {
                   <Typography level="body-sm">
                     Commit 50% of your tokens to the{" "}
                     <Link
-                      href="https://paragraph.xyz/@macedo/build-announcement-4"
+                      href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
                       target="_blank"
                     >
                       BUILD Summer Fund
@@ -750,7 +750,7 @@ export const ClaimSection = ({ details }: Props) => {
               <Typography level="body-md" sx={{ textAlign: "start" }}>
                 Thank you for committing $BUILD to the{" "}
                 <Link
-                  href="https://paragraph.xyz/@macedo/build-announcement-4"
+                  href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
                   target="_blank"
                 >
                   BUILD Summer Fund
