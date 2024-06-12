@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button, Typography, Stack, Divider, Link } from "@mui/joy";
 import { toast } from "sonner";
 import { parseEther, formatEther, Address } from "viem";
-import { base, baseSepolia } from "viem/chains";
+import { base } from "viem/chains";
 import {
   useAccount,
   useWriteContract,
@@ -21,6 +21,7 @@ import { MusicHeadset } from "@/shared/icons/music-headset";
 import { RedCross } from "@/shared/icons/red-cross";
 import MerkleDistributionAbi from "@/shared/utils/MerkleDistributionAbi.json";
 import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
+import { getWarpcastSharableLinkAirdrop1 } from "@/shared/utils/sharable-warpcast-link";
 import { AirdropInfo } from "../_api/data/users";
 import { User } from "../_api/data/users";
 
@@ -59,7 +60,7 @@ export const ClaimSection = ({
     address: MERKLE_DISTRIBUTION_CONTRACT,
     functionName: "donated",
     args: [address],
-    chainId: baseSepolia.id, // @TODO: replace with base mainnet
+    chainId: base.id,
   });
 
   const [claiming, setClaiming] = useState<boolean>(false);
@@ -124,9 +125,8 @@ export const ClaimSection = ({
       return;
     }
 
-    // @TODO: replace with base mainnet
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
@@ -144,7 +144,7 @@ export const ClaimSection = ({
       address: MERKLE_DISTRIBUTION_CONTRACT,
       functionName: "donate",
       args: [proof, amountToClaim, proofMultiplier, details.multiplier],
-      chainId: baseSepolia.id, // @TODO: replace with base mainnet
+      chainId: base.id,
     });
   };
 
@@ -173,9 +173,8 @@ export const ClaimSection = ({
       );
     }
 
-    // @TODO: replace with base mainnet
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
@@ -192,7 +191,7 @@ export const ClaimSection = ({
       address: MERKLE_DISTRIBUTION_CONTRACT,
       functionName: "donateAndClaim",
       args: [proof, amountToClaim, proofMultiplier, details.multiplier],
-      chainId: baseSepolia.id, // @TODO: replace with base mainnet
+      chainId: base.id,
     });
   };
 
@@ -221,9 +220,8 @@ export const ClaimSection = ({
       );
     }
 
-    // @TODO: replace with base mainnet
-    if (chainId !== baseSepolia.id) {
-      await switchChain({ chainId: baseSepolia.id });
+    if (chainId !== base.id) {
+      await switchChain({ chainId: base.id });
     }
 
     setClaiming(true);
@@ -239,7 +237,7 @@ export const ClaimSection = ({
       address: MERKLE_DISTRIBUTION_CONTRACT,
       functionName: "claim",
       args: [proof, amountToClaim],
-      chainId: baseSepolia.id, // @TODO: replace with base mainnet
+      chainId: base.id,
     });
   };
 
@@ -856,7 +854,15 @@ export const ClaimSection = ({
                 <Button
                   variant="solid"
                   color="primary"
-                  onClick={() => window.open("https://warpcast.com", "_blank")}
+                  onClick={() =>
+                    window.open(
+                      getWarpcastSharableLinkAirdrop1(
+                        parseInt(formatEther(donated as bigint)),
+                        address!,
+                      ),
+                      "_blank",
+                    )
+                  }
                 >
                   Share on farcaster
                 </Button>
