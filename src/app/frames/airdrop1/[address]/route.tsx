@@ -1,6 +1,6 @@
 import { Button } from "frames.js/next";
 import { isAddress } from "viem";
-import { getWalletFromExternal } from "@/app/_api/data/wallets";
+import { getAirdropRankForUser } from "@/app/_api/data/users";
 import { getFarcasterUser } from "@/app/_api/external/farcaster";
 import { getConnectedUserProfile } from "@/app/_api/functions/authentication";
 import { frames } from "@/app/frames/frames";
@@ -28,9 +28,9 @@ const handler = frames(async (ctx) => {
       getFarcasterUser(userAddress),
     ]);
     if (!currentFarcasterUser) throw new BadRequestError("User not found");
-    const [topNominators, builderWallet, buildCommitted] = await Promise.all([
+    const [topNominators, airdropInfo, buildCommitted] = await Promise.all([
       getTopNominators(currentUser),
-      getWalletFromExternal(userAddress),
+      getAirdropRankForUser(currentUser),
       getBuildCommitted(userAddress),
     ]);
 
@@ -39,7 +39,7 @@ const handler = frames(async (ctx) => {
         <Airdrop1Details
           currentFarcasterUser={currentFarcasterUser}
           buildCommitted={buildCommitted}
-          rank={builderWallet?.rank || -1}
+          rank={airdropInfo?.rank || -1}
           topNominators={topNominators.slice(0, 3)}
         />
       ),
@@ -57,6 +57,7 @@ const handler = frames(async (ctx) => {
       },
     };
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "";
     const farcasterUsername = ctx.message?.requesterUserData?.displayName || "";
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
 

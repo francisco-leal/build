@@ -309,11 +309,11 @@ const Airdrop1Details = ({
             tw="text-[56px] ml-[20px] text-[#0042F5]"
             style={{ fontFamily: "Bricolage-Bold" }}
           >
-            {rank > -1 ? `#${rank}` : " "}
+            {rank > -1 ? `#${formatLargeNumber(rank, 0)}` : " "}
           </p>
         </div>
 
-        <div tw="flex flex-col w-auto text-white items-center mb-[50px] items-start gap-[20px] justify-start">
+        <div tw="flex flex-col w-auto text-white items-center mb-[50px] items-start justify-start">
           <div tw="flex flex-col mx-auto items-center h-[200px]">
             <h1
               tw="mx-auto text-[64px] text-white"
@@ -330,7 +330,7 @@ const Airdrop1Details = ({
                 return (
                   <div
                     key={`${nominator.username}.${index}`}
-                    tw="flex flex-col justify-between items-center mx-auto mb-[50px] w-auto text-white"
+                    tw="flex flex-col justify-between items-center mx-auto w-auto text-white"
                   >
                     <img
                       src={
@@ -338,7 +338,7 @@ const Airdrop1Details = ({
                           ? nominator.profile_picture_url
                           : ""
                       }
-                      tw="w-[136px] h-[136px] rounded-full mr-[20px]"
+                      tw="w-[110px] h-[110px] rounded-full"
                       style={{ objectFit: "cover" }}
                     />
                     <p
