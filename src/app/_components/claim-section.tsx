@@ -432,7 +432,7 @@ export const ClaimSection = ({
                 getting started. Now the community has a choice: we either{" "}
                 <strong>commit</strong> or <strong>quit</strong>.<br></br>
                 <br></br>
-                We can commit to grow BUILD into a the onchain builder economy
+                We can commit to grow BUILD into the onchain builder economy
                 🫡
                 <br></br>
                 Or we can all claim our $BUILD tokens and quit this experiment
@@ -779,7 +779,7 @@ export const ClaimSection = ({
               >
                 Thank you for committing{" "}
                 {(donated as bigint) > 0n
-                  ? `${formatLargeNumber(parseInt(formatEther(donated as bigint)))} `
+                  ? <strong>`${formatLargeNumber(parseInt(formatEther(donated as bigint)))} `</strong>
                   : ""}
                 $BUILD<br></br>to the{" "}
                 <Link
