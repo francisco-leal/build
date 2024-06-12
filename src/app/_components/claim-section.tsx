@@ -32,9 +32,7 @@ type Props = {
   getMultiplierProof: (index: number) => Promise<string[] | null>;
 };
 
-const MERKLE_DISTRIBUTION_CONTRACT =
-  (process.env.MERKLE_DISTRIBUTION_CONTRACT as Address) ??
-  "0xc87c5103b11B070b5E2D6c1aE61ab1cb5472AE1C";
+const MERKLE_DISTRIBUTION_CONTRACT = "0x556e182ad2b72f5934C2215d6A56cFC19936FdB7";
 
 export const ClaimSection = ({
   details,

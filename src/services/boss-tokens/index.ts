@@ -24,11 +24,11 @@ export async function getBalance(wallet: string): Promise<number> {
 }
 
 export async function getBuildCommitted(wallet: string): Promise<number> {
-  if (!process.env.MERKLE_DISTRIBUTION_CONTRACT && !baseRpcUrl) return 0;
+  if (!baseRpcUrl) return 0;
 
   try {
     const donated = await publicClient.readContract({
-      address: process.env.MERKLE_DISTRIBUTION_CONTRACT as Address,
+      address: "0x556e182ad2b72f5934C2215d6A56cFC19936FdB7",
       abi: MerkleDistributionAbi.abi,
       functionName: "donated",
       args: [wallet as Address],
