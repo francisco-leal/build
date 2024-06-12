@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button, Typography, Stack, Divider, Link } from "@mui/joy";
 import { toast } from "sonner";
-import { parseEther, formatEther } from "viem";
+import { parseEther, formatEther, Address } from "viem";
 import { base, baseSepolia } from "viem/chains";
 import {
   useAccount,
@@ -32,9 +32,15 @@ type Props = {
 };
 
 const MERKLE_DISTRIBUTION_CONTRACT =
+  (process.env.MERKLE_DISTRIBUTION_CONTRACT as Address) ??
   "0xc87c5103b11B070b5E2D6c1aE61ab1cb5472AE1C";
 
-export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }: Props) => {
+export const ClaimSection = ({
+  details,
+  user,
+  getTreeProof,
+  getMultiplierProof,
+}: Props) => {
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const { address } = useAccount();
@@ -225,7 +231,7 @@ export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }
       "We'll need you to sign a transaction, please check your wallet.",
     );
     const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    
+
     const proof = await getTreeProof(details.tree_index ?? -1);
 
     await writeContract({
@@ -307,9 +313,7 @@ export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }
                 }}
               >
                 <Typography level="body-sm">Point to Token ratio</Typography>
-                <Typography level="body-sm">
-                  30
-                </Typography>
+                <Typography level="body-sm">30</Typography>
               </Stack>
               <Stack
                 sx={{
@@ -318,7 +322,9 @@ export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }
                   minWidth: "100%",
                 }}
               >
-                <Typography level="body-sm">My $BUILD Token allocation</Typography>
+                <Typography level="body-sm">
+                  My $BUILD Token allocation
+                </Typography>
                 <Typography level="body-sm">
                   {formatNumber(details.airdrop_allocation ?? 0)}
                 </Typography>

@@ -200,7 +200,7 @@ const handler = frames(async (ctx) => {
               farcasterPfp={farcasterPfp}
               farcasterUsername={farcasterUsername || null}
               builderImage={undefined}
-              builderUsername={`${walletNominated.slice(0, 8)}...${walletNominated.slice(-4)}`}
+              builderUsername={abbreviateWalletAddress(walletNominated)}
               errorTitle="Builder Not Found"
               errorMessage={undefined}
             />
@@ -268,8 +268,7 @@ const handler = frames(async (ctx) => {
           farcasterUsername={farcasterUsername?.toString() || null}
           builderImage={walletProfile?.image || undefined}
           builderUsername={
-            walletProfile?.username ||
-            `${walletNominated.slice(0, 8)}...${walletNominated.slice(-4)}`
+            walletProfile?.username || abbreviateWalletAddress(walletNominated)
           }
           errorTitle="Builder Nomination Error"
           errorMessage={errorMessage}

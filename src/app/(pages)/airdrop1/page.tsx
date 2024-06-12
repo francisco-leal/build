@@ -1,16 +1,33 @@
+import { Metadata } from "next";
 import { Stack, Typography, Link } from "@mui/joy";
+import { fetchMetadata } from "frames.js/next";
 import {
   getAirdropInfoForCurrentUser,
   getCurrentUser,
 } from "@/app/_api/data/users";
+import {
+  getTreeProof,
+  getTreeMultiplierProof,
+} from "@/app/_api/functions/calculate-merkle-proof";
 import { ClaimSection } from "@/app/_components/claim-section";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { HeroSection } from "@/shared/components/hero-section";
+import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
 import { Helicopter } from "@/shared/icons/helicopter";
-import { getTreeProof, getTreeMultiplierProof } from "@/app/_api/functions/calculate-merkle-proof";
 
 export const maxDuration = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    other: {
+      ...(await fetchMetadata(
+        new URL(FRAMES_BASE_PATH + `/airdrop1`, appURL()),
+      )),
+    },
+  };
+}
+
 export default async function Airdrop1Page() {
   const user = await getCurrentUser();
   if (!user) return <PlaceholderUserNotConnected />;
@@ -55,7 +72,12 @@ export default async function Airdrop1Page() {
           </Link>
           .
         </Typography>
-        <ClaimSection details={airdropDetails} user={user} getTreeProof={getTreeProof} getMultiplierProof={getTreeMultiplierProof}/>
+        <ClaimSection
+          details={airdropDetails}
+          user={user}
+          getTreeProof={getTreeProof}
+          getMultiplierProof={getTreeMultiplierProof}
+        />
       </HeroSection>
       <HeroSection>
         <HowToPlay />
