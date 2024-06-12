@@ -306,6 +306,30 @@ export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }
                   minWidth: "100%",
                 }}
               >
+                <Typography level="body-sm">Point to Token ratio</Typography>
+                <Typography level="body-sm">
+                  30
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">My $BUILD Token allocation</Typography>
+                <Typography level="body-sm">
+                  {formatNumber(details.airdrop_allocation ?? 0)}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
                 <Typography level="body-sm">Allocation multiplier</Typography>
                 <Typography level="body-sm">{details.multiplier}x</Typography>
               </Stack>
