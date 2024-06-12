@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Button, Typography, Stack, Divider, Link } from "@mui/joy";
-import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { toast } from "sonner";
 import { parseEther, formatEther } from "viem";
 import { base, baseSepolia } from "viem/chains";
@@ -22,20 +21,20 @@ import { MusicHeadset } from "@/shared/icons/music-headset";
 import { RedCross } from "@/shared/icons/red-cross";
 import MerkleDistributionAbi from "@/shared/utils/MerkleDistributionAbi.json";
 import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
-import merkleTree from "@/shared/utils/merkleTree.json";
-import merkleTreeMultiplier from "@/shared/utils/merkleTreeMultiplier.json";
 import { AirdropInfo } from "../_api/data/users";
 import { User } from "../_api/data/users";
 
 type Props = {
   details: AirdropInfo | null;
   user: User;
+  getTreeProof: (index: number) => Promise<string[] | null>;
+  getMultiplierProof: (index: number) => Promise<string[] | null>;
 };
 
 const MERKLE_DISTRIBUTION_CONTRACT =
   "0xc87c5103b11B070b5E2D6c1aE61ab1cb5472AE1C";
 
-export const ClaimSection = ({ details, user }: Props) => {
+export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }: Props) => {
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const { address } = useAccount();
@@ -126,12 +125,9 @@ export const ClaimSection = ({ details, user }: Props) => {
 
     setClaiming(true);
 
-    const tree = StandardMerkleTree.load(merkleTree as any);
     const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    const proof = tree.getProof(details.tree_index ?? -1);
-
-    const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
-    const proofMultiplier = treeMultiplier.getProof(details.tree_index ?? -1);
+    const proof = await getTreeProof(details.tree_index ?? -1);
+    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
     toast.info(
       "We'll need you to sign a transaction, please check your wallet.",
@@ -181,12 +177,9 @@ export const ClaimSection = ({ details, user }: Props) => {
       "We'll need you to sign a transaction, please check your wallet.",
     );
 
-    const tree = StandardMerkleTree.load(merkleTree as any);
     const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    const proof = tree.getProof(details.tree_index ?? -1);
-
-    const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
-    const proofMultiplier = treeMultiplier.getProof(details.tree_index ?? -1);
+    const proof = await getTreeProof(details.tree_index ?? -1);
+    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
     await writeContract({
       abi: MerkleDistributionAbi.abi,
@@ -231,9 +224,9 @@ export const ClaimSection = ({ details, user }: Props) => {
     toast.info(
       "We'll need you to sign a transaction, please check your wallet.",
     );
-    const tree = StandardMerkleTree.load(merkleTree as any);
     const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    const proof = tree.getProof(details.tree_index ?? -1);
+    
+    const proof = await getTreeProof(details.tree_index ?? -1);
 
     await writeContract({
       abi: MerkleDistributionAbi.abi,

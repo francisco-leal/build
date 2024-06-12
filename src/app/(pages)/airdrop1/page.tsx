@@ -8,6 +8,7 @@ import { HowToPlay } from "@/app/_components/how-to-play";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { HeroSection } from "@/shared/components/hero-section";
 import { Helicopter } from "@/shared/icons/helicopter";
+import { getTreeProof, getTreeMultiplierProof } from "@/app/_api/functions/calculate-merkle-proof";
 
 export default async function Airdrop1Page() {
   const user = await getCurrentUser();
@@ -53,7 +54,7 @@ export default async function Airdrop1Page() {
           </Link>
           .
         </Typography>
-        <ClaimSection details={airdropDetails} user={user} />
+        <ClaimSection details={airdropDetails} user={user} getTreeProof={getTreeProof} getMultiplierProof={getTreeMultiplierProof}/>
       </HeroSection>
       <HeroSection>
         <HowToPlay />
