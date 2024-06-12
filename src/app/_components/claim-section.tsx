@@ -252,7 +252,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -260,7 +260,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
@@ -327,7 +327,11 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <Typography level="title-lg" textColor={"primary.500"}>
+                <Typography
+                  level="title-lg"
+                  textColor={"primary.500"}
+                  textAlign={"start"}
+                >
                   $BUILD Allocation x 10*
                 </Typography>
                 <Typography level="title-lg" textColor={"primary.500"}>
@@ -376,7 +380,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -384,7 +388,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
@@ -404,15 +408,19 @@ export const ClaimSection = ({ details }: Props) => {
                 🫡 Or we can all claim our $BUILD tokens and kill this
                 experiment 🪦
                 <br></br>
-                <br></br>
-                If the community <strong>commits 75B $BUILD</strong> (50% of
-                Airdrop 1), by the end of June, we will release a new
-                nominations game for Onchain Summer and start preparing Airdrop
-                2 for September.
+                <br></br>A collective commitment of {">"}50% from Airdrop 1 (75B
+                $BUILD), will be a strong signal for the team to keep building
+                during Onchain Summer.
                 <br></br>
                 <br></br>
                 Read more about the future of BUILD{" "}
-                <Link href="https://paragraph.xyz/@macedo/build-announcement-4" target="_blank">here</Link>.<br></br>
+                <Link
+                  href="https://paragraph.xyz/@macedo/build-announcement-4"
+                  target="_blank"
+                >
+                  here
+                </Link>
+                .<br></br>
                 <br></br>
                 Real builders commit! Will you?
               </Typography>
@@ -442,7 +450,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -450,7 +458,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
@@ -491,7 +499,14 @@ export const ClaimSection = ({ details }: Props) => {
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm">
-                    Commit 100% of your tokens to the <Link href="https://paragraph.xyz/@macedo/build-announcement-4" target="_blank">BUILD Summer Fund</Link>.
+                    Commit 100% of your tokens to the{" "}
+                    <Link
+                      href="https://paragraph.xyz/@macedo/build-announcement-4"
+                      target="_blank"
+                    >
+                      BUILD Summer Fund
+                    </Link>
+                    .
                   </Typography>
                 </Stack>
                 <Stack
@@ -577,7 +592,14 @@ export const ClaimSection = ({ details }: Props) => {
                 >
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm">
-                    Commit 50% of your tokens to the <Link href="https://paragraph.xyz/@macedo/build-announcement-4" target="_blank">BUILD Summer Fund</Link>.
+                    Commit 50% of your tokens to the{" "}
+                    <Link
+                      href="https://paragraph.xyz/@macedo/build-announcement-4"
+                      target="_blank"
+                    >
+                      BUILD Summer Fund
+                    </Link>
+                    .
                   </Typography>
                 </Stack>
                 <Stack
@@ -709,7 +731,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -717,7 +739,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
@@ -726,7 +748,14 @@ export const ClaimSection = ({ details }: Props) => {
                 You are officially a BUILD OG!
               </Typography>
               <Typography level="body-md" sx={{ textAlign: "start" }}>
-                Thank you for committing $BUILD to the <Link href="https://paragraph.xyz/@macedo/build-announcement-4" target="_blank">BUILD Summer Fund</Link>.
+                Thank you for committing $BUILD to the{" "}
+                <Link
+                  href="https://paragraph.xyz/@macedo/build-announcement-4"
+                  target="_blank"
+                >
+                  BUILD Summer Fund
+                </Link>
+                .
               </Typography>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="title-sm">Airdrop 1 stats</Typography>
@@ -804,7 +833,7 @@ export const ClaimSection = ({ details }: Props) => {
           sx={{
             flexDirection: "column",
             mt: 4,
-            maxWidth: "600px",
+            maxWidth: "min(600px, 100%)",
           }}
         >
           <BlockyCard>
@@ -812,7 +841,7 @@ export const ClaimSection = ({ details }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "400px",
+                minWidth: "340px",
                 gap: 1,
               }}
             >
