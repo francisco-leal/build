@@ -439,7 +439,7 @@ export const ClaimSection = ({
                 🪦
                 <br></br>
                 <br></br>
-                Let's push for a collective commitment of {">"}50% on Airdrop 1
+                Let&apos;s push for a collective commitment of {">"}50% on Airdrop 1
                 and keep building during Onchain Summer. Read more about the
                 future of BUILD{" "}
                 <Link
