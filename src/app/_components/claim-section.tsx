@@ -779,7 +779,7 @@ export const ClaimSection = ({
               >
                 Thank you for committing{" "}
                 {(donated as bigint) > 0n
-                  ? <strong>`${formatLargeNumber(parseInt(formatEther(donated as bigint)))} `</strong>
+                  ? <strong>{formatLargeNumber(parseInt(formatEther(donated as bigint)))}</strong>
                   : ""}
                 $BUILD<br></br>to the{" "}
                 <Link
