@@ -124,15 +124,14 @@ export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }
     }
 
     setClaiming(true);
-
-    const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    const proof = await getTreeProof(details.tree_index ?? -1);
-    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
-
     toast.info(
       "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
       { duration: 10000 },
     );
+
+    const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    const proof = await getTreeProof(details.tree_index ?? -1);
+    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
     await writeContract({
       abi: MerkleDistributionAbi.abi,
