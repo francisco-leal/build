@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { Button, Typography, Stack, Divider, Link } from "@mui/joy";
-import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { toast } from "sonner";
-import { parseEther } from "viem";
+import { parseEther, formatEther } from "viem";
 import { base, baseSepolia } from "viem/chains";
 import {
   useAccount,
   useWriteContract,
   useWaitForTransactionReceipt,
   useChainId,
+  useReadContract,
 } from "wagmi";
 import { useSwitchChain } from "wagmi";
 import { BlockyCard } from "@/shared/components/blocky-card";
@@ -21,17 +21,20 @@ import { MusicHeadset } from "@/shared/icons/music-headset";
 import { RedCross } from "@/shared/icons/red-cross";
 import MerkleDistributionAbi from "@/shared/utils/MerkleDistributionAbi.json";
 import { formatLargeNumber, formatNumber } from "@/shared/utils/format-number";
-// import merkleTree from "@/shared/utils/merkleTree.json";
-// import merkleTreeMultiplier from "@/shared/utils/merkleTreeMultiplier.json";
 import { AirdropInfo } from "../_api/data/users";
+import { User } from "../_api/data/users";
 
 type Props = {
   details: AirdropInfo | null;
+  user: User;
+  getTreeProof: (index: number) => Promise<string[] | null>;
+  getMultiplierProof: (index: number) => Promise<string[] | null>;
 };
 
-const MERKLE_DISTRIBUTION_CONTRACT = "0x0";
+const MERKLE_DISTRIBUTION_CONTRACT =
+  "0xc87c5103b11B070b5E2D6c1aE61ab1cb5472AE1C";
 
-export const ClaimSection = ({ details }: Props) => {
+export const ClaimSection = ({ details, user, getTreeProof, getMultiplierProof }: Props) => {
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
   const { address } = useAccount();
@@ -45,10 +48,30 @@ export const ClaimSection = ({ details }: Props) => {
   } = useWaitForTransactionReceipt({
     hash: hash,
   });
+  const { data: donated, refetch } = useReadContract({
+    abi: MerkleDistributionAbi.abi,
+    address: MERKLE_DISTRIBUTION_CONTRACT,
+    functionName: "donated",
+    args: [address],
+    chainId: baseSepolia.id, // @TODO: replace with base mainnet
+  });
 
   const [claiming, setClaiming] = useState<boolean>(false);
 
   useEffect(() => {
+    if (error) {
+      toast.error("Transaction failed! " + error.cause);
+      setClaiming(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if ((donated as bigint) > 0n) {
+      toast.info("You've already claimed your tokens");
+      setShowClaimFlow(false);
+      setClaiming(false);
+    }
+
     if (isConfirming || isPending) {
       setClaiming(true);
     }
@@ -56,12 +79,13 @@ export const ClaimSection = ({ details }: Props) => {
       toast.success("Transaction confirmed! " + hash);
       setShowClaimFlow(false);
       setClaiming(false);
+      refetch();
     }
     if (isError) {
       toast.error("Transaction failed! " + error);
       setClaiming(false);
     }
-  }, [isConfirmed, isConfirming, isPending, isError]);
+  }, [isConfirmed, isConfirming, isPending, isError, donated]);
 
   useEffect(() => {
     if (!showClaimFlow) {
@@ -70,10 +94,6 @@ export const ClaimSection = ({ details }: Props) => {
   }, [showClaimFlow]);
 
   const claimFull = async () => {
-    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
-      return;
-    }
-
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
@@ -104,33 +124,25 @@ export const ClaimSection = ({ details }: Props) => {
     }
 
     setClaiming(true);
+    toast.info(
+      "We're calculating the required proofs. It can take a few seconds. We'll need you to sign a transaction after, please check your wallet.",
+      { duration: 10000 },
+    );
 
-    //   const tree = StandardMerkleTree.load(merkleTree as any);
-    //   const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    //   // @TODO: get the index from the database
-    //   const proof = tree.getProof(15362-1);
+    const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    const proof = await getTreeProof(details.tree_index ?? -1);
+    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
-    //   const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
-    //   // @TODO: get the index from the database
-    //   const proofMultiplier = treeMultiplier.getProof(15362-1);
-
-    //   toast.info(
-    //     "We'll need you to sign a transaction, please check your wallet.",
-    //   );
-
-    //   await writeContract({
-    //     abi: MerkleDistributionAbi.abi,
-    //     address: MERKLE_DISTRIBUTION_CONTRACT,
-    //     functionName: "donate",
-    //     args: [proof, amountToClaim, proofMultiplier, details.multiplier],
-    //     chainId: baseSepolia.id, // @TODO: replace with base mainnet
-    //   });
+    await writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: MERKLE_DISTRIBUTION_CONTRACT,
+      functionName: "donate",
+      args: [proof, amountToClaim, proofMultiplier, details.multiplier],
+      chainId: baseSepolia.id, // @TODO: replace with base mainnet
+    });
   };
 
   const claimHalf = async () => {
-    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
-      return;
-    }
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
@@ -165,29 +177,20 @@ export const ClaimSection = ({ details }: Props) => {
       "We'll need you to sign a transaction, please check your wallet.",
     );
 
-    // const tree = StandardMerkleTree.load(merkleTree as any);
-    // const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    const proof = await getTreeProof(details.tree_index ?? -1);
+    const proofMultiplier = await getMultiplierProof(details.tree_index ?? -1);
 
-    // // @TODO: get the index from the database
-    // const proof = tree.getProof(15362-1);
-
-    // const treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier as any);
-    // // @TODO: get the index from the database
-    // const proofMultiplier = treeMultiplier.getProof(15362-1);
-
-    // await writeContract({
-    //   abi: MerkleDistributionAbi.abi,
-    //   address: MERKLE_DISTRIBUTION_CONTRACT,
-    //   functionName: "donateAndClaim",
-    //   args: [proof, amountToClaim, proofMultiplier, details.multiplier],
-    //   chainId: baseSepolia.id, // @TODO: replace with base mainnet
-    // });
+    await writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: MERKLE_DISTRIBUTION_CONTRACT,
+      functionName: "donateAndClaim",
+      args: [proof, amountToClaim, proofMultiplier, details.multiplier],
+      chainId: baseSepolia.id, // @TODO: replace with base mainnet
+    });
   };
 
   const claim = async () => {
-    if (MERKLE_DISTRIBUTION_CONTRACT === "0x0") {
-      return;
-    }
     if (!address) {
       toast.error("You must connect your wallet before you can claim");
       return;
@@ -221,23 +224,22 @@ export const ClaimSection = ({ details }: Props) => {
     toast.info(
       "We'll need you to sign a transaction, please check your wallet.",
     );
-    // const tree = StandardMerkleTree.load(merkleTree as any);
-    // const amountToClaim = parseEther(details.airdrop_allocation.toString());
-    // // @TODO: get the index from the database
-    // const proof = tree.getProof(15362-1);
+    const amountToClaim = parseEther(details.airdrop_allocation.toString());
+    
+    const proof = await getTreeProof(details.tree_index ?? -1);
 
-    // await writeContract({
-    //   abi: MerkleDistributionAbi.abi,
-    //   address: MERKLE_DISTRIBUTION_CONTRACT,
-    //   functionName: "claim",
-    //   args: [proof, amountToClaim],
-    //   chainId: baseSepolia.id, // @TODO: replace with base mainnet
-    // });
+    await writeContract({
+      abi: MerkleDistributionAbi.abi,
+      address: MERKLE_DISTRIBUTION_CONTRACT,
+      functionName: "claim",
+      args: [proof, amountToClaim],
+      chainId: baseSepolia.id, // @TODO: replace with base mainnet
+    });
   };
 
   return (
     <>
-      {!showClaimFlow && !isConfirmed && (
+      {!showClaimFlow && !(isConfirmed || (donated as bigint) > 0n) && (
         <Button
           variant="solid"
           color="neutral"
@@ -295,6 +297,30 @@ export const ClaimSection = ({ details }: Props) => {
                 <Typography level="body-sm">Total Build points</Typography>
                 <Typography level="body-sm">
                   {formatNumber(details.build_points ?? 0)}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">Point to Token ratio</Typography>
+                <Typography level="body-sm">
+                  30
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">My $BUILD Token allocation</Typography>
+                <Typography level="body-sm">
+                  {formatNumber(details.airdrop_allocation ?? 0)}
                 </Typography>
               </Stack>
               <Stack
@@ -561,7 +587,6 @@ export const ClaimSection = ({ details }: Props) => {
                   variant="solid"
                   color="primary"
                   onClick={() => claimFull()}
-                  disabled={true}
                   sx={{
                     alignSelf: "center",
                     mt: 2,
@@ -573,7 +598,7 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                   loading={claiming}
                 >
-                  Commit 100% on June 12th
+                  Commit 100%
                 </Button>
               </BlockyCard>
               <BlockyCard
@@ -653,9 +678,8 @@ export const ClaimSection = ({ details }: Props) => {
                   }}
                   onClick={() => claimHalf()}
                   loading={claiming}
-                  disabled={true}
                 >
-                  Commit 50% on June 12th
+                  Commit 50%
                 </Button>
               </BlockyCard>
               <BlockyCard
@@ -726,7 +750,7 @@ export const ClaimSection = ({ details }: Props) => {
           </BlockyCard>
         </Stack>
       )}
-      {!!details && isConfirmed && (
+      {!!details && (isConfirmed || (donated as bigint) > 0n) && (
         <Stack
           sx={{
             flexDirection: "column",
@@ -747,8 +771,15 @@ export const ClaimSection = ({ details }: Props) => {
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
                 You are officially a BUILD OG!
               </Typography>
-              <Typography level="body-md" sx={{ textAlign: "start" }}>
-                Thank you for committing $BUILD to the{" "}
+              <Typography
+                level="body-md"
+                sx={{ textAlign: "center", alignSelf: "center" }}
+              >
+                Thank you for committing{" "}
+                {(donated as bigint) > 0n
+                  ? `${formatLargeNumber(parseInt(formatEther(donated as bigint)))} `
+                  : ""}
+                $BUILD<br></br>to the{" "}
                 <Link
                   href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
                   target="_blank"
@@ -857,7 +888,11 @@ export const ClaimSection = ({ details }: Props) => {
                   alignItems: "center",
                 }}
               >
-                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {(user.nominations_made ?? 0) > 0 ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   You made at least one nomination
                 </Typography>
@@ -870,6 +905,11 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_farcaster_id ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   Farcaster ID, older than May 15th
                 </Typography>
@@ -882,6 +922,11 @@ export const ClaimSection = ({ details }: Props) => {
                 }}
               >
                 <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_ens ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   ENS primary name, older than May 15th
                 </Typography>
@@ -893,7 +938,11 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_passport ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   Talent Passport w/ World ID credential
                 </Typography>
@@ -905,7 +954,11 @@ export const ClaimSection = ({ details }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                {user.valid_passport ? (
+                  <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
+                ) : (
+                  <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
+                )}
                 <Typography level="body-sm">
                   Talent Passport w/ Gitcoin credential
                 </Typography>

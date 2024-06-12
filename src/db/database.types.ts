@@ -31,6 +31,7 @@ export type Database = {
           rank: number | null;
           receiving_wallet: string | null;
           token_holder: boolean | null;
+          tree_index: number | null;
           user_id: string | null;
           username: string | null;
           verified_builder: boolean | null;
@@ -56,6 +57,7 @@ export type Database = {
           rank?: number | null;
           receiving_wallet?: string | null;
           token_holder?: boolean | null;
+          tree_index?: number | null;
           user_id?: string | null;
           username?: string | null;
           verified_builder?: boolean | null;
@@ -81,6 +83,7 @@ export type Database = {
           rank?: number | null;
           receiving_wallet?: string | null;
           token_holder?: boolean | null;
+          tree_index?: number | null;
           user_id?: string | null;
           username?: string | null;
           verified_builder?: boolean | null;
