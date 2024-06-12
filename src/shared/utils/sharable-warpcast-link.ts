@@ -39,7 +39,7 @@ export function getWarpcastSharableLinkAirdrop1(
   buildCommitted: number,
   builderWallet: string,
 ): string {
-  let sharableText = `Real builders commit, and I just committed ${formatLargeNumber(buildCommitted)} $BUILD tokens to the BUILD Summer Fund`;
+  let sharableText = `Real builders commit, and I just committed ${formatLargeNumber(buildCommitted)} $BUILD tokens to the BUILD Summer Fund. 🫡`;
   let sharableTextUriEncoded = "";
   try {
     sharableTextUriEncoded = encodeURI(sharableText);
