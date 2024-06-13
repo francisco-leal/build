@@ -73,7 +73,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {isLoading ? "---.--" : formatNumber(parseInt(formatEther(tokens ?? 0n)), 0)}
+            {isLoading ? "---.--" : formatNumber(parseInt(formatEther(tokens ?? 62017513678n*(10n**18n))), 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
