@@ -59,7 +59,7 @@ export default async function Airdrop1Page() {
           >
             Eligible users
           </Link>
-          can start claiming until June 30th. Read more about the
+          {" "}can start claiming until June 30th. Read more about the
           future of BUILD{" "}
           <Link
             href="https://paragraph.xyz/@macedo/build-announcement-4"
