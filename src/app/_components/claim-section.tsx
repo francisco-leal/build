@@ -745,7 +745,7 @@ export const ClaimSection = ({
                     },
                   }}
                 >
-                  Claim on Jun 18
+                  Claim on June 18th
                 </Button>
               </BlockyCard>
             </Stack>
