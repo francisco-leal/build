@@ -116,6 +116,7 @@ export const ClaimSection = ({
         "The wallet that is associated to your nominations is: " +
           details?.receiving_wallet,
       );
+      return;
     }
 
     if (!details || !details?.airdrop_allocation) {
@@ -169,6 +170,7 @@ export const ClaimSection = ({
         "The wallet that is associated to your nominations is: " +
           details?.receiving_wallet,
       );
+      return;
     }
 
     if (chainId !== base.id) {
@@ -217,6 +219,7 @@ export const ClaimSection = ({
         "The wallet that is associated to your nominations is: " +
           details?.receiving_wallet,
       );
+      return;
     }
 
     if (chainId !== base.id) {
