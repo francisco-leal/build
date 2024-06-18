@@ -60,6 +60,13 @@ export const ClaimSection = ({
     args: [address],
     chainId: base.id,
   });
+  const { data: claimed, refetch: refetchClaimed } = useReadContract({
+    abi: MerkleDistributionAbi.abi,
+    address: MERKLE_DISTRIBUTION_CONTRACT,
+    functionName: "claimed",
+    args: [address],
+    chainId: base.id,
+  });
 
   const [claiming, setClaiming] = useState<boolean>(false);
 
@@ -85,6 +92,7 @@ export const ClaimSection = ({
       setShowClaimFlow(false);
       setClaiming(false);
       refetch();
+      refetchClaimed();
     }
     if (isError) {
       toast.error("Transaction failed! " + error);
@@ -792,6 +800,106 @@ export const ClaimSection = ({
                   BUILD Summer Fund
                 </Link>
                 .
+              </Typography>
+              <Divider sx={{ backgroundColor: "neutral.400" }} />
+              <Typography level="title-sm">Airdrop 1 stats</Typography>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">Total nominations given</Typography>
+                <Typography level="body-sm">
+                  {details.nominations_made ?? 0}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">
+                  Total nominations received
+                </Typography>
+                <Typography level="body-sm">
+                  {details.nominations_received ?? 0}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">Total points earned</Typography>
+                <Typography level="body-sm">
+                  {formatNumber(details.build_points ?? 0)}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">Final rank</Typography>
+                <Typography level="body-sm">{details.rank ?? "---"}</Typography>
+              </Stack>
+              <Divider sx={{ backgroundColor: "neutral.400" }} />
+              <Stack
+                sx={{
+                  alignSelf: "end",
+                  display: "flex",
+                  flexDirection: "row",
+                  mt: 2,
+                }}
+              >
+                <Button
+                  variant="solid"
+                  color="primary"
+                  onClick={() =>
+                    window.open(
+                      getWarpcastSharableLinkAirdrop1(
+                        parseInt(formatEther(donated as bigint)),
+                        address!,
+                      ),
+                      "_blank",
+                    )
+                  }
+                >
+                  Share on farcaster
+                </Button>
+              </Stack>
+            </Stack>
+          </BlockyCard>
+        </Stack>
+      )}
+      {!!details && (isConfirmed || ((donated as bigint) <= 0n) && (claimed as bigint) >= 0n) && (
+        <Stack
+          sx={{
+            flexDirection: "column",
+            mt: 4,
+            maxWidth: "min(600px, 100%)",
+          }}
+        >
+          <BlockyCard>
+            <Stack
+              sx={{
+                flexDirection: "column",
+                alignItems: "start",
+                minWidth: "340px",
+                gap: 1,
+              }}
+            >
+              <Heart sx={{ alignSelf: "center" }} />
+              <Typography level="body-lg" sx={{ alignSelf: "center" }}>
+                Thank you for participating
               </Typography>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="title-sm">Airdrop 1 stats</Typography>
