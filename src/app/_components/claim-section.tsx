@@ -736,7 +736,6 @@ export const ClaimSection = ({
                 <Button
                   variant="outlined"
                   color="neutral"
-                  disabled={true}
                   onClick={() => claim()}
                   sx={{
                     alignSelf: "center",
@@ -747,8 +746,9 @@ export const ClaimSection = ({
                       height: 20,
                     },
                   }}
+                  loading={claiming}
                 >
-                  Claim on June 18th
+                  Claim
                 </Button>
               </BlockyCard>
             </Stack>
