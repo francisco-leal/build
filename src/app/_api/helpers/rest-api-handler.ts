@@ -30,7 +30,9 @@ export const restApiHandler = (
         if (!apiKey || !apiKey.active) {
           throw new UnauthorizedError("Invalid API key");
         }
-        throw new UnauthorizedError("No write permission");
+        if (apiKey.access_level !== "write") {
+          throw new UnauthorizedError("No write permission");
+        }
       }
 
       const data = await fn(request, context.params ?? {});
