@@ -15,14 +15,18 @@ let treeMultiplier: any | null;
 
 const loadTree = async () => {
   if (!tree) {
-    const merkleTree = await fetchJSONFromURL('https://build-top-images.s3.eu-west-2.amazonaws.com/merkleTree.json');
+    const merkleTree = await fetchJSONFromURL(
+      "https://build-top-images.s3.eu-west-2.amazonaws.com/tree.json",
+    );
     tree = StandardMerkleTree.load(merkleTree);
   }
 };
 
 const loadTreeMultiplier = async () => {
   if (!treeMultiplier) {
-    const merkleTreeMultiplier = await fetchJSONFromURL('https://build-top-images.s3.eu-west-2.amazonaws.com/merkleTreeMultiplier.json');
+    const merkleTreeMultiplier = await fetchJSONFromURL(
+      "https://build-top-images.s3.eu-west-2.amazonaws.com/multiplierTree.json",
+    );
     treeMultiplier = StandardMerkleTree.load(merkleTreeMultiplier);
   }
 };
