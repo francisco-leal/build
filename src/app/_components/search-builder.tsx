@@ -132,10 +132,11 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                 </Typography>
               </Divider>
               <Link
-                href={"/airdrop1"}
+                href={"https://paragraph.xyz/@macedo"}
+                target="_blank"
                 sx={{ color: "common.white", textDecoration: "underline" }}
               >
-                Claim $BUILD tokens from Airdrop 1
+                Read the latest announcements
               </Link>
             </>
           );

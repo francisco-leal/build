@@ -49,7 +49,7 @@ export default async function Airdrop1Page() {
           Claim <Helicopter /> Airdrop
         </Typography>
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          The Airdrop 1 token claiming period is open.{" "}
+          The Airdrop 1 token claiming period is closed.{" "}
           <Link
             href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
             target="_blank"
@@ -58,11 +58,11 @@ export default async function Airdrop1Page() {
             sx={{ textDecoration: "underline" }}
           >
             Eligible users
-          </Link>
-          {" "}can start claiming until June 30th. Read more about the
-          future of BUILD{" "}
+          </Link>{" "}
+          were able to claim or commit tokens between June 30th and July 4th.
+          Read more about the future of BUILD{" "}
           <Link
-            href="https://paragraph.xyz/@macedo/build-announcement-4"
+            href={"https://paragraph.xyz/@macedo"}
             target="_blank"
             textColor={"common.white"}
             underline="always"

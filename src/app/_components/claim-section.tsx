@@ -32,7 +32,8 @@ type Props = {
   getMultiplierProof: (index: number) => Promise<string[] | null>;
 };
 
-const MERKLE_DISTRIBUTION_CONTRACT = "0x556e182ad2b72f5934C2215d6A56cFC19936FdB7";
+const MERKLE_DISTRIBUTION_CONTRACT =
+  "0x556e182ad2b72f5934C2215d6A56cFC19936FdB7";
 
 export const ClaimSection = ({
   details,
@@ -254,16 +255,7 @@ export const ClaimSection = ({
 
   return (
     <>
-      {!showClaimFlow && !(isConfirmed || (donated as bigint) > 0n) && (
-        <Button
-          variant="solid"
-          color="neutral"
-          onClick={() => setShowClaimFlow(true)}
-          sx={{ mt: 2 }}
-        >
-          Check your allocation
-        </Button>
-      )}
+      {!showClaimFlow && !(isConfirmed || (donated as bigint) > 0n) && <></>}
       {showClaimFlow && !!details && step === 0 && (
         <Stack
           sx={{
@@ -443,16 +435,15 @@ export const ClaimSection = ({
                 getting started. Now the community has a choice: we either{" "}
                 <strong>commit</strong> or <strong>quit</strong>.<br></br>
                 <br></br>
-                We can commit to grow BUILD into the onchain builder economy
-                🫡
+                We can commit to grow BUILD into the onchain builder economy 🫡
                 <br></br>
                 Or we can all claim our $BUILD tokens and quit this experiment
                 🪦
                 <br></br>
                 <br></br>
-                Let&apos;s push for a collective commitment of {">"}50% on Airdrop 1
-                and keep building during Onchain Summer. Read more about the
-                future of BUILD{" "}
+                Let&apos;s push for a collective commitment of {">"}50% on
+                Airdrop 1 and keep building during Onchain Summer. Read more
+                about the future of BUILD{" "}
                 <Link
                   href="https://paragraph.xyz/@macedo/build-announcement-4"
                   target="_blank"
@@ -789,9 +780,15 @@ export const ClaimSection = ({
                 sx={{ textAlign: "center", alignSelf: "center" }}
               >
                 Thank you for committing{" "}
-                {(donated as bigint) > 0n
-                  ? <strong>{formatLargeNumber(parseInt(formatEther(donated as bigint)))}{" "}</strong>
-                  : ""}
+                {(donated as bigint) > 0n ? (
+                  <strong>
+                    {formatLargeNumber(
+                      parseInt(formatEther(donated as bigint)),
+                    )}{" "}
+                  </strong>
+                ) : (
+                  ""
+                )}
                 $BUILD<br></br>to the{" "}
                 <Link
                   href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
@@ -880,106 +877,112 @@ export const ClaimSection = ({
           </BlockyCard>
         </Stack>
       )}
-      {!!details && (isConfirmed || ((donated as bigint) <= 0n) && (claimed as bigint) >= 0n) && (
-        <Stack
-          sx={{
-            flexDirection: "column",
-            mt: 4,
-            maxWidth: "min(600px, 100%)",
-          }}
-        >
-          <BlockyCard>
-            <Stack
-              sx={{
-                flexDirection: "column",
-                alignItems: "start",
-                minWidth: "340px",
-                gap: 1,
-              }}
-            >
-              <Heart sx={{ alignSelf: "center" }} />
-              <Typography level="body-lg" sx={{ alignSelf: "center" }}>
-                Thank you for participating
-              </Typography>
-              <Divider sx={{ backgroundColor: "neutral.400" }} />
-              <Typography level="title-sm">Airdrop 1 stats</Typography>
+      {!!details &&
+        (isConfirmed ||
+          ((donated as bigint) <= 0n && (claimed as bigint) > 0n)) && (
+          <Stack
+            sx={{
+              flexDirection: "column",
+              mt: 4,
+              maxWidth: "min(600px, 100%)",
+            }}
+          >
+            <BlockyCard>
               <Stack
                 sx={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  minWidth: "100%",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  minWidth: "340px",
+                  gap: 1,
                 }}
               >
-                <Typography level="body-sm">Total nominations given</Typography>
-                <Typography level="body-sm">
-                  {details.nominations_made ?? 0}
+                <Heart sx={{ alignSelf: "center" }} />
+                <Typography level="body-lg" sx={{ alignSelf: "center" }}>
+                  Thank you for participating
                 </Typography>
-              </Stack>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">
-                  Total nominations received
-                </Typography>
-                <Typography level="body-sm">
-                  {details.nominations_received ?? 0}
-                </Typography>
-              </Stack>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">Total points earned</Typography>
-                <Typography level="body-sm">
-                  {formatNumber(details.build_points ?? 0)}
-                </Typography>
-              </Stack>
-              <Stack
-                sx={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  minWidth: "100%",
-                }}
-              >
-                <Typography level="body-sm">Final rank</Typography>
-                <Typography level="body-sm">{details.rank ?? "---"}</Typography>
-              </Stack>
-              <Divider sx={{ backgroundColor: "neutral.400" }} />
-              <Stack
-                sx={{
-                  alignSelf: "end",
-                  display: "flex",
-                  flexDirection: "row",
-                  mt: 2,
-                }}
-              >
-                <Button
-                  variant="solid"
-                  color="primary"
-                  onClick={() =>
-                    window.open(
-                      getWarpcastSharableLinkAirdrop1(
-                        parseInt(formatEther(donated as bigint)),
-                        address!,
-                      ),
-                      "_blank",
-                    )
-                  }
+                <Divider sx={{ backgroundColor: "neutral.400" }} />
+                <Typography level="title-sm">Airdrop 1 stats</Typography>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    minWidth: "100%",
+                  }}
                 >
-                  Share on farcaster
-                </Button>
+                  <Typography level="body-sm">
+                    Total nominations given
+                  </Typography>
+                  <Typography level="body-sm">
+                    {details.nominations_made ?? 0}
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    minWidth: "100%",
+                  }}
+                >
+                  <Typography level="body-sm">
+                    Total nominations received
+                  </Typography>
+                  <Typography level="body-sm">
+                    {details.nominations_received ?? 0}
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    minWidth: "100%",
+                  }}
+                >
+                  <Typography level="body-sm">Total points earned</Typography>
+                  <Typography level="body-sm">
+                    {formatNumber(details.build_points ?? 0)}
+                  </Typography>
+                </Stack>
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    minWidth: "100%",
+                  }}
+                >
+                  <Typography level="body-sm">Final rank</Typography>
+                  <Typography level="body-sm">
+                    {details.rank ?? "---"}
+                  </Typography>
+                </Stack>
+                <Divider sx={{ backgroundColor: "neutral.400" }} />
+                <Stack
+                  sx={{
+                    alignSelf: "end",
+                    display: "flex",
+                    flexDirection: "row",
+                    mt: 2,
+                  }}
+                >
+                  <Button
+                    variant="solid"
+                    color="primary"
+                    onClick={() =>
+                      window.open(
+                        getWarpcastSharableLinkAirdrop1(
+                          parseInt(formatEther(donated as bigint)),
+                          address!,
+                        ),
+                        "_blank",
+                      )
+                    }
+                  >
+                    Share on farcaster
+                  </Button>
+                </Stack>
               </Stack>
-            </Stack>
-          </BlockyCard>
-        </Stack>
-      )}
+            </BlockyCard>
+          </Stack>
+        )}
       {showClaimFlow && !details && (
         <Stack
           sx={{
