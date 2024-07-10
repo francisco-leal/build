@@ -2,22 +2,23 @@
 
 import { FunctionComponent } from "react";
 import { Typography, Stack, Button, Link, Box } from "@mui/joy";
+import { erc20Abi, formatEther } from "viem";
+import { base } from "viem/chains";
+import { useReadContract } from "wagmi";
 import { BackgroundImage } from "@/app/_components/background-image";
+import HeroTag from "@/app/_components/hero-tag";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { SearchBuilder } from "@/app/_components/search-builder";
 import { BlockyCard } from "@/shared/components/blocky-card";
+import HeroAlertNavbar from "@/shared/components/hero-alert-navbar";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
+import { Coin } from "@/shared/icons/coin";
 import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
 import { Terminal } from "@/shared/icons/terminal";
 import { formatNumber } from "@/shared/utils/format-number";
-import { useReadContract } from "wagmi";
-
-import { erc20Abi, formatEther } from "viem";
-import { base } from "viem/chains";
-import { Coin } from "@/shared/icons/coin";
 
 type HomePageComponentProps = {
   loading?: boolean;
@@ -42,7 +43,16 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
   return (
     <Stack component="main" sx={{ position: "relative" }}>
       <BackgroundImage />
+
+      <HeroAlertNavbar
+        title="BUILD Noms Are Back"
+        message="A 2nd round of BUILD noms will kick off on July 16th and distribute 50B $BUILD."
+        action="Read more"
+        link="https://paragraph.xyz/@macedo/build-log-7"
+      />
+
       <HeroSectionSlim sx={{ mb: 0 }}>
+        <HeroTag progress="SOON" tag="Summer Fund" />
         <Typography level="h1">
           Nominate <Interface /> the best builders <MusicHeadset /> you know.
         </Typography>
@@ -54,9 +64,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
-      <HeroSection
-        sx={{ gap: 3, mt: { xs: 0, md: -6 }, maxWidth: "600px" }}
-      >
+      <HeroSection sx={{ gap: 3, mt: { xs: 0, md: -6 }, maxWidth: "600px" }}>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="title-lg" textColor="primary.500">
             BUILD Summer Fund
@@ -73,7 +81,12 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {isLoading ? "---.--" : formatNumber(parseInt(formatEther(tokens ?? 62017513678n*(10n**18n))), 0)}
+            {isLoading
+              ? "---.--"
+              : formatNumber(
+                  parseInt(formatEther(tokens ?? 62017513678n * 10n ** 18n)),
+                  0,
+                )}
           </Typography>
         </BlockyCard>
       </HeroSection>

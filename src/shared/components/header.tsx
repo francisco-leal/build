@@ -85,12 +85,6 @@ export const Header: FunctionComponent = () => {
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             Tokenomics
           </Link>
-          <Link
-            href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
-            target="_blank"
-          >
-            Manifesto
-          </Link>
         </Stack>
 
         <Stack
@@ -211,12 +205,6 @@ export const Header: FunctionComponent = () => {
           onClick={drawer.close}
         >
           Tokenomics
-        </Link>
-        <Link
-          target="_blank"
-          href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
-        >
-          Manifesto
         </Link>
         <Typography
           sx={{ color: "neutral.50", mt: "auto", textAlign: "center" }}
