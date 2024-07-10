@@ -31,11 +31,31 @@ const HeroAlertNavbar = ({
           mx: { xs: "2%", md: "auto" },
         }}
       >
-        <Stack sx={{ alignItems: "flex-start" }}>
-          <Typography level="h4" textColor="common.black" margin={0}>
+        <Stack sx={{ alignItems: "flex-start", width: "80%" }}>
+          <Typography
+            level="h4"
+            textColor="common.black"
+            margin={0}
+            sx={{
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              maxWidth: "100%",
+            }}
+          >
             {title}
           </Typography>
-          <Typography level="body-md" textColor="common.black" margin={0}>
+          <Typography
+            level="body-md"
+            textColor="common.black"
+            margin={0}
+            sx={{
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              maxWidth: "100%",
+            }}
+          >
             {message}
           </Typography>
         </Stack>

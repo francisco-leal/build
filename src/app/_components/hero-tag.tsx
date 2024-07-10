@@ -13,7 +13,7 @@ const HeroTag = ({ progress, tag }: HeroTagProps) => {
         position: "absolute",
         transform: "rotate(3deg)",
         top: "-3%",
-        right: "0",
+        right: "2%",
         maxWidth: { xs: "md", md: "lg" },
         padding: "8px 16px 8px 8px",
         zIndex: 10,
