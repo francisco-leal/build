@@ -10,7 +10,6 @@ import HeroTag from "@/app/_components/hero-tag";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { SearchBuilder } from "@/app/_components/search-builder";
 import { BlockyCard } from "@/shared/components/blocky-card";
-import HeroAlertNavbar from "@/shared/components/hero-alert-navbar";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
 import { Coin } from "@/shared/icons/coin";
@@ -43,13 +42,6 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
   return (
     <Stack component="main" sx={{ position: "relative" }}>
       <BackgroundImage />
-
-      <HeroAlertNavbar
-        title="BUILD Noms Are Back"
-        message="A 2nd round of BUILD noms will kick off on July 16th and distribute 50B $BUILD."
-        action="Read more"
-        link="https://paragraph.xyz/@macedo/build-log-7"
-      />
 
       <HeroSectionSlim sx={{ mb: 0 }}>
         <HeroTag progress="SOON" tag="Summer Fund" />

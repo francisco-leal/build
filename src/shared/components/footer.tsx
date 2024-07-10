@@ -70,7 +70,7 @@ export const Footer = () => {
           Uniswap
         </Link>
         <Link href="https://www.coingecko.com/en/coins/build-2" target="_blank">
-          Coingecko
+          CoinGecko
         </Link>
       </Stack>
       <Typography sx={{ color: "common.white", textAlign: "center" }}>

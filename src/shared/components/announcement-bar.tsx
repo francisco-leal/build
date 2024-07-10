@@ -1,21 +1,23 @@
 import { Box, Button, Link, Stack, Typography } from "@mui/joy";
 import { BlockyCard } from "./blocky-card";
 
-interface HeroAlertNavbarProps {
+interface AnnouncementBarProps {
   title: string;
   message: string;
   action: string;
   link: string;
 }
 
-const HeroAlertNavbar = ({
+const AnnouncementBar = ({
   title,
   message,
   action,
   link,
-}: HeroAlertNavbarProps) => {
+}: AnnouncementBarProps) => {
   return (
-    <Box component="header" sx={{ py: 1 }}>
+    <Box
+      sx={{ display: "flex", width: "full", py: 1, justifyContent: "center" }}
+    >
       <BlockyCard
         sx={{
           display: "flex",
@@ -28,7 +30,7 @@ const HeroAlertNavbar = ({
           px: { xs: 2 },
           maxWidth: { md: "lg" },
           width: "90%",
-          mx: { xs: "2%", md: "auto" },
+          mx: "2%",
         }}
       >
         <Stack sx={{ alignItems: "flex-start", width: "80%" }}>
@@ -59,7 +61,12 @@ const HeroAlertNavbar = ({
             {message}
           </Typography>
         </Stack>
-        <Button component={Link} href={link} target="_blank">
+        <Button
+          component={Link}
+          href={link}
+          target="_blank"
+          sx={{ lineHeight: 1, maxWidth: "20%" }}
+        >
           {action}
         </Button>
       </BlockyCard>
@@ -67,4 +74,4 @@ const HeroAlertNavbar = ({
   );
 };
 
-export default HeroAlertNavbar;
+export default AnnouncementBar;

@@ -1,5 +1,5 @@
 import { default as Image } from "next/image";
-import { Stack } from "@mui/joy";
+import { Button, Stack } from "@mui/joy";
 import { Typography, Box, Link } from "@mui/joy";
 import { BackgroundImage } from "@/app/_components/background-image";
 import { BlockyCard } from "@/shared/components/blocky-card";
@@ -9,6 +9,8 @@ import { ExternalLink } from "@/shared/icons/external-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { default as mobileGraph } from "./_images/bossnomics-graph-mobile.png";
 import { default as desktopGraph } from "./_images/bossnomics-graph.png";
+import { default as mobileCycle } from "./_images/build-cycle-mobile.png";
+import { default as desktopCycle } from "./_images/build-cycle.png";
 
 export default function Tokenomics() {
   return (
@@ -26,6 +28,27 @@ export default function Tokenomics() {
           launched on May 2024, with a crowdfund on party.app, followed by
           community airdrops to onchain builders.
         </Typography>
+
+        <Box
+          component={Image}
+          src={desktopCycle}
+          alt="graph"
+          sx={{
+            width: "100%",
+            height: "auto",
+            display: { xs: "none", sm: "block" },
+          }}
+        />
+        <Box
+          component={Image}
+          src={mobileCycle}
+          alt="graph"
+          sx={{
+            width: "100%",
+            height: "auto",
+            display: { xs: "block", sm: "none" },
+          }}
+        />
       </HeroSectionSlim>
       <HeroSection>
         <Typography level="h2" textColor={"common.white"}>
@@ -73,6 +96,38 @@ export default function Tokenomics() {
             }}
           />
         </BlockyCard>
+      </HeroSection>
+
+      <HeroSection>
+        <Typography level="h2" textColor={"common.white"}>
+          Governance
+        </Typography>
+
+        <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
+          Description
+        </Typography>
+
+        <Link
+          href="https://example.com"
+          level="body-lg"
+          target="_blank"
+          textColor={"common.white"}
+          underline="hover"
+        >
+          Link
+          <ExternalLink sx={{ pl: 1 }} />
+        </Link>
+
+        <Button
+          component={Link}
+          href={"https://example.com"}
+          target="_blank"
+          variant="solid"
+          color="neutral"
+          sx={{ mt: 2 }}
+        >
+          See More
+        </Button>
       </HeroSection>
     </Stack>
   );
