@@ -2,22 +2,19 @@
 
 import { FunctionComponent } from "react";
 import { Typography, Stack, Button, Link, Box } from "@mui/joy";
+import { formatEther } from "viem";
 import { BackgroundImage } from "@/app/_components/background-image";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { SearchBuilder } from "@/app/_components/search-builder";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
+import { Coin } from "@/shared/icons/coin";
 import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
 import { Terminal } from "@/shared/icons/terminal";
 import { formatNumber } from "@/shared/utils/format-number";
-import { useReadContract } from "wagmi";
-
-import { erc20Abi, formatEther } from "viem";
-import { base } from "viem/chains";
-import { Coin } from "@/shared/icons/coin";
 
 type HomePageComponentProps = {
   loading?: boolean;
@@ -31,14 +28,6 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
   nominationsCount,
   usersCount,
 }) => {
-  const { data: tokens, isLoading } = useReadContract({
-    abi: erc20Abi,
-    address: BUILD_TOKEN_ADDRESS,
-    functionName: "balanceOf",
-    args: ["0x5589fd6856534a3adfe16173aa308d2dc0e8fb5b"],
-    chainId: base.id,
-  });
-
   return (
     <Stack component="main" sx={{ position: "relative" }}>
       <BackgroundImage />
@@ -54,9 +43,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
-      <HeroSection
-        sx={{ gap: 3, mt: { xs: 0, md: -6 }, maxWidth: "600px" }}
-      >
+      <HeroSection sx={{ gap: 3, mt: { xs: 0, md: -6 }, maxWidth: "600px" }}>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="title-lg" textColor="primary.500">
             BUILD Summer Fund
@@ -73,7 +60,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {isLoading ? "---.--" : formatNumber(parseInt(formatEther(tokens ?? 62017513678n*(10n**18n))), 0)}
+            {formatNumber(parseInt(formatEther(116451690161n * 10n ** 18n)), 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
