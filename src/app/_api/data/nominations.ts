@@ -281,13 +281,15 @@ export const createNewNomination = async (
 
   await createWallet(nominatedWallet.wallet);
 
+  const points_sent = balances.budget / (nominatorUser.nominations_made ?? 1);
+
   const nomination = await supabase
     .from("build_nominations_round_2")
     .insert({
       origin_user_id: nominatorUser.id,
       origin_wallet_id: origin_wallet_id,
       destination_wallet_id: nominatedWallet.wallet,
-      boss_points_sent: 0,
+      boss_points_sent: points_sent,
     })
     .select(SELECT_NOMINATIONS_FROM_USER)
     .single()
@@ -296,19 +298,19 @@ export const createNewNomination = async (
 
   if (!nomination) throw new BadRequestError("Could not create nomination");
 
-  await supabase.rpc("update_boss_daily_streak_for_user", {
-    user_to_update: nominatorUser.id,
-  });
+  // await supabase.rpc("update_boss_daily_streak_for_user", {
+  //   user_to_update: nominatorUser.id,
+  // });
 
-  await supabase.rpc("update_boss_score_for_user", {
-    user_to_update: nominatorUser.id,
-  });
+  // await supabase.rpc("update_boss_score_for_user", {
+  //   user_to_update: nominatorUser.id,
+  // });
 
-  if (nominatedWallet.userId) {
-    await supabase.rpc("update_boss_score_for_user", {
-      user_to_update: nominatedWallet.userId,
-    });
-  }
+  // if (nominatedWallet.userId) {
+  //   await supabase.rpc("update_boss_score_for_user", {
+  //     user_to_update: nominatedWallet.userId,
+  //   });
+  // }
 
   // await notifyBuildBot(
   //   origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",

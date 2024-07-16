@@ -9,10 +9,7 @@ import { getSession } from "@/services/authentication/cookie-session";
 import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getFarcasterUser } from "../external/farcaster";
-import {
-  getTalentProtocolUser,
-  getTalentProtocolCredentials,
-} from "../external/talent-protocol";
+import { getTalentProtocolUser } from "../external/talent-protocol";
 import {
   CACHE_5_MINUTES,
   CacheKey,
@@ -41,7 +38,10 @@ export type CurrentUser = User & {
 };
 
 const calculateUserBudget = async (user: User, wallet: string) => {
-  const credentials = await getTalentProtocolCredentials(user.passport_id!);
+  const passport = await getTalentProtocolUser(wallet);
+  if (!passport) return 0;
+  if (!passport.verified) return 0;
+
   const tokenAmount = await getBalance(wallet);
   const builderScore = user.passport_builder_score;
 
@@ -50,13 +50,15 @@ const calculateUserBudget = async (user: User, wallet: string) => {
     Math.sqrt(0.01 * tokenAmount) +
     Math.sqrt(0.1 * user.build_commit_amount);
 
-  const { error } = await supabase
+  await supabase
     .from("users")
-    .update({ boss_budget: budget })
+    .update({
+      boss_budget: budget,
+      last_budget_calculation: new Date().toISOString(),
+    })
     .eq("id", user.id)
     .throwOnError();
 
-  console.log(error);
   return budget;
 };
 
@@ -92,7 +94,6 @@ export const getUserFromWallet = async (
 };
 
 export const getUserBalances = async (user: User, wallet: string) => {
-  console.log("---- CALCULATING USER BUDGET ----");
   let user_budget = user.boss_budget;
   const today = DateTime.local().startOf("day");
   const lastUpdateOfBudget = DateTime.fromISO(

@@ -7,6 +7,7 @@ import { supabase } from "@/db";
 import { computeLeaderboard } from "@/services/crons";
 
 export const maxDuration = 300;
+export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {

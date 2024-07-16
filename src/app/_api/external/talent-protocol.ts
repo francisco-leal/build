@@ -18,6 +18,7 @@ type PassportResponse = {
 export type PassportResult = {
   score: number;
   passport_id: number;
+  verified: boolean;
   user: {
     profile_picture_url: string;
     username: string;
@@ -84,36 +85,6 @@ export const getTalentProtocolUser = async (walletId: string) => {
     [`talent_protocol_${walletId}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },
   )(walletId);
-};
-
-export const getTalentProtocolCredentials = async (passportId: number) => {
-  return unstable_cache(
-    async (passportId: number) => {
-      const api_url = process.env.PASSPORT_API_URL;
-      const api_token = process.env.PASSPORT_API_TOKEN;
-      const url = `${api_url}/api/v2/passport_credentials/${passportId}`;
-      const headers = {
-        "Content-Type": "application/json",
-        "X-API-KEY": api_token || "",
-      };
-
-      try {
-        const response = await fetch(url, { headers });
-        const data = await response.json();
-
-        console.log({ data });
-        return 0;
-      } catch (error) {
-        rollbarError(
-          "Error fetching Talent Protocol credentials",
-          error as Error,
-        );
-        return null;
-      }
-    },
-    [`talent_protocol_credential_${passportId}`] as CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
-  )(passportId);
 };
 
 export const resyncPassportForUser = async (user: User) => {

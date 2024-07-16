@@ -173,7 +173,7 @@ export default async function NominateBuilder({
         },
         {
           label: "Nominations this week",
-          value: `${todaysNominations.length + 1}`,
+          value: `${todaysNominations.length}`,
         },
         {
           label: "Each nom receives",
