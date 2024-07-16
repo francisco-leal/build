@@ -445,6 +445,12 @@ export type Database = {
           build_points_sent: number;
         }[];
       };
+      distribute_nomination_points: {
+        Args: {
+          origin_user_id: string;
+        };
+        Returns: undefined;
+      };
       increment_nomination_streak: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
@@ -480,6 +486,12 @@ export type Database = {
       };
       update_leaderboard: {
         Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
+      update_nominations_made: {
+        Args: {
+          p_user_id: string;
+        };
         Returns: undefined;
       };
     };
