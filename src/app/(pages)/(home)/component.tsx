@@ -2,7 +2,6 @@
 
 import { FunctionComponent } from "react";
 import { Typography, Stack, Button, Link, Box } from "@mui/joy";
-import { formatEther } from "viem";
 import { BackgroundImage } from "@/app/_components/background-image";
 import { HowToPlay } from "@/app/_components/how-to-play";
 import { SearchBuilder } from "@/app/_components/search-builder";
@@ -13,7 +12,7 @@ import { Coin } from "@/shared/icons/coin";
 import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
-import { Terminal } from "@/shared/icons/terminal";
+import { Refresh } from "@/shared/icons/refresh";
 import { formatNumber } from "@/shared/utils/format-number";
 
 type HomePageComponentProps = {
@@ -43,73 +42,128 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
+
+      <HeroSection>
+        <Stack
+          sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
+        >
+          <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
+            <Lego sx={{ fontSize: "64px" }} />
+            <Typography level="h3">What is BUILD?</Typography>
+            <Typography sx={{ maxWidth: "600px" }}>
+              BUILD is a token of appreciation on Base, and a social game that
+              rewards onchain builders via peer nominations.
+            </Typography>
+
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Button
+                variant="solid"
+                color="neutral"
+                component={Link}
+                href="/stats"
+                target="_blank"
+                underline="none"
+                sx={{ mt: 2 }}
+              >
+                Check points
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                component={Link}
+                href="https://passport.talentprotocol.com"
+                target="_blank"
+                underline="none"
+                sx={{ mt: 2 }}
+              >
+                Learn more
+              </Button>
+            </Box>
+          </Stack>
+        </Stack>
+      </HeroSection>
       <HeroSection
         sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
       >
-        <BlockyCard sx={{ minHeight: 250 }}>
-          <Lego />
-          <Typography level="h3" textColor="common.black">
-            What is BUILD?
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            Nominations
           </Typography>
-          <Typography textColor="neutral.500">
-            BUILD is a token of appreciation on Base, and a nominations game to
-            reward onchain builders.<br></br>
-            <strong>Nominations</strong>:{" "}
+          <Typography
+            textColor="neutral.900"
+            sx={{
+              fontWeight: 700,
+              lineHeight: "133%",
+              fontSize: "36px",
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            <MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />
             {formatNumber(1794755 + (nominationsCount ?? 0), 0)}
-            <br></br>
-            <strong>Holders</strong>: 89,064<br></br>
-            <strong>Casts</strong>: 55,894<br></br>
-            <strong>Market Cap</strong>: $2.40M
           </Typography>
-          <Button
-            href={"/stats"}
-            component={Link}
-            variant="solid"
-            color="primary"
-            sx={{ mt: 2 }}
-          >
-            Check Points
-          </Button>
-          <Button
-            href={"https://build.top"}
-            target="_blank"
-            component={Link}
-            variant="solid"
-            color="neutral"
-            sx={{ mt: 2 }}
-          >
-            Learn More
-          </Button>
         </BlockyCard>
-        <BlockyCard sx={{ minHeight: 250 }}>
-          <Terminal />
-          <Typography level="h3" textColor="common.black">
-            How BUILD works?
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            $BUILD holders
           </Typography>
-          <Typography textColor="neutral.500">
-            <strong>Budget</strong>: Each player has an individual budget, based
-            on their Builder Score, $BUILD commited in Airdrop 1 and $BUILD
-            held. Claim your Talent Passport to increase your score and budget.
-          </Typography>
-          <Typography textColor="neutral.500">
-            <strong>Nominations</strong>: Search username or share your link to
-            nominate builders weekly. Your budget will be distributed equally
-            each week.
-          </Typography>
-          <Typography textColor="neutral.500">
-            <strong>Airdrop</strong>: BUILD Points convert into $BUILD tokens.
-            There is 50M $BUILD to be distributed this round. $BUILD is 100%
-            community owned. No team or investors allocation.
-          </Typography>
-          <Button
-            href={"/airdrop/#daily-budget"}
-            component={Link}
-            variant="solid"
-            color="primary"
-            sx={{ mt: 2 }}
+          <Typography
+            textColor="neutral.900"
+            sx={{
+              fontWeight: 700,
+              lineHeight: "133%",
+              fontSize: "36px",
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
           >
-            See BUILD budget
-          </Button>
+            <Interface sx={{ "&&": { height: 32, width: 32 } }} />
+            {formatNumber(40667 ?? 0, 0)}
+          </Typography>
+        </BlockyCard>
+      </HeroSection>
+      <HeroSection
+        sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
+      >
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            Casts in /build
+          </Typography>
+          <Typography
+            textColor="neutral.900"
+            sx={{
+              fontWeight: 700,
+              lineHeight: "133%",
+              fontSize: "36px",
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            <Refresh sx={{ "&&": { height: 32, width: 32 } }} />
+            {formatNumber(54789, 0)}
+          </Typography>
+        </BlockyCard>
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            Market Cap
+          </Typography>
+          <Typography
+            textColor="neutral.900"
+            sx={{
+              fontWeight: 700,
+              lineHeight: "133%",
+              fontSize: "36px",
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            <Coin sx={{ "&&": { height: 32, width: 32 } }} />
+            {formatNumber(2400000, 0)}
+          </Typography>
         </BlockyCard>
       </HeroSection>
       <HeroSection>

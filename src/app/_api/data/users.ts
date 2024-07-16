@@ -78,6 +78,11 @@ export const getUserBalances = async (user: User) => {
     today.diff(lastUpdateOfBudget, "days").days > 0;
 
   if (shouldUpdateBudget) {
+    // Recalculate the budget via talent protocol API
+    // the only thing that needs to be recalculated is the number of tokens you hold
+    // the rest we can run a script to calculate
+    // add builder comitter amount to the user table
+    // add to airdrop table the ones that commited
     const result = await supabase.rpc("calculate_boss_budget_user", {
       user_to_update: user.id,
     });
