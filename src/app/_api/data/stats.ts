@@ -18,7 +18,7 @@ export const getUserStats = async (
       if (!user) return null;
 
       const { count } = await supabase
-        .from("boss_nominations")
+        .from("build_nominations_round_2")
         .select("*", { count: "exact", head: true })
         .eq("origin_user_id", user.id)
         .throwOnError();

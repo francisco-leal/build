@@ -221,6 +221,54 @@ export type Database = {
           },
         ];
       };
+      build_nominations_round_2: {
+        Row: {
+          boss_points_received: number;
+          boss_points_sent: number;
+          created_at: string;
+          destination_wallet_id: string;
+          id: number;
+          origin_user_id: string;
+          origin_wallet_id: string | null;
+          valid: boolean;
+        };
+        Insert: {
+          boss_points_received: number;
+          boss_points_sent: number;
+          created_at?: string;
+          destination_wallet_id: string;
+          id?: number;
+          origin_user_id: string;
+          origin_wallet_id?: string | null;
+          valid?: boolean;
+        };
+        Update: {
+          boss_points_received?: number;
+          boss_points_sent?: number;
+          created_at?: string;
+          destination_wallet_id?: string;
+          id?: number;
+          origin_user_id?: string;
+          origin_wallet_id?: string | null;
+          valid?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "build_nominations_round_2_destination_wallet_id_fkey";
+            columns: ["destination_wallet_id"];
+            isOneToOne: false;
+            referencedRelation: "wallets";
+            referencedColumns: ["wallet"];
+          },
+          {
+            foreignKeyName: "build_nominations_round_2_origin_user_id_fkey";
+            columns: ["origin_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       scheduled_updates: {
         Row: {
           finished_at: string | null;

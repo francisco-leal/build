@@ -20,7 +20,7 @@ export const getNominationsForApi = async (params: {
   return unstable_cache(
     async () => {
       const query = supabase
-        .from("boss_nominations")
+        .from("build_nominations_round_2")
         .select("*" as const)
         .order("created_at", { ascending: false });
 

@@ -43,7 +43,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
-      <HeroSection sx={{ gap: 3, mt: { xs: 0, md: -6 }, maxWidth: "600px" }}>
+      <HeroSection sx={{ gap: 3, maxWidth: "600px" }}>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="title-lg" textColor="primary.500">
             BUILD Summer Fund
@@ -60,7 +60,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(parseInt(formatEther(116451690161n * 10n ** 18n)), 0)}
+            {formatNumber(parseInt(formatEther(85084899880n * 10n ** 18n)), 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
@@ -88,7 +88,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
-            Total Nominations
+            Total Nominations Round 2
           </Typography>
           <Typography
             textColor="neutral.900"
