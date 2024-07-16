@@ -18,6 +18,7 @@ type PassportResponse = {
 export type PassportResult = {
   score: number;
   passport_id: number;
+  verified: boolean;
   user: {
     profile_picture_url: string;
     username: string;

@@ -28,6 +28,7 @@ export const HeroSectionSlim: FunctionComponent<HeroSectionProps> = ({
       sx={{
         maxWidth: "sm",
         width: "100%",
+        position: "relative",
         px: { xs: 2, sm: 0 },
         justifyContent: "center",
         alignItems: "center",

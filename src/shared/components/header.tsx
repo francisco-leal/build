@@ -72,24 +72,17 @@ export const Header: FunctionComponent = () => {
             },
           }}
         >
-          <Link href="/">Home</Link>
+          <Link disabled={activePath === "stats"} href="/stats">
+            Dashboard
+          </Link>
           <Link disabled={activePath === "airdrop-1"} href="/airdrop1">
             Airdrop
           </Link>
           <Link disabled={activePath === "leaderboard"} href="/leaderboard">
             Leaderboard
           </Link>
-          <Link disabled={activePath === "stats"} href="/stats">
-            My&nbsp;Stats
-          </Link>
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
-            Tokenomics
-          </Link>
-          <Link
-            href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
-            target="_blank"
-          >
-            Manifesto
+            About
           </Link>
         </Stack>
 
@@ -186,15 +179,7 @@ export const Header: FunctionComponent = () => {
           href="/stats"
           onClick={drawer.close}
         >
-          My Stats
-        </Link>
-        <Link
-          component={NextLink}
-          prefetch={true}
-          href="/stats#nominations"
-          onClick={drawer.close}
-        >
-          Nominations
+          Dashboard
         </Link>
         <Link
           component={NextLink}
@@ -210,13 +195,7 @@ export const Header: FunctionComponent = () => {
           href="/tokenomics"
           onClick={drawer.close}
         >
-          Tokenomics
-        </Link>
-        <Link
-          target="_blank"
-          href="https://mirror.xyz/talentprotocol.eth/2miuIeU0Uq_uHIj_NzH0gk1Cdcc-06s_zyqo6iwO768"
-        >
-          Manifesto
+          About
         </Link>
         <Typography
           sx={{ color: "neutral.50", mt: "auto", textAlign: "center" }}

@@ -27,8 +27,6 @@ export const TableNominationsReceived: FunctionComponent<
         <tr>
           <th>Date</th>
           <th>Name</th>
-          <th>Rank</th>
-          <th>Points Earned</th>
         </tr>
       </thead>
       <tbody>
@@ -44,14 +42,12 @@ export const TableNominationsReceived: FunctionComponent<
                   {abbreviateWalletAddress(val.name)}
                 </Link>
               </td>
-              <td>{val.rank ?? "---"}</td>
-              <td>{formatLargeNumber(val.pointsGiven ?? 0)}</td>
             </Box>
           ))}
         {loading &&
           [1, 2, 3, 4, 5].map((i) => (
             <tr key={i}>
-              <td colSpan={4}>
+              <td colSpan={2}>
                 <Skeleton variant="text" />
               </td>
             </tr>

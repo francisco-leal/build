@@ -73,7 +73,7 @@ export const getAndStoreEligibility = async (
 
       try {
         const { count, error } = await supabase
-          .from("boss_nominations")
+          .from("build_nominations_round_2")
           .select("*", { count: "exact", head: true })
           .eq("origin_user_id", user.id);
 

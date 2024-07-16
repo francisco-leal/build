@@ -124,22 +124,7 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
           searchQuery.isError || typeof searchQuery.data === "undefined";
 
         if (searchValue.length < 1) {
-          return (
-            <>
-              <Divider sx={{ my: 2 }}>
-                <Typography level="title-lg" sx={{ color: "common.white" }}>
-                  Or
-                </Typography>
-              </Divider>
-              <Link
-                href={"https://paragraph.xyz/@macedo"}
-                target="_blank"
-                sx={{ color: "common.white", textDecoration: "underline" }}
-              >
-                Read the latest announcements
-              </Link>
-            </>
-          );
+          return <></>;
         }
 
         if (isLoading) {
