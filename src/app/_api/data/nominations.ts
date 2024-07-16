@@ -281,7 +281,8 @@ export const createNewNomination = async (
 
   await createWallet(nominatedWallet.wallet);
 
-  const points_sent = balances.budget / (nominatorUser.nominations_made ?? 1);
+  const amountOfNominations = nominatorUser?.nominations_made ?? 0;
+  const points_sent = balances.budget / (amountOfNominations + 1);
 
   const nomination = await supabase
     .from("build_nominations_round_2")
