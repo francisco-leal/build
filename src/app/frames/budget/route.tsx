@@ -22,8 +22,13 @@ const handler = frames(async (ctx) => {
       ctx.message?.requesterFid ||
       ctx.message?.verifiedWalletAddress;
     const farcasterPfp = ctx.message?.requesterUserData?.profileImage || "";
+    const userAddress =
+      ctx.message?.requesterVerifiedAddresses &&
+      ctx.message?.requesterVerifiedAddresses.length > 0
+        ? ctx.message?.requesterVerifiedAddresses[0]
+        : ctx.message?.verifiedWalletAddress ?? "";
     const farcasterUser = await getFramesUser(ctx);
-    const userBalances = await getUserBalances(farcasterUser);
+    const userBalances = await getUserBalances(farcasterUser, userAddress);
 
     return {
       image: (
@@ -62,7 +67,7 @@ const handler = frames(async (ctx) => {
                   tw="ml-[50px] text-[188px]"
                   style={{ fontFamily: "Bricolage-Bold" }}
                 >
-                  {formatLargeNumber(userBalances.dailyBudget)}
+                  {formatLargeNumber(userBalances.budget)}
                 </p>
               </div>
               <div tw="flex px-[20px] w-auto text-white">

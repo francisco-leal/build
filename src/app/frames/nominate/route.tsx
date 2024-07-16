@@ -159,9 +159,8 @@ const handler = frames(async (ctx) => {
           nominatedImage={walletProfile.image}
           nominatedUsername={walletProfile.username}
           nominatedWallet={walletNominated || ""}
-          dailyBudget={userBalances.dailyBudget}
-          pointsGiven={userBalances.pointsGiven}
-          pointsEarned={userBalances.pointsEarned}
+          dailyBudget={userBalances.budget}
+          pointsGiven={userBalances.budget / (todayNominations.length > 0 ? todayNominations.length : 1)}
           todayNominations={todayNominations.length}
         />
       ),

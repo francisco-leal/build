@@ -1,8 +1,8 @@
 "use client";
 
 import { FunctionComponent } from "react";
-import { useTransition } from "react";
-import { Stack, Typography, Button } from "@mui/joy";
+// import { useTransition } from "react";
+import { Stack, Typography, Button, Link } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { Dice } from "@/shared/icons/dice";
 import { formatNumber } from "@/shared/utils/format-number";
@@ -16,19 +16,19 @@ export type DailyBudgetCardProps = {
 export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
   budget = 0,
   loading,
-  recalculate,
+  // recalculate,
 }) => {
-  const [isTransition, transition] = useTransition();
+  // const [isTransition, transition] = useTransition();
 
-  const recalculateBudget = () =>
-    transition(() => {
-      if (recalculate) recalculate();
-    });
+  // const recalculateBudget = () =>
+  //   transition(() => {
+  //     if (recalculate) recalculate();
+  //   });
 
   return (
     <BlockyCard id="daily-budget">
       <Typography level="body-lg" component="h4" textColor="primary.500">
-        Daily Budget
+        Budget
       </Typography>
 
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
@@ -41,13 +41,17 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Recalculated daily at <strong>00:00 UTC</strong>, based on Points
-        earned, Builder Score, $BUILD Tokens and Streak.
+        Recalculated weekly on Mondays, based on Builder Score, $BUILD Commited
+        and $BUILD held.
       </Typography>
 
-      {recalculate && budget === 0 && (
-        <Button loading={isTransition} onClick={() => recalculateBudget()}>
-          Get a budget
+      {budget === 0 && (
+        <Button
+          component={Link}
+          href={"https://paragraph.xyz/@macedo"}
+          target="_blank"
+        >
+          Read more
         </Button>
       )}
     </BlockyCard>

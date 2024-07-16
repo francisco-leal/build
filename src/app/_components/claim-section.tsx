@@ -80,7 +80,6 @@ export const ClaimSection = ({
 
   useEffect(() => {
     if ((donated as bigint) > 0n) {
-      toast.info("You've already claimed your tokens");
       setShowClaimFlow(false);
       setClaiming(false);
     }

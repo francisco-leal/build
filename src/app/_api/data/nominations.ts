@@ -35,7 +35,6 @@ export type Nomination = {
 
 const SELECT_NOMINATIONS_FROM_USER = `
   id,
-  boss_points_received,
   boss_points_sent,
   origin_user_id,
   origin_wallet_id,
@@ -75,7 +74,7 @@ export const getNomination = async (
   const userId = user.id;
 
   const nomination = await supabase
-    .from("boss_nominations")
+    .from("build_nominations_round_2")
     .select(SELECT_NOMINATIONS_FROM_USER)
     .eq("origin_user_id", userId)
     .eq("valid", true)
@@ -91,7 +90,45 @@ export const getNomination = async (
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
     originRank: user.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    buildPointsReceived: nomination.boss_points_received,
+    buildPointsReceived: 0,
+    buildPointsSent:
+      nomination.boss_points_sent > 0
+        ? nomination.boss_points_sent
+        : user.boss_budget / ((user.nominations_made ?? 0) + 1),
+    destinationWallet: nomination.destination_wallet_id,
+    destinationUsername:
+      nomination.wallets?.users?.username ??
+      nomination.wallets?.username ??
+      abbreviateWalletAddress(nomination.destination_wallet_id),
+    destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
+    createdAt: nomination.created_at,
+  };
+};
+
+export const getNominationThisWeek = async (
+  user: User,
+  wallet: WalletInfo,
+): Promise<Nomination | null> => {
+  const userId = user.id;
+
+  const nomination = await supabase
+    .from("build_nominations_round_2")
+    .select(SELECT_NOMINATIONS_FROM_USER)
+    .eq("origin_user_id", userId)
+    .eq("valid", true)
+    .in("destination_wallet_id", wallet.allWallets)
+    .throwOnError()
+    .then((res) => res.data?.[0]);
+
+  if (!nomination) return null;
+
+  return {
+    id: nomination.id,
+    originUserId: nomination.origin_user_id,
+    originUsername: user.username ?? "", // TODO: a default here should be redundant.
+    originRank: user.boss_leaderboard?.rank ?? null,
+    originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
+    buildPointsReceived: 0,
     buildPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
@@ -109,7 +146,7 @@ export const getNominationsUserSent = async (
   return unstable_cache(
     async () => {
       const { data: nominations } = await supabase
-        .from("boss_nominations")
+        .from("build_nominations_round_2")
         .select(SELECT_NOMINATIONS_FROM_USER)
         .order("created_at", { ascending: false })
         .eq("origin_user_id", user.id)
@@ -123,7 +160,7 @@ export const getNominationsUserSent = async (
           originUsername: user.username ?? "", // TODO: a default here should be redundant.
           originRank: user.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-          buildPointsReceived: nomination.boss_points_received,
+          buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
           destinationWallet: nomination.destination_wallet_id,
           destinationUsername:
@@ -149,7 +186,7 @@ export const getNominationsUserReceived = async (
     async () => {
       const walletsForUser = user.wallets.map((w) => w.wallet);
       const nominations = await supabase
-        .from("boss_nominations")
+        .from("build_nominations_round_2")
         .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
         .in("destination_wallet_id", walletsForUser)
         .eq("valid", true)
@@ -165,7 +202,7 @@ export const getNominationsUserReceived = async (
           originUsername: nomination?.users?.username ?? "",
           originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-          buildPointsReceived: nomination.boss_points_received,
+          buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
           createdAt: nomination.created_at,
           destinationWallet: nomination.destination_wallet_id,
@@ -205,21 +242,15 @@ export const isSelfNomination = async (
   return false;
 };
 
-export const isUpdatingLeaderboard = async () => {
-  // disable this for now
-  // const { data: updates } = await supabase
-  //   .from("scheduled_updates")
-  //   .select("*")
-  //   .is("finished_at", null)
-  //   .eq("job_type", "leaderboard" satisfies JobTypes);
-
-  // if (!updates) return true;
-  // if (updates.length > 0) return true;
-  return false;
-};
-
 export const isDuplicateNomination = async (user: User, wallet: WalletInfo) => {
   return !!(await getNomination(user, wallet));
+};
+
+export const isDuplicateNominationThisWeek = async (
+  user: User,
+  wallet: WalletInfo,
+) => {
+  return !!(await getNominationThisWeek(user, wallet));
 };
 
 export const hasExceededNominationsToday = async (nominatorUser: User) => {
@@ -234,19 +265,9 @@ export const hasNoDailyBudget = async (nominatorUser: User) => {
 export const createNewNomination = async (
   nominatorUser: User,
   nominatedWallet: WalletInfo,
-  // TODO formalize this, instead of it being a complete hack
-  origin_wallet_id?: string,
+  origin_wallet_id: string,
 ): Promise<Nomination> => {
-  const currentTime = DateTime.local();
-  const endOfNominationPeriod = DateTime.fromISO("2024-06-04T21:00:00.000Z");
-
-  if (currentTime >= endOfNominationPeriod) {
-    throw new BadRequestError(
-      "Nomination period for Airdrop 1 has ended! Nominations will resume soon.",
-    );
-  }
-
-  const balances = await getUserBalances(nominatorUser);
+  const balances = await getUserBalances(nominatorUser, origin_wallet_id);
 
   if (await hasNoDailyBudget(nominatorUser)) {
     throw new BadRequestError("You need a BUILD budget to nominate!");
@@ -254,28 +275,22 @@ export const createNewNomination = async (
   if (await isSelfNomination(nominatorUser, nominatedWallet)) {
     throw new BadRequestError("You cannot nominate yourself!");
   }
-  if (await isDuplicateNomination(nominatorUser, nominatedWallet)) {
+  if (await isDuplicateNominationThisWeek(nominatorUser, nominatedWallet)) {
     throw new BadRequestError("You already nominated this builder before!");
-  }
-  if (await hasExceededNominationsToday(nominatorUser)) {
-    throw new BadRequestError("You have already nominated 3 builders today!");
-  }
-  if (await isUpdatingLeaderboard()) {
-    throw new BadRequestError(
-      "Leaderboard is currently updating, please try again later!",
-    );
   }
 
   await createWallet(nominatedWallet.wallet);
 
+  const amountOfNominations = nominatorUser?.nominations_made ?? 0;
+  const points_sent = balances.budget / (amountOfNominations + 1);
+
   const nomination = await supabase
-    .from("boss_nominations")
+    .from("build_nominations_round_2")
     .insert({
       origin_user_id: nominatorUser.id,
       origin_wallet_id: origin_wallet_id,
       destination_wallet_id: nominatedWallet.wallet,
-      boss_points_received: balances.pointsEarned,
-      boss_points_sent: balances.pointsGiven,
+      boss_points_sent: points_sent,
     })
     .select(SELECT_NOMINATIONS_FROM_USER)
     .single()
@@ -288,21 +303,25 @@ export const createNewNomination = async (
     user_to_update: nominatorUser.id,
   });
 
-  await supabase.rpc("update_boss_score_for_user", {
-    user_to_update: nominatorUser.id,
+  await supabase.rpc("update_nominations_made", {
+    p_user_id: nominatorUser.id,
   });
 
-  if (nominatedWallet.userId) {
-    await supabase.rpc("update_boss_score_for_user", {
-      user_to_update: nominatedWallet.userId,
-    });
-  }
+  await supabase.rpc("distribute_nomination_points", {
+    origin_user_id: nominatorUser.id,
+  });
 
-  await notifyBuildBot(
-    origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",
-    nominatedWallet.wallet,
-    balances.pointsGiven,
-  );
+  // if (nominatedWallet.userId) {
+  //   await supabase.rpc("update_boss_score_for_user", {
+  //     user_to_update: nominatedWallet.userId,
+  //   });
+  // }
+
+  // await notifyBuildBot(
+  //   origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",
+  //   nominatedWallet.wallet,
+  //   balances.pointsGiven,
+  // );
 
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
@@ -322,7 +341,7 @@ export const createNewNomination = async (
     originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
     originRank: nominatorUser.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    buildPointsReceived: nomination.boss_points_received,
+    buildPointsReceived: 0,
     buildPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
@@ -347,7 +366,7 @@ export const getNominationsCountOverall = async (): Promise<number> => {
   return unstable_cache(
     async () => {
       const { data: nominations, count } = await supabase
-        .from("boss_nominations")
+        .from("build_nominations_round_2")
         .select("id", { count: "exact", head: true });
 
       return count || 0;
@@ -364,7 +383,7 @@ export const getTopNominationsForUser = async (
     async () => {
       const wallets = user.wallets.map((w) => w.wallet);
       const nominations = await supabase
-        .from("boss_nominations")
+        .from("build_nominations_round_2")
         .select(SELECT_NOMINATIONS_TO_USER_SIMPLIFIED)
         .in("destination_wallet_id", wallets)
         .eq("valid", true)
@@ -382,7 +401,7 @@ export const getTopNominationsForUser = async (
           originFarcasterId: nomination?.users?.farcaster_id ?? null,
           originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-          buildPointsReceived: nomination.boss_points_received,
+          buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
           destinationWallet: nomination.destination_wallet_id,
           destinationUsername:
@@ -405,7 +424,7 @@ export const getNominationsCountForUser = async (
     async () => {
       const wallets = user.wallets.map((w) => w.wallet);
       const nominationsCount = await supabase
-        .from("boss_nominations")
+        .from("build_nominations_round_2")
         .select("id", {
           count: "exact",
           head: true,

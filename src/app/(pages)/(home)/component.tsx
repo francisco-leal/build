@@ -8,16 +8,12 @@ import { SearchBuilder } from "@/app/_components/search-builder";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionSlim } from "@/shared/components/hero-section-slim";
+import { Coin } from "@/shared/icons/coin";
 import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
-import { Terminal } from "@/shared/icons/terminal";
-import { formatNumber } from "@/shared/utils/format-number";
-import { useReadContract } from "wagmi";
-
-import { erc20Abi, formatEther } from "viem";
-import { base } from "viem/chains";
-import { Coin } from "@/shared/icons/coin";
+import { Refresh } from "@/shared/icons/refresh";
+import { formatNumber, formatLargeNumber } from "@/shared/utils/format-number";
 
 type HomePageComponentProps = {
   loading?: boolean;
@@ -31,58 +27,67 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
   nominationsCount,
   usersCount,
 }) => {
-  const { data: tokens, isLoading } = useReadContract({
-    abi: erc20Abi,
-    address: BUILD_TOKEN_ADDRESS,
-    functionName: "balanceOf",
-    args: ["0x5589fd6856534a3adfe16173aa308d2dc0e8fb5b"],
-    chainId: base.id,
-  });
-
   return (
     <Stack component="main" sx={{ position: "relative" }}>
       <BackgroundImage />
       <HeroSectionSlim sx={{ mb: 0 }}>
         <Typography level="h1">
-          Nominate <Interface /> the best builders <MusicHeadset /> you know.
+          Nominate <Interface /> your favorite <MusicHeadset /> builders.
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung onchain heroes.{" "}
-          <Box component={"br"} display={{ xs: "none", sm: "initial" }} />
-          Nominate incredible builders to give and earn BUILD
+          Reward your favorite builders with $BUILD every week.
+          <Box component={"br"} display={{ xs: "none", sm: "initial" }} />{" "}
+          Nominations reset every Monday.
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
-      <HeroSection
-        sx={{ gap: 3, mt: { xs: 0, md: -6 }, maxWidth: "600px" }}
-      >
-        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
-          <Typography level="title-lg" textColor="primary.500">
-            BUILD Summer Fund
-          </Typography>
-          <Typography
-            textColor="neutral.900"
-            sx={{
-              fontWeight: 700,
-              lineHeight: "133%",
-              fontSize: "36px",
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {isLoading ? "---.--" : formatNumber(parseInt(formatEther(tokens ?? 62017513678n*(10n**18n))), 0)}
-          </Typography>
-        </BlockyCard>
+
+      <HeroSection>
+        <Stack
+          sx={{ height: "100%", flex: 1, p: 5, gap: 5, alignItems: "center" }}
+        >
+          <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
+            <Lego sx={{ fontSize: "64px" }} />
+            <Typography level="h3">What is BUILD?</Typography>
+            <Typography sx={{ maxWidth: "600px" }}>
+              BUILD is a token of appreciation on Base, and a social game that
+              rewards onchain builders via peer nominations.
+            </Typography>
+
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Button
+                variant="solid"
+                color="neutral"
+                component={Link}
+                href="/stats"
+                target="_blank"
+                underline="none"
+                sx={{ mt: 2 }}
+              >
+                Check points
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                component={Link}
+                href="https://passport.talentprotocol.com"
+                target="_blank"
+                underline="none"
+                sx={{ mt: 2 }}
+              >
+                Learn more
+              </Button>
+            </Box>
+          </Stack>
+        </Stack>
       </HeroSection>
       <HeroSection
         sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
       >
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
-            Total Builders
+            Nominations
           </Typography>
           <Typography
             textColor="neutral.900"
@@ -96,12 +101,12 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(usersCount ?? 0, 0)}
+            {formatNumber(1794755 + (nominationsCount ?? 0), 0)}
           </Typography>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
-            Total Nominations
+            $BUILD holders
           </Typography>
           <Typography
             textColor="neutral.900"
@@ -115,53 +120,50 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Interface sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(nominationsCount ?? 0, 0)}
+            {formatNumber(40667 ?? 0, 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
       <HeroSection
         sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
       >
-        <BlockyCard sx={{ minHeight: 250 }}>
-          <Lego />
-          <Typography level="h3" textColor="common.black">
-            What is BUILD?
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            Casts in /build
           </Typography>
-          <Typography textColor="neutral.500">
-            BUILD is a token of appreciation on Base, and a social game that
-            rewards onchain builders via peer nominations.
-          </Typography>
-          <Button
-            href={
-              "https://app.uniswap.org/explore/tokens/base/0x3c281a39944a2319aa653d81cfd93ca10983d234"
-            }
-            target="_blank"
-            component={Link}
-            variant="solid"
-            color="primary"
-            sx={{ mt: 2 }}
+          <Typography
+            textColor="neutral.900"
+            sx={{
+              fontWeight: 700,
+              lineHeight: "133%",
+              fontSize: "36px",
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
           >
-            Buy $BUILD
-          </Button>
+            <Refresh sx={{ "&&": { height: 32, width: 32 } }} />
+            {formatNumber(54789, 0)}
+          </Typography>
         </BlockyCard>
-        <BlockyCard sx={{ minHeight: 250 }}>
-          <Terminal />
-          <Typography level="h3" textColor="common.black">
-            How BUILD works?
+        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
+          <Typography level="body-lg" textColor="primary.500">
+            Market Cap
           </Typography>
-          <Typography textColor="neutral.500">
-            Players have a budget of BUILD points to donate to 3 builders/day.
-            Points will convert to $BUILD tokens in June.
-          </Typography>
-          <Button
-            href={"/airdrop/#daily-budget"}
-            component={Link}
-            variant="solid"
-            color="primary"
-            sx={{ mt: 2 }}
+          <Typography
+            textColor="neutral.900"
+            sx={{
+              fontWeight: 700,
+              lineHeight: "133%",
+              fontSize: "36px",
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
           >
-            See BUILD budget
-          </Button>
+            <Coin sx={{ "&&": { height: 32, width: 32 } }} />
+            {formatLargeNumber(2410000)}
+          </Typography>
         </BlockyCard>
       </HeroSection>
       <HeroSection>
