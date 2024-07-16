@@ -6,9 +6,13 @@ import { COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT } from "@/config/coinvise-wallets";
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
+import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { getFarcasterUser } from "../external/farcaster";
-import { getTalentProtocolUser } from "../external/talent-protocol";
+import {
+  getTalentProtocolUser,
+  getTalentProtocolCredentials,
+} from "../external/talent-protocol";
 import {
   CACHE_5_MINUTES,
   CacheKey,
@@ -34,6 +38,26 @@ export type User = RawUser & {
 export type CurrentUser = User & {
   /** The wallet the user authenticated with for this session */
   wallet: string;
+};
+
+const calculateUserBudget = async (user: User, wallet: string) => {
+  const credentials = await getTalentProtocolCredentials(user.passport_id!);
+  const tokenAmount = await getBalance(wallet);
+  const builderScore = user.passport_builder_score;
+
+  const budget =
+    builderScore * 20 +
+    Math.sqrt(0.01 * tokenAmount) +
+    Math.sqrt(0.1 * user.build_commit_amount);
+
+  const { error } = await supabase
+    .from("users")
+    .update({ boss_budget: budget })
+    .eq("id", user.id)
+    .throwOnError();
+
+  console.log(error);
+  return budget;
 };
 
 export const getUserFromId = async (userId: string): Promise<User | null> => {
@@ -67,7 +91,8 @@ export const getUserFromWallet = async (
   return await getUserFromId(userId);
 };
 
-export const getUserBalances = async (user: User) => {
+export const getUserBalances = async (user: User, wallet: string) => {
+  console.log("---- CALCULATING USER BUDGET ----");
   let user_budget = user.boss_budget;
   const today = DateTime.local().startOf("day");
   const lastUpdateOfBudget = DateTime.fromISO(
@@ -78,32 +103,14 @@ export const getUserBalances = async (user: User) => {
     today.diff(lastUpdateOfBudget, "days").days > 0;
 
   if (shouldUpdateBudget) {
-    // Recalculate the budget via talent protocol API
-    // the only thing that needs to be recalculated is the number of tokens you hold
-    // the rest we can run a script to calculate
-    // add builder comitter amount to the user table
-    // add to airdrop table the ones that commited
-    const result = await supabase.rpc("calculate_boss_budget_user", {
-      user_to_update: user.id,
-    });
-
-    if (result.error) {
-      console.error(
-        `Error Recalculating builder budget: ${result.error.message}`,
-      );
-    } else {
-      user_budget = result.data;
-      user.boss_budget = user_budget;
-      revalidatePath(`/stats`);
-      revalidateTag(`user_${user.id}`);
-    }
+    const budget = await calculateUserBudget(user, wallet);
+    user.boss_budget = budget;
+    revalidatePath(`/stats`);
+    revalidateTag(`user_${user.id}`);
   }
 
   return {
-    dailyBudget: user_budget,
-    pointsGiven: user_budget * 0.9,
-    pointsEarned: user_budget * 0.1,
-    totalPoints: user.boss_score + user_budget * 0.1,
+    budget: user_budget,
   };
 };
 
@@ -202,6 +209,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     valid_farcaster_id: null,
     eligible: null,
     nominations_made: null,
+    build_commit_amount: 0,
   };
 
   const user = await supabase

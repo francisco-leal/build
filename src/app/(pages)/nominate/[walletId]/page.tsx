@@ -85,7 +85,7 @@ export default async function NominateBuilder({
     );
   }
 
-  const userBalances = await getUserBalances(currentUser);
+  const userBalances = await getUserBalances(currentUser, currentUser.wallet);
   const todaysNominations = await getNominationsFromUserToday(currentUser);
   const sharableWarpcastLink = getWarpcastSharableLinkSingleBuilder(
     builder.username,
@@ -105,10 +105,6 @@ export default async function NominateBuilder({
             {
               label: "Points given",
               value: formatNumber(previousNomination.buildPointsSent),
-            },
-            {
-              label: "Points earned",
-              value: formatNumber(previousNomination.buildPointsReceived),
             },
           ]}
         />
@@ -136,7 +132,7 @@ export default async function NominateBuilder({
             },
             {
               label: "My Weekly Budget",
-              value: formatNumber(userBalances.dailyBudget),
+              value: formatNumber(userBalances.budget),
             },
             {
               label: "Noms made this week",
@@ -145,7 +141,7 @@ export default async function NominateBuilder({
             {
               label: "Points per Nomination",
               value: formatNumber(
-                userBalances.dailyBudget / (todaysNominations.length + 1),
+                userBalances.budget / (todaysNominations.length + 1),
               ),
             },
           ]}
@@ -173,7 +169,7 @@ export default async function NominateBuilder({
         },
         {
           label: "My weekly budget",
-          value: formatNumber(userBalances.dailyBudget, 0),
+          value: formatNumber(userBalances.budget, 0),
         },
         {
           label: "Nominations this week",
@@ -182,7 +178,7 @@ export default async function NominateBuilder({
         {
           label: "Each nom receives",
           value: formatNumber(
-            userBalances.dailyBudget / (todaysNominations.length + 1),
+            userBalances.budget / (todaysNominations.length + 1),
             0,
           ),
         },

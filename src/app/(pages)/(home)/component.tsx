@@ -13,7 +13,7 @@ import { Interface } from "@/shared/icons/interface";
 import { Lego } from "@/shared/icons/lego";
 import { MusicHeadset } from "@/shared/icons/music-headset";
 import { Refresh } from "@/shared/icons/refresh";
-import { formatNumber } from "@/shared/utils/format-number";
+import { formatNumber, formatLargeNumber } from "@/shared/utils/format-number";
 
 type HomePageComponentProps = {
   loading?: boolean;
@@ -162,7 +162,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(2400000, 0)}
+            {formatLargeNumber(2410000)}
           </Typography>
         </BlockyCard>
       </HeroSection>

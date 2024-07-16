@@ -35,7 +35,6 @@ export type Nomination = {
 
 const SELECT_NOMINATIONS_FROM_USER = `
   id,
-  boss_points_received,
   boss_points_sent,
   origin_user_id,
   origin_wallet_id,
@@ -91,8 +90,11 @@ export const getNomination = async (
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
     originRank: user.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    buildPointsReceived: nomination.boss_points_received,
-    buildPointsSent: nomination.boss_points_sent,
+    buildPointsReceived: 0,
+    buildPointsSent:
+      nomination.boss_points_sent > 0
+        ? nomination.boss_points_sent
+        : user.boss_budget / ((user.nominations_made ?? 0) + 1),
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
       nomination.wallets?.users?.username ??
@@ -126,7 +128,7 @@ export const getNominationThisWeek = async (
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
     originRank: user.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    buildPointsReceived: nomination.boss_points_received,
+    buildPointsReceived: 0,
     buildPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
@@ -158,7 +160,7 @@ export const getNominationsUserSent = async (
           originUsername: user.username ?? "", // TODO: a default here should be redundant.
           originRank: user.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-          buildPointsReceived: nomination.boss_points_received,
+          buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
           destinationWallet: nomination.destination_wallet_id,
           destinationUsername:
@@ -200,7 +202,7 @@ export const getNominationsUserReceived = async (
           originUsername: nomination?.users?.username ?? "",
           originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-          buildPointsReceived: nomination.boss_points_received,
+          buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
           createdAt: nomination.created_at,
           destinationWallet: nomination.destination_wallet_id,
@@ -265,7 +267,7 @@ export const createNewNomination = async (
   nominatedWallet: WalletInfo,
   origin_wallet_id: string,
 ): Promise<Nomination> => {
-  const balances = await getUserBalances(nominatorUser);
+  const balances = await getUserBalances(nominatorUser, origin_wallet_id);
 
   if (await hasNoDailyBudget(nominatorUser)) {
     throw new BadRequestError("You need a BUILD budget to nominate!");
@@ -285,8 +287,7 @@ export const createNewNomination = async (
       origin_user_id: nominatorUser.id,
       origin_wallet_id: origin_wallet_id,
       destination_wallet_id: nominatedWallet.wallet,
-      boss_points_received: balances.pointsEarned,
-      boss_points_sent: balances.pointsGiven, //@TODO: change this to rpc call to function to update points
+      boss_points_sent: 0,
     })
     .select(SELECT_NOMINATIONS_FROM_USER)
     .single()
@@ -333,7 +334,7 @@ export const createNewNomination = async (
     originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
     originRank: nominatorUser.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    buildPointsReceived: nomination.boss_points_received,
+    buildPointsReceived: 0,
     buildPointsSent: nomination.boss_points_sent,
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
@@ -393,7 +394,7 @@ export const getTopNominationsForUser = async (
           originFarcasterId: nomination?.users?.farcaster_id ?? null,
           originRank: nomination?.users?.boss_leaderboard?.rank ?? null,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-          buildPointsReceived: nomination.boss_points_received,
+          buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
           destinationWallet: nomination.destination_wallet_id,
           destinationUsername:

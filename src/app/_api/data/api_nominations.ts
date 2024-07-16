@@ -48,7 +48,7 @@ export const getNominationsForApi = async (params: {
       return (
         nominations?.map((nomination) => ({
           origin_wallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-          build_points_received: nomination.boss_points_received,
+          build_points_received: 0,
           build_points_sent: nomination.boss_points_sent,
           destination_wallet: nomination.destination_wallet_id,
           nominated_at: nomination.created_at,

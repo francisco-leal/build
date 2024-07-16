@@ -223,7 +223,6 @@ export type Database = {
       };
       build_nominations_round_2: {
         Row: {
-          boss_points_received: number;
           boss_points_sent: number;
           cast_id: number | null;
           created_at: string;
@@ -234,7 +233,6 @@ export type Database = {
           valid: boolean;
         };
         Insert: {
-          boss_points_received: number;
           boss_points_sent: number;
           cast_id?: number | null;
           created_at?: string;
@@ -245,7 +243,6 @@ export type Database = {
           valid?: boolean;
         };
         Update: {
-          boss_points_received?: number;
           boss_points_sent?: number;
           cast_id?: number | null;
           created_at?: string;
@@ -302,6 +299,7 @@ export type Database = {
           boss_nomination_streak: number;
           boss_score: number;
           budget_multiplier: number;
+          build_commit_amount: number;
           coinvise_nft: boolean;
           created_at: string;
           eligible: boolean | null;
@@ -324,6 +322,7 @@ export type Database = {
           boss_nomination_streak?: number;
           boss_score?: number;
           budget_multiplier?: number;
+          build_commit_amount?: number;
           coinvise_nft?: boolean;
           created_at?: string;
           eligible?: boolean | null;
@@ -346,6 +345,7 @@ export type Database = {
           boss_nomination_streak?: number;
           boss_score?: number;
           budget_multiplier?: number;
+          build_commit_amount?: number;
           coinvise_nft?: boolean;
           created_at?: string;
           eligible?: boolean | null;
