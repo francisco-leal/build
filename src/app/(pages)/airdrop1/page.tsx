@@ -18,15 +18,15 @@ import { Helicopter } from "@/shared/icons/helicopter";
 
 export const maxDuration = 60;
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    other: {
-      ...(await fetchMetadata(
-        new URL(FRAMES_BASE_PATH + `/airdrop1`, appURL()),
-      )),
-    },
-  };
-}
+// export async function generateMetadata(): Promise<Metadata> {
+//   return {
+//     other: {
+//       ...(await fetchMetadata(
+//         new URL(FRAMES_BASE_PATH + `/airdrop1`, appURL()),
+//       )),
+//     },
+//   };
+// }
 
 export default async function Airdrop1Page() {
   const user = await getCurrentUser();
