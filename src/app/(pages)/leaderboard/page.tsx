@@ -16,7 +16,7 @@ export default async function AirdropPage() {
   const shortFormat = "LLL dd, hh:mm a 'UTC'";
   const lastUpdate = now.toFormat(shortFormat);
   const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
-  const topLeaderboardValues = await getTableLeaderboardValues();
+  // const topLeaderboardValues = await getTableLeaderboardValues();
 
   return (
     <Stack component="main">
@@ -29,9 +29,9 @@ export default async function AirdropPage() {
           Summer Leaderboard
         </Typography>
         <Stack className="overflow">
-          <TableLeaderboard values={topLeaderboardValues} />
+          <TableLeaderboard values={[]} />
         </Stack>
-        {topLeaderboardValues.length > 0 && (
+        {[].length > 0 && (
           <Typography
             className="no-overflow"
             level="body-sm"
@@ -40,7 +40,7 @@ export default async function AirdropPage() {
             Last update on {lastUpdate}. Next update on {nextUpdate}
           </Typography>
         )}
-        {topLeaderboardValues.length === 0 && (
+        {[].length === 0 && (
           <Typography
             className="no-overflow"
             level="body-sm"
