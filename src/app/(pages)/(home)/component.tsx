@@ -33,15 +33,12 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
       <BackgroundImage />
       <HeroSectionSlim sx={{ mb: 0 }}>
         <Typography level="h1">
-          Nominate <Interface /> your favorite <MusicHeadset /> onchain
-          builders.
+          Nominate <Interface /> your favorite <MusicHeadset /> builders.
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung onchain heroes.
-          <Box component={"br"} display={{ xs: "none", sm: "initial" }} />
           Reward your favorite builders with $BUILD every week.
-          <Box component={"br"} display={{ xs: "none", sm: "initial" }} />
+          <Box component={"br"} display={{ xs: "none", sm: "initial" }} />{" "}
           Nominations reset every Monday.
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />

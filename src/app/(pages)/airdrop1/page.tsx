@@ -46,10 +46,10 @@ export default async function Airdrop1Page() {
             gap: 1,
           }}
         >
-          Claim <Helicopter /> Airdrop
+          Claim <Helicopter /> Round 1
         </Typography>
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          The Airdrop 1 token claiming period is closed.{" "}
+          The claiming period for Airdrop 1: Round 1 is closed.{" "}
           <Link
             href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
             target="_blank"
@@ -78,9 +78,6 @@ export default async function Airdrop1Page() {
           getTreeProof={getTreeProof}
           getMultiplierProof={getTreeMultiplierProof}
         />
-      </HeroSection>
-      <HeroSection>
-        <HowToPlay />
       </HeroSection>
     </Stack>
   );

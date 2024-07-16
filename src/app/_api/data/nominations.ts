@@ -309,11 +309,11 @@ export const createNewNomination = async (
     });
   }
 
-  await notifyBuildBot(
-    origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",
-    nominatedWallet.wallet,
-    balances.pointsGiven,
-  );
+  // await notifyBuildBot(
+  //   origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",
+  //   nominatedWallet.wallet,
+  //   balances.pointsGiven,
+  // );
 
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);

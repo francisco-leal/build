@@ -98,12 +98,12 @@ export default function Tokenomics() {
       </HeroSection>
       <HeroSection>
         <Typography level="h2" textColor={"common.white"}>
-          By builders, for builders.
+          Governance
         </Typography>
 
         <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
           Get to know the stewards team and verify current status of the
-          community treasury.
+          community treasury. Built by builders, for builders.
         </Typography>
 
         <Button

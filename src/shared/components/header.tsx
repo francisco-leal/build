@@ -72,7 +72,6 @@ export const Header: FunctionComponent = () => {
             },
           }}
         >
-          <Link href="/">Summer</Link>
           <Link disabled={activePath === "stats"} href="/stats">
             Dashboard
           </Link>
@@ -164,7 +163,7 @@ export const Header: FunctionComponent = () => {
           href="/"
           onClick={drawer.close}
         >
-          Summer
+          Home
         </Link>
         <Link
           component={NextLink}

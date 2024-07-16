@@ -26,7 +26,7 @@ export default async function AirdropPage() {
           className="no-overflow"
           textColor={"common.white"}
         >
-          Leaderboard
+          Summer Leaderboard
         </Typography>
         <Stack className="overflow">
           <TableLeaderboard values={topLeaderboardValues} />
@@ -39,10 +39,6 @@ export default async function AirdropPage() {
           Last update on {lastUpdate}. Next update on {nextUpdate}
         </Typography>
       </HeroSectionWithOverflow>
-
-      <HeroSection>
-        <HowToPlay />
-      </HeroSection>
     </Stack>
   );
 }

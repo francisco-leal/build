@@ -65,7 +65,13 @@ export default async function AirdropPage() {
           <CardDailyStreak streak={user.boss_nomination_streak} />
         </Stack>
       </HeroSection>
-      <HeroSection sx={{ flexDirection: { xs: "column", lg: "row" }, gap: 2 }}>
+      <HeroSection
+        sx={{
+          flexDirection: { xs: "column", lg: "row" },
+          gap: 2,
+          alignItems: "start",
+        }}
+      >
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography level="h2" className="no-overflow">
             Nominations Received

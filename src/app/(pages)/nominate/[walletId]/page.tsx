@@ -172,17 +172,18 @@ export default async function NominateBuilder({
           value: today,
         },
         {
-          label: "My Weekly Budget",
-          value: formatNumber(userBalances.dailyBudget),
+          label: "My weekly budget",
+          value: formatNumber(userBalances.dailyBudget, 0),
         },
         {
-          label: "Noms made this week",
-          value: `${todaysNominations.length}`,
+          label: "Nominations this week",
+          value: `${todaysNominations.length + 1}`,
         },
         {
-          label: "Points per Nomination",
+          label: "Each nom receives",
           value: formatNumber(
             userBalances.dailyBudget / (todaysNominations.length + 1),
+            0,
           ),
         },
       ]}

@@ -52,10 +52,9 @@ export const AnnouncementBar = ({
             textColor="common.black"
             margin={0}
             sx={{
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
+              textAlign: "left",
               maxWidth: "100%",
+              display: { xs: "none", lg: "block" },
             }}
           >
             {message}

@@ -1,8 +1,8 @@
 "use client";
 
 import { FunctionComponent } from "react";
-import { useTransition } from "react";
-import { Stack, Typography, Button } from "@mui/joy";
+// import { useTransition } from "react";
+import { Stack, Typography, Button, Link } from "@mui/joy";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { Dice } from "@/shared/icons/dice";
 import { formatNumber } from "@/shared/utils/format-number";
@@ -16,14 +16,14 @@ export type DailyBudgetCardProps = {
 export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
   budget = 0,
   loading,
-  recalculate,
+  // recalculate,
 }) => {
-  const [isTransition, transition] = useTransition();
+  // const [isTransition, transition] = useTransition();
 
-  const recalculateBudget = () =>
-    transition(() => {
-      if (recalculate) recalculate();
-    });
+  // const recalculateBudget = () =>
+  //   transition(() => {
+  //     if (recalculate) recalculate();
+  //   });
 
   return (
     <BlockyCard id="daily-budget">
@@ -45,9 +45,13 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
         and $BUILD held.
       </Typography>
 
-      {recalculate && budget === 0 && (
-        <Button loading={isTransition} onClick={() => recalculateBudget()}>
-          Get a budget
+      {budget === 0 && (
+        <Button
+          component={Link}
+          href={"https://paragraph.xyz/@macedo"}
+          target="_blank"
+        >
+          Read more
         </Button>
       )}
     </BlockyCard>
