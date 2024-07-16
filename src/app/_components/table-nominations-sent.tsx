@@ -29,8 +29,6 @@ export const TableNominationsSent: FunctionComponent<
         <tr>
           <th>Date</th>
           <th>Name</th>
-          <th>Rank</th>
-          <th>Points Sent</th>
         </tr>
       </thead>
       <tbody>
@@ -39,39 +37,26 @@ export const TableNominationsSent: FunctionComponent<
             <Box
               component={"tr"}
               key={val.key}
-              className={[
-                val.missed ? "yellow" : "",
-                val.odd ? "odd" : "",
-              ].join(" ")}
+              className={[val.odd ? "odd" : ""].join(" ")}
             >
               <td>{val.date}</td>
-              {val.missed ? (
-                <>
-                  <td>Missed</td>
-                  <td>---</td>
-                  <td>---</td>
-                </>
-              ) : (
-                <>
-                  <td>
-                    <Link
-                      component={NextLink}
-                      href={`/nominate/${val.wallet}`}
-                      scroll={false}
-                    >
-                      {abbreviateWalletAddress(val.name)}
-                    </Link>
-                  </td>
-                  <td>{val.rank ?? "---"}</td>
-                  <td>{formatNumber(val.pointsGiven ?? 0, 0)}</td>
-                </>
-              )}
+              <>
+                <td>
+                  <Link
+                    component={NextLink}
+                    href={`/nominate/${val.wallet}`}
+                    scroll={false}
+                  >
+                    {abbreviateWalletAddress(val.name)}
+                  </Link>
+                </td>
+              </>
             </Box>
           ))}
         {loading &&
           [1, 2, 3, 4, 5].map((i) => (
             <tr key={i}>
-              <td colSpan={4}>
+              <td colSpan={2}>
                 <Skeleton variant="text" />
               </td>
             </tr>

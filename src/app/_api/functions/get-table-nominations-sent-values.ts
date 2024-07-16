@@ -10,13 +10,6 @@ export const getTableNominationsSentValues = async (): Promise<
   const user = await getCurrentUser();
   if (!user) return notFound();
   const nominations = await getNominationsUserSent(user);
-  const firstNominationIso = nominations.at(-1)?.createdAt;
-  const firstDate = firstNominationIso
-    ? DateTime.fromISO(firstNominationIso)
-    : DateTime.utc();
-  const lastDate = DateTime.fromISO("2024-06-04T21:00:00.000Z");
-
-  const numberOfDays = lastDate.diff(firstDate, "days").days;
 
   // Create table values that exist
   const values = nominations.map(
@@ -30,24 +23,6 @@ export const getTableNominationsSentValues = async (): Promise<
       wallet: n.destinationWallet,
     }),
   );
-
-  // Fill in the missing dates
-  for (let i = 0; i < numberOfDays; i++) {
-    const date = firstDate.plus({ days: i }).toFormat("LLL dd");
-    const numberOfEntries = values.filter((v) => v.date === date).length;
-    const missingEntries = Math.max(3 - numberOfEntries, 0);
-    values.push(
-      ...[...Array(missingEntries).keys()].map((k) => ({
-        key: `missing-${date}-${k}`,
-        date: firstDate.plus({ days: i }).toFormat("LLL dd"),
-        missed: true,
-        name: "",
-        rank: null,
-        pointsGiven: 0,
-        wallet: "",
-      })),
-    );
-  }
 
   // Sort the table by date
   const sortedValues = values.toSorted((a, b) => {

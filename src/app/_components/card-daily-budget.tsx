@@ -28,7 +28,7 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
   return (
     <BlockyCard id="daily-budget">
       <Typography level="body-lg" component="h4" textColor="primary.500">
-        Daily Budget
+        Budget
       </Typography>
 
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
@@ -41,8 +41,8 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Recalculated daily at <strong>00:00 UTC</strong>, based on Points
-        earned, Builder Score, $BUILD Tokens and Streak.
+        Recalculated weekly on Mondays, based on Builder Score, $BUILD Commited
+        and $BUILD held.
       </Typography>
 
       {recalculate && budget === 0 && (

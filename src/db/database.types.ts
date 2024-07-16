@@ -225,6 +225,7 @@ export type Database = {
         Row: {
           boss_points_received: number;
           boss_points_sent: number;
+          cast_id: number | null;
           created_at: string;
           destination_wallet_id: string;
           id: number;
@@ -235,6 +236,7 @@ export type Database = {
         Insert: {
           boss_points_received: number;
           boss_points_sent: number;
+          cast_id?: number | null;
           created_at?: string;
           destination_wallet_id: string;
           id?: number;
@@ -245,6 +247,7 @@ export type Database = {
         Update: {
           boss_points_received?: number;
           boss_points_sent?: number;
+          cast_id?: number | null;
           created_at?: string;
           destination_wallet_id?: string;
           id?: number;

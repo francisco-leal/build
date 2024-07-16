@@ -1,5 +1,5 @@
 import { default as Image } from "next/image";
-import { Stack } from "@mui/joy";
+import { Button, Stack } from "@mui/joy";
 import { Typography, Box, Link } from "@mui/joy";
 import { BackgroundImage } from "@/app/_components/background-image";
 import { BlockyCard } from "@/shared/components/blocky-card";
@@ -9,6 +9,8 @@ import { ExternalLink } from "@/shared/icons/external-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { default as mobileGraph } from "./_images/bossnomics-graph-mobile.png";
 import { default as desktopGraph } from "./_images/bossnomics-graph.png";
+import { default as mobileCycle } from "./_images/build-cycle-mobile.png";
+import { default as desktopCycle } from "./_images/build-cycle.png";
 
 export default function Tokenomics() {
   return (
@@ -22,10 +24,29 @@ export default function Tokenomics() {
         </Typography>
 
         <Typography level="title-lg" sx={{ pb: 8 }}>
-          $BUILD is an ERC-20 token on Base with a total supply of a 1T. It
-          launched on May 2024, with a crowdfund on party.app, followed by
-          community airdrops to onchain builders.
+          $BUILD is a token of appreciation on Base, and a nominations game to
+          reward onchain builders with both social and financial capital.
         </Typography>
+        <Box
+          component={Image}
+          src={desktopCycle}
+          alt="graph"
+          sx={{
+            width: "100%",
+            height: "auto",
+            display: { xs: "none", sm: "block" },
+          }}
+        />
+        <Box
+          component={Image}
+          src={mobileCycle}
+          alt="graph"
+          sx={{
+            width: "100%",
+            height: "auto",
+            display: { xs: "block", sm: "none" },
+          }}
+        />
       </HeroSectionSlim>
       <HeroSection>
         <Typography level="h2" textColor={"common.white"}>
@@ -33,9 +54,10 @@ export default function Tokenomics() {
         </Typography>
 
         <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
-          60% of tokens are intended for the community and ecosystem. The other
-          40% are related with the initial liquidity pool on Uniswap and
-          liquidity mining rewards.
+          $BUILD is an ERC-20 token on Base with a total supply of a 1T. It
+          launched on May 1st 2024, with a crowdfund on party.app. 60% of tokens
+          are allocated to the community and ecosystem, and other 40% are
+          related with liquidity
         </Typography>
 
         <Link
@@ -73,6 +95,29 @@ export default function Tokenomics() {
             }}
           />
         </BlockyCard>
+      </HeroSection>
+      <HeroSection>
+        <Typography level="h2" textColor={"common.white"}>
+          By builders, for builders.
+        </Typography>
+
+        <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
+          Get to know the stewards team and verify current status of the
+          community treasury.
+        </Typography>
+
+        <Button
+          component={Link}
+          href={
+            "https://buildcommunity.notion.site/BUILD-Project-Info-7f976b4572f243f38bdf97e42d16316e?pvs=74"
+          }
+          target="_blank"
+          variant="solid"
+          color="neutral"
+          sx={{ mt: 2 }}
+        >
+          Project Info
+        </Button>
       </HeroSection>
     </Stack>
   );

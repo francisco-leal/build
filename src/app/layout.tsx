@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import { cookieToInitialState } from "wagmi";
 import { Web3ModalProvider } from "@/app/_providers/web-3-modal-provider";
 import { config } from "@/config";
+import { AnnouncementBar } from "@/shared/components/announcement-bar";
 import { Footer } from "@/shared/components/footer";
 import { Header } from "@/shared/components/header";
 import { ThemeRegistry } from "@/shared/theme/theme-registry";
@@ -104,6 +105,12 @@ export default function RootLayout({
           <Web3ModalProvider initialState={initialState}>
             <AuthenticationProvider>
               <Header />
+              <AnnouncementBar
+                title="BUILD Noms Are Back"
+                message="A 2nd round of BUILD noms will kick off on July 16th and distribute 50B $BUILD."
+                action="Read more"
+                link="https://paragraph.xyz/@macedo/build-log-7"
+              />
               <Stack sx={{ minHeight: "80vh" }}>{children}</Stack>
               <Footer />
               <Toaster richColors closeButton />

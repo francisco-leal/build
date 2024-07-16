@@ -29,7 +29,7 @@ export const CardBossPoints: FunctionComponent<CardBossPointsProps> = ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Total BUILD points earned from nominations received and made.
+        Total BUILD points earned from nominations received.
       </Typography>
 
       <Button

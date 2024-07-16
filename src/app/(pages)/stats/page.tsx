@@ -1,4 +1,4 @@
-import { Button, Grid, Link, Stack, Typography } from "@mui/joy";
+import { Button, Grid, Link, Stack, Typography, Box } from "@mui/joy";
 import { getNominationsFromUserToday } from "@/app/_api/data/nominations";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableNominationsReceivedValues } from "@/app/_api/functions/get-table-nominations-received-values";
@@ -65,65 +65,23 @@ export default async function AirdropPage() {
           <CardDailyStreak streak={user.boss_nomination_streak} />
         </Stack>
       </HeroSection>
-      <HeroSectionWithOverflow id="nominations">
-        <Grid
-          container
-          spacing={1}
-          sx={{
-            width: "100%",
-            paddingRight: "32px",
-          }}
-        >
-          <Grid xs={12} sm></Grid>
-          <Grid xs={10} sm={6} alignContent="center">
-            <Typography
-              level="h2"
-              className="no-overflow"
-              sx={{
-                width: "100%",
-                margin: 0,
-              }}
-            >
-              Nominations Made
-            </Typography>
-          </Grid>
-          <Grid xs={2} sm alignContent="center" padding={0}>
-            {todayNominations?.length > 0 && (
-              <Stack
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "end",
-                  padding: 0,
-                }}
-              >
-                <Button
-                  href={sharableWarpcastLink}
-                  target="_blank"
-                  component={Link}
-                  variant="solid"
-                  color="neutral"
-                >
-                  Share
-                </Button>
-              </Stack>
-            )}
-          </Grid>
-        </Grid>
-        <Stack className="overflow">
-          <TableNominationsSent values={nominationsSent} />
-        </Stack>
-      </HeroSectionWithOverflow>
-      <HeroSectionWithOverflow>
-        <Typography level="h2" className="no-overflow">
-          Nominations Received
-        </Typography>
-        <Stack className="overflow">
-          <TableNominationsReceived values={nominationsReceived} />
-        </Stack>
-      </HeroSectionWithOverflow>
-      <HeroSection>
-        <HowToPlay />
+      <HeroSection sx={{ flexDirection: { xs: "column", lg: "row" }, gap: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Typography level="h2" className="no-overflow">
+            Nominations Received
+          </Typography>
+          <Stack className="overflow">
+            <TableNominationsReceived values={nominationsReceived} />
+          </Stack>
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Typography level="h2" className="no-overflow">
+            Nominations Sent
+          </Typography>
+          <Stack className="overflow">
+            <TableNominationsSent values={nominationsSent} />
+          </Stack>
+        </Box>
       </HeroSection>
     </Stack>
   );

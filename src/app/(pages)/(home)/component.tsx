@@ -33,79 +33,19 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
       <BackgroundImage />
       <HeroSectionSlim sx={{ mb: 0 }}>
         <Typography level="h1">
-          Nominate <Interface /> the best builders <MusicHeadset /> you know.
+          Nominate <Interface /> your favorite <MusicHeadset /> onchain
+          builders.
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Celebrate the unsung onchain heroes.{" "}
+          Celebrate the unsung onchain heroes.
           <Box component={"br"} display={{ xs: "none", sm: "initial" }} />
-          Nominate incredible builders to give and earn BUILD
+          Reward your favorite builders with $BUILD every week.
+          <Box component={"br"} display={{ xs: "none", sm: "initial" }} />
+          Nominations reset every Monday.
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
-      <HeroSection sx={{ gap: 3, maxWidth: "600px" }}>
-        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
-          <Typography level="title-lg" textColor="primary.500">
-            BUILD Summer Fund
-          </Typography>
-          <Typography
-            textColor="neutral.900"
-            sx={{
-              fontWeight: 700,
-              lineHeight: "133%",
-              fontSize: "36px",
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(parseInt(formatEther(85084899880n * 10n ** 18n)), 0)}
-          </Typography>
-        </BlockyCard>
-      </HeroSection>
-      <HeroSection
-        sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
-      >
-        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
-          <Typography level="body-lg" textColor="primary.500">
-            Total Builders
-          </Typography>
-          <Typography
-            textColor="neutral.900"
-            sx={{
-              fontWeight: 700,
-              lineHeight: "133%",
-              fontSize: "36px",
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <MusicHeadset sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(usersCount ?? 0, 0)}
-          </Typography>
-        </BlockyCard>
-        <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
-          <Typography level="body-lg" textColor="primary.500">
-            Total Nominations Round 2
-          </Typography>
-          <Typography
-            textColor="neutral.900"
-            sx={{
-              fontWeight: 700,
-              lineHeight: "133%",
-              fontSize: "36px",
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            <Interface sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(nominationsCount ?? 0, 0)}
-          </Typography>
-        </BlockyCard>
-      </HeroSection>
       <HeroSection
         sx={{ flexDirection: { xs: "column", md: "row" }, gap: 3, mt: 0 }}
       >
@@ -115,20 +55,33 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             What is BUILD?
           </Typography>
           <Typography textColor="neutral.500">
-            BUILD is a token of appreciation on Base, and a social game that
-            rewards onchain builders via peer nominations.
+            BUILD is a token of appreciation on Base, and a nominations game to
+            reward onchain builders.<br></br>
+            <strong>Nominations</strong>:{" "}
+            {formatNumber(1794755 + (nominationsCount ?? 0), 0)}
+            <br></br>
+            <strong>Holders</strong>: 89,064<br></br>
+            <strong>Casts</strong>: 55,894<br></br>
+            <strong>Market Cap</strong>: $2.40M
           </Typography>
           <Button
-            href={
-              "https://app.uniswap.org/explore/tokens/base/0x3c281a39944a2319aa653d81cfd93ca10983d234"
-            }
-            target="_blank"
+            href={"/stats"}
             component={Link}
             variant="solid"
             color="primary"
             sx={{ mt: 2 }}
           >
-            Buy $BUILD
+            Check Points
+          </Button>
+          <Button
+            href={"https://build.top"}
+            target="_blank"
+            component={Link}
+            variant="solid"
+            color="neutral"
+            sx={{ mt: 2 }}
+          >
+            Learn More
           </Button>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 250 }}>
@@ -137,8 +90,19 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             How BUILD works?
           </Typography>
           <Typography textColor="neutral.500">
-            Players have a budget of BUILD points to donate to 3 builders/day.
-            Points will convert to $BUILD tokens in June.
+            <strong>Budget</strong>: Each player has an individual budget, based
+            on their Builder Score, $BUILD commited in Airdrop 1 and $BUILD
+            held. Claim your Talent Passport to increase your score and budget.
+          </Typography>
+          <Typography textColor="neutral.500">
+            <strong>Nominations</strong>: Search username or share your link to
+            nominate builders weekly. Your budget will be distributed equally
+            each week.
+          </Typography>
+          <Typography textColor="neutral.500">
+            <strong>Airdrop</strong>: BUILD Points convert into $BUILD tokens.
+            There is 50M $BUILD to be distributed this round. $BUILD is 100%
+            community owned. No team or investors allocation.
           </Typography>
           <Button
             href={"/airdrop/#daily-budget"}
