@@ -54,7 +54,7 @@ const calculateUserBudget = async (user: User, wallet: string) => {
     }
   }
 
-  const builderScore = user.passport_builder_score;
+  const builderScore = passport?.score ?? 0;
 
   const budget =
     builderScore * 20 +
@@ -64,6 +64,7 @@ const calculateUserBudget = async (user: User, wallet: string) => {
   await supabase
     .from("users")
     .update({
+      passport_builder_score: builderScore,
       boss_budget: budget,
       last_budget_calculation: new Date().toISOString(),
     })
