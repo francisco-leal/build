@@ -31,13 +31,24 @@ export default async function AirdropPage() {
         <Stack className="overflow">
           <TableLeaderboard values={topLeaderboardValues} />
         </Stack>
-        <Typography
-          className="no-overflow"
-          level="body-sm"
-          sx={{ color: "common.white" }}
-        >
-          Last update on {lastUpdate}. Next update on {nextUpdate}
-        </Typography>
+        {topLeaderboardValues.length > 0 && (
+          <Typography
+            className="no-overflow"
+            level="body-sm"
+            sx={{ color: "common.white" }}
+          >
+            Last update on {lastUpdate}. Next update on {nextUpdate}
+          </Typography>
+        )}
+        {topLeaderboardValues.length === 0 && (
+          <Typography
+            className="no-overflow"
+            level="body-sm"
+            sx={{ color: "common.white", mt: 2 }}
+          >
+            The leaderboard will be updated after the first week of noms.
+          </Typography>
+        )}
       </HeroSectionWithOverflow>
     </Stack>
   );
