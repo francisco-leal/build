@@ -8,6 +8,7 @@ import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
 import { getBalance } from "@/services/boss-tokens";
 import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
+import { BadRequestError } from "@/shared/utils/error";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
 import {
@@ -40,8 +41,14 @@ export type CurrentUser = User & {
 const calculateUserBudget = async (user: User, wallet: string) => {
   const passport = await getTalentProtocolUser(wallet);
   const tokenAmount = await getBalance(wallet);
-  if (!passport || tokenAmount < 10_000_000) return 0;
-  if (!passport.verified || tokenAmount < 10_000_000) return 0;
+  if (!passport || tokenAmount < 10_000_000)
+    throw new BadRequestError(
+      "You must have a Talent Passport with humanity verification or over 10M $BUILD tokens in your wallet!",
+    );
+  if (!passport.verified || tokenAmount < 10_000_000)
+    throw new BadRequestError(
+      "You must have a Talent Passport with humanity verification or over 10M $BUILD tokens in your wallet!",
+    );
   const builderScore = user.passport_builder_score;
 
   const budget =
