@@ -34,7 +34,7 @@ export const CardBossPoints: FunctionComponent<CardBossPointsProps> = ({
 
       <Button
         href={
-          "https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
+          "https://buildcommunity.notion.site/BUILD-FAQ-Round-2-6c8c4ebbfff1452d9123ed74a530cf25"
         }
         target="_blank"
         component={Link}
