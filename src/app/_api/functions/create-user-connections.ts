@@ -64,16 +64,6 @@ export const createUserConnections = async (user: User, newWallet: string) => {
     })
     .throwOnError();
 
-  if (user.boss_budget === 0) {
-    const result = await supabase.rpc("calculate_boss_budget_user", {
-      user_to_update: user.id,
-    });
-
-    if (result.error) {
-      rollbarError("calculate_boss_budget_user failed", result.error.message);
-    }
-  }
-
   await supabase.rpc("update_boss_score_for_user", {
     user_to_update: user.id,
   });
