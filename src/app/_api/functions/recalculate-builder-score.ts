@@ -31,19 +31,6 @@ export const recalculateBuilderScore = async (): Promise<number> => {
     .eq("id", user.id)
     .throwOnError();
 
-  if (user.boss_budget === 0) {
-    const result = await supabase.rpc("calculate_boss_budget_user", {
-      user_to_update: user.id,
-    });
-
-    if (result.error) {
-      rollbarError("Error Recalculating builder budget", result.error.message);
-      throw new BadRequestError(
-        "Couldn't update your budget, try again later.",
-      );
-    }
-  }
-
   revalidateTag(`user_${user.id}` as CacheKey);
   revalidatePath("/stats");
 

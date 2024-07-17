@@ -14,17 +14,5 @@ export const recalculateBuilderBudget = async (): Promise<number> => {
     return user.boss_budget;
   }
 
-  const result = await supabase.rpc("calculate_boss_budget_user", {
-    user_to_update: user.id,
-  });
-
-  if (result.error) {
-    rollbarError(`Error Recalculating builder budget: ${result.error.message}`);
-    return 0;
-  }
-
-  revalidateTag(`user_${user.id}` as CacheKey);
-  revalidatePath("/stats");
-
-  return result.data;
+  return 0;
 };

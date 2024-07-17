@@ -38,7 +38,7 @@ export type CurrentUser = User & {
   wallet: string;
 };
 
-const calculateUserBudget = async (user: User, wallet: string) => {
+export const calculateUserBudget = async (user: User, wallet: string) => {
   const passport = await getTalentProtocolUser(wallet);
   const tokenAmount = await getBalance(wallet);
   if (user.build_commit_amount <= 0) {
