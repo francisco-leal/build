@@ -66,6 +66,7 @@ const calculateUserBudget = async (user: User, wallet: string) => {
     .update({
       passport_builder_score: builderScore,
       boss_budget: budget,
+      boss_token_balance: tokenAmount,
       last_budget_calculation: new Date().toISOString(),
     })
     .eq("id", user.id)
