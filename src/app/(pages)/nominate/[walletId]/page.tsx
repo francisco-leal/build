@@ -1,20 +1,16 @@
-import { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { Button, Grid, Link } from "@mui/joy";
-import { fetchMetadata } from "frames.js/next";
+import { Link } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
   getNomination,
-  getNominationsFromUserToday,
-  hasExceededNominationsToday,
+  getNominationsFromUserThisWeek,
   hasNoDailyBudget,
   isSelfNomination,
 } from "@/app/_api/data/nominations";
 import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
-import { FRAMES_BASE_PATH, appURL } from "@/shared/frames/utils";
 import { formatNumber } from "@/shared/utils/format-number";
 import { getWarpcastSharableLinkSingleBuilder } from "@/shared/utils/sharable-warpcast-link";
 import {
@@ -26,18 +22,6 @@ import {
   ModalNominationValues,
   ModalSubmitButton,
 } from "./components";
-
-type Props = {
-  params: { walletId: string };
-};
-
-// export async function generateMetadata({ params }: Props): Promise<Metadata> {
-//   const walletId = params.walletId;
-//   const url = new URL(FRAMES_BASE_PATH + `/nominate/${walletId}`, appURL());
-//   return {
-//     other: await fetchMetadata(url).catch(() => ({})),
-//   };
-// }
 
 export default async function NominateBuilder({
   params,
@@ -86,7 +70,7 @@ export default async function NominateBuilder({
   }
 
   const userBalances = await getUserBalances(currentUser, currentUser.wallet);
-  const todaysNominations = await getNominationsFromUserToday(currentUser);
+  const nominationsThisWeek = await getNominationsFromUserThisWeek(currentUser);
   const sharableWarpcastLink = getWarpcastSharableLinkSingleBuilder(
     builder.username,
   );
@@ -136,12 +120,12 @@ export default async function NominateBuilder({
             },
             {
               label: "Noms made this week",
-              value: `${todaysNominations.length}`,
+              value: `${nominationsThisWeek.length}`,
             },
             {
               label: "Points per Nomination",
               value: formatNumber(
-                userBalances.budget / (todaysNominations.length + 1),
+                userBalances.budget / (nominationsThisWeek.length + 1),
               ),
             },
           ]}
@@ -173,12 +157,12 @@ export default async function NominateBuilder({
         },
         {
           label: "Nominations this week",
-          value: `${todaysNominations.length}`,
+          value: `${nominationsThisWeek.length}`,
         },
         {
           label: "Each nom receives",
           value: formatNumber(
-            userBalances.budget / (todaysNominations.length + 1),
+            userBalances.budget / (nominationsThisWeek.length + 1),
             0,
           ),
         },
@@ -196,8 +180,8 @@ export default async function NominateBuilder({
             Close
           </ModalGoBackButton>
           <ModalActionMessage>
-            You don&apos;t have a boss budget. You can increase your budget by
-            creating a Talent Passport, or by buying $BOSS.
+            You don&apos;t have a build budget. You can increase your budget by
+            creating a Talent Passport, or by buying $BUILD.
           </ModalActionMessage>
         </ModalActions>
       </Modal>
