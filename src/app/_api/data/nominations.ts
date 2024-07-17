@@ -230,6 +230,18 @@ export const getNominationsFromUserToday = async (
   );
 };
 
+export const getNominationsFromUserThisWeek = async (
+  user: User,
+): Promise<Nomination[]> => {
+  const nominations = await getNominationsUserSent(user);
+  const startOfWeek = DateTime.local().startOf("week");
+  const endOfWeek = DateTime.local().endOf("week");
+  const interval = Interval.fromDateTimes(startOfWeek, endOfWeek);
+  return nominations.filter((n) =>
+    interval.contains(DateTime.fromISO(n.createdAt)),
+  );
+};
+
 export const isSelfNomination = async (
   user: User,
   wallet: WalletInfo,
