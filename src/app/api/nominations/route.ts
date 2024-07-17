@@ -29,22 +29,32 @@ export const GET = restApiHandler(async (request) => {
 });
 
 type CreateNominationRequest = {
-  originWallet: string;
-  walletToNominate: string;
+  origin_wallet: string;
+  destination_wallet: string;
+  cast_id?: number;
 };
 
 export const POST = restApiHandler(
   async (request) => {
-    const { originWallet, walletToNominate } =
+    const { origin_wallet, destination_wallet, cast_id } =
       (await request.json()) as CreateNominationRequest;
 
-    const userNominating = await createNewUserForWallet(originWallet);
-    const walletInfo = await getWalletFromExternal(walletToNominate);
-
+    const userNominating = await createNewUserForWallet(
+      origin_wallet.toLowerCase(),
+    );
     if (!userNominating) throw new BadRequestError("Could not find user");
+
+    const walletInfo = await getWalletFromExternal(
+      destination_wallet.toLowerCase(),
+    );
     if (!walletInfo) throw new BadRequestError("Could not find wallet info");
 
-    return createNewNomination(userNominating, walletInfo, originWallet);
+    return createNewNomination(
+      userNominating,
+      walletInfo,
+      destination_wallet.toLowerCase(),
+      cast_id,
+    );
   },
   {
     validateWriteAccess: true,

@@ -278,6 +278,7 @@ export const createNewNomination = async (
   nominatorUser: User,
   nominatedWallet: WalletInfo,
   origin_wallet_id: string,
+  cast_id?: number,
 ): Promise<Nomination> => {
   const balances = await getUserBalances(nominatorUser, origin_wallet_id);
 
@@ -303,6 +304,7 @@ export const createNewNomination = async (
       origin_wallet_id: origin_wallet_id,
       destination_wallet_id: nominatedWallet.wallet,
       boss_points_sent: points_sent,
+      cast_id,
     })
     .select(SELECT_NOMINATIONS_FROM_USER)
     .single()
