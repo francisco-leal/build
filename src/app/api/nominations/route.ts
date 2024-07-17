@@ -39,6 +39,10 @@ export const POST = restApiHandler(
     const { origin_wallet, destination_wallet, cast_id } =
       (await request.json()) as CreateNominationRequest;
 
+    if (!origin_wallet || !destination_wallet) {
+      throw new BadRequestError("Wrong parameters for nomination.");
+    }
+
     const userNominating = await createNewUserForWallet(
       origin_wallet.toLowerCase(),
     );
