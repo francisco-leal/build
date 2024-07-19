@@ -24,7 +24,7 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
   const shouldLetRecalculate =
     DateTime.now()
       .diff(DateTime.fromISO(lastCalculation ?? ""))
-      .as("days") >= 1;
+      .as("days") >= 1 || budget === 0;
   const [isTransition, transition] = useTransition();
 
   const recalculateBudget = () =>
