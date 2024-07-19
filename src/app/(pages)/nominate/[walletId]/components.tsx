@@ -164,7 +164,7 @@ export const ModalRecalculateButton: FunctionComponent<{
       loading={isRecalculating || loading}
       onClick={() => recaculateUser()}
     >
-      {"Calculate Budget"}
+      {"Refresh Budget"}
     </Button>
   );
 };

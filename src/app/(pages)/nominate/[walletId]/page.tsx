@@ -178,8 +178,8 @@ export default async function NominateBuilder({
         {nominationValues}
         <ModalActions>
           <ModalActionMessage>
-            You don&apos;t have a build budget. You can increase your budget by
-            creating a Talent Passport, or by buying $BUILD.
+            You don&apos;t seem to have a BUILD weekly budget yet. Click the
+            button to force a recalculation
           </ModalActionMessage>
           <ModalRecalculateButton user={currentUser} />
         </ModalActions>
