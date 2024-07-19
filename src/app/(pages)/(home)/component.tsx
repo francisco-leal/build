@@ -51,8 +51,8 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             <Lego sx={{ fontSize: "64px" }} />
             <Typography level="h3">What is BUILD?</Typography>
             <Typography sx={{ maxWidth: "600px" }}>
-              BUILD is a token of appreciation on Base, and a social game that
-              rewards onchain builders via peer nominations.
+              BUILD is a token of appreciation on Base, and a nominations game
+              to reward onchain builders.
             </Typography>
 
             <Box sx={{ display: "flex", gap: 2 }}>
@@ -65,7 +65,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
                 underline="none"
                 sx={{ mt: 2 }}
               >
-                Check points
+                Check stats
               </Button>
               <Button
                 variant="outlined"

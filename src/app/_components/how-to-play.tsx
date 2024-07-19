@@ -2,14 +2,11 @@
 
 import { FunctionComponent } from "react";
 import { Typography, Stack, Button, Link } from "@mui/joy";
-import { useShareLink } from "@/app/_hooks/useShareLink";
 import { Coin } from "@/shared/icons/coin";
 import { DroneCameraAirdrop } from "@/shared/icons/drone-camera-airdrop";
 import { FingerNominate } from "@/shared/icons/finger-nominate";
 
 export const HowToPlay: FunctionComponent = () => {
-  const [shareLink, onShareLink] = useShareLink();
-
   return (
     <>
       <Typography level="h2" sx={{ color: "common.white" }}>
@@ -30,9 +27,9 @@ export const HowToPlay: FunctionComponent = () => {
             <Coin sx={{ fontSize: "64px" }} />
             <Typography level="h3">Budget</Typography>
             <Typography>
-              Each player has an individual daily budget, based on their Builder
-              Score. Claim your Talent Passport to increase your score and
-              budget.
+              Each player has an individual weekly budget, based on their
+              Builder Score and $BUILD tokens. Claim your Talent Passport to
+              increase your budget.
             </Typography>
 
             <Button
@@ -57,21 +54,19 @@ export const HowToPlay: FunctionComponent = () => {
             <Typography level="h3">Nominations</Typography>
 
             <Typography>
-              Search username or share your link to nominate up to 3
-              builders/day. Each nomination receives 90% of your Daily Budget,
-              you earn 10%.
+              Search for Farcaster or Talent Passport username to nominate a
+              builder. Nominations reset every Monday night and your weekly
+              budget recalculated.
             </Typography>
 
             <Button
-              href={shareLink ?? "/"}
+              href={"/stats"}
               component={Link}
-              disabled={!shareLink}
               variant="solid"
               color="neutral"
               sx={{ mt: 2 }}
-              onClick={onShareLink}
             >
-              Share Link
+              Dashboard
             </Button>
           </Stack>
         </Stack>
@@ -81,12 +76,11 @@ export const HowToPlay: FunctionComponent = () => {
         >
           <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
             <DroneCameraAirdrop sx={{ fontSize: "64px" }} />
-            <Typography level="h3">Airdrop</Typography>
+            <Typography level="h3">Airdrop 1</Typography>
 
             <Typography>
-              BUILD Points convert into $BUILD tokens, after Airdrop 1 ends in
-              June. $BUILD is 100% community owned. No team or investors
-              allocation.
+              BUILD Points will convert into $BUILD tokens, after Round 2 ends.
+              $BUILD is 100% community owned. No team or investors allocation.
             </Typography>
             <Button
               variant="solid"
