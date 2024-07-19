@@ -67,7 +67,7 @@ export default async function AirdropPage() {
       >
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography level="h2" className="no-overflow">
-            Nominations Received
+            Last Noms Received
           </Typography>
           <Stack className="overflow">
             <TableNominationsReceived values={nominationsReceived} />
@@ -75,7 +75,7 @@ export default async function AirdropPage() {
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography level="h2" className="no-overflow">
-            Nominations Sent
+            Last Noms Sent
           </Typography>
           <Stack className="overflow">
             <TableNominationsSent values={nominationsSent} />
