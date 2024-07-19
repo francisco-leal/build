@@ -177,9 +177,6 @@ export default async function NominateBuilder({
         {builderProfile}
         {nominationValues}
         <ModalActions>
-          <ModalGoBackButton disableGoBack={disableGoBack}>
-            Close
-          </ModalGoBackButton>
           <ModalActionMessage>
             You don&apos;t have a build budget. You can increase your budget by
             creating a Talent Passport, or by buying $BUILD.
