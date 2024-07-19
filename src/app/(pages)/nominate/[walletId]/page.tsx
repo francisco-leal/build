@@ -34,7 +34,12 @@ export default async function NominateBuilder({
   const disableGoBack = !referer.includes(appUrl);
   const today = DateTime.now().toFormat("LLL dd");
 
-  const builder = await getWalletFromExternal(params.walletId);
+  let builder;
+  try {
+    builder = await getWalletFromExternal(params.walletId);
+  } catch (error) {
+    notFound();
+  }
   if (!builder || !builder.wallet) notFound();
 
   const builderProfile = (
