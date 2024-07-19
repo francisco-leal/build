@@ -30,7 +30,7 @@ export const CardBossPoints: FunctionComponent<CardBossPointsProps> = ({
 
       <Typography textColor="neutral.500">
         Total points earned from nominations received in Round 2, updated every
-        Tuesday
+        Tuesday. Next update on Jul 23.
       </Typography>
 
       <Button
