@@ -318,7 +318,7 @@ export const createNewNomination = async (
   });
 
   await supabase.rpc("distribute_nomination_points", {
-    origin_user_id: nominatorUser.id,
+    origin_id: nominatorUser.id,
   });
 
   revalidatePath(`/airdrop`);
