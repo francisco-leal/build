@@ -298,6 +298,7 @@ export type Database = {
           boss_budget: number;
           boss_nomination_streak: number;
           boss_score: number;
+          boss_token_balance: number | null;
           budget_multiplier: number;
           build_commit_amount: number;
           coinvise_nft: boolean;
@@ -321,6 +322,7 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
+          boss_token_balance?: number | null;
           budget_multiplier?: number;
           build_commit_amount?: number;
           coinvise_nft?: boolean;
@@ -344,6 +346,7 @@ export type Database = {
           boss_budget?: number;
           boss_nomination_streak?: number;
           boss_score?: number;
+          boss_token_balance?: number | null;
           budget_multiplier?: number;
           build_commit_amount?: number;
           coinvise_nft?: boolean;
@@ -447,7 +450,7 @@ export type Database = {
       };
       distribute_nomination_points: {
         Args: {
-          origin_user_id: string;
+          origin_id: string;
         };
         Returns: undefined;
       };

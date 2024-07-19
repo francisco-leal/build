@@ -226,6 +226,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     eligible: null,
     nominations_made: null,
     build_commit_amount: 0,
+    boss_token_balance: 0,
   };
 
   const user = await supabase
