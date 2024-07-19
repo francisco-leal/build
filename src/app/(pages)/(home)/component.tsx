@@ -120,7 +120,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Interface sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(40667 ?? 0, 0)}
+            {formatNumber(88813 ?? 0, 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
@@ -162,7 +162,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatLargeNumber(2410000)}
+            {formatLargeNumber(2010000)}
           </Typography>
         </BlockyCard>
       </HeroSection>
