@@ -63,8 +63,4 @@ export const createUserConnections = async (user: User, newWallet: string) => {
       farcaster_power_user: farcasterUser?.power_badge ?? false,
     })
     .throwOnError();
-
-  await supabase.rpc("update_boss_score_for_user", {
-    user_to_update: user.id,
-  });
 };

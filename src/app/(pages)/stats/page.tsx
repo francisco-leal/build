@@ -6,6 +6,7 @@ import { recalculateBuilderBudget } from "@/app/_api/functions/recalculate-budge
 import { recalculateBuilderScore } from "@/app/_api/functions/recalculate-builder-score";
 import { CardBossPoints } from "@/app/_components/card-boss-points";
 import { CardBossTokens } from "@/app/_components/card-boss-tokens";
+import { CardBuildCommited } from "@/app/_components/card-build-commited";
 import { CardBuilderScore } from "@/app/_components/card-builder-score";
 import { CardDailyBudget } from "@/app/_components/card-daily-budget";
 import { CardDailyStreak } from "@/app/_components/card-daily-streak";
@@ -33,7 +34,7 @@ export default async function AirdropPage() {
             gap: 3,
           }}
         >
-          <CardBossPoints points={user.boss_score} />
+          <CardBuildCommited buildCommited={user.build_commit_amount} />
           <CardBossTokens />
           <CardBuilderScore
             score={user.passport_builder_score}
@@ -51,9 +52,10 @@ export default async function AirdropPage() {
         >
           <CardDailyBudget
             budget={user.boss_budget}
+            lastCalculation={user.last_budget_calculation}
             recalculate={recalculateBuilderBudget}
           />
-          <CardDailyStreak streak={user.boss_nomination_streak} />
+          <CardBossPoints points={user.boss_score} />
         </Stack>
       </HeroSection>
       <HeroSection
