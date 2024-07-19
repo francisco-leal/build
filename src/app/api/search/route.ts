@@ -13,8 +13,15 @@ export const GET = restApiHandler(async (request) => {
     domain: request.nextUrl.searchParams.get("domain"),
   });
 
-  const result = await searchBuilders(searchParams.query, searchParams.domain);
-  return result;
+  try {
+    const result = await searchBuilders(
+      searchParams.query,
+      searchParams.domain,
+    );
+    return result;
+  } catch {
+    return [];
+  }
 });
 
 export const maxDuration = 60;
