@@ -9,14 +9,14 @@ export type DailyStreakCardProps = {
   loading?: boolean;
 };
 
-export const CardBuildCommited: FunctionComponent<DailyStreakCardProps> = ({
+export const CardBuildCommitted: FunctionComponent<DailyStreakCardProps> = ({
   buildCommited,
   loading,
 }) => {
   return (
     <BlockyCard>
       <Typography level="body-lg" textColor="primary.500">
-        Build Commited
+        Build Committed
       </Typography>
 
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
