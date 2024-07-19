@@ -20,6 +20,7 @@ import {
   ModalBuilderProfile,
   ModalGoBackButton,
   ModalNominationValues,
+  ModalRecalculateButton,
   ModalSubmitButton,
 } from "./components";
 
@@ -183,6 +184,7 @@ export default async function NominateBuilder({
             You don&apos;t have a build budget. You can increase your budget by
             creating a Talent Passport, or by buying $BUILD.
           </ModalActionMessage>
+          <ModalRecalculateButton user={currentUser} />
         </ModalActions>
       </Modal>
     );

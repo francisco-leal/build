@@ -313,10 +313,6 @@ export const createNewNomination = async (
 
   if (!nomination) throw new BadRequestError("Could not create nomination");
 
-  await supabase.rpc("update_boss_daily_streak_for_user", {
-    user_to_update: nominatorUser.id,
-  });
-
   await supabase.rpc("update_nominations_made", {
     p_user_id: nominatorUser.id,
   });
@@ -324,18 +320,6 @@ export const createNewNomination = async (
   await supabase.rpc("distribute_nomination_points", {
     origin_user_id: nominatorUser.id,
   });
-
-  // if (nominatedWallet.userId) {
-  //   await supabase.rpc("update_boss_score_for_user", {
-  //     user_to_update: nominatedWallet.userId,
-  //   });
-  // }
-
-  // await notifyBuildBot(
-  //   origin_wallet_id ?? nominatorUser.wallets?.[0]?.wallet ?? "",
-  //   nominatedWallet.wallet,
-  //   balances.pointsGiven,
-  // );
 
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);

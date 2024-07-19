@@ -2,7 +2,7 @@ import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { rollbarError } from "@/services/rollbar";
 import { User } from "../data/users";
-import { CACHE_5_MINUTES } from "../helpers/cache-keys";
+import { CACHE_60_MINUTES } from "../helpers/cache-keys";
 import { CacheKey } from "../helpers/cache-keys";
 
 type PassportsResponse = {
@@ -54,7 +54,7 @@ export const searchTalentProtocolUser = async (query: string) => {
       return data.passports;
     },
     [`talent_protocol_search_${query}`] as CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
+    { revalidate: CACHE_60_MINUTES },
   )(query);
 };
 
@@ -83,7 +83,7 @@ export const getTalentProtocolUser = async (walletId: string) => {
       }
     },
     [`talent_protocol_${walletId}`] as CacheKey[],
-    { revalidate: CACHE_5_MINUTES },
+    { revalidate: CACHE_60_MINUTES },
   )(walletId);
 };
 

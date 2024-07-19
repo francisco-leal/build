@@ -47,7 +47,7 @@ export const CardBossTokens: FunctionComponent<
       </Stack>
 
       <Typography textColor="neutral.500">
-        $BUILD is an ERC-20 token on Base, tradable on Uniswap.
+        $BUILD is an ERC-20 token on Base. Hold 10M+ to receive a Weekly Budget.
       </Typography>
 
       <Button

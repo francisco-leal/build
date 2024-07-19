@@ -19,7 +19,9 @@ import {
 import { SxProps } from "@mui/joy/styles/types";
 import { toast } from "sonner";
 import { createNewNominationForCurrentUser } from "@/app/_api/data/nominations";
+import { User } from "@/app/_api/data/users";
 import { forcePathRevalidation } from "@/app/_api/functions/force-path-revalidation";
+import { recalculateBuilderBudget } from "@/app/_api/functions/recalculate-budget";
 import { FarcasterLink } from "@/shared/components/farcaster-link";
 import { TalentProtocolLink } from "@/shared/components/talentprotocol-link";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
@@ -130,6 +132,39 @@ export const ModalSubmitButton: FunctionComponent<{
       onClick={() => nominateUser()}
     >
       Confirm
+    </Button>
+  );
+};
+
+export const ModalRecalculateButton: FunctionComponent<{
+  disabled?: boolean;
+  loading?: boolean;
+  user: User;
+}> = ({ user, disabled, loading }) => {
+  const [isRecalculating, startRecalculating] = useTransition();
+  const router = useRouter();
+
+  const recaculateUser = () => {
+    startRecalculating(async () => {
+      try {
+        await recalculateBuilderBudget();
+        toast.success("Successfully calculated budget!");
+        router.refresh();
+      } catch (e) {
+        if (e instanceof Error) toast.error(e.message);
+        else toast.error("Failed to calculate budget!");
+      }
+    });
+  };
+
+  return (
+    <Button
+      variant="solid"
+      disabled={disabled}
+      loading={isRecalculating || loading}
+      onClick={() => recaculateUser()}
+    >
+      {"Calculate Budget"}
     </Button>
   );
 };
