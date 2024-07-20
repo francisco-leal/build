@@ -148,7 +148,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
-            Market Cap
+            Builders participating in round 2
           </Typography>
           <Typography
             textColor="neutral.900"
@@ -162,7 +162,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Coin sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatLargeNumber(2010000)}
+            {formatNumber(usersCount ?? 0, 0)}
           </Typography>
         </BlockyCard>
       </HeroSection>
