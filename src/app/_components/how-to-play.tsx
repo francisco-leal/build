@@ -56,7 +56,7 @@ export const HowToPlay: FunctionComponent = () => {
             <Typography>
               Search for Farcaster or Talent Passport username to nominate a
               builder. Nominations reset every Monday night and your weekly
-              budget recalculated.
+              budget gets recalculated.
             </Typography>
 
             <Button

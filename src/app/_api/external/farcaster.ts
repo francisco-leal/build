@@ -114,3 +114,31 @@ export const getFarcasterUserByFid = async (
     { revalidate: CACHE_5_MINUTES },
   )(id);
 };
+
+export const getFollowerCount = async (): Promise<number> => {
+  return unstable_cache(
+    async () => {
+      const url = `https://api.neynar.com/v2/farcaster/channel/search?q=build`;
+      const apiToken = process.env.NEYNAR_API_KEY || "";
+      const headers = {
+        api_key: apiToken,
+        accept: "application/json",
+        "Content-Type": "application/json",
+      };
+
+      const response = await fetch(url, { headers });
+      if (!response.ok) return 34200;
+      if (response.status !== 200) return 34200;
+      const data = (await response.json()) as {
+        channels: { id: string; follower_count: number }[];
+      };
+      if (!data.channels) return 34200;
+      const follower_count = data.channels
+        .filter((v) => v.id === "build")
+        .at(0)?.follower_count;
+      return follower_count ?? 34200;
+    },
+    ["farcaster_followers"] as CacheKey[],
+    { revalidate: CACHE_5_MINUTES },
+  )();
+};

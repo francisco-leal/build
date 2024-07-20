@@ -259,9 +259,10 @@ export const getUsersCountOverall = async (): Promise<number> => {
     async () => {
       const { data: users, count } = await supabase
         .from("users")
-        .select("id", { count: "exact", head: true });
+        .select("id", { count: "exact", head: true })
+        .or("build_commit_amount.gt.1,nominations_made.gte.1");
 
-      return count || 0;
+      return count || 43451;
     },
     ["users_count"] as CacheKey[],
     { revalidate: CACHE_1_MINUTE },
