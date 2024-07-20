@@ -150,7 +150,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
-            Builders participating in round 2
+            Round 2 Builders
           </Typography>
           <Typography
             textColor="neutral.900"
