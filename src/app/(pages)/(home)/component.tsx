@@ -19,6 +19,7 @@ type HomePageComponentProps = {
   loading?: boolean;
   nominationsCount?: number;
   usersCount?: number;
+  followersCount?: number;
 };
 
 const BUILD_TOKEN_ADDRESS = "0x3C281A39944a2319aA653D81Cfd93Ca10983D234";
@@ -26,6 +27,7 @@ const BUILD_TOKEN_ADDRESS = "0x3C281A39944a2319aA653D81Cfd93Ca10983D234";
 export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
   nominationsCount,
   usersCount,
+  followersCount,
 }) => {
   return (
     <Stack component="main" sx={{ position: "relative" }}>
@@ -129,7 +131,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
       >
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
           <Typography level="body-lg" textColor="primary.500">
-            Casts in /build
+            Followers in /build
           </Typography>
           <Typography
             textColor="neutral.900"
@@ -143,7 +145,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             }}
           >
             <Refresh sx={{ "&&": { height: 32, width: 32 } }} />
-            {formatNumber(54789, 0)}
+            {formatNumber(followersCount ?? 34200, 0)}
           </Typography>
         </BlockyCard>
         <BlockyCard sx={{ minHeight: 164, width: "100%" }}>
