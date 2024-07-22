@@ -232,7 +232,6 @@ export const getNominationsFromUserThisWeek = async (
   user: User,
 ): Promise<Nomination[]> => {
   const nominations = await getNominationsUserSent(user);
-  console.log(nominations);
   const now = DateTime.local();
   let startOfWeek = DateTime.local()
     .startOf("week")
