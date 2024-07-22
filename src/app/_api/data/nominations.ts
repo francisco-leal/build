@@ -234,8 +234,15 @@ export const getNominationsFromUserThisWeek = async (
   user: User,
 ): Promise<Nomination[]> => {
   const nominations = await getNominationsUserSent(user);
-  const startOfWeek = DateTime.local().startOf("week");
-  const endOfWeek = DateTime.local().endOf("week");
+  console.log(nominations);
+  const now = DateTime.local();
+  let startOfWeek = DateTime.local()
+    .startOf("week")
+    .plus({ days: 1, hours: 9 });
+  if (now < startOfWeek) {
+    startOfWeek = startOfWeek.minus({ weeks: 1 });
+  }
+  const endOfWeek = DateTime.local().endOf("week").plus({ days: 1, hours: 9 });
   const interval = Interval.fromDateTimes(startOfWeek, endOfWeek);
   return nominations.filter((n) =>
     interval.contains(DateTime.fromISO(n.createdAt)),
