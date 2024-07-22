@@ -31,7 +31,7 @@ export const GET = restApiHandler(async (request) => {
 type CreateNominationRequest = {
   origin_wallet: string;
   destination_wallet: string;
-  cast_id?: number;
+  cast_id?: string;
 };
 
 export const POST = restApiHandler(

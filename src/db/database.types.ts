@@ -224,7 +224,7 @@ export type Database = {
       build_nominations_round_2: {
         Row: {
           boss_points_sent: number;
-          cast_id: number | null;
+          cast_id: string | null;
           created_at: string;
           destination_wallet_id: string;
           id: number;
@@ -234,7 +234,7 @@ export type Database = {
         };
         Insert: {
           boss_points_sent: number;
-          cast_id?: number | null;
+          cast_id?: string | null;
           created_at?: string;
           destination_wallet_id: string;
           id?: number;
@@ -244,7 +244,7 @@ export type Database = {
         };
         Update: {
           boss_points_sent?: number;
-          cast_id?: number | null;
+          cast_id?: string | null;
           created_at?: string;
           destination_wallet_id?: string;
           id?: number;

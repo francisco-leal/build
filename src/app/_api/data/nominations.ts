@@ -6,8 +6,6 @@ import { notifyBuildBot } from "@/app/_api/external/buildbot";
 import { supabase } from "@/db";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { BadRequestError } from "@/shared/utils/error";
-import { getFarcasterUserByFid } from "../external/farcaster";
-import { getTalentProtocolUser } from "../external/talent-protocol";
 import {
   CacheKey,
   CACHE_1_MINUTE,
@@ -285,7 +283,7 @@ export const createNewNomination = async (
   nominatorUser: User,
   nominatedWallet: WalletInfo,
   origin_wallet_id: string,
-  cast_id?: number,
+  cast_id?: string,
 ): Promise<Nomination> => {
   const balances = await getUserBalances(nominatorUser, origin_wallet_id);
 
