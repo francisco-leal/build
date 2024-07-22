@@ -56,7 +56,7 @@ export const POST = restApiHandler(
     return createNewNomination(
       userNominating,
       walletInfo,
-      destination_wallet.toLowerCase(),
+      origin_wallet.toLowerCase(),
       cast_id,
     );
   },
