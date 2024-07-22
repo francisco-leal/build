@@ -302,6 +302,10 @@ export const createNewNomination = async (
   const amountOfNominations = nominatorUser?.nominations_made ?? 0;
   const points_sent = balances.budget / (amountOfNominations + 1);
 
+  if (points_sent < 1) {
+    throw new BadRequestError("You don't have enough budget to nominate!");
+  }
+
   const nomination = await supabase
     .from("build_nominations_round_2")
     .insert({
