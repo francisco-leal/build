@@ -345,7 +345,7 @@ export const createNewNomination = async (
     originRank: nominatorUser.boss_leaderboard?.rank ?? null,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
     buildPointsReceived: 0,
-    buildPointsSent: nomination.boss_points_sent,
+    buildPointsSent: Math.round(nomination.boss_points_sent),
     destinationWallet: nomination.destination_wallet_id,
     destinationUsername:
       nomination.wallets?.users?.username ??
