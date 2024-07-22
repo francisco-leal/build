@@ -361,8 +361,8 @@ export const createNewNominationForCurrentUser = async (
   walletToNominate: string,
 ) => {
   const currentUser = await getCurrentUser();
-  const walletInfo = await getWalletFromExternal(walletToNominate);
   if (!currentUser) throw new BadRequestError("Could not find user");
+  const walletInfo = await getWalletFromExternal(walletToNominate);
   if (!walletInfo) throw new BadRequestError("Could not find wallet info");
   return createNewNomination(currentUser, walletInfo, currentUser.wallet);
 };
