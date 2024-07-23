@@ -311,7 +311,7 @@ export const createNewNomination = async (
 
   await createWallet(nominatedWallet.wallet);
 
-  const amountOfNominations = nominatorUser?.nominations_made ?? 0;
+  const amountOfNominations = nominatorUser?.nominations_made_current_week ?? 0;
   const points_sent = balances.budget / (amountOfNominations + 1);
 
   if (points_sent < 1) {
