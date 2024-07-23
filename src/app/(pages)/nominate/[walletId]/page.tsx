@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Link } from "@mui/joy";
 import { DateTime } from "luxon";
 import {
-  getNomination,
+  getNominationThisWeek,
   getNominationsFromUserThisWeek,
   hasNoDailyBudget,
   isSelfNomination,
@@ -101,7 +101,7 @@ export default async function NominateBuilder({
   const sharableWarpcastLink = getWarpcastSharableLinkSingleBuilder(
     builder.username,
   );
-  const previousNomination = await getNomination(currentUser, builder);
+  const previousNomination = await getNominationThisWeek(currentUser, builder);
   if (previousNomination) {
     const previousDate = DateTime.fromISO(previousNomination.createdAt);
     return (
