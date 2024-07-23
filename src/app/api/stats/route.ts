@@ -32,7 +32,13 @@ export const GET = restApiHandler(async (request) => {
     build_score: userStats.boss_score,
     build_budget: userStats.boss_budget,
     rank: userStats.boss_leaderboard?.rank,
-    nominations_received: userStats.boss_leaderboard?.nominations_received ?? 0,
+    nominations_received: userStats.nominations_received,
+    nominations_received_current_week:
+      userStats.nominations_received_current_week,
     nominations_given: userStats.nominations_count,
+    nominations_given_current_week: userStats.nominations_made_current_week,
+    tokens_commited_round_1: userStats.build_commit_amount,
+    talent_passport_id: userStats.passport_id,
+    talent_builder_score: userStats.passport_builder_score,
   };
 });

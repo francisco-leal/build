@@ -52,6 +52,7 @@ export const getNominationsForApi = async (params: {
           build_points_sent: nomination.boss_points_sent,
           destination_wallet: nomination.destination_wallet_id,
           nominated_at: nomination.created_at,
+          status: nomination.status,
         })) ?? []
       );
     },
