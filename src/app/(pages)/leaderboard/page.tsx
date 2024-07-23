@@ -1,5 +1,6 @@
 import { Stack, Typography } from "@mui/joy";
 import { DateTime } from "luxon";
+import { getCurrentWeek } from "@/app/_api/data/nominations";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableLeaderboardValues } from "@/app/_api/functions/get-table-leaderboard-values";
 import { HowToPlay } from "@/app/_components/how-to-play";
@@ -12,11 +13,11 @@ export default async function AirdropPage() {
   const user = await getCurrentUser();
   if (!user) return <PlaceholderUserNotConnected />;
 
-  const now = DateTime.utc().startOf("hour");
   const shortFormat = "LLL dd, hh:mm a 'UTC'";
-  const lastUpdate = now.toFormat(shortFormat);
-  const nextUpdate = now.plus({ hour: 1 }).toFormat(shortFormat);
-  // const topLeaderboardValues = await getTableLeaderboardValues();
+  const { startOfWeek, endOfWeek } = await getCurrentWeek();
+  const lastUpdate = DateTime.fromISO(startOfWeek).toFormat(shortFormat);
+  const nextUpdate = DateTime.fromISO(endOfWeek).toFormat(shortFormat);
+  const topLeaderboardValues = await getTableLeaderboardValues();
 
   return (
     <Stack component="main">
@@ -29,18 +30,18 @@ export default async function AirdropPage() {
           Summer Leaderboard
         </Typography>
         <Stack className="overflow">
-          <TableLeaderboard values={[]} />
+          <TableLeaderboard values={topLeaderboardValues} />
         </Stack>
-        {[].length > 0 && (
+        {topLeaderboardValues.length > 0 && (
           <Typography
             className="no-overflow"
             level="body-sm"
             sx={{ color: "common.white" }}
           >
-            Last update on {lastUpdate}. Next update on {nextUpdate}
+            Points last update on {lastUpdate}. Next update on {nextUpdate}
           </Typography>
         )}
-        {[].length === 0 && (
+        {topLeaderboardValues.length === 0 && (
           <Typography
             className="no-overflow"
             level="body-sm"
