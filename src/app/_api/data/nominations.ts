@@ -103,17 +103,33 @@ export const getNomination = async (
   };
 };
 
+export const getCurrentWeek = () => {
+  let startOfWeek = DateTime.local()
+    .startOf("week")
+    .plus({ days: 1, hours: 9 });
+  const now = DateTime.local();
+  if (now < startOfWeek) {
+    startOfWeek = startOfWeek.minus({ weeks: 1 });
+  }
+  const endOfWeek = DateTime.local().endOf("week").plus({ days: 1, hours: 9 });
+
+  return { startOfWeek: startOfWeek.toISO(), endOfWeek: endOfWeek.toISO() };
+};
+
 export const getNominationThisWeek = async (
   user: User,
   wallet: WalletInfo,
 ): Promise<Nomination | null> => {
   const userId = user.id;
+  const { startOfWeek, endOfWeek } = await getCurrentWeek();
 
   const nomination = await supabase
     .from("build_nominations_round_2")
     .select(SELECT_NOMINATIONS_FROM_USER)
     .eq("origin_user_id", userId)
     .eq("valid", true)
+    .gte("created_at", startOfWeek)
+    .lte("created_at", endOfWeek)
     .in("destination_wallet_id", wallet.allWallets)
     .throwOnError()
     .then((res) => res.data?.[0]);
@@ -232,15 +248,12 @@ export const getNominationsFromUserThisWeek = async (
   user: User,
 ): Promise<Nomination[]> => {
   const nominations = await getNominationsUserSent(user);
-  const now = DateTime.local();
-  let startOfWeek = DateTime.local()
-    .startOf("week")
-    .plus({ days: 1, hours: 9 });
-  if (now < startOfWeek) {
-    startOfWeek = startOfWeek.minus({ weeks: 1 });
-  }
-  const endOfWeek = DateTime.local().endOf("week").plus({ days: 1, hours: 9 });
-  const interval = Interval.fromDateTimes(startOfWeek, endOfWeek);
+  const { startOfWeek, endOfWeek } = await getCurrentWeek();
+
+  const interval = Interval.fromDateTimes(
+    DateTime.fromISO(startOfWeek),
+    DateTime.fromISO(endOfWeek),
+  );
   return nominations.filter((n) =>
     interval.contains(DateTime.fromISO(n.createdAt)),
   );
@@ -321,13 +334,23 @@ export const createNewNomination = async (
 
   if (!nomination) throw new BadRequestError("Could not create nomination");
 
-  await supabase.rpc("update_nominations_made", {
-    p_user_id: nominatorUser.id,
-  });
-
   await supabase.rpc("distribute_nomination_points", {
     origin_id: nominatorUser.id,
   });
+
+  const { startOfWeek } = await getCurrentWeek();
+
+  await supabase.rpc("update_nominations_made_and_weekly", {
+    p_user_id: nominatorUser.id,
+    p_week_start: startOfWeek,
+  });
+
+  if (nominatedWallet.userId) {
+    await supabase.rpc("update_nominations_received", {
+      p_user_id: nominatedWallet.userId,
+      p_week_start: startOfWeek,
+    });
+  }
 
   revalidatePath(`/airdrop`);
   revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
