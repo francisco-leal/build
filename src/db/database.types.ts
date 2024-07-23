@@ -230,6 +230,7 @@ export type Database = {
           id: number;
           origin_user_id: string;
           origin_wallet_id: string | null;
+          status: string;
           valid: boolean;
         };
         Insert: {
@@ -240,6 +241,7 @@ export type Database = {
           id?: number;
           origin_user_id: string;
           origin_wallet_id?: string | null;
+          status?: string;
           valid?: boolean;
         };
         Update: {
@@ -250,6 +252,7 @@ export type Database = {
           id?: number;
           origin_user_id?: string;
           origin_wallet_id?: string | null;
+          status?: string;
           valid?: boolean;
         };
         Relationships: [
