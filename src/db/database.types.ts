@@ -311,6 +311,9 @@ export type Database = {
           last_wallet: string | null;
           manifesto_nft_token_id: number | null;
           nominations_made: number | null;
+          nominations_made_current_week: number | null;
+          nominations_received: number | null;
+          nominations_received_current_week: number | null;
           passport_builder_score: number;
           passport_id: number | null;
           username: string | null;
@@ -335,6 +338,9 @@ export type Database = {
           last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
           nominations_made?: number | null;
+          nominations_made_current_week?: number | null;
+          nominations_received?: number | null;
+          nominations_received_current_week?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
@@ -359,6 +365,9 @@ export type Database = {
           last_wallet?: string | null;
           manifesto_nft_token_id?: number | null;
           nominations_made?: number | null;
+          nominations_made_current_week?: number | null;
+          nominations_received?: number | null;
+          nominations_received_current_week?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
@@ -494,6 +503,20 @@ export type Database = {
       update_nominations_made: {
         Args: {
           p_user_id: string;
+        };
+        Returns: undefined;
+      };
+      update_nominations_made_and_weekly: {
+        Args: {
+          p_user_id: string;
+          p_week_start: string;
+        };
+        Returns: undefined;
+      };
+      update_nominations_received: {
+        Args: {
+          p_user_id: string;
+          p_week_start: string;
         };
         Returns: undefined;
       };
