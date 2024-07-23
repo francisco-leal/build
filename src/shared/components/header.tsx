@@ -41,7 +41,7 @@ export const Header: FunctionComponent = () => {
     >
       <Stack
         direction="row"
-        maxWidth={{ xs: "md", md: "lg" }}
+        maxWidth={{ xs: "md", md: "xl" }}
         px={{ xs: 2 }}
         mx="auto"
       >
@@ -75,15 +75,18 @@ export const Header: FunctionComponent = () => {
           <Link disabled={activePath === "stats"} href="/stats">
             Dashboard
           </Link>
+          <Link disabled={activePath === "discover"} href="/discover">
+            Discover
+          </Link>
+          <Link disabled={activePath === "leaderboard"} href="/leaderboard">
+            Leaderboard
+          </Link>
           <Link
             disabled={activePath === "airdrop-1"}
             href="/airdrop1"
             sx={{ textWrap: "none" }}
           >
             Airdrop 1
-          </Link>
-          <Link disabled={activePath === "leaderboard"} href="/leaderboard">
-            Leaderboard
           </Link>
           <Link disabled={activePath === "tokenomics"} href="/tokenomics">
             About
@@ -172,14 +175,6 @@ export const Header: FunctionComponent = () => {
         <Link
           component={NextLink}
           prefetch={true}
-          href="/airdrop1"
-          onClick={drawer.close}
-        >
-          Airdrop 1
-        </Link>
-        <Link
-          component={NextLink}
-          prefetch={true}
           href="/stats"
           onClick={drawer.close}
         >
@@ -188,10 +183,26 @@ export const Header: FunctionComponent = () => {
         <Link
           component={NextLink}
           prefetch={true}
+          href="/discover"
+          onClick={drawer.close}
+        >
+          Discover
+        </Link>
+        <Link
+          component={NextLink}
+          prefetch={true}
           href="/leaderboard"
           onClick={drawer.close}
         >
           Leaderboard
+        </Link>
+        <Link
+          component={NextLink}
+          prefetch={true}
+          href="/airdrop1"
+          onClick={drawer.close}
+        >
+          Airdrop 1
         </Link>
         <Link
           component={NextLink}
