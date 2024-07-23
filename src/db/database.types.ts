@@ -463,6 +463,14 @@ export type Database = {
         };
         Returns: undefined;
       };
+      distribute_nomination_points_weekly: {
+        Args: {
+          origin_id: string;
+          p_start_date: string;
+          p_end_date: string;
+        };
+        Returns: undefined;
+      };
       increment_nomination_streak: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;

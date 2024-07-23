@@ -334,11 +334,13 @@ export const createNewNomination = async (
 
   if (!nomination) throw new BadRequestError("Could not create nomination");
 
-  await supabase.rpc("distribute_nomination_points", {
-    origin_id: nominatorUser.id,
-  });
+  const { startOfWeek, endOfWeek } = await getCurrentWeek();
 
-  const { startOfWeek } = await getCurrentWeek();
+  await supabase.rpc("distribute_nomination_points_weekly", {
+    origin_id: nominatorUser.id,
+    p_start_date: startOfWeek,
+    p_end_date: endOfWeek,
+  });
 
   await supabase.rpc("update_nominations_made_and_weekly", {
     p_user_id: nominatorUser.id,
