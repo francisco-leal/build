@@ -23,11 +23,21 @@ export default async function DiscoverPage() {
           sx={{ mb: 2 }}
         >
           This week nominate your favorite designers.<br></br>For inspiration
-          check the top profiles in the /design channel, powered by{" "}
+          check the top profiles in the{" "}
+          <Link
+            target="_blank"
+            textColor={"common.white"}
+            sx={{ textDecoration: "underline" }}
+            href="https://warpcast.com/~/channel/design"
+          >
+            /design channel
+          </Link>
+          , powered by{" "}
           <Link
             href="https://openrank.com"
             textColor={"common.white"}
             sx={{ textDecoration: "underline" }}
+            target="_blank"
           >
             OpenRank
           </Link>
