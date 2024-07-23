@@ -75,7 +75,28 @@ export default async function NominateBuilder({
     );
   }
 
-  const userBalances = await getUserBalances(currentUser, currentUser.wallet);
+  let userBalances;
+  try {
+    userBalances = await getUserBalances(currentUser, currentUser.wallet);
+  } catch (e: any) {
+    return (
+      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
+        {builderProfile}
+        <ModalNominationValues
+          entries={[
+            { label: "Date", value: today },
+            { label: "My Weekly Budget", value: "---" },
+            { label: "Noms made this week", value: "---" },
+            { label: "Points per Nomination", value: "---" },
+          ]}
+        />
+        <ModalActions>
+          <ModalActionMessage>{e.message}</ModalActionMessage>
+        </ModalActions>
+      </Modal>
+    );
+  }
+
   const nominationsThisWeek = await getNominationsFromUserThisWeek(currentUser);
   const sharableWarpcastLink = getWarpcastSharableLinkSingleBuilder(
     builder.username,
