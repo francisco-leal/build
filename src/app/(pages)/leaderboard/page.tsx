@@ -3,13 +3,11 @@ import { DateTime } from "luxon";
 import { getCurrentWeek } from "@/app/_api/data/nominations";
 import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableLeaderboardValues } from "@/app/_api/functions/get-table-leaderboard-values";
-import { HowToPlay } from "@/app/_components/how-to-play";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { TableLeaderboard } from "@/app/_components/table-leaderboard";
-import { HeroSection } from "@/shared/components/hero-section";
 import { HeroSectionWithOverflow } from "@/shared/components/hero-section-with-overflow";
 
-export default async function AirdropPage() {
+export default async function LeaderboardPage() {
   const user = await getCurrentUser();
   if (!user) return <PlaceholderUserNotConnected />;
 
