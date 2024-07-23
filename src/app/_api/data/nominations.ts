@@ -65,6 +65,19 @@ const SELECT_NOMINATIONS_TO_USER_SIMPLIFIED = `
   )
 ` as const;
 
+export const getCurrentWeek = () => {
+  let startOfWeek = DateTime.local()
+    .startOf("week")
+    .plus({ days: 1, hours: 9 });
+  const now = DateTime.local();
+  if (now < startOfWeek) {
+    startOfWeek = startOfWeek.minus({ weeks: 1 });
+  }
+  const endOfWeek = DateTime.local().endOf("week").plus({ days: 1, hours: 9 });
+
+  return { startOfWeek: startOfWeek.toISO(), endOfWeek: endOfWeek.toISO() };
+};
+
 export const getNomination = async (
   user: User,
   wallet: WalletInfo,
@@ -101,19 +114,6 @@ export const getNomination = async (
     destinationRank: nomination.wallets?.users?.boss_leaderboard?.rank ?? null,
     createdAt: nomination.created_at,
   };
-};
-
-export const getCurrentWeek = () => {
-  let startOfWeek = DateTime.local()
-    .startOf("week")
-    .plus({ days: 1, hours: 9 });
-  const now = DateTime.local();
-  if (now < startOfWeek) {
-    startOfWeek = startOfWeek.minus({ weeks: 1 });
-  }
-  const endOfWeek = DateTime.local().endOf("week").plus({ days: 1, hours: 9 });
-
-  return { startOfWeek: startOfWeek.toISO(), endOfWeek: endOfWeek.toISO() };
 };
 
 export const getNominationThisWeek = async (
