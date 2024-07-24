@@ -299,20 +299,15 @@ export type Database = {
       users: {
         Row: {
           boss_budget: number;
-          boss_nomination_streak: number;
           boss_score: number;
           boss_token_balance: number | null;
-          budget_multiplier: number;
           build_commit_amount: number;
-          coinvise_nft: boolean;
           created_at: string;
-          eligible: boolean | null;
           farcaster_id: number | null;
           farcaster_power_user: boolean | null;
           id: string;
           last_budget_calculation: string | null;
           last_wallet: string | null;
-          manifesto_nft_token_id: number | null;
           nominations_made: number | null;
           nominations_made_current_week: number | null;
           nominations_received: number | null;
@@ -320,26 +315,18 @@ export type Database = {
           passport_builder_score: number;
           passport_id: number | null;
           username: string | null;
-          valid_ens: boolean | null;
-          valid_farcaster_id: boolean | null;
-          valid_passport: boolean | null;
         };
         Insert: {
           boss_budget?: number;
-          boss_nomination_streak?: number;
           boss_score?: number;
           boss_token_balance?: number | null;
-          budget_multiplier?: number;
           build_commit_amount?: number;
-          coinvise_nft?: boolean;
           created_at?: string;
-          eligible?: boolean | null;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
           id?: string;
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
-          manifesto_nft_token_id?: number | null;
           nominations_made?: number | null;
           nominations_made_current_week?: number | null;
           nominations_received?: number | null;
@@ -347,26 +334,18 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
-          valid_ens?: boolean | null;
-          valid_farcaster_id?: boolean | null;
-          valid_passport?: boolean | null;
         };
         Update: {
           boss_budget?: number;
-          boss_nomination_streak?: number;
           boss_score?: number;
           boss_token_balance?: number | null;
-          budget_multiplier?: number;
           build_commit_amount?: number;
-          coinvise_nft?: boolean;
           created_at?: string;
-          eligible?: boolean | null;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
           id?: string;
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
-          manifesto_nft_token_id?: number | null;
           nominations_made?: number | null;
           nominations_made_current_week?: number | null;
           nominations_received?: number | null;
@@ -374,9 +353,6 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           username?: string | null;
-          valid_ens?: boolean | null;
-          valid_farcaster_id?: boolean | null;
-          valid_passport?: boolean | null;
         };
         Relationships: [];
       };

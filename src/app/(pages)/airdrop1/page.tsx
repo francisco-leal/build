@@ -1,6 +1,4 @@
-import { Metadata } from "next";
 import { Stack, Typography, Link } from "@mui/joy";
-import { fetchMetadata } from "frames.js/next";
 import {
   getAirdropInfoForCurrentUser,
   getCurrentUser,
@@ -62,7 +60,6 @@ export default async function Airdrop1Page() {
         </Typography>
         <ClaimSection
           details={airdropDetails}
-          user={user}
           getTreeProof={getTreeProof}
           getMultiplierProof={getTreeMultiplierProof}
         />
