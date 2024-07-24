@@ -18,14 +18,12 @@ export default function Tokenomics() {
       <BackgroundImage />
       <HeroSectionSlim sx={{ mb: 0 }}>
         <Typography level="h1">
-          The Memecoin
-          <br />
-          for Builders
+        Universal Builder Income
         </Typography>
 
         <Typography level="title-lg" sx={{ pb: 8 }}>
-          $BUILD is a token of appreciation on Base, and a nominations game to
-          reward onchain builders with both social and financial capital.
+          $BUILD is a token of appreciation on Base, and a weekly nominations game to
+          reward onchain builders.
         </Typography>
         <Box
           component={Image}
@@ -54,10 +52,7 @@ export default function Tokenomics() {
         </Typography>
 
         <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
-          $BUILD is an ERC-20 token on Base with a total supply of a 1T. It
-          launched on May 1st 2024, with a crowdfund on party.app. 60% of tokens
-          are allocated to the community and ecosystem, and other 40% are
-          related with liquidity
+          $BUILD is an ERC-20 token on Base with a total supply of a 1T.
         </Typography>
 
         <Link
@@ -102,8 +97,10 @@ export default function Tokenomics() {
         </Typography>
 
         <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
-          Get to know the stewards team and verify current status of the
-          community treasury. Built by builders, for builders.
+          Get to know the stewards team and the current status of the
+          BUILD treasury.
+          <br />
+          Built by builders, for builders.
         </Typography>
 
         <Button

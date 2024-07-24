@@ -25,7 +25,7 @@ export default async function LeaderboardPage() {
           className="no-overflow"
           textColor={"common.white"}
         >
-          Summer Leaderboard
+          Round 2 Leaderboard
         </Typography>
         <Stack className="overflow">
           <TableLeaderboard values={topLeaderboardValues} />
@@ -36,7 +36,7 @@ export default async function LeaderboardPage() {
             level="body-sm"
             sx={{ color: "common.white" }}
           >
-            Points last update on {lastUpdate}. Next update on {nextUpdate}
+            BUILD Points last update on {lastUpdate}. Next update on {nextUpdate}.
           </Typography>
         )}
         {topLeaderboardValues.length === 0 && (
