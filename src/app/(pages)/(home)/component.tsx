@@ -40,7 +40,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
           Reward your favorite builders with $BUILD every week.
           <Box component={"br"} display={{ xs: "none", sm: "initial" }} />{" "}
-          Nominations reset every Monday.
+          Nominations reset every Tuesday.
         </Typography>
         <SearchBuilder sx={{ mt: 1 }} />
       </HeroSectionSlim>
