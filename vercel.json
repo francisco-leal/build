@@ -1,26 +1,5 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/leaderboard",
-      "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/cron/budget",
-      "schedule": "1 0 * * *"
-    },
-    {
-      "path": "/api/cron/reset_streak",
-      "schedule": "10 0 * * *"
-    },
-    {
-      "path": "/api/cron/increment_streak",
-      "schedule": "59 23 * * *"
-    },
-    {
-      "path": "/api/cron/boss_balance",
-      "schedule": "55 23 * * *"
-    }
-  ],
+  "crons": [],
   "functions": {
     "app/api/cron/*": {
       "maxDuration": 300
