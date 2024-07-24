@@ -28,7 +28,7 @@ export const POST = restApiHandler(async (request) => {
 
   return {
     data: {
-      result: (userStats.nominations_made ?? 0) > 1,
+      result: (userStats.nominations_made ?? 0) >= 1,
     },
   };
 });
