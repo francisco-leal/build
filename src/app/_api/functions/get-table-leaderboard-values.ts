@@ -12,6 +12,7 @@ const getLeaderboardTop50 = unstable_cache(async () => {
     .select("*")
     .order("boss_score", { ascending: false })
     .order("passport_builder_score", { ascending: false })
+    .gt("nominations_received", 0)
     .limit(50)
     .throwOnError();
 
