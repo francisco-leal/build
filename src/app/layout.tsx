@@ -106,8 +106,8 @@ export default function RootLayout({
             <AuthenticationProvider>
               <Header />
               <AnnouncementBar
-                title="BUILD Round 2 is live"
-                message="BUILD noms returned on July 16th and will distribute 50B $BUILD during the Summer."
+                title="BUILD Round 2 is open"
+                message="We're distributing 50B $BUILD during the Summer."
                 action="Read more"
                 link="https://paragraph.xyz/@macedo/build-log-8"
               />
