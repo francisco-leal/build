@@ -48,7 +48,7 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Recalculated weekly on Tuesdays, based on Builder Score, $BUILD Commited
+        Recalculated weekly on Tuesdays, based on Builder Score, $BUILD Committed
         and $BUILD held.
       </Typography>
 
