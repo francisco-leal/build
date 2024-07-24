@@ -55,10 +55,10 @@ export const calculateUserBudget = async (user: User, wallet: string) => {
   const builderScore = passport?.score ?? 0;
 
   const budget =
-    builderScore * 20 +
+    (builderScore >= 40 ? builderScore * 40 : 0) +
     (tokenAmount > 1 ? Math.sqrt(0.01 * tokenAmount) : 0) +
     (user.build_commit_amount > 1
-      ? Math.sqrt(0.1 * user.build_commit_amount)
+      ? Math.sqrt(0.05 * user.build_commit_amount)
       : 0);
 
   await supabase
