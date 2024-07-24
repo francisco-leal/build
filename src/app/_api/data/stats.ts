@@ -5,9 +5,7 @@ import { supabase } from "@/db";
 import { CACHE_5_MINUTES, CacheKey } from "../helpers/cache-keys";
 import { User, getUserFromWallet } from "./users";
 
-type UserStats = User & {
-  nominations_count: number;
-};
+type UserStats = User;
 
 export const getUserStats = async (
   wallet: string,
@@ -16,14 +14,7 @@ export const getUserStats = async (
     async (wallet: string) => {
       const user = await getUserFromWallet(wallet);
       if (!user) return null;
-
-      const { count } = await supabase
-        .from("build_nominations_round_2")
-        .select("*", { count: "exact", head: true })
-        .eq("origin_user_id", user.id)
-        .throwOnError();
-
-      return { ...user, nominations_count: count ?? 0 };
+      return user;
     },
     [`stats_${wallet}`] as CacheKey[],
     { revalidate: CACHE_5_MINUTES },

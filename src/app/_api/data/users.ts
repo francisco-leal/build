@@ -2,12 +2,10 @@
 
 import { revalidateTag, revalidatePath, unstable_cache } from "next/cache";
 import { DateTime } from "luxon";
-import { COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT } from "@/config/coinvise-wallets";
 import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { getSession } from "@/services/authentication/cookie-session";
 import { getBalance } from "@/services/boss-tokens";
-import { hasMintedManifestoNFT } from "@/services/manifesto-nft";
 import { BadRequestError } from "@/shared/utils/error";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
@@ -208,27 +206,19 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
 
   const newUser: Omit<RawUser, "created_at" | "id"> = {
     username: farcasterUser?.username ?? talentUser?.user?.username ?? walletLc,
-    manifesto_nft_token_id: await hasMintedManifestoNFT(walletLc),
     boss_budget: 0,
     boss_score: 0,
     passport_builder_score: talentUser?.score ?? 0,
-    boss_nomination_streak: 0,
     farcaster_id: farcasterUser?.fid ?? null,
     passport_id: talentUser?.passport_id ?? null,
-    coinvise_nft: COINVISE_NFT_TOKEN_HOLDERS_SNAPSHOT[walletLc],
     last_wallet: walletLc,
     last_budget_calculation: null,
-    budget_multiplier: 1,
     farcaster_power_user: farcasterUser?.power_badge ?? false,
-    valid_ens: null,
-    valid_passport: null,
-    valid_farcaster_id: null,
-    eligible: null,
-    nominations_made: null,
     build_commit_amount: 0,
     boss_token_balance: 0,
-    nominations_received: 0,
+    nominations_made: 0,
     nominations_made_current_week: 0,
+    nominations_received: 0,
     nominations_received_current_week: 0,
   };
 
