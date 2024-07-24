@@ -35,7 +35,7 @@ export default async function Airdrop1Page() {
           Claim <Helicopter /> Round 1
         </Typography>
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          The claiming period for Airdrop 1: Round 1 is closed.{" "}
+          The claiming period for {" "}
           <Link
             href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
             target="_blank"
@@ -43,10 +43,10 @@ export default async function Airdrop1Page() {
             underline="always"
             sx={{ textDecoration: "underline" }}
           >
-            Eligible users
+            Round 1 of Airdrop 1 is over.
           </Link>{" "}
-          were able to claim or commit tokens between June 30th and July 4th.
-          Read more about the future of BUILD{" "}
+          <br />
+          Read more about the {" "}
           <Link
             href={"https://paragraph.xyz/@macedo"}
             target="_blank"
@@ -54,7 +54,7 @@ export default async function Airdrop1Page() {
             underline="always"
             sx={{ textDecoration: "underline" }}
           >
-            here
+            future of BUILD
           </Link>
           .
         </Typography>
