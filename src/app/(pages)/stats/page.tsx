@@ -9,7 +9,6 @@ import { CardBossTokens } from "@/app/_components/card-boss-tokens";
 import { CardBuildCommitted } from "@/app/_components/card-build-committed";
 import { CardBuilderScore } from "@/app/_components/card-builder-score";
 import { CardDailyBudget } from "@/app/_components/card-daily-budget";
-import { CardDailyStreak } from "@/app/_components/card-daily-streak";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { TableNominationsReceived } from "@/app/_components/table-nominations-received";
 import { TableNominationsSent } from "@/app/_components/table-nominations-sent";

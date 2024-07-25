@@ -1,5 +1,10 @@
 {
-  "crons": [],
+  "crons": [
+    {
+      "path": "/api/cron/leaderboard_update",
+      "schedule": "0 9 * * *"
+    }
+  ],
   "functions": {
     "app/api/cron/*": {
       "maxDuration": 300
