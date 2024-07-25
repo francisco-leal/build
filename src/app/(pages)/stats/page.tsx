@@ -5,10 +5,9 @@ import { getTableNominationsSentValues } from "@/app/_api/functions/get-table-no
 import { recalculateBuilderBudget } from "@/app/_api/functions/recalculate-budget";
 import { CardBossPoints } from "@/app/_components/card-boss-points";
 import { CardBossTokens } from "@/app/_components/card-boss-tokens";
-import { CardBuildCommitted } from "@/app/_components/card-build-commited";
+import { CardBuildCommitted } from "@/app/_components/card-build-committed";
 import { CardBuilderScore } from "@/app/_components/card-builder-score";
 import { CardDailyBudget } from "@/app/_components/card-daily-budget";
-import { CardDailyStreak } from "@/app/_components/card-daily-streak";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { TableNominationsReceived } from "@/app/_components/table-nominations-received";
 import { TableNominationsSent } from "@/app/_components/table-nominations-sent";
@@ -33,7 +32,7 @@ export default async function AirdropPage() {
             gap: 3,
           }}
         >
-          <CardBuildCommitted buildCommited={user.build_commit_amount} />
+          <CardBuildCommitted buildCommitted={user.build_commit_amount} />
           <CardBossTokens />
           <CardBuilderScore
             score={user.passport_builder_score}

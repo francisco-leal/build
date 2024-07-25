@@ -37,7 +37,7 @@ export const GET = restApiHandler(async (request) => {
       userStats.nominations_received_current_week,
     nominations_given: userStats.nominations_made,
     nominations_given_current_week: userStats.nominations_made_current_week,
-    tokens_commited_round_1: userStats.build_commit_amount,
+    tokens_committed_round_1: userStats.build_commit_amount,
     talent_passport_id: userStats.passport_id,
     talent_builder_score: userStats.passport_builder_score,
   };

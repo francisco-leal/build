@@ -57,7 +57,7 @@ export const calculateUserBudget = async (user: User, wallet: string) => {
   const budget =
     (builderScore >= 40 ? builderScore * 40 : 0) +
     (tokenAmount > 1 ? Math.sqrt(0.01 * tokenAmount) : 0) +
-    (user.build_commit_amount > 1
+    (user.build_commit_amount >= 1
       ? Math.sqrt(0.05 * user.build_commit_amount)
       : 0);
 

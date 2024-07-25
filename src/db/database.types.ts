@@ -272,6 +272,77 @@ export type Database = {
           },
         ];
       };
+      leaderboard: {
+        Row: {
+          boss_budget: number;
+          boss_score: number;
+          boss_token_balance: number | null;
+          build_commit_amount: number;
+          created_at: string;
+          farcaster_id: number | null;
+          farcaster_power_user: boolean | null;
+          id: string;
+          last_budget_calculation: string | null;
+          last_wallet: string | null;
+          nominations_made: number | null;
+          nominations_made_current_week: number | null;
+          nominations_received: number | null;
+          nominations_received_current_week: number | null;
+          passport_builder_score: number;
+          passport_id: number | null;
+          user_id: string | null;
+          username: string | null;
+        };
+        Insert: {
+          boss_budget?: number;
+          boss_score?: number;
+          boss_token_balance?: number | null;
+          build_commit_amount?: number;
+          created_at?: string;
+          farcaster_id?: number | null;
+          farcaster_power_user?: boolean | null;
+          id?: string;
+          last_budget_calculation?: string | null;
+          last_wallet?: string | null;
+          nominations_made?: number | null;
+          nominations_made_current_week?: number | null;
+          nominations_received?: number | null;
+          nominations_received_current_week?: number | null;
+          passport_builder_score?: number;
+          passport_id?: number | null;
+          user_id?: string | null;
+          username?: string | null;
+        };
+        Update: {
+          boss_budget?: number;
+          boss_score?: number;
+          boss_token_balance?: number | null;
+          build_commit_amount?: number;
+          created_at?: string;
+          farcaster_id?: number | null;
+          farcaster_power_user?: boolean | null;
+          id?: string;
+          last_budget_calculation?: string | null;
+          last_wallet?: string | null;
+          nominations_made?: number | null;
+          nominations_made_current_week?: number | null;
+          nominations_received?: number | null;
+          nominations_received_current_week?: number | null;
+          passport_builder_score?: number;
+          passport_id?: number | null;
+          user_id?: string | null;
+          username?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "leaderboard_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       scheduled_updates: {
         Row: {
           finished_at: string | null;

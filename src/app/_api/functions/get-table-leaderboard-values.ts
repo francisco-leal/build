@@ -6,7 +6,7 @@ import { TableLeaderboardValue } from "../../_components/table-leaderboard";
 import { getCurrentUser } from "../data/users";
 import { CacheKey } from "../helpers/cache-keys";
 
-const getLeaderboardTop50 = unstable_cache(async () => {
+export const getLeaderboardTop50 = unstable_cache(async () => {
   const { data: leaderboardData } = await supabase
     .from("users")
     .select("*")

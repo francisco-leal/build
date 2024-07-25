@@ -3,10 +3,6 @@ import {
   getAirdropInfoForCurrentUser,
   getCurrentUser,
 } from "@/app/_api/data/users";
-import {
-  getTreeProof,
-  getTreeMultiplierProof,
-} from "@/app/_api/functions/calculate-merkle-proof";
 import { ClaimSection } from "@/app/_components/claim-section";
 import { PlaceholderUserNotConnected } from "@/app/_components/placeholder-user-not-connected";
 import { HeroSection } from "@/shared/components/hero-section";
@@ -35,7 +31,7 @@ export default async function Airdrop1Page() {
           Claim <Helicopter /> Round 1
         </Typography>
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          The claiming period for {" "}
+          The claiming period for{" "}
           <Link
             href="https://buildcommunity.notion.site/BUILD-FAQ-51bd011214534fa596f15632ef788b10?pvs=4"
             target="_blank"
@@ -46,7 +42,7 @@ export default async function Airdrop1Page() {
             Round 1 of Airdrop 1 is over.
           </Link>{" "}
           <br />
-          Read more about the {" "}
+          Read more about the{" "}
           <Link
             href={"https://paragraph.xyz/@macedo"}
             target="_blank"
@@ -58,11 +54,7 @@ export default async function Airdrop1Page() {
           </Link>
           .
         </Typography>
-        <ClaimSection
-          details={airdropDetails}
-          getTreeProof={getTreeProof}
-          getMultiplierProof={getTreeMultiplierProof}
-        />
+        <ClaimSection details={airdropDetails} />
       </HeroSection>
     </Stack>
   );
