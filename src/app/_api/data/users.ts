@@ -17,18 +17,16 @@ import {
 
 type Tables = Database["public"]["Tables"];
 
-const SELECT_USERS = "*, wallets(*), boss_leaderboard(*)" as const;
+const SELECT_USERS = "*, wallets(*)" as const;
 
 export type Wallet = Tables["wallets"]["Row"];
 export type RawUser = Tables["users"]["Row"];
-export type Leaderboard = Tables["boss_leaderboard"]["Row"];
 export type AirdropInfo = Tables["airdrop"]["Row"];
 
 export type PartialWallet = Partial<Wallet> & Pick<Wallet, "wallet">;
 
 export type User = RawUser & {
   wallets: Wallet[];
-  boss_leaderboard: Leaderboard | null;
 };
 
 export type CurrentUser = User & {

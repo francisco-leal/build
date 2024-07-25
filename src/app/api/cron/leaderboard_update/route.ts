@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
 
   const leaderboardUsers = topUsers.map((user) => ({
     ...user,
-    id: undefined,
     user_id: user.id,
   }));
 
