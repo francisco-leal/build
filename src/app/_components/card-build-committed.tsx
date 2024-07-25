@@ -5,12 +5,12 @@ import { FireNominationStreak } from "@/shared/icons/fire-nomination-streak";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 
 export type DailyStreakCardProps = {
-  buildCommited?: number;
+  buildCommitted?: number;
   loading?: boolean;
 };
 
 export const CardBuildCommitted: FunctionComponent<DailyStreakCardProps> = ({
-  buildCommited,
+  buildCommitted,
   loading,
 }) => {
   return (
@@ -24,7 +24,7 @@ export const CardBuildCommitted: FunctionComponent<DailyStreakCardProps> = ({
         <Typography
           sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
         >
-          {loading ? "---" : formatLargeNumber(buildCommited ?? 0)}
+          {loading ? "---" : formatLargeNumber(buildCommitted ?? 0)}
         </Typography>
       </Stack>
 

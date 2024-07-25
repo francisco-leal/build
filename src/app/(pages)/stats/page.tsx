@@ -6,7 +6,7 @@ import { recalculateBuilderBudget } from "@/app/_api/functions/recalculate-budge
 import { recalculateBuilderScore } from "@/app/_api/functions/recalculate-builder-score";
 import { CardBossPoints } from "@/app/_components/card-boss-points";
 import { CardBossTokens } from "@/app/_components/card-boss-tokens";
-import { CardBuildCommitted } from "@/app/_components/card-build-commited";
+import { CardBuildCommitted } from "@/app/_components/card-build-committed";
 import { CardBuilderScore } from "@/app/_components/card-builder-score";
 import { CardDailyBudget } from "@/app/_components/card-daily-budget";
 import { CardDailyStreak } from "@/app/_components/card-daily-streak";
@@ -34,7 +34,7 @@ export default async function AirdropPage() {
             gap: 3,
           }}
         >
-          <CardBuildCommitted buildCommited={user.build_commit_amount} />
+          <CardBuildCommitted buildCommitted={user.build_commit_amount} />
           <CardBossTokens />
           <CardBuilderScore
             score={user.passport_builder_score}
