@@ -8,13 +8,19 @@ import { BlockyCard } from "@/shared/components/blocky-card";
 import { UserShield } from "@/shared/icons/user-shield";
 import { formatNumber } from "@/shared/utils/format-number";
 
-export type BuilderScoreCardComponentProps = {
-  score?: number;
-  loading?: boolean;
-  recalculate?: () => Promise<number>;
-};
 
 export const CardBuilderScore: FunctionComponent<
+  BuilderScoreCardComponentProps
+> = ({ score = 0, loading, recalculate }) => {
+  const [isTransition, transition] = useTransition();
+
+  const recalculateScore = () =>
+    transition(() => {
+      if (recalculate) recalculate().catch((e) => toast.error(e.message));
+    });
+
+  return (
+    <BlockyCard>
       <Typography level="body-lg" textColor="primary.500">
         Builder Score
       </Typography>
