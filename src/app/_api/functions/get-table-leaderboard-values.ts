@@ -8,7 +8,7 @@ import { CacheKey } from "../helpers/cache-keys";
 
 export const getLeaderboardTop50 = unstable_cache(async () => {
   const { data: leaderboardData } = await supabase
-    .from("users")
+    .from("leaderboard")
     .select("*")
     .order("boss_score", { ascending: false })
     .order("passport_builder_score", { ascending: false })
@@ -24,13 +24,6 @@ export const getTableLeaderboardValues = async (): Promise<
 > => {
   const user = await getCurrentUser();
   const leaderboard = await getLeaderboardTop50();
-  const containsUser = leaderboard.some((l) => l.id === user?.id);
-
-  if (!containsUser && user?.boss_leaderboard) {
-    leaderboard.push({
-      ...user,
-    });
-  }
 
   return leaderboard.map((entry, index) => ({
     id: entry.id.toString(),
