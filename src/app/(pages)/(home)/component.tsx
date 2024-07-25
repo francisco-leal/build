@@ -38,7 +38,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
         </Typography>
 
         <Typography level="title-lg" sx={{ maxWidth: "sm" }}>
-          Reward your favorite builders with $BUILD every week.
+          Reward your favorite builders with $BUILD points.
           <Box component={"br"} display={{ xs: "none", sm: "initial" }} />{" "}
           Nominations reset every Tuesday.
         </Typography>
@@ -53,7 +53,7 @@ export const HomePageComponent: FunctionComponent<HomePageComponentProps> = ({
             <Lego sx={{ fontSize: "64px" }} />
             <Typography level="h3">What is BUILD?</Typography>
             <Typography sx={{ maxWidth: "600px" }}>
-              BUILD is a token of appreciation on Base, and a nominations game
+              $BUILD is a token of appreciation on Base, and a nominations game
               to reward onchain builders.
             </Typography>
 

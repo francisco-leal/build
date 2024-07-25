@@ -3,7 +3,6 @@ import { getCurrentUser } from "@/app/_api/data/users";
 import { getTableNominationsReceivedValues } from "@/app/_api/functions/get-table-nominations-received-values";
 import { getTableNominationsSentValues } from "@/app/_api/functions/get-table-nominations-sent-values";
 import { recalculateBuilderBudget } from "@/app/_api/functions/recalculate-budget";
-import { recalculateBuilderScore } from "@/app/_api/functions/recalculate-builder-score";
 import { CardBossPoints } from "@/app/_components/card-boss-points";
 import { CardBossTokens } from "@/app/_components/card-boss-tokens";
 import { CardBuildCommitted } from "@/app/_components/card-build-commited";
@@ -38,7 +37,6 @@ export default async function AirdropPage() {
           <CardBossTokens />
           <CardBuilderScore
             score={user.passport_builder_score}
-            recalculate={recalculateBuilderScore}
           />
         </Stack>
         <Stack
