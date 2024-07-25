@@ -1,23 +1,20 @@
 "use client";
 
 import { FunctionComponent } from "react";
-import { useTransition } from "react";
 import { Button, Stack, Typography, Link } from "@mui/joy";
-import { toast } from "sonner";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { UserShield } from "@/shared/icons/user-shield";
 import { formatNumber } from "@/shared/utils/format-number";
 
+export type BuilderScoreCardComponentProps = {
+  score?: number;
+  loading?: boolean;
+  recalculate?: () => Promise<number>;
+};
 
 export const CardBuilderScore: FunctionComponent<
   BuilderScoreCardComponentProps
-> = ({ score = 0, loading, recalculate }) => {
-  const [isTransition, transition] = useTransition();
-
-  const recalculateScore = () =>
-    transition(() => {
-      if (recalculate) recalculate().catch((e) => toast.error(e.message));
-    });
+> = ({ score = 0, loading }) => {
 
   return (
     <BlockyCard>
