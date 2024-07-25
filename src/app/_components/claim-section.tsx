@@ -14,8 +14,6 @@ import { User } from "../_api/data/users";
 
 type Props = {
   details: AirdropInfo | null;
-  getTreeProof: (index: number) => Promise<string[] | null>;
-  getMultiplierProof: (index: number) => Promise<string[] | null>;
 };
 
 const MERKLE_DISTRIBUTION_CONTRACT =
