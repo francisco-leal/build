@@ -15,17 +15,6 @@ export type BuilderScoreCardComponentProps = {
 };
 
 export const CardBuilderScore: FunctionComponent<
-  BuilderScoreCardComponentProps
-> = ({ score = 0, loading, recalculate }) => {
-  const [isTransition, transition] = useTransition();
-
-  const recalculateScore = () =>
-    transition(() => {
-      if (recalculate) recalculate().catch((e) => toast.error(e.message));
-    });
-
-  return (
-    <BlockyCard>
       <Typography level="body-lg" textColor="primary.500">
         Builder Score
       </Typography>
@@ -40,32 +29,19 @@ export const CardBuilderScore: FunctionComponent<
       </Stack>
 
       <Typography textColor="neutral.500">
-        Your reputation as a builder, as measured by the{" "}
-        <Link
-          href="https://passport.talentprotocol.com"
-          target="_blank"
-          textColor="neutral.500"
-          sx={{ textDecoration: "underline" }}
-        >
-          Talent Passport
-        </Link>
-        .
+        Your reputation as a builder, as measured by the Talent Passport.
       </Typography>
 
       <Button
+        href={
+          "https://passport.talentprotocol.com"
+        }
+        target="_blank"
+        component={Link}
         variant="solid"
         color="primary"
-        loading={isTransition}
-        onClick={() => recalculateScore()}
-        sx={{
-          "& svg": {
-            color: "primary.500",
-            width: 20,
-            height: 20,
-          },
-        }}
       >
-        Refresh Score
+        Talent Passport
       </Button>
     </BlockyCard>
   );
