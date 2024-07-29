@@ -44,13 +44,13 @@ function parseBuildCommitterCredentialValue(value: string) {
     B: 1e9,
   } as Record<string, number>;
 
-  const match = value.match(/(\d+\.?\d*)([KMB])/);
+  const match = value.match(/(\d+\.?\d*)([KMB])/i);
   if (!match) {
     return 0;
   }
 
   const number = parseFloat(match[1]);
-  const unit = match[2];
+  const unit = match[2].toUpperCase();
 
   return number * (units[unit] || 1);
 }
