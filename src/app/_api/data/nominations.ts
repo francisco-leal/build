@@ -42,7 +42,8 @@ const SELECT_NOMINATIONS_FROM_USER = `
     username,
     users (
       id,
-      username
+      username,
+      rank_current_week
     ) 
   )       
 ` as const;
@@ -53,7 +54,8 @@ const SELECT_NOMINATIONS_TO_USER_SIMPLIFIED = `
     id,
     username,
     passport_id,
-    farcaster_id
+    farcaster_id,
+    rank_current_week
   )
 ` as const;
 
@@ -91,7 +93,7 @@ export const getNomination = async (
     id: nomination.id,
     originUserId: nomination.origin_user_id,
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
-    originRank: null,
+    originRank: user.rank_current_week,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
     buildPointsReceived: 0,
     buildPointsSent:
@@ -103,7 +105,7 @@ export const getNomination = async (
       nomination.wallets?.users?.username ??
       nomination.wallets?.username ??
       abbreviateWalletAddress(nomination.destination_wallet_id),
-    destinationRank: null,
+    destinationRank: nomination.wallets?.users?.rank_current_week ?? null,
     createdAt: nomination.created_at,
   };
 };
@@ -132,7 +134,7 @@ export const getNominationThisWeek = async (
     id: nomination.id,
     originUserId: nomination.origin_user_id,
     originUsername: user.username ?? "", // TODO: a default here should be redundant.
-    originRank: null,
+    originRank: user.rank_current_week,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
     buildPointsReceived: 0,
     buildPointsSent: nomination.boss_points_sent,
@@ -141,7 +143,7 @@ export const getNominationThisWeek = async (
       nomination.wallets?.users?.username ??
       nomination.wallets?.username ??
       abbreviateWalletAddress(nomination.destination_wallet_id),
-    destinationRank: null,
+    destinationRank: nomination.wallets?.users?.rank_current_week ?? null,
     createdAt: nomination.created_at,
   };
 };
@@ -164,7 +166,7 @@ export const getNominationsUserSent = async (
           id: nomination.id,
           originUserId: user.id,
           originUsername: user.username ?? "", // TODO: a default here should be redundant.
-          originRank: null,
+          originRank: user.rank_current_week,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
           buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
@@ -174,7 +176,7 @@ export const getNominationsUserSent = async (
             nomination.wallets?.username ??
             abbreviateWalletAddress(nomination.destination_wallet_id) ??
             null,
-          destinationRank: null,
+          destinationRank: nomination.wallets?.users?.rank_current_week ?? null,
           createdAt: nomination.created_at,
         })) ?? []
       );
@@ -205,7 +207,7 @@ export const getNominationsUserReceived = async (
           id: nomination.id,
           originUserId: nomination.origin_user_id,
           originUsername: nomination?.users?.username ?? "",
-          originRank: null,
+          originRank: user.rank_current_week,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
           buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
@@ -214,7 +216,7 @@ export const getNominationsUserReceived = async (
           destinationUsername:
             user.username ??
             abbreviateWalletAddress(nomination.destination_wallet_id), // not used
-          destinationRank: null, // not used
+          destinationRank: nomination.users?.rank_current_week ?? null,
         })) ?? []
       );
     },
@@ -361,7 +363,7 @@ export const createNewNomination = async (
     id: nomination.id,
     originUserId: nomination.origin_user_id,
     originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
-    originRank: null,
+    originRank: nominatorUser.rank_current_week,
     originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
     buildPointsReceived: 0,
     buildPointsSent: Math.round(nomination.boss_points_sent),
@@ -369,7 +371,7 @@ export const createNewNomination = async (
     destinationUsername:
       nomination.wallets?.users?.username ??
       abbreviateWalletAddress(nomination.destination_wallet_id),
-    destinationRank: null,
+    destinationRank: nomination.wallets?.users?.rank_current_week ?? null,
     createdAt: nomination.created_at,
   };
 };
@@ -421,7 +423,7 @@ export const getTopNominationsForUser = async (
           originUsername: nomination?.users?.username ?? "",
           originPassportId: nomination?.users?.passport_id ?? null,
           originFarcasterId: nomination?.users?.farcaster_id ?? null,
-          originRank: null,
+          originRank: user.rank_current_week,
           originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
           buildPointsReceived: 0,
           buildPointsSent: nomination.boss_points_sent,
@@ -429,7 +431,7 @@ export const getTopNominationsForUser = async (
           destinationUsername:
             user.username ??
             abbreviateWalletAddress(nomination.destination_wallet_id),
-          destinationRank: null,
+          destinationRank: user.rank_current_week,
           createdAt: nomination.created_at,
         })) ?? []
       );
