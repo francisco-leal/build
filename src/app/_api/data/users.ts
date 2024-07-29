@@ -202,7 +202,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     return user;
   }
 
-  const newUser: Omit<RawUser, "created_at" | "id"> = {
+  const newUser: Omit<RawUser, "created_at" | "id" | "rank_current_week"> = {
     username: farcasterUser?.username ?? talentUser?.user?.username ?? walletLc,
     boss_budget: 0,
     boss_score: 0,
