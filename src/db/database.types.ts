@@ -385,6 +385,7 @@ export type Database = {
           nominations_received_current_week: number | null;
           passport_builder_score: number;
           passport_id: number | null;
+          rank_current_week: number | null;
           username: string | null;
         };
         Insert: {
@@ -404,6 +405,7 @@ export type Database = {
           nominations_received_current_week?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
+          rank_current_week?: number | null;
           username?: string | null;
         };
         Update: {
@@ -423,6 +425,7 @@ export type Database = {
           nominations_received_current_week?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
+          rank_current_week?: number | null;
           username?: string | null;
         };
         Relationships: [];
@@ -559,6 +562,10 @@ export type Database = {
           p_user_id: string;
           p_week_start: string;
         };
+        Returns: undefined;
+      };
+      update_user_ranks: {
+        Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
     };
