@@ -4,6 +4,7 @@ import { FunctionComponent } from "react";
 import { useTransition } from "react";
 import { Stack, Typography, Button, Link } from "@mui/joy";
 import { DateTime } from "luxon";
+import { toast } from "sonner";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { Dice } from "@/shared/icons/dice";
 import { formatNumber } from "@/shared/utils/format-number";
@@ -25,11 +26,20 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
     DateTime.now()
       .diff(DateTime.fromISO(lastCalculation ?? ""))
       .as("days") >= 1 || budget === 0;
+
   const [isTransition, transition] = useTransition();
 
-  const recalculateBudget = () =>
-    transition(() => {
-      if (recalculate) recalculate();
+  const recalculateBudget = async () =>
+    transition(async () => {
+      if (recalculate) {
+        try {
+          await recalculate();
+          toast.success("Successfully calculated budget!");
+        } catch (e) {
+          if (e instanceof Error) toast.error(e.message);
+          else toast.error("Failed to calculate budget!");
+        }
+      }
     });
 
   return (
@@ -48,8 +58,8 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Recalculated weekly on Tuesdays, based on Builder Score, $BUILD Committed
-        and $BUILD held.
+        Recalculated weekly on Tuesdays, based on Builder Score, $BUILD
+        Committed and $BUILD held.
       </Typography>
 
       {shouldLetRecalculate && (
