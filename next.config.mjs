@@ -23,6 +23,11 @@ const nextConfig = {
         destination: "/stats",
         permanent: true,
       },
+      {
+        source: "/tokenomics",
+        destination: "/about",
+        permanent: true,
+      },
     ];
   },
 };

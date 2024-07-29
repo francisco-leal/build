@@ -88,7 +88,7 @@ export const Header: FunctionComponent = () => {
           >
             Airdrop 1
           </Link>
-          <Link disabled={activePath === "tokenomics"} href="/tokenomics">
+          <Link disabled={activePath === "about"} href="/about">
             About
           </Link>
         </Stack>
@@ -207,7 +207,7 @@ export const Header: FunctionComponent = () => {
         <Link
           component={NextLink}
           prefetch={true}
-          href="/tokenomics"
+          href="/about"
           onClick={drawer.close}
         >
           About
