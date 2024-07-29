@@ -66,6 +66,7 @@ export const calculateUserBudget = async (user: User, wallet: string) => {
       boss_budget: budget,
       boss_token_balance: tokenAmount,
       last_budget_calculation: new Date().toISOString(),
+      humanity_checkmark: passport?.verified ?? false,
     })
     .eq("id", user.id)
     .throwOnError();
@@ -218,6 +219,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     nominations_made_current_week: 0,
     nominations_received: 0,
     nominations_received_current_week: 0,
+    humanity_checkmark: talentUser?.verified ?? false,
   };
 
   const user = await supabase
