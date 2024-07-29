@@ -69,7 +69,7 @@ export default async function NominateBuilder({
           ]}
         />
         <ModalActions>
-          <ConnectWalletButton />
+          <ConnectWalletButton forceRefreshOnConnect={true} />
         </ModalActions>
       </Modal>
     );
