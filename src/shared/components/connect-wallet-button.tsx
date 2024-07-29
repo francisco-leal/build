@@ -1,19 +1,29 @@
 "use client";
 
+import { useEffect } from "react";
 import { NoSsr } from "@mui/base";
 import { Stack, Button, StackProps } from "@mui/joy";
 import { useAccount } from "wagmi";
 
 export type ConnectWalletButtonProps = StackProps & {
   hideIfConnected?: boolean;
+  forceRefreshOnConnect?: boolean;
 };
 
 export const ConnectWalletButton = ({
   hideIfConnected,
+  forceRefreshOnConnect,
   ...props
 }: ConnectWalletButtonProps) => {
   // Wallet
   const { address } = useAccount();
+
+  // Force refresh on connect
+  useEffect(() => {
+    if (forceRefreshOnConnect && address) {
+      window.location.reload();
+    }
+  }, [address, forceRefreshOnConnect]);
 
   if (hideIfConnected && address) return null;
 
