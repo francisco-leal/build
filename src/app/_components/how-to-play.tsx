@@ -86,11 +86,11 @@ export const HowToPlay: FunctionComponent = () => {
               variant="solid"
               color="neutral"
               component={Link}
-              href="/tokenomics"
+              href="/about"
               underline="none"
               sx={{ mt: 2 }}
             >
-              Tokenomics
+              About
             </Button>
           </Stack>
         </Stack>
