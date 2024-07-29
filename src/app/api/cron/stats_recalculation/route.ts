@@ -1,25 +1,22 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest } from "next/server";
-import { getLeaderboardTop50 } from "@/app/_api/functions/get-table-leaderboard-values";
+import { DateTime } from "luxon";
 import { supabase } from "@/db";
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 export async function GET(request: NextRequest) {
-  revalidateTag("leaderboard_top_50");
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const topUsers = await getLeaderboardTop50();
+  // reset noms weekly
+  await supabase.rpc("reset_nominations_weekly");
 
-  const leaderboardUsers = topUsers.map((user) => ({
-    ...user,
-    user_id: user.id,
-  }));
-
-  await supabase.from("leaderboard").delete();
-  await supabase.from("leaderboard").insert(leaderboardUsers);
+  // update points for all users
+  await supabase.rpc("update_boss_score_for_all", {
+    p_end_date: DateTime.local().toISO(),
+  });
 
   revalidateTag("leaderboard_top_50");
 

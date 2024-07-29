@@ -473,14 +473,6 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      calculate_boss_budget: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      calculate_boss_budget_temp: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
       calculate_boss_budget_user: {
         Args: {
           user_to_update: string;
@@ -521,25 +513,14 @@ export type Database = {
         };
         Returns: undefined;
       };
-      increment_nomination_streak: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
       increment_nomination_streak_for_yesterday: {
         Args: {
           target_date: string;
         };
         Returns: undefined;
       };
-      reset_nomination_streak: {
+      reset_nominations_weekly: {
         Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      update_boss_budget_batch: {
-        Args: {
-          batch_size: number;
-          offset_value: number;
-        };
         Returns: undefined;
       };
       update_boss_daily_streak_for_user: {
@@ -548,14 +529,16 @@ export type Database = {
         };
         Returns: undefined;
       };
+      update_boss_score_for_all: {
+        Args: {
+          p_end_date: string;
+        };
+        Returns: undefined;
+      };
       update_boss_score_for_user: {
         Args: {
           user_to_update: string;
         };
-        Returns: undefined;
-      };
-      update_leaderboard: {
-        Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
       update_nominations_made: {
