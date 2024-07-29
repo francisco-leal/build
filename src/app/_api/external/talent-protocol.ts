@@ -31,6 +31,18 @@ export type PassportResult = {
   verified_wallets: Array<string>;
 };
 
+export type PassportCredentials = {
+  passport_credentials: {
+    id: string;
+    last_calculated_at: string;
+    max_score: number;
+    name: string;
+    score: number;
+    type: string;
+    value: string;
+  }[];
+};
+
 export const searchTalentProtocolUser = async (query: string) => {
   return unstable_cache(
     async (query: string) => {
@@ -85,6 +97,39 @@ export const getTalentProtocolUser = async (walletId: string) => {
     [`talent_protocol_${walletId}`] as CacheKey[],
     { revalidate: CACHE_60_MINUTES },
   )(walletId);
+};
+
+export const getCredentialsForPassport = async (passportId: number | null) => {
+  return unstable_cache(
+    async (passportId: number | null) => {
+      const api_url = process.env.PASSPORT_API_URL;
+      const api_token = process.env.PASSPORT_API_TOKEN;
+      const id = passportId;
+
+      if (!id) return [];
+
+      const url = `${api_url}/api/v2/passport_credentials?id=${id}`;
+      const headers = {
+        "Content-Type": "application/json",
+        "X-API-KEY": api_token || "",
+      };
+
+      try {
+        const response = await fetch(url, { headers });
+        const data = (await response.json()) as PassportCredentials;
+
+        const credentials = data.passport_credentials.filter(
+          (c) => c.score > 0.0,
+        );
+
+        return credentials;
+      } catch {
+        return [];
+      }
+    },
+    [`talent_protocol_credentials_${passportId}`] as CacheKey[],
+    { revalidate: CACHE_60_MINUTES },
+  )(passportId);
 };
 
 export const resyncPassportForUser = async (user: User) => {

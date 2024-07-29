@@ -1,6 +1,7 @@
 import { fetchQuery, init } from "@airstack/node";
 import { DateTime } from "luxon";
 import { User } from "../data/users";
+import { PassportCredentials } from "./talent-protocol";
 
 init(process.env.AIRSTACK_API_KEY!);
 
@@ -207,18 +208,6 @@ export const checkEns = async (user: User): Promise<boolean> => {
   } catch {
     return false;
   }
-};
-
-type PassportCredentials = {
-  passport_credentials: {
-    id: string;
-    last_calculated_at: string;
-    max_score: number;
-    name: string;
-    score: number;
-    type: string;
-    value: string;
-  }[];
 };
 
 export const checkCredentials = async (user: User): Promise<boolean> => {

@@ -8,7 +8,10 @@ import { getSession } from "@/services/authentication/cookie-session";
 import { getBalance } from "@/services/boss-tokens";
 import { BadRequestError } from "@/shared/utils/error";
 import { getFarcasterUser } from "../external/farcaster";
-import { getTalentProtocolUser } from "../external/talent-protocol";
+import {
+  getTalentProtocolUser,
+  getCredentialsForPassport,
+} from "../external/talent-protocol";
 import {
   CACHE_5_MINUTES,
   CacheKey,
@@ -17,18 +20,16 @@ import {
 
 type Tables = Database["public"]["Tables"];
 
-const SELECT_USERS = "*, wallets(*), boss_leaderboard(*)" as const;
+const SELECT_USERS = "*, wallets(*)" as const;
 
 export type Wallet = Tables["wallets"]["Row"];
 export type RawUser = Tables["users"]["Row"];
-export type Leaderboard = Tables["boss_leaderboard"]["Row"];
 export type AirdropInfo = Tables["airdrop"]["Row"];
 
 export type PartialWallet = Partial<Wallet> & Pick<Wallet, "wallet">;
 
 export type User = RawUser & {
   wallets: Wallet[];
-  boss_leaderboard: Leaderboard | null;
 };
 
 export type CurrentUser = User & {
@@ -36,10 +37,39 @@ export type CurrentUser = User & {
   wallet: string;
 };
 
+function parseBuildCommitterCredentialValue(value: string) {
+  const units = {
+    K: 1e3,
+    M: 1e6,
+    B: 1e9,
+  } as Record<string, number>;
+
+  const match = value.match(/(\d+\.?\d*)([KMB])/i);
+  if (!match) {
+    return 0;
+  }
+
+  const number = parseFloat(match[1]);
+  const unit = match[2].toUpperCase();
+
+  return number * (units[unit] || 1);
+}
+
 export const calculateUserBudget = async (user: User, wallet: string) => {
   const passport = await getTalentProtocolUser(wallet);
+  const credentials = await getCredentialsForPassport(
+    passport?.passport_id ?? null,
+  );
   const tokenAmount = await getBalance(wallet);
-  if (user.build_commit_amount <= 0) {
+  const buildCredential = credentials.find((c) => c.type === "build");
+  const buildCommitAmount = buildCredential
+    ? parseBuildCommitterCredentialValue(buildCredential.value)
+    : 0;
+
+  const builderScore = passport?.score ?? 0;
+  const userBuildAmount = user.build_commit_amount || buildCommitAmount;
+
+  if (userBuildAmount <= 0) {
     if (!passport || tokenAmount < 10_000_000) {
       throw new BadRequestError(
         "You must have a Talent Passport with humanity verification or over 10M $BUILD tokens in your wallet!",
@@ -52,14 +82,10 @@ export const calculateUserBudget = async (user: User, wallet: string) => {
     }
   }
 
-  const builderScore = passport?.score ?? 0;
-
   const budget =
     (builderScore >= 40 ? builderScore * 40 : 0) +
     (tokenAmount > 1 ? Math.sqrt(0.01 * tokenAmount) : 0) +
-    (user.build_commit_amount >= 1
-      ? Math.sqrt(0.05 * user.build_commit_amount)
-      : 0);
+    (userBuildAmount >= 1 ? Math.sqrt(0.05 * userBuildAmount) : 0);
 
   await supabase
     .from("users")
@@ -68,6 +94,7 @@ export const calculateUserBudget = async (user: User, wallet: string) => {
       boss_budget: budget,
       boss_token_balance: tokenAmount,
       last_budget_calculation: new Date().toISOString(),
+      humanity_checkmark: passport?.verified ?? false,
     })
     .eq("id", user.id)
     .throwOnError();
@@ -204,7 +231,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     return user;
   }
 
-  const newUser: Omit<RawUser, "created_at" | "id"> = {
+  const newUser: Omit<RawUser, "created_at" | "id" | "rank_current_week"> = {
     username: farcasterUser?.username ?? talentUser?.user?.username ?? walletLc,
     boss_budget: 0,
     boss_score: 0,
@@ -220,6 +247,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     nominations_made_current_week: 0,
     nominations_received: 0,
     nominations_received_current_week: 0,
+    humanity_checkmark: talentUser?.verified ?? false,
   };
 
   const user = await supabase

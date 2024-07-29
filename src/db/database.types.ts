@@ -376,6 +376,7 @@ export type Database = {
           created_at: string;
           farcaster_id: number | null;
           farcaster_power_user: boolean | null;
+          humanity_checkmark: boolean | null;
           id: string;
           last_budget_calculation: string | null;
           last_wallet: string | null;
@@ -385,6 +386,7 @@ export type Database = {
           nominations_received_current_week: number | null;
           passport_builder_score: number;
           passport_id: number | null;
+          rank_current_week: number | null;
           username: string | null;
         };
         Insert: {
@@ -395,6 +397,7 @@ export type Database = {
           created_at?: string;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
+          humanity_checkmark?: boolean | null;
           id?: string;
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
@@ -404,6 +407,7 @@ export type Database = {
           nominations_received_current_week?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
+          rank_current_week?: number | null;
           username?: string | null;
         };
         Update: {
@@ -414,6 +418,7 @@ export type Database = {
           created_at?: string;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
+          humanity_checkmark?: boolean | null;
           id?: string;
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
@@ -423,6 +428,7 @@ export type Database = {
           nominations_received_current_week?: number | null;
           passport_builder_score?: number;
           passport_id?: number | null;
+          rank_current_week?: number | null;
           username?: string | null;
         };
         Relationships: [];
@@ -473,14 +479,6 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      calculate_boss_budget: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      calculate_boss_budget_temp: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
       calculate_boss_budget_user: {
         Args: {
           user_to_update: string;
@@ -521,25 +519,14 @@ export type Database = {
         };
         Returns: undefined;
       };
-      increment_nomination_streak: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
       increment_nomination_streak_for_yesterday: {
         Args: {
           target_date: string;
         };
         Returns: undefined;
       };
-      reset_nomination_streak: {
+      reset_nominations_weekly: {
         Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
-      update_boss_budget_batch: {
-        Args: {
-          batch_size: number;
-          offset_value: number;
-        };
         Returns: undefined;
       };
       update_boss_daily_streak_for_user: {
@@ -548,14 +535,16 @@ export type Database = {
         };
         Returns: undefined;
       };
+      update_boss_score_for_all: {
+        Args: {
+          p_end_date: string;
+        };
+        Returns: undefined;
+      };
       update_boss_score_for_user: {
         Args: {
           user_to_update: string;
         };
-        Returns: undefined;
-      };
-      update_leaderboard: {
-        Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
       update_nominations_made: {
@@ -576,6 +565,10 @@ export type Database = {
           p_user_id: string;
           p_week_start: string;
         };
+        Returns: undefined;
+      };
+      update_user_ranks: {
+        Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
     };
