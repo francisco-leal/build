@@ -376,6 +376,7 @@ export type Database = {
           created_at: string;
           farcaster_id: number | null;
           farcaster_power_user: boolean | null;
+          humanity_checkmark: boolean | null;
           id: string;
           last_budget_calculation: string | null;
           last_wallet: string | null;
@@ -396,6 +397,7 @@ export type Database = {
           created_at?: string;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
+          humanity_checkmark?: boolean | null;
           id?: string;
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
@@ -416,6 +418,7 @@ export type Database = {
           created_at?: string;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
+          humanity_checkmark?: boolean | null;
           id?: string;
           last_budget_calculation?: string | null;
           last_wallet?: string | null;
