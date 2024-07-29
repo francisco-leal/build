@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/stats_recalculation",
       "schedule": "0 9 * * 2"
+    },
+    {
+      "path": "/api/cron/rank_update",
+      "schedule": "10 9 * * 2"
     }
   ],
   "functions": {
