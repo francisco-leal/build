@@ -70,12 +70,7 @@ export const calculateUserBudget = async (user: User, wallet: string) => {
   const userBuildAmount = user.build_commit_amount || buildCommitAmount;
 
   if (userBuildAmount <= 0) {
-    if (!passport || tokenAmount < 10_000_000) {
-      throw new BadRequestError(
-        "You must have a Talent Passport with human checkmark or over 10M $BUILD tokens in your wallet!",
-      );
-    }
-    if (!passport.verified || tokenAmount < 10_000_000) {
+    if ((!passport || !passport.verified) && tokenAmount < 10_000_000) {
       throw new BadRequestError(
         "You must have a Talent Passport with human checkmark or over 10M $BUILD tokens in your wallet!",
       );
