@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     .order("boss_score", { ascending: false })
     .order("passport_builder_score", { ascending: false })
     .gt("nominations_received", 0)
+    .or("humanity_checkmark.eq.true,farcaster_power_user.eq.true")
     .limit(50)
     .throwOnError();
 
