@@ -72,12 +72,12 @@ export const calculateUserBudget = async (user: User, wallet: string) => {
   if (userBuildAmount <= 0) {
     if (!passport || tokenAmount < 10_000_000) {
       throw new BadRequestError(
-        "You must have a Talent Passport with humanity verification or over 10M $BUILD tokens in your wallet!",
+        "You must have a Talent Passport with human checkmark or over 10M $BUILD tokens in your wallet!",
       );
     }
     if (!passport.verified || tokenAmount < 10_000_000) {
       throw new BadRequestError(
-        "You must have a Talent Passport with humanity verification or over 10M $BUILD tokens in your wallet!",
+        "You must have a Talent Passport with human checkmark or over 10M $BUILD tokens in your wallet!",
       );
     }
   }
@@ -143,7 +143,7 @@ export const getUserBalances = async (user: User, wallet: string) => {
     !user.last_budget_calculation ||
     today.diff(lastUpdateOfBudget, "days").days > 0;
 
-  if (shouldUpdateBudget) {
+  if (shouldUpdateBudget || user_budget === 0) {
     user_budget = await calculateUserBudget(user, wallet);
     user.boss_budget = user_budget;
     revalidatePath(`/stats`);

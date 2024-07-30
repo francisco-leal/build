@@ -1,6 +1,5 @@
 import { revalidateTag } from "next/cache";
 import { NextRequest } from "next/server";
-import { getLeaderboardTop50 } from "@/app/_api/functions/get-table-leaderboard-values";
 import { supabase } from "@/db";
 
 export const maxDuration = 60;
@@ -11,14 +10,24 @@ export async function GET(request: NextRequest) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const topUsers = await getLeaderboardTop50();
+  const { data: leaderboardData } = await supabase
+    .from("users")
+    .select("*")
+    .order("boss_score", { ascending: false })
+    .order("passport_builder_score", { ascending: false })
+    .gt("nominations_received", 0)
+    .limit(50)
+    .throwOnError();
+
+  const topUsers = leaderboardData ?? [];
 
   const leaderboardUsers = topUsers.map((user) => ({
     ...user,
     user_id: user.id,
   }));
 
-  await supabase.from("leaderboard").delete();
+  await supabase.from("leaderboard").delete().gt("nominations_received", 0);
+
   await supabase.from("leaderboard").insert(leaderboardUsers);
 
   revalidateTag("leaderboard_top_50");
