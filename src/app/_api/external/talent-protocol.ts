@@ -2,7 +2,7 @@ import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 import { rollbarError } from "@/services/rollbar";
 import { User } from "../data/users";
-import { CACHE_60_MINUTES } from "../helpers/cache-keys";
+import { CACHE_60_MINUTES, CACHE_5_MINUTES } from "../helpers/cache-keys";
 import { CacheKey } from "../helpers/cache-keys";
 
 type PassportsResponse = {
@@ -95,7 +95,7 @@ export const getTalentProtocolUser = async (walletId: string) => {
       }
     },
     [`talent_protocol_${walletId}`] as CacheKey[],
-    { revalidate: CACHE_60_MINUTES },
+    { revalidate: CACHE_5_MINUTES },
   )(walletId);
 };
 
@@ -128,7 +128,7 @@ export const getCredentialsForPassport = async (passportId: number | null) => {
       }
     },
     [`talent_protocol_credentials_${passportId}`] as CacheKey[],
-    { revalidate: CACHE_60_MINUTES },
+    { revalidate: CACHE_5_MINUTES },
   )(passportId);
 };
 
