@@ -14,7 +14,7 @@ export default async function DiscoverPage() {
           className="no-overflow"
           textColor={"common.white"}
         >
-          Top 50 /design followers
+          Top 50 /fbi followers
         </Typography>
         <Typography
           level="body-md"
@@ -22,17 +22,17 @@ export default async function DiscoverPage() {
           textColor={"common.white"}
           sx={{ mb: 2 }}
         >
-          Nominate your favorite designers this week.<br></br>
+          Nominate your favorite builders this week.<br></br>
           Check the top profiles in the{" "}
           <Link
             target="_blank"
             textColor={"common.white"}
             sx={{ textDecoration: "underline" }}
-            href="https://warpcast.com/~/channel/design"
+            href="https://warpcast.com/~/channel/fbi"
           >
-            /design 
+            /fbi
           </Link>
-           , powered by{" "}
+          , powered by{" "}
           <Link
             href="https://openrank.com"
             textColor={"common.white"}

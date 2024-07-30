@@ -1,0 +1,471 @@
+[
+  {
+    "id": "292653",
+    "username": "callusfbi",
+    "rank": 0,
+    "fid": 292653,
+    "passportId": 467250,
+    "builderScore": 19,
+    "addresses": ["0x39bab75b50eb91edef36c8e1d06d089d61ab6912"]
+  },
+  {
+    "id": "4753",
+    "username": "saxenasaheb",
+    "rank": 1,
+    "fid": 4753,
+    "passportId": 366413,
+    "builderScore": 86,
+    "addresses": ["0x463757f957f3bc482cd7af877565f90333c4b524"]
+  },
+  {
+    "id": "189052",
+    "username": "kpx",
+    "rank": 2,
+    "fid": 189052,
+    "passportId": 396223,
+    "builderScore": 83,
+    "addresses": ["0x7320cc8b0a97c385fcd44d3fbf604d9d01f46de9"]
+  },
+  {
+    "id": "270504",
+    "username": "proxystudio.eth",
+    "rank": 3,
+    "fid": 270504,
+    "passportId": 415845,
+    "builderScore": 68,
+    "addresses": ["0x032d54d698834da142151eb56554d6e3684cb93d"]
+  },
+  {
+    "id": "16085",
+    "username": "samuellhuber",
+    "rank": 4,
+    "fid": 16085,
+    "passportId": 273836,
+    "builderScore": 74,
+    "addresses": ["0x09cedb7bb69f9f6df646dba107d2baacda93d6c9"]
+  },
+  {
+    "id": "469678",
+    "username": "gayatri",
+    "rank": 5,
+    "fid": 469678,
+    "passportId": 353413,
+    "builderScore": 28,
+    "addresses": ["0x2cd1353cf0e402770643b54011a63b546a189c44"]
+  },
+  {
+    "id": "1265",
+    "username": "akhil-bvs",
+    "rank": 6,
+    "fid": 1265,
+    "passportId": 254162,
+    "builderScore": 17,
+    "addresses": ["0xab14023979a34b4abb17abd099a1de1dc452011a"]
+  },
+  {
+    "id": "380266",
+    "username": "ratnakar",
+    "rank": 7,
+    "fid": 380266,
+    "passportId": 442377,
+    "builderScore": 43,
+    "addresses": ["0xaced7e0e0576a41f6aefff6f88bb4416c3557582"]
+  },
+  {
+    "id": "379972",
+    "username": "duttsaheb.eth",
+    "rank": 8,
+    "fid": 379972,
+    "passportId": 461399,
+    "builderScore": 30,
+    "addresses": ["0x0f3e6cd7a4f5586cc364e8330620d3e3f25b995d"]
+  },
+  {
+    "id": "244416",
+    "username": "vrajdesai.eth",
+    "rank": 9,
+    "fid": 244416,
+    "passportId": 392747,
+    "builderScore": 85,
+    "addresses": ["0x2e5bbf76522d73504d43fa439aefb932203b98be"]
+  },
+  {
+    "id": "479",
+    "username": "0xbhaisaab",
+    "rank": 10,
+    "fid": 479,
+    "passportId": 354052,
+    "builderScore": 33,
+    "addresses": ["0x53a8f68479327f4e4a2ab85f5ccb3cc0009c84f2"]
+  },
+  {
+    "id": "9369",
+    "username": "web3gurung",
+    "rank": 11,
+    "fid": 9369,
+    "passportId": 397872,
+    "builderScore": 30,
+    "addresses": ["0x6f96e50410e329bb25587481b585a9378aa6e17c"]
+  },
+  {
+    "id": "13626",
+    "username": "parthvora",
+    "rank": 12,
+    "fid": 13626,
+    "passportId": 269966,
+    "builderScore": 60,
+    "addresses": [
+      "0x014a431fc8cff482c91fd7ca4ccd29546b5bc312a90e3e30284b1f40abd12fd1"
+    ]
+  },
+  {
+    "id": "754",
+    "username": "ishika",
+    "rank": 13,
+    "fid": 754,
+    "passportId": 410666,
+    "builderScore": 81,
+    "addresses": [
+      "0x9fdf953711482e75fbaf54d2221a42c3dc0c704bfcadf93012ed881ff32ac489"
+    ]
+  },
+  {
+    "id": "11155",
+    "username": "sage",
+    "rank": 14,
+    "fid": 11155,
+    "passportId": 267531,
+    "builderScore": 17,
+    "addresses": ["0x0674ab75cbf5f3165fe70be116bed13df134664a"]
+  },
+  {
+    "id": "429919",
+    "username": "happysingh",
+    "rank": 15,
+    "fid": 429919,
+    "passportId": 425546,
+    "builderScore": 4,
+    "addresses": ["0x3db62574de3256526dccd386362151e128e134a8"]
+  },
+  {
+    "id": "2248",
+    "username": "bhadoriya",
+    "rank": 16,
+    "fid": 2248,
+    "passportId": 255135,
+    "builderScore": 54,
+    "addresses": ["0x567432d65b1ab2f3bf118d9ab02a7b63bed31db9"]
+  },
+  {
+    "id": "2566",
+    "username": "aditak",
+    "rank": 17,
+    "fid": 2566,
+    "passportId": 2500,
+    "builderScore": 79,
+    "addresses": ["0xaa358664132a21318ee2dc5cbca1830c31c04b10"]
+  },
+  {
+    "id": "4914",
+    "username": "kunalvg",
+    "rank": 18,
+    "fid": 4914,
+    "passportId": 354054,
+    "builderScore": 68,
+    "addresses": ["0x5041fc8ff3ecffcc0644220401090e921e272b77"]
+  },
+  {
+    "id": "263303",
+    "username": "jpegaurekpeg",
+    "rank": 19,
+    "fid": 263303,
+    "passportId": 383316,
+    "builderScore": 27,
+    "addresses": ["0x0280df2d9358142b02d1c0bc6351e8527ed66d1f"]
+  },
+  {
+    "id": "1350",
+    "username": "pratzyy.eth",
+    "rank": 20,
+    "fid": 1350,
+    "passportId": 475501,
+    "builderScore": 67,
+    "addresses": ["0x1f5a7ee2a1f66c038b7de68847fdbfcc6f6e53b9"]
+  },
+  {
+    "id": "1389",
+    "username": "whyshock",
+    "rank": 21,
+    "fid": 1389,
+    "passportId": 254283,
+    "builderScore": 39,
+    "addresses": ["0x8f8a5b25fff9c6875fbdba4f3c6f4c695b78ce10"]
+  },
+  {
+    "id": "212317",
+    "username": "hardikharsh10",
+    "rank": 22,
+    "fid": 212317,
+    "passportId": 401567,
+    "builderScore": 9,
+    "addresses": ["0x44108e53ae1dd6f1dc48b137fcdef7ab7275e4d3"]
+  },
+  {
+    "id": "269321",
+    "username": "dominosmusic",
+    "rank": 23,
+    "fid": 269321,
+    "passportId": 434160,
+    "builderScore": 30,
+    "addresses": ["0x2ea0fe46d4a96381d691f604d4a5843995fbdbc5"]
+  },
+  {
+    "id": "501306",
+    "username": "fbiintern",
+    "rank": 24,
+    "fid": 501306,
+    "passportId": 534567,
+    "builderScore": 5,
+    "addresses": ["0x70f5e1bb74149905c77d9ba80e71777bcbadd3a6"]
+  },
+  {
+    "id": "9367",
+    "username": "rahul7668gupta.eth",
+    "rank": 25,
+    "fid": 9367,
+    "passportId": 203988,
+    "builderScore": 31,
+    "addresses": [
+      "0x0015270e57012c05d219d601fbd542a48aeefbaee76919e33ba22c9e99815f94"
+    ]
+  },
+  {
+    "id": "388416",
+    "username": "tusharvrma",
+    "rank": 26,
+    "fid": 388416,
+    "passportId": 435584,
+    "builderScore": 14,
+    "addresses": ["0x52c99f564d804184771fc29ce412787f284adc8a"]
+  },
+  {
+    "id": "1855",
+    "username": "314yush",
+    "rank": 27,
+    "fid": 1855,
+    "passportId": 254748,
+    "builderScore": 25,
+    "addresses": ["0x791d41b061891e7701461d672a0989abf1bc4005"]
+  },
+  {
+    "id": "380638",
+    "username": "snehasuri",
+    "rank": 28,
+    "fid": 380638,
+    "passportId": 536982,
+    "builderScore": 5,
+    "addresses": [
+      "0x5a046af846ed80619028b234dc5789c547732035c9538953f1363e891bfc5bbb"
+    ]
+  },
+  {
+    "id": "399712",
+    "username": "heyshubh",
+    "rank": 29,
+    "fid": 399712,
+    "passportId": 379202,
+    "builderScore": 75,
+    "addresses": ["0xab8a67743325347aa53bcc66850f8f13df87e3af"]
+  },
+  {
+    "id": "500605",
+    "username": "flamekaiser.eth",
+    "rank": 30,
+    "fid": 500605,
+    "passportId": 354110,
+    "builderScore": 48,
+    "addresses": ["0x2b218bf824b2ddef802aa2d881ba864daa8b853c"]
+  },
+  {
+    "id": "404104",
+    "username": "deveshb15",
+    "rank": 31,
+    "fid": 404104,
+    "passportId": 460250,
+    "builderScore": 15,
+    "addresses": ["0xc875c299741771cb334367253572187e90aea6e1"]
+  },
+  {
+    "id": "6292",
+    "username": "akshit",
+    "rank": 32,
+    "fid": 6292,
+    "passportId": 259146,
+    "builderScore": 63,
+    "addresses": ["0x1e4ab43d5d283cb3bf809a46c4eed47c7283e6ec"]
+  },
+  {
+    "id": "226690",
+    "username": "renstern.eth",
+    "rank": 33,
+    "fid": 226690,
+    "passportId": 353707,
+    "builderScore": 85,
+    "addresses": ["0x6e3c23ad0d5388f5b2903a81d7b86a3f08b36e0b"]
+  },
+  {
+    "id": "2341",
+    "username": "tanishq",
+    "rank": 34,
+    "fid": 2341,
+    "passportId": 353177,
+    "builderScore": 109,
+    "addresses": ["0x173609b971fbb56aaaf9753caa1469a0d44950bd"]
+  },
+  {
+    "id": "7791",
+    "username": "defikaran.eth",
+    "rank": 35,
+    "fid": 7791,
+    "passportId": 261409,
+    "builderScore": 24,
+    "addresses": ["0x01f88dd2ef3fa767a802e7d0af4d20e43d51b02f"]
+  },
+  {
+    "id": "12",
+    "username": "linda",
+    "rank": 36,
+    "fid": 12,
+    "passportId": 6938,
+    "builderScore": 79,
+    "addresses": ["0x5e349eca2dc61abcd9dd99ce94d04136151a09ee"]
+  },
+  {
+    "id": "347901",
+    "username": "neelpatel",
+    "rank": 37,
+    "fid": 347901,
+    "passportId": 404020,
+    "builderScore": 65,
+    "addresses": ["0x354025d5da52c42b73a915013da312f1e7336d28"]
+  },
+  {
+    "id": "3206",
+    "username": "yb",
+    "rank": 38,
+    "fid": 3206,
+    "passportId": 256097,
+    "builderScore": 54,
+    "addresses": ["0x28a69640810fcdcf6adb7119edd64eed4612fa49"]
+  },
+  {
+    "id": "4027",
+    "username": "awkquarian.eth",
+    "rank": 39,
+    "fid": 4027,
+    "passportId": 205713,
+    "builderScore": 32,
+    "addresses": ["0x18b800af53bece985f11d0a407c9cdb1b30c74b9"]
+  },
+  {
+    "id": "5774",
+    "username": "tldr",
+    "rank": 40,
+    "fid": 5774,
+    "passportId": 258632,
+    "builderScore": 65,
+    "addresses": ["0x714f20cbda5d58114f2fa9913a8fe64836384809"]
+  },
+  {
+    "id": "17979",
+    "username": "harpaljadeja",
+    "rank": 41,
+    "fid": 17979,
+    "passportId": 342736,
+    "builderScore": 108,
+    "addresses": ["0x0c15a9befe87f647b003a2241684603628443f8b"]
+  },
+  {
+    "id": "99",
+    "username": "jessepollak",
+    "rank": 42,
+    "fid": 99,
+    "passportId": 353682,
+    "builderScore": 124,
+    "addresses": ["0x2211d1d0020daea8039e46cf1367962070d77da9"]
+  },
+  {
+    "id": "496650",
+    "username": "aastha",
+    "rank": 43,
+    "fid": 496650,
+    "passportId": 410253,
+    "builderScore": 29,
+    "addresses": ["0x5bf3c9bdf39bcdf8a0e2b658777ebe879219dc4c"]
+  },
+  {
+    "id": "2233",
+    "username": "pareen",
+    "rank": 44,
+    "fid": 2233,
+    "passportId": 353998,
+    "builderScore": 66,
+    "addresses": ["0x382e8a19212eae2d0353c0927b473594e52826f3"]
+  },
+  {
+    "id": "248890",
+    "username": "cooperray",
+    "rank": 45,
+    "fid": 248890,
+    "passportId": 464007,
+    "builderScore": 39,
+    "addresses": ["0x683576dbad04c03f43f87d8941b17dd89521cdcc"]
+  },
+  {
+    "id": "323",
+    "username": "adeets-22",
+    "rank": 46,
+    "fid": 323,
+    "passportId": 253194,
+    "builderScore": 27,
+    "addresses": ["0x6ca011aae6d551a3efa533c40c24a810321c0384"]
+  },
+  {
+    "id": "2689",
+    "username": "binji.eth",
+    "rank": 47,
+    "fid": 2689,
+    "passportId": 255573,
+    "builderScore": 49,
+    "addresses": ["0x00063ddb30be7bc2292583d5f143e9d6e6228440"]
+  },
+  {
+    "id": "2483",
+    "username": "dakshk.eth",
+    "rank": 48,
+    "fid": 2483,
+    "passportId": 310015,
+    "builderScore": 73,
+    "addresses": ["0x28172273cc1e0395f3473ec6ed062b6fdfb15940"]
+  },
+  {
+    "id": "1236",
+    "username": "syed",
+    "rank": 49,
+    "fid": 1236,
+    "passportId": 254133,
+    "builderScore": 68,
+    "addresses": [
+      "0x4071391d3af23a2cc0fc85f8e1d20705ae3b4de2d7f34ed3af0a6198c20e4d6a"
+    ]
+  },
+  {
+    "id": "7143",
+    "username": "six",
+    "rank": 50,
+    "fid": 7143,
+    "passportId": 260775,
+    "builderScore": 61,
+    "addresses": ["0x44b1b486ce8d9c82f605626347a7b1f74add11de"]
+  }
+]
