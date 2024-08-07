@@ -1,6 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { CacheKey } from "../helpers/cache-keys";
-import FBITop50Data from "./openrank-data/fbi-top-50-rich-data.json";
+// import FBITop50Data from "./openrank-data/fbi-top-50-rich-data.json";
+import YellowTop50Data from "./openrank-data/yellow-top-50-rich-data.json";
 import { getTalentProtocolUser } from "./talent-protocol";
 
 export type OpenGraphAndTalentProtocolResult = {
@@ -25,7 +26,7 @@ export type DiscoveryLeaderboardValue = {
 
 const getLeaderboardTop50 = unstable_cache(async () => {
   const result = await fetch(
-    "https://graph.cast.k3l.io/channels/rankings/fbi?lite=false",
+    "https://graph.cast.k3l.io/channels/rankings/yellow?lite=false&limit=50",
   );
   const data = (await result.json()) as {
     result: OpenGraphAndTalentProtocolResult[];
@@ -69,7 +70,7 @@ const getLeaderboardTop50 = unstable_cache(async () => {
 export const getDiscoveryLeaderboard = async (): Promise<
   DiscoveryLeaderboardValue[]
 > => {
-  return FBITop50Data.map((entry, index) => ({
+  return YellowTop50Data.map((entry, index) => ({
     id: entry.fid.toString() ?? "---",
     name: entry.username ?? "---",
     rank: entry.rank ?? "---",

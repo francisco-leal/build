@@ -1,0 +1,728 @@
+[
+  {
+    "id": 3642,
+    "fid": 3642,
+    "fname": "toadyhawk.eth",
+    "username": "toadyhawk.eth",
+    "rank": 1,
+    "score": 0.22056905925273895,
+    "addresses": [
+      "0x5d802e2fe48392c104ce0401c7eca8a4456f1f16",
+      "0x6770f716c37998abd43282e1c1c2eaa10c7ba5cd",
+      "0xe9787add64f50909eb9c7a2de5992cd4510907c9"
+    ],
+    "passportId": 353130,
+    "builderScore": 107
+  },
+  {
+    "id": 803,
+    "fid": 803,
+    "fname": "benbodhi",
+    "username": "benbodhi",
+    "rank": 2,
+    "score": 0.08051510900259018,
+    "addresses": [
+      "0x47c446d66975e27c210993da29bd7fde0925a89a",
+      "0x503a27c6a2fa9eb547d9e03fa8ce8e1209fc6ef1bf8a4c0458f8e8aac47c0268",
+      "0xa903c06bf35286f6d1cdad25396748353979a44c"
+    ],
+    "passportId": 354039,
+    "builderScore": 73
+  },
+  {
+    "id": 4567,
+    "fid": 4567,
+    "fname": "symbiotech.eth",
+    "username": "symbiotech.eth",
+    "rank": 3,
+    "score": 0.07714737951755524,
+    "addresses": [
+      "0x5bfeb4ca066c9458842ac89b6e5cd983bd1a1034",
+      "0x5e82ce6b0e3c3d8c347263e4837ae549d494930a33c0165e1b4dc5af670dc692",
+      "0x790e323f2044ce4831dcd3e4a7b4e01369c23d5e",
+      "0xaf3e331e08b4c14b99449b5550c4b515ff2bedf2",
+      "0xbf0d78ebe5e2c5a8ed9dbe42d539f5e8ea115d61"
+    ],
+    "passportId": 257440,
+    "builderScore": 79
+  },
+  {
+    "id": 20198,
+    "fid": 20198,
+    "fname": "brettdrawsstuff",
+    "username": "brettdrawsstuff",
+    "rank": 4,
+    "score": 0.07636957615613937,
+    "addresses": [
+      "0x0022fd37758a10cef06c33201986748479f9112b",
+      "0x9c87a1065994f156f0b7b87aaa8b3c5f7bd67e02"
+    ],
+    "passportId": 353133,
+    "builderScore": 68
+  },
+  {
+    "id": 4167,
+    "fid": 4167,
+    "fname": "nounishprof",
+    "username": "nounishprof",
+    "rank": 5,
+    "score": 0.07556641101837158,
+    "addresses": [
+      "0x5e7ac26ab6240225569f3bdd6589c6397ac3e07f",
+      "0xbb54a63ad8241710eba3a98af224080b611ff8e9",
+      "0xceed9585854f12f81a0103861b83b995a64ad915"
+    ],
+    "passportId": 365865,
+    "builderScore": 88
+  },
+  {
+    "id": 1079,
+    "fid": 1079,
+    "fname": "joshuafisher.eth",
+    "username": "joshuafisher.eth",
+    "rank": 6,
+    "score": 0.07548828423023224,
+    "addresses": [
+      "0xbd7dbab9aeb52d6c8d0e80fcebde3af4cc86204a",
+      "0xeb31e335531c06ca4d8fe58bed841e9031de4ee4"
+    ],
+    "passportId": 253979,
+    "builderScore": 72
+  },
+  {
+    "id": 5450,
+    "fid": 5450,
+    "fname": "robotfishgirl",
+    "username": "robotfishgirl",
+    "rank": 7,
+    "score": 0.07342934608459473,
+    "addresses": [
+      "0xca89e2472fe57bdc74f2361ceea5962fb205119c",
+      "0xd602d997556ee7874e9ea423bddfcdff3fec4567"
+    ],
+    "passportId": 258311,
+    "builderScore": 25
+  },
+  {
+    "id": 12142,
+    "fid": 12142,
+    "fname": "base",
+    "username": "base",
+    "rank": 8,
+    "score": 0.009843245148658752,
+    "addresses": [
+      "0x04e6f111ebf6fd25576d480480962435dc3aa8d8",
+      "0x9652721d02b9db43f4311102820158abb4ecc95b"
+    ],
+    "passportId": 268530,
+    "builderScore": 66
+  },
+  {
+    "id": 243300,
+    "fid": 243300,
+    "fname": "yonfrula",
+    "username": "yonfrula",
+    "rank": 9,
+    "score": 0.007290494162589312,
+    "addresses": [
+      "0x78b2de47fe499e0a6f7a67dbf965b8ec765d2d9d",
+      "0x7b7579f2856e9e8a5ab37d4b21dee6027e582a02",
+      "0x88031761164421bac17f501d572c20aa34b956f8c9afe24c6a3f2b59f3a1c019",
+      "0xa3cdd8dc1d0973db547e427e6ef5e82efaa5b63c"
+    ],
+    "passportId": 470655,
+    "builderScore": 73
+  },
+  {
+    "id": 384868,
+    "fid": 384868,
+    "fname": "rileyluna.eth",
+    "username": "lunari",
+    "rank": 10,
+    "score": 0.006973168812692165,
+    "addresses": [
+      "0x56ebd346d5013a531105aaeeb574b31f003e11dd",
+      "0xf2ed7c31c86d89934f30f39852231e7042d744c8"
+    ],
+    "passportId": 455478,
+    "builderScore": 29
+  },
+  {
+    "id": 423827,
+    "fid": 423827,
+    "fname": "derpin",
+    "username": "derpin.eth",
+    "rank": 11,
+    "score": 0.006289263721555471,
+    "addresses": [
+      "0x30b8663450446a5f939aeb531eb01a04ce820c69",
+      "0x49a9589225ca3371f38e1b8f908715c41d94228c"
+    ],
+    "passportId": 447768,
+    "builderScore": 29
+  },
+  {
+    "id": 318094,
+    "fid": 318094,
+    "fname": "basedandyellow",
+    "username": "basedandyellow",
+    "rank": 12,
+    "score": 0.006254458799958229,
+    "addresses": [
+      "0x0b379f1848fa2aab7790966373618f4b0fea6a6e",
+      "0x41e9c79fc6fc489950542424e697b85102a46357"
+    ],
+    "passportId": 353130,
+    "builderScore": 107
+  },
+  {
+    "id": 196215,
+    "fid": 196215,
+    "fname": "sloppy",
+    "username": "sloppy",
+    "rank": 13,
+    "score": 0.0055960179306566715,
+    "addresses": [
+      "0x08997f3ad69d72ff1d3eb2a239d657f92dd8b60a",
+      "0x4dc1363c351cf998db77bdf08993c7d68a6ed797",
+      "0xe851ed2a5816dc03887dfd2713dcd4217425dfe5",
+      "0xf86a918e487e0e942db3e48a9f3b86c5bddf8446"
+    ],
+    "passportId": 454341,
+    "builderScore": 29
+  },
+  {
+    "id": 214447,
+    "fid": 214447,
+    "fname": "yes2crypto.eth",
+    "username": "yes2crypto.eth",
+    "rank": 14,
+    "score": 0.005303964950144291,
+    "addresses": [
+      "0x4bf88042de0220647acb314af3c5f310aec3bcc0",
+      "0xb1f55f9b6adf2dbe565385f59f7d2c5e58730340"
+    ],
+    "passportId": 470691,
+    "builderScore": 64
+  },
+  {
+    "id": 386213,
+    "fid": 386213,
+    "fname": "crpdaddy.eth",
+    "username": "crpdaddy.eth",
+    "rank": 15,
+    "score": 0.004663775209337473,
+    "addresses": [
+      "0x0c54ec5c39f4157bb89338c6b96c5f99594dbe56",
+      "0x22d187e0392632386b6dc542d5c494602e0e67fe"
+    ],
+    "passportId": 363899,
+    "builderScore": 31
+  },
+  {
+    "id": 397099,
+    "fid": 397099,
+    "fname": "skwalo09",
+    "username": "skwalo09",
+    "rank": 16,
+    "score": 0.004501302260905504,
+    "addresses": [
+      "0x2a11b0cee2781ddf9f11fffc60e28b52c3478ba8",
+      "0x946894b0104495bb7719b39d9d35818957def023"
+    ],
+    "passportId": 466933,
+    "builderScore": 4
+  },
+  {
+    "id": 225736,
+    "fid": 225736,
+    "fname": "frankieco.eth",
+    "username": "frankieco.eth",
+    "rank": 17,
+    "score": 0.0040441700257360935,
+    "addresses": [
+      "0x02035c736bdc5a6b8d1f686bb6da1d06fd7e7948",
+      "0x23c6bd128154e3fb1b21ccc9eaa2d3fafeb884ee",
+      "0x616a2336ec93acdd1caa8ca17732285f34331bf0"
+    ]
+  },
+  {
+    "id": 234552,
+    "fid": 234552,
+    "fname": "redjetcar",
+    "username": "redjetcar",
+    "rank": 18,
+    "score": 0.0038242775481194258,
+    "addresses": [
+      "0x3346857e5717918801428184d4e63dfb9f38e51f",
+      "0x5a96b8541c2e77c645cd070e7b795ceca20645b3",
+      "0xb19676a7be4e9e87f153e73b5200b947a94508e4"
+    ]
+  },
+  {
+    "id": 326500,
+    "fid": 326500,
+    "fname": "coryvanlew",
+    "username": "coryvanlew",
+    "rank": 19,
+    "score": 0.003660229966044426,
+    "addresses": [
+      "0xb92b87a226cc740b3c5934047d3481fa87474de4",
+      "0xd97444893403d9df7763ef1b1301c41ba26fb727"
+    ]
+  },
+  {
+    "id": 283144,
+    "fid": 283144,
+    "fname": "reneecampbell",
+    "username": "reneecampbell",
+    "rank": 20,
+    "score": 0.003594794310629368,
+    "addresses": [
+      "0xdad0aae806d4acfb22bf048bc0a952efd12923b8",
+      "0xe06383ece7b8bbb6c3f65a95fc2b6450e9077a6c",
+      "0xe3abbbaae7809e8352d554c742fde7f5f9d41dc4"
+    ],
+    "passportId": 405564,
+    "builderScore": 72
+  },
+  {
+    "id": 384860,
+    "fid": 384860,
+    "fname": "jesscas",
+    "username": "jesscas",
+    "rank": 21,
+    "score": 0.0034607460256665945,
+    "addresses": [
+      "0x114c5a6d4478a34288004cf3dfc94bbf42e44358",
+      "0x45e7e3262d8651872214bc6bd50544d8b5884d03"
+    ],
+    "passportId": 470803,
+    "builderScore": 18
+  },
+  {
+    "id": 20013,
+    "fid": 20013,
+    "fname": "ilustradoraeth",
+    "username": "ilustradoraeth",
+    "rank": 22,
+    "score": 0.0032572834752500057,
+    "addresses": [
+      "0x634098e16c983441012d81147378565275d1fb1b",
+      "0x7ce294d2bcb2de76a15fcf7055b0b14253dd3b33",
+      "0xc35ae618987fe46a86897d9406176859792afca9"
+    ],
+    "passportId": 534060,
+    "builderScore": 48
+  },
+  {
+    "id": 9135,
+    "fid": 9135,
+    "fname": "kugusha.eth",
+    "username": "kugusha.eth",
+    "rank": 23,
+    "score": 0.003181054722517729,
+    "addresses": [
+      "0x34a80a650a2cc89802dac3ceba1d29a7dc90d70a",
+      "0x7ad6cbeaed607851ca0201faa835f01f123d5be6",
+      "0x8379bd16381620914d8fa3d535f6ca9ef23ece53"
+    ],
+    "passportId": 360067,
+    "builderScore": 80
+  },
+  {
+    "id": 263648,
+    "fid": 263648,
+    "fname": "fattybuthappy",
+    "username": "fattybuthappy",
+    "rank": 24,
+    "score": 0.0031593034509569407,
+    "addresses": [
+      "0x691afd8f360ee850773a3a87882606a8014c4e0c",
+      "0xedc1a397589a0236c4810883b7d559288a5fe7e1"
+    ],
+    "passportId": 507339,
+    "builderScore": 67
+  },
+  {
+    "id": 234616,
+    "fid": 234616,
+    "fname": "pichi",
+    "username": "pichi",
+    "rank": 25,
+    "score": 0.003055408364161849,
+    "addresses": [
+      "0x19d8da2674e8a025154153297ea3ab918debf96d",
+      "0x288491f9ed8edcb04b4a4c56af3dc63b58667ef6",
+      "0x300577565733e3d5d1ae4c4f5df43a5c59e00cfa",
+      "0xc947d1a742bf244532c856a2d74caa4dd851ec6799fa2eb6d2fe6ea74cf020a0",
+      "0xde43b2cf9a13d8a10aa74b62d0bb8825e5ef1286"
+    ],
+    "passportId": 330332,
+    "builderScore": 114
+  },
+  {
+    "id": 4513,
+    "fid": 4513,
+    "fname": "seattlecrypto.eth",
+    "username": "seattlecrypto.eth",
+    "rank": 26,
+    "score": 0.002733769128099084,
+    "addresses": [
+      "0x0f23189b256939996dec01766f6b2e581afb5bb3",
+      "0x1ae71ced9eb2104d8f4ec4f2467ad4f04d12a8c0",
+      "0x247a1e2bf4c0a0a13d35661d8cc6e4c01246e1f2",
+      "0x287e98cefeef5c834fb03811963abd6fca5e525f",
+      "0x6ae8de982c7cdc8c97ef3ebf85924c1da1c0ba1a",
+      "0xe13f74a295045189a2a25ff57f2729cb556387ede292dd91f8c02b88b950d9ff"
+    ],
+    "passportId": 257386,
+    "builderScore": 59
+  },
+  {
+    "id": 360601,
+    "fid": 360601,
+    "fname": "loudman.eth",
+    "username": "loudman.eth",
+    "rank": 27,
+    "score": 0.002670811489224434,
+    "addresses": [
+      "0x37ca8875540d99ace5f8ab1d5990e30277c0f3b4",
+      "0xa92317295bc7cb5eceba6956d2bad89a3bc8e1df"
+    ],
+    "passportId": 355873,
+    "builderScore": 61
+  },
+  {
+    "id": 241555,
+    "fid": 241555,
+    "fname": "deguma",
+    "username": "deguma",
+    "rank": 28,
+    "score": 0.0026267676148563623,
+    "addresses": [
+      "0x0081e6f9373c1ffb7d7fc702eb15ac805eb50389",
+      "0x045f60229d7fc07e2582c734121e2310458aef24"
+    ]
+  },
+  {
+    "id": 374867,
+    "fid": 374867,
+    "fname": "0xaprilia",
+    "username": "0xaprilia",
+    "rank": 29,
+    "score": 0.002591404365375638,
+    "addresses": [
+      "0xba8e0841cd9a95c80ccbd502b08f73f8e30f2186",
+      "0xcee47cf04f7f94692810e1bb4adfd1f11dd60b93"
+    ],
+    "passportId": 537560,
+    "builderScore": 22
+  },
+  {
+    "id": 398364,
+    "fid": 398364,
+    "fname": "gem6911",
+    "username": "gem6911",
+    "rank": 30,
+    "score": 0.0025289880577474833,
+    "addresses": [
+      "0xb81d74e35377cbd6681bb93600aa55a3d0e82f62",
+      "0xd640fca2d954e32b473fcb452b244e38af5ddb81"
+    ],
+    "passportId": 538884,
+    "builderScore": 36
+  },
+  {
+    "id": 413213,
+    "fid": 413213,
+    "fname": "valentinaart.eth",
+    "username": "valentinaartt",
+    "rank": 31,
+    "score": 0.0025135562755167484,
+    "addresses": [
+      "0x9635f53962affb162c10ae0d03b4c721bdd16057",
+      "0x9ab51fd89f163d07127df192b615356d53b406f6"
+    ]
+  },
+  {
+    "id": 10575,
+    "fid": 10575,
+    "fname": "gretagremplin",
+    "username": "gretagremplin",
+    "rank": 32,
+    "score": 0.0023701877798885107,
+    "addresses": [
+      "0xaeb7aeb5c9ce73a3393daffd5e0a53246dd744a5",
+      "0xc34ef2e1f74403c1366f7ee8e02465378734994a",
+      "0xf830eb4928688af0271023602b754dace91c18e6"
+    ],
+    "passportId": 359440,
+    "builderScore": 29
+  },
+  {
+    "id": 431880,
+    "fid": 431880,
+    "fname": "basement5k.eth",
+    "username": "basement5k.eth",
+    "rank": 33,
+    "score": 0.002274353988468647,
+    "addresses": [
+      "0x27ea08f302063d169350e7c758d5626c4843e172",
+      "0x496505251a17845a2714a0d89e91475dc1d79b30"
+    ],
+    "passportId": 424558,
+    "builderScore": 59
+  },
+  {
+    "id": 6839,
+    "fid": 6839,
+    "fname": "numo",
+    "username": "numo",
+    "rank": 34,
+    "score": 0.0020473988261073828,
+    "addresses": [
+      "0x34733f3e1773d30e9862e830be29fef964cdf148",
+      "0x42dd10d6315ecdfcbfcc8eceacca0bdc9539acf2",
+      "0xd42bd96b117dd6bd63280620ea981bf967a7ad2b"
+    ],
+    "passportId": 525140,
+    "builderScore": 56
+  },
+  {
+    "id": 24128,
+    "fid": 24128,
+    "fname": "chris24.eth",
+    "username": "chris24.eth",
+    "rank": 35,
+    "score": 0.0019264474976807833,
+    "addresses": [
+      "0x487c6480c33f32435f99cfa4b1e09c0d4e4165f7",
+      "0x49e1ff19c684b0be482b91c4be3faae155499f61"
+    ],
+    "passportId": 286267,
+    "builderScore": 32
+  },
+  {
+    "id": 191770,
+    "fid": 191770,
+    "fname": "iheartdomains",
+    "username": "wen-airdrop.eth",
+    "rank": 36,
+    "score": 0.001924017327837646,
+    "addresses": [
+      "0x2462b983e444b317c999b85ce3bba79840d36f76",
+      "0x5bcaf0c7fdec68a7743a143533cae9184f413fb5767679b1a89be51a4aa95c96",
+      "0xd479ae174102000409a81d27f579373356f76681",
+      "0xfc59a01f5fdaa01e069768377d0497e991cc77df"
+    ],
+    "passportId": 511659,
+    "builderScore": 39
+  },
+  {
+    "id": 4787,
+    "fid": 4787,
+    "fname": "messhup",
+    "username": "messhup",
+    "rank": 37,
+    "score": 0.0018964536720886827,
+    "addresses": [
+      "0x0c66d954d9cb1ebdf4e37a000262323c83655e70",
+      "0x5a4ce1fc44edbb8b9e2ebae831f4b1ff5ae6b9ef"
+    ],
+    "passportId": 257657,
+    "builderScore": 67
+  },
+  {
+    "id": 323746,
+    "fid": 323746,
+    "fname": "jackwyldes",
+    "username": "jackwyldes",
+    "rank": 38,
+    "score": 0.001883765566162765,
+    "addresses": [
+      "0x373361cd6ad7711f73fa71ddcd1c3f62da7c4439",
+      "0xee64ef0edb6398d95787d231e89a7bc42449ca5b"
+    ],
+    "passportId": 431202,
+    "builderScore": 20
+  },
+  {
+    "id": 9967,
+    "fid": 9967,
+    "fname": "nimanourani",
+    "username": "nimanourani",
+    "rank": 39,
+    "score": 0.0018595645669847727,
+    "addresses": [
+      "0x91b9d84684fe23959d4e0c64b178dd58af9204f943fc20d2dc6bf4072e57e28f",
+      "0xc7a42b051e39f46338edd41d62ca74f8fa53da66",
+      "0xe8560fa7b864d69a4d5a81e58116088773ff8767"
+    ],
+    "passportId": 353962,
+    "builderScore": 82
+  },
+  {
+    "id": 206967,
+    "fid": 206967,
+    "fname": "netnose.eth",
+    "username": "netnose",
+    "rank": 40,
+    "score": 0.0018292571185156703,
+    "addresses": [
+      "0x4d1fd46f87449ffe235e3fce21df8a9bf8bd9206",
+      "0x895d6d226ab780fb59beb5ad2eca2587a03c2934"
+    ],
+    "passportId": 353657,
+    "builderScore": 87
+  },
+  {
+    "id": 326433,
+    "fid": 326433,
+    "fname": "tmophoto",
+    "username": "tmophoto",
+    "rank": 41,
+    "score": 0.0017446748679503798,
+    "addresses": [
+      "0xe3bb330522823e59e9450b1ca81c1e3899d0a6d4",
+      "0xe79c027a97c7816b4036d6409095867bfa65b7c6",
+      "0xf7d4df98f4be31bf93a0f3175f45e7d69668d2b2"
+    ],
+    "passportId": 298108,
+    "builderScore": 92
+  },
+  {
+    "id": 99,
+    "fid": 99,
+    "fname": "jessepollak",
+    "username": "jessepollak",
+    "rank": 42,
+    "score": 0.0017264358466491103,
+    "addresses": [
+      "0x2211d1d0020daea8039e46cf1367962070d77da9",
+      "0x4ce34af3378a00c640125e4dbf4c9e64dff4c93b",
+      "0x6adea326faea1b688af33df59e18f7a819bcaa4f",
+      "0x6e0d9c6dd8a08509bb625caa35dc61a991406f62",
+      "0x849151d7d0bf1f34b70d5cad5149d28cc2308bf1",
+      "0x8e86e5331d3a020909c9e42ea9051675555f5e49",
+      "0xe73f9c181b571cac2bf3173634d04a9921b7ffcf"
+    ],
+    "passportId": 353682,
+    "builderScore": 140
+  },
+  {
+    "id": 2266,
+    "fid": 2266,
+    "fname": "ripe",
+    "username": "ripe",
+    "rank": 43,
+    "score": 0.0016930551500990987,
+    "addresses": [
+      "0xcb43078c32423f5348cab5885911c3b5fae217f9",
+      "0xed20b3c40d16a9f51da70cf8fb4e480ea8d005bf"
+    ],
+    "passportId": 353424,
+    "builderScore": 75
+  },
+  {
+    "id": 18655,
+    "fid": 18655,
+    "fname": "spencerp",
+    "username": "spencerperkins.eth",
+    "rank": 44,
+    "score": 0.0016383834881708026,
+    "addresses": [
+      "0x3380a055844cf74e7704e6ddddd44e9d09d2694c",
+      "0x3cb19b7250f6082a164fd86eba38346cd7ea62f7"
+    ],
+    "passportId": 276248,
+    "builderScore": 64
+  },
+  {
+    "id": 3702,
+    "fid": 3702,
+    "fname": "supertightwoody",
+    "username": "supertightwoody",
+    "rank": 45,
+    "score": 0.0016164937987923622,
+    "addresses": [
+      "0x0f320368104adc3cb64b2a7be83bf0a549e12b03",
+      "0xecde21944027c7d146dabec70f385a08a96f0278"
+    ],
+    "passportId": 256583,
+    "builderScore": 62
+  },
+  {
+    "id": 9318,
+    "fid": 9318,
+    "fname": "catra",
+    "username": "catra.eth",
+    "rank": 46,
+    "score": 0.0015601057093590498,
+    "addresses": [
+      "0x8a7325a4c12795ada180ff24109bdc89ea6897c4c0c46c580acddefb68d3869f",
+      "0x96df10a852b1528f6b7972ccd83b755f71210b5c",
+      "0xb6196a4f5b83e656e80a24e9941dcb35f19148b198c8faa856e0e8cdfb455fee",
+      "0xc656b9dc4fc21cb0a01d3efddb8a68c123ddc31b",
+      "0xe8bb2e08e6f52f11d8b65e2a3db772daa60e117e",
+      "0xe9b475a9120aed5b301736d36516a49fe52d841a2bf321838c2ef89fe879e080"
+    ],
+    "passportId": 356389,
+    "builderScore": 78
+  },
+  {
+    "id": 397777,
+    "fid": 397777,
+    "fname": "momotsuki",
+    "username": "momotsuki",
+    "rank": 47,
+    "score": 0.0014595226384699345,
+    "addresses": [
+      "0x3335aa3f2ee73e2ff7bcce6dabce3b49646aa34e",
+      "0xf3f10b550bad88d0ecd6aff1919279b2a0ef78d7"
+    ]
+  },
+  {
+    "id": 16670,
+    "fid": 16670,
+    "fname": "kashi",
+    "username": "kashi",
+    "rank": 48,
+    "score": 0.0014187657507136464,
+    "addresses": [
+      "0xda187ec824a96a7980d3900181632bd06f286873",
+      "0xe9d94a59799e3faaf115021b53a11398c91e1b41"
+    ],
+    "passportId": 274391,
+    "builderScore": 26
+  },
+  {
+    "id": 9917,
+    "fid": 9917,
+    "fname": "vpabundance.eth",
+    "username": "vpabundance.eth",
+    "rank": 49,
+    "score": 0.0014097532257437706,
+    "addresses": [
+      "0x1e90474d2e83e7b7dd45553156beb316845e66a4",
+      "0xcf8da2beaade32ea191017eacd4e1bb3829f0368"
+    ],
+    "passportId": 4690,
+    "builderScore": 39
+  },
+  {
+    "id": 9280,
+    "fid": 9280,
+    "fname": "brennen-eth",
+    "username": "brennen.eth",
+    "rank": 50,
+    "score": 0.001381246605888009,
+    "addresses": [
+      "0x2666f0c8fb58d182f2dd79475dca4a07b3724607",
+      "0xf56b83a60639ec7bb58973cf18af9c550d1e992f",
+      "0xf8a065f287d91d77cd626af38ffa220d9b552a2b"
+    ],
+    "passportId": 263510,
+    "builderScore": 54
+  }
+]
