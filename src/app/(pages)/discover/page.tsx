@@ -14,7 +14,7 @@ export default async function DiscoverPage() {
           className="no-overflow"
           textColor={"common.white"}
         >
-          Top 50 /yellow followers
+          Top 50 /build followers
         </Typography>
         <Typography
           level="body-md"
@@ -28,9 +28,9 @@ export default async function DiscoverPage() {
             target="_blank"
             textColor={"common.white"}
             sx={{ textDecoration: "underline" }}
-            href="https://warpcast.com/~/channel/yellow"
+            href="https://warpcast.com/~/channel/build"
           >
-            /yellow
+            /build
           </Link>
           , powered by{" "}
           <Link
