@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Link } from "@mui/joy";
+import { fetchMetadata } from "frames.js/next";
 import { DateTime } from "luxon";
 import {
   getNominationThisWeek,
@@ -11,6 +12,7 @@ import {
 import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
+import { appURL } from "@/shared/frames/utils";
 import { formatNumber } from "@/shared/utils/format-number";
 import { getWarpcastSharableLinkSingleBuilder } from "@/shared/utils/sharable-warpcast-link";
 import {
@@ -23,6 +25,20 @@ import {
   ModalRecalculateButton,
   ModalSubmitButton,
 } from "./components";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { walletId: string };
+}) {
+  const walletId = params.walletId;
+  return {
+    title: "Nominate builders",
+    other: {
+      ...(await fetchMetadata(new URL(`/frames/${walletId}`, appURL()))),
+    },
+  };
+}
 
 export default async function NominateBuilder({
   params,
