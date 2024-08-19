@@ -1,13 +1,16 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
+import { getUserStats } from "@/app/_api/data/stats";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
 import { appURL } from "@/shared/frames/utils";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 import { frames } from "../frames";
 
 const handleRequest = frames(async (ctx) => {
   const userAddress = ctx.url.pathname.split("/frames/")[1].toLowerCase() ?? "";
 
   const walletInfo = await getWalletFromExternal(userAddress).catch(() => null);
+  const userStats = await getUserStats(userAddress).catch(() => null);
   let sharableTextUriEncoded = `@buildbot nom ${userAddress}`;
   if (walletInfo?.username) {
     sharableTextUriEncoded = `@buildbot nom @${walletInfo.username}`;
@@ -34,13 +37,67 @@ const handleRequest = frames(async (ctx) => {
                 {walletInfo?.username || walletInfo?.wallet || "404 Builder"}
               </p>
             </div>
-            <div tw="flex px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px]">
-              <p tw="text-[48px]" style={{ fontFamily: "Bricolage-Bold" }}>
-                {walletInfo
-                  ? "Nominate this builder to recognize their contributions."
-                  : "Couldn't find the builder you are looking for"}
-              </p>
+            <div tw="flex justify-around w-full">
+              <div tw="flex w-[524px] px-[20px] bg-white border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px] mb-4 justify-between items-center">
+                <p
+                  tw="text-[32px] text-[#000]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  Builder Score
+                </p>
+                <p
+                  tw="text-[32px] text-[#0042F5]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {walletInfo?.builderScore || 0}
+                </p>
+              </div>
+              <div tw="flex w-[524px] px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px] mb-4 justify-between items-center">
+                <p
+                  tw="text-[32px] text-[#000]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  $BUILD Committed
+                </p>
+                <p
+                  tw="text-[32px] text-[#0042F5]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {formatLargeNumber(walletInfo?.buildCommitAmount || 0)}
+                </p>
+              </div>
             </div>
+            <div tw="flex justify-around w-full">
+              <div tw="flex w-[524px] px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px] mb-4 justify-between items-center">
+                <p
+                  tw="text-[32px] text-[#000]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  Nominations Made
+                </p>
+                <p
+                  tw="text-[32px] text-[#0042F5]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {userStats?.nominations_made || 0}
+                </p>
+              </div>
+              <div tw="flex w-[524px] px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px] mb-4 justify-between items-center">
+                <p
+                  tw="text-[32px] text-[#000]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  Nominations Received
+                </p>
+                <p
+                  tw="text-[32px] text-[#0042F5]"
+                  style={{ fontFamily: "Bricolage-Bold" }}
+                >
+                  {userStats?.nominations_received || 0}
+                </p>
+              </div>
+            </div>
+
             <div tw="flex w-full text-center items-center justify-center">
               <svg
                 width="38"
