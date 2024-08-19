@@ -24,6 +24,7 @@ export type WalletInfo = {
   userId?: string;
   farcasterProfileLink?: string;
   talentProfileLink?: string;
+  buildCommitAmount?: number;
 };
 
 /**
@@ -172,6 +173,7 @@ export const getWalletFromExternal = async (
     talentProfileLink: talentSocial?.passport_id
       ? `https://passport.talentprotocol.com/profile/${talentSocial.passport_id}`
       : undefined,
+    buildCommitAmount: bossUser?.build_commit_amount ?? 0,
   };
 
   return walletInfo;
