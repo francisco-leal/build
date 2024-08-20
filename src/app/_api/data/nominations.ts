@@ -290,6 +290,13 @@ export const createNewNomination = async (
   origin_wallet_id: string,
   cast_id?: string,
 ): Promise<Nomination> => {
+  // dont allow nominations if the date is past August 20th 2024 at 9am UTC
+  const now = DateTime.local();
+  const deadline = DateTime.fromISO("2024-08-20T09:00:00Z");
+  if (now > deadline) {
+    throw new BadRequestError("Nominations are closed for this week!");
+  }
+
   const balances = await getUserBalances(nominatorUser, origin_wallet_id);
 
   if (await hasNoDailyBudget(nominatorUser)) {
