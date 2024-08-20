@@ -292,7 +292,7 @@ export const createNewNomination = async (
 ): Promise<Nomination> => {
   // dont allow nominations if the date is past August 20th 2024 at 9am UTC
   const now = DateTime.local();
-  const deadline = DateTime.fromISO("2024-08-20T09:00:00Z");
+  const deadline = DateTime.fromISO("2024-08-27T09:00:00Z");
   if (now > deadline) {
     throw new BadRequestError("Nominations are closed for this week!");
   }
