@@ -1,13 +1,11 @@
 "use client";
 
 import { FunctionComponent, useEffect, useState } from "react";
-import { default as NextLink } from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Avatar,
   Button,
   CircularProgress,
-  Divider,
   Input,
   List,
   ListItem,
@@ -18,7 +16,6 @@ import {
   Select,
   Option,
   Grid,
-  Link,
 } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
 import { useShareLink } from "@/app/_hooks/useShareLink";
@@ -68,6 +65,17 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
     if (pathname.includes("nominate"))
       setTimeout(() => setLoadingUser(undefined), 500);
   });
+
+  const nominateUserViaWarpcast = async (user: SearchResponseUser) => {
+    let sharableTextUriEncoded = `@buildbot nom ${user.wallet}`;
+    if (user?.username) {
+      sharableTextUriEncoded = `@buildbot nom @${user.username}`;
+    }
+    window.open(
+      `https://warpcast.com/~/compose?text=${sharableTextUriEncoded}&channelKey=build`,
+      "_blank",
+    );
+  };
 
   return (
     <Stack
@@ -246,12 +254,9 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
                     </Typography>
                   </Stack>
                   <Button
-                    component={NextLink}
-                    scroll={false}
-                    href={`/nominate/${user.wallet}`}
                     disabled={!!loadingUser && loadingUser !== user.wallet}
                     loading={loadingUser === user.wallet}
-                    onClick={() => setLoadingUser(user.wallet)}
+                    onClick={() => nominateUserViaWarpcast(user)}
                     variant="solid"
                     sx={{ height: "auto" }}
                   >
