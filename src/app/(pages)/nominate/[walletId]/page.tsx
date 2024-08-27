@@ -67,7 +67,8 @@ export default async function NominateBuilder({
       {builderProfile}
       <ModalActions>
         <ModalActionMessage>
-          Nominate {builder.username} on the /build channel
+          We're testing a new nomination format using Farcaster and Rounds.
+          Click to nominate @{builder.username} in the /build channel
         </ModalActionMessage>
         <Button
           component={NextLink}
