@@ -25,7 +25,10 @@ export const CardDailyBudget: FunctionComponent<
         </Typography>
       </Stack>
 
-      <Typography textColor="neutral.500">TODO: NEW COPY</Typography>
+      <Typography textColor="neutral.500">
+        Tokens will be available to claim from Aug 29th until Sep 30th, after we
+        run an anti-bot algorithm to convert BUILD points to $BUILD tokens.
+      </Typography>
       <Button component={Link} href="/airdrop1">
         Claim
       </Button>
