@@ -294,7 +294,9 @@ export const createNewNomination = async (
   const now = DateTime.local();
   const deadline = DateTime.fromISO("2024-08-27T09:00:00Z");
   if (now > deadline) {
-    throw new BadRequestError("Nominations are closed for this week!");
+    throw new BadRequestError(
+      "Hi! BUILD noms have changed. You don't need to tag @buildbot anymore. Simply cast 'nom' or 'nominate' in the /build channel, and tag the person you want to nominate (only one nom per cast). Casts liked by curators will share the weekly reward of $BUILD.",
+    );
   }
 
   const balances = await getUserBalances(nominatorUser, origin_wallet_id);

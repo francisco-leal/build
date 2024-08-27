@@ -1,29 +1,16 @@
 import { headers } from "next/headers";
+import { default as NextLink } from "next/link";
 import { notFound } from "next/navigation";
-import { Link } from "@mui/joy";
+import { Button } from "@mui/joy";
 import { fetchMetadata } from "frames.js/next";
 import { DateTime } from "luxon";
-import {
-  getNominationThisWeek,
-  getNominationsFromUserThisWeek,
-  hasNoDailyBudget,
-  isSelfNomination,
-} from "@/app/_api/data/nominations";
-import { getCurrentUser, getUserBalances } from "@/app/_api/data/users";
 import { getWalletFromExternal } from "@/app/_api/data/wallets";
-import { ConnectWalletButton } from "@/shared/components/connect-wallet-button";
 import { appURL } from "@/shared/frames/utils";
-import { formatNumber } from "@/shared/utils/format-number";
-import { getWarpcastSharableLinkSingleBuilder } from "@/shared/utils/sharable-warpcast-link";
 import {
   Modal,
   ModalActionMessage,
   ModalActions,
   ModalBuilderProfile,
-  ModalGoBackButton,
-  ModalNominationValues,
-  ModalRecalculateButton,
-  ModalSubmitButton,
 } from "./components";
 
 export async function generateMetadata({
@@ -71,173 +58,26 @@ export default async function NominateBuilder({
     />
   );
 
-  const currentUser = await getCurrentUser();
-  if (!currentUser) {
-    return (
-      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
-        {builderProfile}
-        <ModalNominationValues
-          entries={[
-            { label: "Date", value: today },
-            { label: "My Weekly Budget", value: "---" },
-            { label: "Noms made this week", value: "---" },
-            { label: "Points per Nomination", value: "---" },
-          ]}
-        />
-        <ModalActions>
-          <ConnectWalletButton forceRefreshOnConnect={true} />
-        </ModalActions>
-      </Modal>
-    );
+  let sharableTextUriEncoded = `@buildbot nom ${builder.wallet}`;
+  if (builder?.username) {
+    sharableTextUriEncoded = `@buildbot nom @${builder.username}`;
   }
-
-  let userBalances;
-  try {
-    userBalances = await getUserBalances(currentUser, currentUser.wallet);
-  } catch (e: any) {
-    return (
-      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
-        {builderProfile}
-        <ModalNominationValues
-          entries={[
-            { label: "Date", value: today },
-            { label: "My Weekly Budget", value: "---" },
-            { label: "Noms made this week", value: "---" },
-            { label: "Points per Nomination", value: "---" },
-          ]}
-        />
-        <ModalActions>
-          <ModalActionMessage>{e.message}</ModalActionMessage>
-        </ModalActions>
-      </Modal>
-    );
-  }
-
-  const nominationsThisWeek = await getNominationsFromUserThisWeek(currentUser);
-  const sharableWarpcastLink = getWarpcastSharableLinkSingleBuilder(
-    builder.username,
-  );
-  const previousNomination = await getNominationThisWeek(currentUser, builder);
-  if (previousNomination) {
-    const previousDate = DateTime.fromISO(previousNomination.createdAt);
-    return (
-      <Modal title="Nominated Builder" disableGoBack={disableGoBack}>
-        {builderProfile}
-        <ModalNominationValues
-          entries={[
-            {
-              label: "Date",
-              value: previousDate.toFormat("LLL dd"),
-            },
-            {
-              label: "Points given",
-              value: formatNumber(previousNomination.buildPointsSent),
-            },
-          ]}
-        />
-        <ModalActions>
-          <ModalActionMessage>
-            You nominated {builder.username}!<br />
-            <Link href={sharableWarpcastLink} target="_blank">
-              Share on Farcaster
-            </Link>
-          </ModalActionMessage>
-        </ModalActions>
-      </Modal>
-    );
-  }
-
-  if (await isSelfNomination(currentUser, builder)) {
-    return (
-      <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
-        {builderProfile}
-        <ModalNominationValues
-          entries={[
-            {
-              label: "Date",
-              value: today,
-            },
-            {
-              label: "My Weekly Budget",
-              value: formatNumber(userBalances.budget),
-            },
-            {
-              label: "Noms made this week",
-              value: `${nominationsThisWeek.length}`,
-            },
-            {
-              label: "Points per Nomination",
-              value: formatNumber(
-                userBalances.budget / (nominationsThisWeek.length + 1),
-              ),
-            },
-          ]}
-        />
-        <ModalActions>
-          <ModalActionMessage sx={{ textAlign: "right" }}>
-            You are trying to nominate yourself!
-            <br />
-            Be a good sport and nominate someone else.
-          </ModalActionMessage>
-          <ModalGoBackButton disableGoBack={disableGoBack}>
-            Close
-          </ModalGoBackButton>
-        </ModalActions>
-      </Modal>
-    );
-  }
-
-  const nominationValues = (
-    <ModalNominationValues
-      entries={[
-        {
-          label: "Date",
-          value: today,
-        },
-        {
-          label: "My weekly budget",
-          value: formatNumber(userBalances.budget, 0),
-        },
-        {
-          label: "Nominations this week",
-          value: `${nominationsThisWeek.length}`,
-        },
-        {
-          label: "Each nom receives",
-          value: formatNumber(
-            userBalances.budget / (nominationsThisWeek.length + 1),
-            0,
-          ),
-        },
-      ]}
-    />
-  );
-
-  if (await hasNoDailyBudget(currentUser)) {
-    return (
-      <Modal title="Nominate Builder">
-        {builderProfile}
-        {nominationValues}
-        <ModalActions>
-          <ModalActionMessage>
-            You don&apos;t seem to have a BUILD weekly budget yet. Click the
-            button to force a recalculation
-          </ModalActionMessage>
-          <ModalRecalculateButton user={currentUser} />
-        </ModalActions>
-      </Modal>
-    );
-  }
-
   return (
-    <Modal title="Nominate Builder">
+    <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
       {builderProfile}
-      {nominationValues}
       <ModalActions>
-        <ModalGoBackButton disableGoBack={disableGoBack}>
-          Close
-        </ModalGoBackButton>
-        <ModalSubmitButton wallet={builder.wallet} />
+        <ModalActionMessage>
+          We&apos;re testing a new nomination format using Farcaster and Rounds.
+          Click to nominate @{builder.username} in the /build channel
+        </ModalActionMessage>
+        <Button
+          component={NextLink}
+          variant="solid"
+          target="_blank"
+          href={`https://warpcast.com/~/compose?text=${sharableTextUriEncoded}&channelKey=build`}
+        >
+          Nominate
+        </Button>
       </ModalActions>
     </Modal>
   );
