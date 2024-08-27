@@ -290,99 +290,10 @@ export const createNewNomination = async (
   origin_wallet_id: string,
   cast_id?: string,
 ): Promise<Nomination> => {
-  // dont allow nominations if the date is past August 20th 2024 at 9am UTC
-  const now = DateTime.local();
-  const deadline = DateTime.fromISO("2024-08-27T09:00:00Z");
-  if (now > deadline) {
-    throw new BadRequestError(
-      "Hi! BUILD noms have changed. You don't need to tag @buildbot anymore. Simply cast 'nom' or 'nominate' in the /build channel, and tag the person you want to nominate (only one nom per cast). Casts liked by curators will share the weekly reward of $BUILD.",
-    );
-  }
-
-  const balances = await getUserBalances(nominatorUser, origin_wallet_id);
-
-  if (await hasNoDailyBudget(nominatorUser)) {
-    throw new BadRequestError("You need a BUILD budget to nominate!");
-  }
-  if (await isSelfNomination(nominatorUser, nominatedWallet)) {
-    throw new BadRequestError("You cannot nominate yourself!");
-  }
-  if (await isDuplicateNominationThisWeek(nominatorUser, nominatedWallet)) {
-    throw new BadRequestError("You already nominated this builder before!");
-  }
-
-  await createWallet(nominatedWallet.wallet);
-
-  const amountOfNominations = nominatorUser?.nominations_made_current_week ?? 0;
-  const points_sent = balances.budget / (amountOfNominations + 1);
-
-  if (points_sent < 1) {
-    throw new BadRequestError("You don't have enough budget to nominate!");
-  }
-
-  const nomination = await supabase
-    .from("build_nominations_round_2")
-    .insert({
-      origin_user_id: nominatorUser.id,
-      origin_wallet_id: origin_wallet_id,
-      destination_wallet_id: nominatedWallet.wallet,
-      boss_points_sent: points_sent,
-      cast_id,
-    })
-    .select(SELECT_NOMINATIONS_FROM_USER)
-    .single()
-    .throwOnError()
-    .then((res) => res.data);
-
-  if (!nomination) throw new BadRequestError("Could not create nomination");
-
-  const { startOfWeek, endOfWeek } = await getCurrentWeek();
-
-  await supabase.rpc("distribute_nomination_points_weekly", {
-    origin_id: nominatorUser.id,
-    p_start_date: startOfWeek,
-    p_end_date: endOfWeek,
-  });
-
-  await supabase.rpc("update_nominations_made_and_weekly", {
-    p_user_id: nominatorUser.id,
-    p_week_start: startOfWeek,
-  });
-
-  if (nominatedWallet.userId) {
-    await supabase.rpc("update_nominations_received", {
-      p_user_id: nominatedWallet.userId,
-      p_week_start: startOfWeek,
-    });
-  }
-
-  revalidatePath(`/airdrop`);
-  revalidatePath(`/airdrop/nominate/${nominatedWallet.wallet}`);
-  revalidatePath(`/nominate/${nominatedWallet.wallet}`);
-  revalidateTag(`user_${nominatorUser.id}` as CacheKey);
-  revalidateTag(`nominations` as CacheKey);
-  revalidateTag(`nominations_sent_${nominatorUser.id}` as CacheKey);
-
-  if (nominatedWallet.userId) {
-    revalidateTag(`user_${nominatedWallet.userId}` as CacheKey);
-    revalidateTag(`nominations_received_${nominatedWallet.userId}` as CacheKey);
-  }
-
-  return {
-    id: nomination.id,
-    originUserId: nomination.origin_user_id,
-    originUsername: nominatorUser.username ?? "", // TODO: a default here should be redundant.
-    originRank: nominatorUser.rank_current_week,
-    originWallet: nomination.origin_wallet_id ?? "", // TODO: a default here should be redundant.
-    buildPointsReceived: 0,
-    buildPointsSent: Math.round(nomination.boss_points_sent),
-    destinationWallet: nomination.destination_wallet_id,
-    destinationUsername:
-      nomination.wallets?.users?.username ??
-      abbreviateWalletAddress(nomination.destination_wallet_id),
-    destinationRank: nomination.wallets?.users?.rank_current_week ?? null,
-    createdAt: nomination.created_at,
-  };
+  // Nominations are now happening directly on the /build channel
+  throw new BadRequestError(
+    "Hi! BUILD noms have changed. You don't need to tag @buildbot anymore. Simply cast 'nom' or 'nominate' in the /build channel, and tag the person you want to nominate (only one nom per cast). Casts liked by curators will share the weekly reward of $BUILD.",
+  );
 };
 
 export const createNewNominationForCurrentUser = async (
