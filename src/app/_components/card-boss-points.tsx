@@ -34,8 +34,7 @@ export const CardBossPoints: FunctionComponent<CardBossPointsProps> = async ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Total points earned from nominations received in Round 2, updated every
-        Tuesday. Next update on {nextUpdate}.
+        Total points earned from nominations received in Round 2.
       </Typography>
 
       <Button
