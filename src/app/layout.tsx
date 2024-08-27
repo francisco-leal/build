@@ -106,10 +106,10 @@ export default function RootLayout({
             <AuthenticationProvider>
               <Header />
               <AnnouncementBar
-                title="BUILD Round 2 is open"
-                message="We're distributing 50B $BUILD during the Summer."
+                title="BUILD Round 2 is over"
+                message="We're distributing 30B $BUILD in September."
                 action="Read more"
-                link="https://paragraph.xyz/@macedo/build-log-8"
+                link="https://paragraph.xyz/@macedo/build-log-9"
               />
               <Stack sx={{ minHeight: "80vh" }}>{children}</Stack>
               <Footer />
