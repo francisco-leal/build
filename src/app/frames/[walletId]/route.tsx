@@ -11,9 +11,9 @@ const handleRequest = frames(async (ctx) => {
 
   const walletInfo = await getWalletFromExternal(userAddress).catch(() => null);
   const userStats = await getUserStats(userAddress).catch(() => null);
-  let sharableTextUriEncoded = `@buildbot nom ${userAddress}`;
+  let sharableTextUriEncoded = `This week I nominate ${userAddress} because ...`;
   if (walletInfo?.username) {
-    sharableTextUriEncoded = `@buildbot nom @${walletInfo.username}`;
+    sharableTextUriEncoded = `This week I nominate @${walletInfo.username} because ...`;
   }
 
   return {

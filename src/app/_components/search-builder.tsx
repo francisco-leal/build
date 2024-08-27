@@ -67,9 +67,9 @@ export const SearchBuilder: FunctionComponent<SearchBuilderProps> = (props) => {
   });
 
   const nominateUserViaWarpcast = async (user: SearchResponseUser) => {
-    let sharableTextUriEncoded = `@buildbot nom ${user.wallet}`;
+    let sharableTextUriEncoded = `This week I nominate ${user.wallet} because ...`;
     if (user?.username) {
-      sharableTextUriEncoded = `@buildbot nom @${user.username}`;
+      sharableTextUriEncoded = `This week I nominate @${user.username} because ...`;
     }
     window.open(
       `https://warpcast.com/~/compose?text=${sharableTextUriEncoded}&channelKey=build`,

@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { default as NextLink } from "next/link";
+import Link, { default as NextLink } from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@mui/joy";
 import { fetchMetadata } from "frames.js/next";
@@ -58,17 +58,24 @@ export default async function NominateBuilder({
     />
   );
 
-  let sharableTextUriEncoded = `@buildbot nom ${builder.wallet}`;
+  let sharableTextUriEncoded = `This week I nominate ${builder.wallet} because ...`;
   if (builder?.username) {
-    sharableTextUriEncoded = `@buildbot nom @${builder.username}`;
+    sharableTextUriEncoded = `This week I nominate @${builder.username} because ...`;
   }
   return (
     <Modal title="Nominate Builder" disableGoBack={disableGoBack}>
       {builderProfile}
       <ModalActions>
         <ModalActionMessage>
-          We&apos;re testing a new nomination format using Farcaster and Rounds.
-          Click to nominate @{builder.username} in the /build channel
+          We&apos;re testing a new nomination format using Farcaster and{" "}
+          <Link href="https://rounds.wtf/build" target="_blank">
+            Rounds
+          </Link>
+          . Click to nominate @{builder.username} in the{" "}
+          <Link href="https://warpcast.com/build" target="_blank">
+            /build
+          </Link>{" "}
+          channel
         </ModalActionMessage>
         <Button
           component={NextLink}
