@@ -379,6 +379,8 @@ export type Database = {
           boss_score: number;
           boss_token_balance: number | null;
           build_commit_amount: number;
+          commitment_rank: number | null;
+          commitment_value: number | null;
           created_at: string;
           farcaster_id: number | null;
           farcaster_power_user: boolean | null;
@@ -400,6 +402,8 @@ export type Database = {
           boss_score?: number;
           boss_token_balance?: number | null;
           build_commit_amount?: number;
+          commitment_rank?: number | null;
+          commitment_value?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;
@@ -421,6 +425,8 @@ export type Database = {
           boss_score?: number;
           boss_token_balance?: number | null;
           build_commit_amount?: number;
+          commitment_rank?: number | null;
+          commitment_value?: number | null;
           created_at?: string;
           farcaster_id?: number | null;
           farcaster_power_user?: boolean | null;

@@ -47,8 +47,7 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
           <th>Rank</th>
           <th>Profiles</th>
           <th>Name</th>
-          <th>Build Points</th>
-          <th>Nominations</th>
+          <th>Commitment Points</th>
           <th>Builder Score</th>
         </tr>
       </thead>
@@ -94,7 +93,6 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
               </td>
 
               <td>{formatLargeNumber(val.bossScore)}</td>
-              <td>{val.nominationsReceived}</td>
               <td>{Math.round(val.builderScore)}</td>
             </tr>
           ))}
