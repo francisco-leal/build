@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@airstack/node": "0.0.6",
+    "@duneanalytics/client-sdk": "^0.2.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource-variable/bricolage-grotesque": "^5.0.6",

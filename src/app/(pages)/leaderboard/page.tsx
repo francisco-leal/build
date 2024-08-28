@@ -12,9 +12,8 @@ export default async function LeaderboardPage() {
   if (!user) return <PlaceholderUserNotConnected />;
 
   const shortFormat = "LLL dd, hh:mm a 'UTC'";
-  const { startOfWeek, endOfWeek } = await getCurrentWeek();
+  const startOfWeek = "2024-08-27T09:00:00Z";
   const lastUpdate = DateTime.fromISO(startOfWeek).toFormat(shortFormat);
-  const nextUpdate = DateTime.fromISO(endOfWeek).toFormat(shortFormat);
   const topLeaderboardValues = await getTableLeaderboardValues();
 
   return (
@@ -25,7 +24,7 @@ export default async function LeaderboardPage() {
           className="no-overflow"
           textColor={"common.white"}
         >
-          Round 2 Leaderboard
+          BUILD top commiters leaderboard
         </Typography>
         <Stack className="overflow">
           <TableLeaderboard values={topLeaderboardValues} />
@@ -34,18 +33,13 @@ export default async function LeaderboardPage() {
           <Typography
             className="no-overflow"
             level="body-sm"
-            sx={{ color: "common.white" }}
+            sx={{ color: "common.white", maxWidth: "648px" }}
           >
-            BUILD Points last update on {lastUpdate}. Next update on {nextUpdate}.
-          </Typography>
-        )}
-        {topLeaderboardValues.length === 0 && (
-          <Typography
-            className="no-overflow"
-            level="body-sm"
-            sx={{ color: "common.white", mt: 2 }}
-          >
-            The leaderboard will be updated after the first week of noms.
+            BUILD Top Contributors was last updated on {lastUpdate}.<br></br>
+            <br></br>
+            Commitment points are calculated based on the amount committed
+            during round 1, party app contribution, being an LP provider and
+            holding $BUILD. Round 2 decisions will affect the standings.
           </Typography>
         )}
       </HeroSectionWithOverflow>
