@@ -243,6 +243,8 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     nominations_received: 0,
     nominations_received_current_week: 0,
     humanity_checkmark: talentUser?.verified ?? false,
+    commitment_rank: null,
+    commitment_value: 0,
   };
 
   const user = await supabase
