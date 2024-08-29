@@ -47,7 +47,7 @@ export const TableLeaderboard: FunctionComponent<LeaderboardTableProps> = ({
           <th>Rank</th>
           <th>Profiles</th>
           <th>Name</th>
-          <th>Commitment Points</th>
+          <th>Contribution</th>
           <th>Builder Score</th>
         </tr>
       </thead>

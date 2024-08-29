@@ -38,13 +38,13 @@ export default async function Airdrop1Page() {
           <br />
           Read more about the{" "}
           <Link
-            href={"https://paragraph.xyz/@macedo"}
+            href={"https://paragraph.xyz/@macedo/build-log-9"}
             target="_blank"
             textColor={"common.white"}
             underline="always"
             sx={{ textDecoration: "underline" }}
           >
-            future of BUILD
+            claim process
           </Link>
           .
         </Typography>
