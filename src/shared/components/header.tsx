@@ -86,7 +86,7 @@ export const Header: FunctionComponent = () => {
             href="/airdrop1"
             sx={{ textWrap: "none" }}
           >
-            Airdrop 1
+            Airdrop
           </Link>
           <Link disabled={activePath === "about"} href="/about">
             About

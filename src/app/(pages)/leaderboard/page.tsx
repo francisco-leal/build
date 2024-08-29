@@ -24,7 +24,7 @@ export default async function LeaderboardPage() {
           className="no-overflow"
           textColor={"common.white"}
         >
-          BUILD top commiters leaderboard
+          BUILD Top Contributors
         </Typography>
         <Stack className="overflow">
           <TableLeaderboard values={topLeaderboardValues} />
@@ -37,9 +37,9 @@ export default async function LeaderboardPage() {
           >
             BUILD Top Contributors was last updated on {lastUpdate}.<br></br>
             <br></br>
-            Commitment points are calculated based on the amount committed
-            during round 1, party app contribution, being an LP provider and
-            holding $BUILD. Round 2 decisions will affect the standings.
+            Contribution is calculated based on: amount committed
+            after Noms Round 1, Party App participation, LP Rewards and
+            total $BUILD holdings. Round 2 contributions will be added after the claim period is over.
           </Typography>
         )}
       </HeroSectionWithOverflow>
