@@ -475,7 +475,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm" textAlign={"start"}>
                     Receive raffle tickets proportional to the burned amount to
-                    win the 5 ETH prize.
+                    win the 5 ETH prize. Each 100k $BUILD burned is 1 ticket.
                   </Typography>
                 </Stack>
                 <Stack
@@ -551,7 +551,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm" textAlign={"start"}>
                     Receive raffle tickets proportional to the burned amount to
-                    win the 5 ETH prize.
+                    win the 5 ETH prize. Each 100k $BUILD burned is 1 ticket.
                   </Typography>
                 </Stack>
                 <Stack
