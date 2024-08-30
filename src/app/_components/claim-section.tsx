@@ -79,7 +79,7 @@ export const ClaimSection = ({ details, user }: Props) => {
     if (isConfirming || isPending) {
       setClaiming(true);
     }
-    if (isConfirmed) {
+    if (isConfirmed && showClaimFlow && claiming) {
       toast.success("Transaction confirmed! " + hash);
       setShowClaimFlow(false);
       setClaiming(false);
@@ -482,7 +482,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm" textAlign={"start"}>
                     Receive raffle tickets proportional to the burned amount to
-                    win the 5 ETH prize. Each 100k $BUILD burned is 1 ticket.
+                    win the 5 ETH prize. Each 10k $BUILD burned is 1 ticket.
                   </Typography>
                 </Stack>
                 <Stack
@@ -558,7 +558,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                   <Typography level="body-sm" textAlign={"start"}>
                     Receive raffle tickets proportional to the burned amount to
-                    win the 5 ETH prize. Each 100k $BUILD burned is 1 ticket.
+                    win the 5 ETH prize. Each 10k $BUILD burned is 1 ticket.
                   </Typography>
                 </Stack>
                 <Stack
@@ -605,7 +605,9 @@ export const ClaimSection = ({ details, user }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <Typography level="title-lg">Claim</Typography>
+                <Typography level="title-lg">
+                  Don&apos;t contribute, claim all tokens
+                </Typography>
                 <Stack
                   sx={{
                     flexDirection: "row",
