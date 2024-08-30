@@ -79,7 +79,7 @@ export const ClaimSection = ({ details, user }: Props) => {
     if (isConfirming || isPending) {
       setClaiming(true);
     }
-    if (isConfirmed) {
+    if (isConfirmed && showClaimFlow && claiming) {
       toast.success("Transaction confirmed! " + hash);
       setShowClaimFlow(false);
       setClaiming(false);
