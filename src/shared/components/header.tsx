@@ -202,7 +202,7 @@ export const Header: FunctionComponent = () => {
           href="/airdrop1"
           onClick={drawer.close}
         >
-          Airdrop 1
+          Airdrop
         </Link>
         <Link
           component={NextLink}

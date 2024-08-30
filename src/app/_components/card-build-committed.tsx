@@ -31,8 +31,8 @@ export const CardBuildCommitted: FunctionComponent<DailyStreakCardProps> = ({
       <Typography textColor="neutral.500">
         Amount of $BUILD tokens committed, from the Round 1 allocation.
       </Typography>
-      <Button component={Link} href="/airdrop1">
-        Round 1 Stats
+      <Button component={Link} href="/leaderboard">
+        Top contributors
       </Button>
     </BlockyCard>
   );

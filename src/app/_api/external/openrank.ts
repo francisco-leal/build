@@ -62,10 +62,6 @@ const getLeaderboardTop50 = unstable_cache(async () => {
       builderScore: tp_profile.score,
     });
   }
-
-  console.log("START");
-  console.log(leaderboardData);
-
   return leaderboardData ?? [];
 }, ["discover_leaderboard" satisfies CacheKey]);
 
