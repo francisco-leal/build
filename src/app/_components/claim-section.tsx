@@ -605,7 +605,9 @@ export const ClaimSection = ({ details, user }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <Typography level="title-lg">Claim</Typography>
+                <Typography level="title-lg">
+                  Don&apos;t contribute, claim all tokens
+                </Typography>
                 <Stack
                   sx={{
                     flexDirection: "row",
