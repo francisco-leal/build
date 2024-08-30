@@ -666,36 +666,14 @@ export const ClaimSection = ({ details, user }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "340px",
                 gap: 1,
               }}
             >
               <Heart sx={{ alignSelf: "center" }} />
               <Typography level="body-lg" sx={{ alignSelf: "center" }}>
-                You are officially a BUILD OG!
-              </Typography>
-              <Typography
-                level="body-md"
-                sx={{ textAlign: "center", alignSelf: "center" }}
-              >
-                Thank you for committing{" "}
-                {(claimed as bigint) > 0n ? (
-                  <strong>
-                    {formatLargeNumber(
-                      parseInt(formatEther(claimed as bigint)),
-                    )}{" "}
-                  </strong>
-                ) : (
-                  ""
-                )}
-                $BUILD<br></br>to the{" "}
-                <Link
-                  href="https://paragraph.xyz/@macedo/build-announcement-4#h-build-summer-fund"
-                  target="_blank"
-                >
-                  BUILD Summer Fund
-                </Link>
-                .
+                {burnAmount == 0
+                  ? "You have claimed your allocation."
+                  : `Thank you for supporting BUILD and burning ${burnAmount}% of your allocation.`}
               </Typography>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
               <Typography level="title-sm">Airdrop 2 stats</Typography>
@@ -706,7 +684,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                <Typography level="body-sm">Total nominations given</Typography>
+                <Typography level="body-sm">Total nominations made</Typography>
                 <Typography level="body-sm">
                   {user.nominations_made ?? 0}
                 </Typography>
@@ -735,6 +713,18 @@ export const ClaimSection = ({ details, user }: Props) => {
                 <Typography level="body-sm">Total points earned</Typography>
                 <Typography level="body-sm">
                   {formatNumber(user.boss_score ?? 0)}
+                </Typography>
+              </Stack>
+              <Stack
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography level="body-sm">Round 2 allocation</Typography>
+                <Typography level="body-sm">
+                  {formatNumber(Number(airdropAmount))}
                 </Typography>
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
@@ -776,7 +766,6 @@ export const ClaimSection = ({ details, user }: Props) => {
               sx={{
                 flexDirection: "column",
                 alignItems: "start",
-                minWidth: "340px",
                 gap: 1,
               }}
             >
