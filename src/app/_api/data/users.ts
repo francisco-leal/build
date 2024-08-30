@@ -24,7 +24,7 @@ const SELECT_USERS = "*, wallets(*)" as const;
 
 export type Wallet = Tables["wallets"]["Row"];
 export type RawUser = Tables["users"]["Row"];
-export type AirdropInfo = Tables["airdrop"]["Row"];
+export type AirdropInfo = Tables["round-2-airdrop"]["Row"];
 
 export type PartialWallet = Partial<Wallet> & Pick<Wallet, "wallet">;
 
@@ -160,13 +160,13 @@ export const getCurrentUser = async (): Promise<CurrentUser | null> => {
 export const getAirdropInfoForCurrentUser =
   async (): Promise<AirdropInfo | null> => {
     const user = await getCurrentUser();
-    if (!user) return null;
+    if (!user || !user.last_wallet) return null;
 
     try {
       return await supabase
-        .from("airdrop")
+        .from("round-2-airdrop")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("wallet", user.last_wallet.toLowerCase())
         .single()
         .throwOnError()
         .then((res) => res.data);
@@ -245,6 +245,7 @@ export const createNewUserForWallet = async (wallet: string): Promise<User> => {
     humanity_checkmark: talentUser?.verified ?? false,
     commitment_rank: null,
     commitment_value: 0,
+    round_2_multiplier: 0,
   };
 
   const user = await supabase

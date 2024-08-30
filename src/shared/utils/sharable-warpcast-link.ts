@@ -39,13 +39,17 @@ export function getWarpcastSharableLinkAirdrop1(
   buildCommitted: number,
   builderWallet: string,
 ): string {
-  let sharableText = `Real builders commit, and I just committed ${formatLargeNumber(buildCommitted)} $BUILD tokens to the BUILD Summer Fund. 🫡`;
+  let sharableText = `I just claimed my Round 2 $BUILD tokens and decided to burn ${parseInt(buildCommitted.toString())} percent of my allocation to show support to the project. 🫡`;
   let sharableTextUriEncoded = "";
+  if (buildCommitted === 0) {
+    sharableText = `I just claimed my Round 2 $BUILD tokens. 🫡`;
+  }
+
   try {
     sharableTextUriEncoded = encodeURI(sharableText);
   } catch (e) {
     sharableTextUriEncoded = encodeURI(
-      "Real builders commit, and I just committed $BUILD tokens to the BUILD Summer Fund",
+      "I just claimed my Round 2 BUILD tokens. 🫡",
     );
   }
   return `https://warpcast.com/~/compose?text=${sharableTextUriEncoded}&embeds%5B%5D=https://www.build.top/airdrop1/${builderWallet}?t=${Date.now()}`;

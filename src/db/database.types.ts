@@ -349,6 +349,30 @@ export type Database = {
           },
         ];
       };
+      "round-2-airdrop": {
+        Row: {
+          created_at: string;
+          id: number;
+          proofs: string[];
+          value: string;
+          wallet: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          proofs: string[];
+          value: string;
+          wallet: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          proofs?: string[];
+          value?: string;
+          wallet?: string;
+        };
+        Relationships: [];
+      };
       scheduled_updates: {
         Row: {
           finished_at: string | null;
@@ -395,6 +419,7 @@ export type Database = {
           passport_builder_score: number;
           passport_id: number | null;
           rank_current_week: number | null;
+          round_2_multiplier: number | null;
           username: string | null;
         };
         Insert: {
@@ -418,6 +443,7 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           rank_current_week?: number | null;
+          round_2_multiplier?: number | null;
           username?: string | null;
         };
         Update: {
@@ -441,6 +467,7 @@ export type Database = {
           passport_builder_score?: number;
           passport_id?: number | null;
           rank_current_week?: number | null;
+          round_2_multiplier?: number | null;
           username?: string | null;
         };
         Relationships: [];

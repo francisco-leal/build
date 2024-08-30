@@ -34,13 +34,12 @@ export const CardBossPoints: FunctionComponent<CardBossPointsProps> = async ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Total points earned from nominations received in Round 2.
+        Total points earned from nominations received in Round 2 before running
+        an anti-bot algorithm that punishes bad actors.
       </Typography>
 
       <Button
-        href={
-          "https://buildcommunity.notion.site/BUILD-FAQ-Round-2-6c8c4ebbfff1452d9123ed74a530cf25"
-        }
+        href={"https://paragraph.xyz/@macedo/build-log-9"}
         target="_blank"
         component={Link}
         variant="solid"
