@@ -806,7 +806,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
                 )}
                 <Typography level="body-sm">
-                  You received atleast a nomination
+                  You received at least a nomination
                 </Typography>
               </Stack>
               <Stack
@@ -816,7 +816,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   minWidth: "100%",
                 }}
               >
-                {!user.humanity_checkmark ? (
+                {user.humanity_checkmark ? (
                   <BlueCheck sx={{ "&&": { width: 24, height: 24 } }} />
                 ) : (
                   <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
