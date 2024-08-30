@@ -55,6 +55,7 @@ export const ClaimSection = ({ details, user }: Props) => {
   const [claiming, setClaiming] = useState<boolean>(false);
   const [showClaimFlow, setShowClaimFlow] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
+  const [burnAmount, setBurnAmount] = useState<number>(0);
 
   const airdropAmount = details?.value
     ? Math.round(Number(details.value ?? "0") / 10 ** 18)
@@ -129,6 +130,8 @@ export const ClaimSection = ({ details, user }: Props) => {
     setClaiming(true);
     toast.info("Confirm the claim on your wallet", { duration: 5000 });
 
+    setBurnAmount(90);
+
     await writeContract({
       abi: BuildRound2DistributionAbi.abi,
       address: BUILD_ROUND_2_DISTRIBUTION_CONTRACT,
@@ -171,6 +174,8 @@ export const ClaimSection = ({ details, user }: Props) => {
     setClaiming(true);
     toast.info("Confirm the claim on your wallet", { duration: 5000 });
 
+    setBurnAmount(50);
+
     await writeContract({
       abi: BuildRound2DistributionAbi.abi,
       address: BUILD_ROUND_2_DISTRIBUTION_CONTRACT,
@@ -212,6 +217,8 @@ export const ClaimSection = ({ details, user }: Props) => {
 
     setClaiming(true);
     toast.info("Confirm the claim on your wallet", { duration: 5000 });
+
+    setBurnAmount(0);
 
     await writeContract({
       abi: BuildRound2DistributionAbi.abi,
@@ -744,10 +751,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   color="primary"
                   onClick={() =>
                     window.open(
-                      getWarpcastSharableLinkAirdrop1(
-                        parseInt(formatEther(claimed as bigint)),
-                        address!,
-                      ),
+                      getWarpcastSharableLinkAirdrop1(burnAmount, address!),
                       "_blank",
                     )
                   }
