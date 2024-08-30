@@ -374,7 +374,8 @@ export const ClaimSection = ({ details, user }: Props) => {
                 </Link>
                 .<br></br>
                 <br></br>
-                This is your 2nd chance to "vote" on the future of BUILD:
+                This is your 2nd chance to &quot;vote&quot; on the future of
+                BUILD:
                 <br></br>
                 1. Wait until September to claim all your tokens, if you think
                 we should sunset BUILD 🪦
