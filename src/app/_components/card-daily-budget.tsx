@@ -2,14 +2,20 @@
 
 import { FunctionComponent } from "react";
 import { Stack, Typography, Button, Link } from "@mui/joy";
+import { parseEther, parseUnits } from "viem";
 import { BlockyCard } from "@/shared/components/blocky-card";
 import { Coin } from "@/shared/icons/coin";
+import { formatLargeNumber } from "@/shared/utils/format-number";
 
-export type DailyBudgetCardProps = {};
+export type DailyBudgetCardProps = {
+  amount: string | undefined;
+};
 
-export const CardDailyBudget: FunctionComponent<
-  DailyBudgetCardProps
-> = ({}) => {
+export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
+  amount,
+}) => {
+  const amountToDisplay = Number(amount ?? "0") / 10 ** 18;
+
   return (
     <BlockyCard id="daily-budget">
       <Typography level="body-lg" component="h4" textColor="primary.500">
@@ -21,13 +27,21 @@ export const CardDailyBudget: FunctionComponent<
         <Typography
           sx={{ fontSize: "36px", fontWeight: "bold", color: "common.black" }}
         >
-          {"--,-"}
+          {amountToDisplay > 0 ? formatLargeNumber(amountToDisplay) : "--,-"}
         </Typography>
       </Stack>
 
       <Typography textColor="neutral.500">
-        Tokens will be available to claim from Aug 29th until Sep 30th, after we
-        run an anti-bot algorithm to convert BUILD points to $BUILD tokens.
+        Claim until Sep 30th. You needed to have the{" "}
+        <Link
+          href="https://docs.talentprotocol.com/docs/protocol-overview/talent-passport/human-checkmark"
+          target="_blank"
+          underline="always"
+          sx={{ textDecoration: "underline" }}
+        >
+          Human Checkmark
+        </Link>{" "}
+        on your Talent Passport before Aug 27th to be eligible.
       </Typography>
       <Button component={Link} href="/airdrop1">
         Claim

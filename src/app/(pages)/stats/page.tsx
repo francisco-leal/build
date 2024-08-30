@@ -1,5 +1,8 @@
 import { Stack, Typography } from "@mui/joy";
-import { getCurrentUser } from "@/app/_api/data/users";
+import {
+  getAirdropInfoForCurrentUser,
+  getCurrentUser,
+} from "@/app/_api/data/users";
 import { CardBossPoints } from "@/app/_components/card-boss-points";
 import { CardBossTokens } from "@/app/_components/card-boss-tokens";
 import { CardBuildCommitted } from "@/app/_components/card-build-committed";
@@ -11,6 +14,8 @@ import { HeroSection } from "@/shared/components/hero-section";
 export default async function AirdropPage() {
   const user = await getCurrentUser();
   if (!user) return <PlaceholderUserNotConnected />;
+
+  const airdropDetails = await getAirdropInfoForCurrentUser();
 
   return (
     <Stack component="main" sx={{ color: "common.white" }}>
@@ -37,7 +42,7 @@ export default async function AirdropPage() {
             gap: 3,
           }}
         >
-          <CardDailyBudget />
+          <CardDailyBudget amount={airdropDetails?.value} />
           <CardBossPoints points={user.boss_score} />
         </Stack>
       </HeroSection>
