@@ -31,7 +31,7 @@ type Props = {
 };
 
 const BUILD_ROUND_2_DISTRIBUTION_CONTRACT =
-  "0x992AC77f0E0E55274a7FF18D6d7421c967a4B96F";
+  "0x841E88341647CA15d8B29B1c62ECC344b9686f70";
 
 export const ClaimSection = ({ details, user }: Props) => {
   const { address } = useAccount();
