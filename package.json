@@ -32,7 +32,7 @@
     "clsx": "^2.1.1",
     "encoding": "^0.1.13",
     "ethers": "^5.6",
-    "frames.js": "^0.16.2",
+    "frames.js": "^0.19.1",
     "frog": "0.8.6",
     "hono": "4.5.8",
     "iron-session": "8.0.1",
