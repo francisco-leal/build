@@ -99,37 +99,10 @@ const handleRequest = frames(async (ctx) => {
             </div>
 
             <div tw="flex w-full text-center items-center justify-center">
-              <svg
-                width="38"
-                height="38"
-                viewBox="0 0 38 38"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3.8 7.6L3.8 30.4H0L9.9662e-07 7.6H3.8Z"
-                  fill="#FBFCFE"
-                />
-                <path
-                  d="M15.2 7.6L15.2 30.4H11.4L11.4 7.6H15.2Z"
-                  fill="#FBFCFE"
-                />
-                <path d="M26.6 11.4V17.1H22.8V11.4H26.6Z" fill="#FBFCFE" />
-                <path d="M26.6 20.9V26.6H22.8V20.9H26.6Z" fill="#FBFCFE" />
-                <path d="M22.8 7.6V11.4H15.2V7.6H22.8Z" fill="#FBFCFE" />
-                <path d="M22.8 17.1V20.9H15.2V17.1H22.8Z" fill="#FBFCFE" />
-                <path d="M22.8 26.6V30.4H15.2L15.2 26.6H22.8Z" fill="#FBFCFE" />
-                <path d="M7.6 3.8V7.6L3.8 7.6V3.8H7.6Z" fill="#FBFCFE" />
-                <path d="M34.2 3.8V7.6L30.4 7.6V3.8H34.2Z" fill="#FBFCFE" />
-                <path d="M7.6 30.4V34.2H3.8L3.8 30.4H7.6Z" fill="#FBFCFE" />
-                <path d="M34.2 30.4V34.2H30.4V30.4H34.2Z" fill="#FBFCFE" />
-                <path d="M30.4 34.2V38H7.6V34.2H30.4Z" fill="#FBFCFE" />
-                <path
-                  d="M30.4 9.9662e-07V3.8H7.6V0L30.4 9.9662e-07Z"
-                  fill="#FBFCFE"
-                />
-                <path d="M38 7.6V30.4H34.2V7.6L38 7.6Z" fill="#FBFCFE" />
-              </svg>
+              <img
+                src={`${appURL()}/images/frame-icon.svg`}
+                style={{ width: "38px", height: "38px" }}
+              />
               <p
                 tw="text-[48px] text-[#FBFCFE] ml-[10px]"
                 style={{ fontFamily: "Bricolage-Bold" }}
