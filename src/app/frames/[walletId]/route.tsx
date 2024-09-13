@@ -6,6 +6,11 @@ import { appURL } from "@/shared/frames/utils";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 import { frames } from "../frames";
 
+const shortWalletId = (walletId: string | undefined) => {
+  if (!walletId) return "404 Builder";
+  return walletId.slice(0, 6) + ".." + walletId.slice(-4);
+};
+
 const handleRequest = frames(async (ctx) => {
   const userAddress = ctx.url.pathname.split("/frames/")[1].toLowerCase() ?? "";
 
@@ -35,7 +40,7 @@ const handleRequest = frames(async (ctx) => {
                 style={{ fontFamily: "Bricolage-Bold" }}
               >
                 Nominate{" "}
-                {walletInfo?.username || walletInfo?.wallet || "404 Builder"}
+                {walletInfo?.username || shortWalletId(walletInfo?.wallet)}
               </p>
             </div>
             <div tw="flex justify-around w-full">
