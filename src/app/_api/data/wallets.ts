@@ -122,10 +122,54 @@ export const getWallets = async (
     );
 };
 
-export const getWalletFromExternal = async (
-  walledId: string,
+export const getWalletFromSystem = async (
+  walletId: string,
 ): Promise<WalletInfo | null> => {
-  const walletLc = walledId.toLowerCase();
+  const walletLc = walletId.toLowerCase();
+  const [talentSocial, buildUser] = await Promise.all([
+    getTalentProtocolUser(walletLc),
+    getUserFromWallet(walletLc),
+  ]);
+
+  const allWallets = [
+    ...(talentSocial?.verified_wallets ?? []),
+    ...(buildUser?.wallets.map((w) => w.wallet) ?? []),
+  ]
+    .filter(Boolean)
+    .filter(removeDuplicates);
+
+  const walletInfo: WalletInfo = {
+    wallet: walletLc,
+    userId: buildUser?.id,
+    passportId: buildUser?.passport_id ?? undefined,
+    farcasterId: buildUser?.farcaster_id ?? undefined,
+    bio: talentSocial?.passport_profile?.bio ?? "",
+    builderScore: buildUser?.passport_builder_score ?? 0,
+    image:
+      talentSocial?.user?.profile_picture_url ??
+      talentSocial?.passport_profile?.image_url,
+    username:
+      talentSocial?.user?.username ??
+      buildUser?.username ??
+      walletId.toLowerCase(),
+    rank: 0,
+    allWallets: allWallets,
+    farcasterProfileLink: buildUser?.username
+      ? `https://warpcast.com/${buildUser?.username}`
+      : undefined,
+    talentProfileLink: talentSocial?.passport_id
+      ? `https://passport.talentprotocol.com/profile/${talentSocial.passport_id}`
+      : undefined,
+    buildCommitAmount: buildUser?.build_commit_amount ?? 0,
+  };
+
+  return walletInfo;
+};
+
+export const getWalletFromExternal = async (
+  walletId: string,
+): Promise<WalletInfo | null> => {
+  const walletLc = walletId.toLowerCase();
   const [farcasterSocial, talentSocial, bossUser] = await Promise.all([
     getFarcasterUser(walletLc),
     getTalentProtocolUser(walletLc),
@@ -146,7 +190,7 @@ export const getWalletFromExternal = async (
     .filter(removeDuplicates);
 
   const walletInfo: WalletInfo = {
-    wallet: walledId.toLowerCase(),
+    wallet: walletId.toLowerCase(),
     userId: bossUser?.id,
     passportId: talentSocial?.passport_id ?? bossUser?.passport_id ?? undefined,
     farcasterId: farcasterSocial?.fid ?? bossUser?.farcaster_id ?? undefined,
@@ -163,7 +207,7 @@ export const getWalletFromExternal = async (
       farcasterSocial?.username ??
       talentSocial?.user?.username ??
       bossUser?.username ??
-      walledId.toLowerCase(),
+      walletId.toLowerCase(),
     rank: 0,
     allWallets: allWallets,
     farcasterProfileLink:

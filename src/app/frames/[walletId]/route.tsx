@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { getUserStats } from "@/app/_api/data/stats";
-import { getWalletFromExternal } from "@/app/_api/data/wallets";
+import { getWalletFromSystem } from "@/app/_api/data/wallets";
 import { appURL } from "@/shared/frames/utils";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 import { frames } from "../frames";
@@ -14,7 +14,7 @@ const shortWalletId = (walletId: string | undefined) => {
 const handleRequest = frames(async (ctx) => {
   const userAddress = ctx.url.pathname.split("/frames/")[1].toLowerCase() ?? "";
 
-  const walletInfo = await getWalletFromExternal(userAddress).catch(() => null);
+  const walletInfo = await getWalletFromSystem(userAddress).catch(() => null);
   const userStats = await getUserStats(userAddress).catch(() => null);
   let sharableTextUriEncoded = `This week I nominate ${userAddress} because ...`;
   if (walletInfo?.username) {
