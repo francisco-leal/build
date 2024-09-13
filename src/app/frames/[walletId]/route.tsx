@@ -16,10 +16,12 @@ const handleRequest = frames(async (ctx) => {
 
   const walletInfo = await getWalletFromSystem(userAddress).catch(() => null);
   const userStats = await getUserStats(userAddress).catch(() => null);
-  let sharableTextUriEncoded = `This week I nominate ${userAddress} because ...`;
+  let sharableTextUriEncoded = `This week I nominate ${userAddress} because ...\nCheck this week's nominations at rounds.wtf/build\n Nominate your favorite builder by casting in /build`;
   if (walletInfo?.username) {
-    sharableTextUriEncoded = `This week I nominate @${walletInfo.username} because ...`;
+    sharableTextUriEncoded = `This week I nominate @${walletInfo.username} because ...\nCheck this week's nominations at rounds.wtf/build\n Nominate your favorite builder by casting in /build`;
   }
+
+  sharableTextUriEncoded = encodeURI(sharableTextUriEncoded);
 
   return {
     image: (
