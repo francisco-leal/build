@@ -34,6 +34,7 @@ const handleRequest = frames(async (ctx) => {
                 tw="font-bold text-[78px]"
                 style={{ fontFamily: "Bricolage-Bold" }}
               >
+                Nominate{" "}
                 {walletInfo?.username || walletInfo?.wallet || "404 Builder"}
               </p>
             </div>
@@ -50,36 +51,6 @@ const handleRequest = frames(async (ctx) => {
                   style={{ fontFamily: "Bricolage-Bold" }}
                 >
                   {walletInfo?.builderScore || 0}
-                </p>
-              </div>
-              <div tw="flex w-[524px] px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px] mb-4 justify-between items-center">
-                <p
-                  tw="text-[32px] text-[#000]"
-                  style={{ fontFamily: "Bricolage-Bold" }}
-                >
-                  $BUILD Committed
-                </p>
-                <p
-                  tw="text-[32px] text-[#0042F5]"
-                  style={{ fontFamily: "Bricolage-Bold" }}
-                >
-                  {formatLargeNumber(walletInfo?.buildCommitAmount || 0)}
-                </p>
-              </div>
-            </div>
-            <div tw="flex justify-around w-full">
-              <div tw="flex w-[524px] px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px] mb-4 justify-between items-center">
-                <p
-                  tw="text-[32px] text-[#000]"
-                  style={{ fontFamily: "Bricolage-Bold" }}
-                >
-                  Nominations Made
-                </p>
-                <p
-                  tw="text-[32px] text-[#0042F5]"
-                  style={{ fontFamily: "Bricolage-Bold" }}
-                >
-                  {userStats?.nominations_made || 0}
                 </p>
               </div>
               <div tw="flex w-[524px] px-[20px] bg-white text-[#0042F5] border-black border-t-4 border-l-4 border-b-[15px] border-r-[15px] mb-4 justify-between items-center">
@@ -127,9 +98,6 @@ const handleRequest = frames(async (ctx) => {
       </Button>,
       ,
     ],
-    imageOptions: {
-      aspectRatio: "1:1",
-    },
   };
 });
 
