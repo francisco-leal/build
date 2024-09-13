@@ -1,20 +1,27 @@
 /* eslint-disable react/jsx-key */
 import { Button } from "frames.js/next";
 import { getUserStats } from "@/app/_api/data/stats";
-import { getWalletFromExternal } from "@/app/_api/data/wallets";
+import { getWalletFromSystem } from "@/app/_api/data/wallets";
 import { appURL } from "@/shared/frames/utils";
 import { formatLargeNumber } from "@/shared/utils/format-number";
 import { frames } from "../frames";
 
+const shortWalletId = (walletId: string | undefined) => {
+  if (!walletId) return "404 Builder";
+  return walletId.slice(0, 6) + ".." + walletId.slice(-4);
+};
+
 const handleRequest = frames(async (ctx) => {
   const userAddress = ctx.url.pathname.split("/frames/")[1].toLowerCase() ?? "";
 
-  const walletInfo = await getWalletFromExternal(userAddress).catch(() => null);
+  const walletInfo = await getWalletFromSystem(userAddress).catch(() => null);
   const userStats = await getUserStats(userAddress).catch(() => null);
-  let sharableTextUriEncoded = `This week I nominate ${userAddress} because ...`;
+  let sharableTextUriEncoded = `This week I nominate ${userAddress} because ...\nCheck this week's nominations at rounds.wtf/build\n Nominate your favorite builder by casting in /build`;
   if (walletInfo?.username) {
-    sharableTextUriEncoded = `This week I nominate @${walletInfo.username} because ...`;
+    sharableTextUriEncoded = `This week I nominate @${walletInfo.username} because ...\nCheck this week's nominations at rounds.wtf/build\n Nominate your favorite builder by casting in /build`;
   }
+
+  sharableTextUriEncoded = encodeURI(sharableTextUriEncoded);
 
   return {
     image: (
@@ -35,7 +42,7 @@ const handleRequest = frames(async (ctx) => {
                 style={{ fontFamily: "Bricolage-Bold" }}
               >
                 Nominate{" "}
-                {walletInfo?.username || walletInfo?.wallet || "404 Builder"}
+                {walletInfo?.username || shortWalletId(walletInfo?.wallet)}
               </p>
             </div>
             <div tw="flex justify-around w-full">
