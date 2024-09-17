@@ -3,7 +3,6 @@ import { Button } from "frames.js/next";
 import { getUserStats } from "@/app/_api/data/stats";
 import { getWalletFromSystem } from "@/app/_api/data/wallets";
 import { appURL } from "@/shared/frames/utils";
-import { formatLargeNumber } from "@/shared/utils/format-number";
 import { frames } from "../frames";
 
 const shortWalletId = (walletId: string | undefined) => {

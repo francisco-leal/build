@@ -822,7 +822,9 @@ export const ClaimSection = ({ details, user }: Props) => {
                   <RedCross sx={{ "&&": { width: 24, height: 24 } }} />
                 )}
                 <Typography level="body-sm">
-                  Talent Passport w/ Human Checkmark
+                  Talent Passport w/ Human Checkmark (being recalculated, if the
+                  human checkmark is present but you can not claim, please wait
+                  for the next update)
                 </Typography>
               </Stack>
               <Divider sx={{ backgroundColor: "neutral.400" }} />
