@@ -637,7 +637,7 @@ export const ClaimSection = ({ details, user }: Props) => {
                   variant="outlined"
                   color="neutral"
                   onClick={() => claim()}
-                  disabled={true}
+                  loading={claiming}
                   sx={{
                     alignSelf: "center",
                     mt: 2,
