@@ -144,7 +144,7 @@ export const getWalletFromSystem = async (
     passportId: buildUser?.passport_id ?? undefined,
     farcasterId: buildUser?.farcaster_id ?? undefined,
     bio: talentSocial?.passport_profile?.bio ?? "",
-    builderScore: buildUser?.passport_builder_score ?? 0,
+    builderScore: talentSocial?.score ?? buildUser?.passport_builder_score ?? 0,
     image:
       talentSocial?.user?.profile_picture_url ??
       talentSocial?.passport_profile?.image_url,
