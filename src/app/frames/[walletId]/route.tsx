@@ -5,9 +5,11 @@ import { getWalletFromSystem } from "@/app/_api/data/wallets";
 import { appURL } from "@/shared/frames/utils";
 import { frames } from "../frames";
 
-const shortWalletId = (walletId: string | undefined) => {
-  if (!walletId) return "404 Builder";
-  return walletId.slice(0, 6) + ".." + walletId.slice(-4);
+const shortWalletId = (usernameOrWallet: string | undefined) => {
+  if (!usernameOrWallet) return null;
+  if (usernameOrWallet.length === 42 && usernameOrWallet.startsWith("0x"))
+    return usernameOrWallet.slice(0, 6) + "..." + usernameOrWallet.slice(-4);
+  return usernameOrWallet;
 };
 
 const handleRequest = frames(async (ctx) => {
@@ -15,11 +17,10 @@ const handleRequest = frames(async (ctx) => {
 
   const walletInfo = await getWalletFromSystem(userAddress).catch(() => null);
   const userStats = await getUserStats(userAddress).catch(() => null);
-  let sharableTextUriEncoded = `This week I nominate ${userAddress} because ...\nCheck this week's nominations at rounds.wtf/build\n Nominate your favorite builder by casting in /build`;
+  let sharableTextUriEncoded = `This week I nominate ${shortWalletId(userAddress)} because ...\nCheck this week's nominations at rounds.wtf/build\n Nominate your favorite builder by casting in /build`;
   if (walletInfo?.username) {
     sharableTextUriEncoded = `This week I nominate @${walletInfo.username} because ...\nCheck this week's nominations at rounds.wtf/build\n Nominate your favorite builder by casting in /build`;
   }
-
   sharableTextUriEncoded = encodeURI(sharableTextUriEncoded);
 
   return {
@@ -41,7 +42,8 @@ const handleRequest = frames(async (ctx) => {
                 style={{ fontFamily: "Bricolage-Bold" }}
               >
                 Nominate{" "}
-                {walletInfo?.username || shortWalletId(walletInfo?.wallet)}
+                {shortWalletId(walletInfo?.username || walletInfo?.wallet) ||
+                  "404 builder"}
               </p>
             </div>
             <div tw="flex justify-around w-full">
