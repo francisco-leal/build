@@ -4,6 +4,7 @@ import { supabase } from "@/db";
 import { Database } from "@/db/database.types";
 import { abbreviateWalletAddress } from "@/shared/utils/abbreviate-wallet-address";
 import { removeDuplicates } from "@/shared/utils/remove-duplicates";
+import { getBasename } from "../external/base";
 import { getFarcasterUser } from "../external/farcaster";
 import { getTalentProtocolUser } from "../external/talent-protocol";
 import { getUserFromWallet } from "./users";
@@ -138,6 +139,10 @@ export const getWalletFromSystem = async (
     .filter(Boolean)
     .filter(removeDuplicates);
 
+  const basename = talentSocial?.passport_socials?.find(
+    (social) => social.source === "basename",
+  )?.profile_name;
+
   const walletInfo: WalletInfo = {
     wallet: walletLc,
     userId: buildUser?.id,
@@ -149,9 +154,7 @@ export const getWalletFromSystem = async (
       talentSocial?.user?.profile_picture_url ??
       talentSocial?.passport_profile?.image_url,
     username:
-      talentSocial?.user?.username ??
-      buildUser?.username ??
-      walletId.toLowerCase(),
+      basename ?? talentSocial?.user?.username ?? buildUser?.username ?? "",
     rank: 0,
     allWallets: allWallets,
     farcasterProfileLink: buildUser?.username
@@ -162,6 +165,21 @@ export const getWalletFromSystem = async (
       : undefined,
     buildCommitAmount: buildUser?.build_commit_amount ?? 0,
   };
+
+  if (walletInfo.username === "") {
+    // check for basename
+    try {
+      const basename = await getBasename(walletLc);
+      if (basename) {
+        walletInfo.username = basename;
+      } else {
+        walletInfo.username = walletLc;
+      }
+    } catch (e) {
+      walletInfo.username = walletLc;
+      console.error("error getting basename", e);
+    }
+  }
 
   return walletInfo;
 };

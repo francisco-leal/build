@@ -28,6 +28,10 @@ export type PassportResult = {
     name: string;
     bio: string;
   } | null;
+  passport_socials: {
+    profile_name: string;
+    source: string;
+  }[];
   verified_wallets: Array<string>;
 };
 

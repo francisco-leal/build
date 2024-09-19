@@ -29,19 +29,24 @@ const handleRequest = frames(async (ctx) => {
         <img src={`${appURL()}/images/frame-bg.png`} tw="w-full" />
         <div tw="absolute top-0 left-0 w-full h-full flex flex-col justify-start p-[20px]">
           <div tw="flex flex-col w-full h-full justify-center items-center">
-            <div tw="flex items-center text-center px-[20px] w-auto text-white mb-[50px]">
-              {walletInfo?.image && (
-                <img
-                  src={walletInfo?.image}
-                  tw="w-[120px] h-[120px] rounded-full mr-[20px]"
-                  style={{ objectFit: "cover" }}
-                />
-              )}
+            <div tw="flex flex-col justify-center items-center text-center px-[20px] w-auto text-white">
+              <p
+                tw="font-bold text-[78px] mb-[0px] pb-[0px]"
+                style={{ fontFamily: "Bricolage-Bold" }}
+              >
+                {walletInfo?.image && (
+                  <img
+                    src={walletInfo?.image}
+                    tw="w-[120px] h-[120px] rounded-full mr-[20px]"
+                    style={{ objectFit: "cover" }}
+                  />
+                )}
+                Nominate
+              </p>
               <p
                 tw="font-bold text-[78px]"
                 style={{ fontFamily: "Bricolage-Bold" }}
               >
-                Nominate{" "}
                 {shortWalletId(walletInfo?.username || walletInfo?.wallet) ||
                   "404 builder"}
               </p>
