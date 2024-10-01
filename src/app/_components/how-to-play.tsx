@@ -79,7 +79,8 @@ export const HowToPlay: FunctionComponent = () => {
             <Typography level="h3">About</Typography>
 
             <Typography>
-              $BUILD is 100% community owned. No team or investors allocation.
+              Airdrop 1 distributed 150B $BUILD tokens to 90K+ members. $BUILD
+              is 100% community owned. No team or investors allocation.
             </Typography>
             <Button
               variant="solid"
