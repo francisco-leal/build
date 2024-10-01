@@ -17,7 +17,7 @@ export const getLeaderboardTop50 = unstable_cache(
 
     return leaderboardData ?? [];
   },
-  ["leaderboard_top_50" as CacheKey],
+  ["leaderboard_top_50_final" as CacheKey],
   { revalidate: CACHE_24_HOURS },
 );
 

@@ -81,13 +81,6 @@ export const Header: FunctionComponent = () => {
           <Link disabled={activePath === "leaderboard"} href="/leaderboard">
             Leaderboard
           </Link>
-          <Link
-            disabled={activePath === "airdrop-1"}
-            href="/airdrop1"
-            sx={{ textWrap: "none" }}
-          >
-            Airdrop
-          </Link>
           <Link disabled={activePath === "about"} href="/about">
             About
           </Link>
@@ -195,14 +188,6 @@ export const Header: FunctionComponent = () => {
           onClick={drawer.close}
         >
           Leaderboard
-        </Link>
-        <Link
-          component={NextLink}
-          prefetch={true}
-          href="/airdrop1"
-          onClick={drawer.close}
-        >
-          Airdrop
         </Link>
         <Link
           component={NextLink}
