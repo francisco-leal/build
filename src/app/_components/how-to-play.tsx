@@ -76,11 +76,11 @@ export const HowToPlay: FunctionComponent = () => {
         >
           <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
             <DroneCameraAirdrop sx={{ fontSize: "64px" }} />
-            <Typography level="h3">Airdrop 1</Typography>
+            <Typography level="h3">About</Typography>
 
             <Typography>
-              BUILD Points will convert into $BUILD tokens, after Round 2 ends.
-              $BUILD is 100% community owned. No team or investors allocation.
+              Airdrop 1 distributed 150B $BUILD tokens to 90K+ members. $BUILD
+              is 100% community owned. No team or investors allocation.
             </Typography>
             <Button
               variant="solid"

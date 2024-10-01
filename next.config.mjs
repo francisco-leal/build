@@ -28,6 +28,11 @@ const nextConfig = {
         destination: "/about",
         permanent: true,
       },
+      {
+        source: "/airdrop1",
+        destination: "/leaderboard",
+        permanent: false,
+      },
     ];
   },
 };
