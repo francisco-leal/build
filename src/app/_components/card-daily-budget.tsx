@@ -32,7 +32,7 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
       </Stack>
 
       <Typography textColor="neutral.500">
-        Claim until Sep 30th. You needed to have the{" "}
+        Claim ended on Sep 30th. You needed to have the{" "}
         <Link
           href="https://docs.talentprotocol.com/docs/protocol-overview/talent-passport/human-checkmark"
           target="_blank"
@@ -43,9 +43,6 @@ export const CardDailyBudget: FunctionComponent<DailyBudgetCardProps> = ({
         </Link>{" "}
         on your Talent Passport before Aug 27th to be eligible.
       </Typography>
-      <Button component={Link} href="/airdrop1">
-        Claim
-      </Button>
     </BlockyCard>
   );
 };
