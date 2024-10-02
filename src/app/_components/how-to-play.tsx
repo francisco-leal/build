@@ -10,7 +10,7 @@ export const HowToPlay: FunctionComponent = () => {
   return (
     <>
       <Typography level="h2" sx={{ color: "common.white" }}>
-        The BUILD game
+        How BUILD Works
       </Typography>
 
       <Stack
@@ -25,23 +25,22 @@ export const HowToPlay: FunctionComponent = () => {
         >
           <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
             <Coin sx={{ fontSize: "64px" }} />
-            <Typography level="h3">Budget</Typography>
+            <Typography level="h3">Universal Builder Income</Typography>
             <Typography>
-              Each player has an individual weekly budget, based on their
-              Builder Score and $BUILD tokens. Claim your Talent Passport to
-              increase your budget.
+              BUILD is working on a UBI experiment to provide sustainable,
+              recurring, and permissionless support to new onchain builders.
             </Typography>
 
             <Button
               variant="solid"
               color="neutral"
               component={Link}
-              href="https://passport.talentprotocol.com"
+              href="https://paragraph.xyz/@macedo/build-log-10"
               target="_blank"
               underline="none"
               sx={{ mt: 2 }}
             >
-              Talent Passport
+              Read More
             </Button>
           </Stack>
         </Stack>
@@ -54,19 +53,20 @@ export const HowToPlay: FunctionComponent = () => {
             <Typography level="h3">Nominations</Typography>
 
             <Typography>
-              Search and nominate builders on Farcaster or Talent Passport.
-              Nominations reset every Tuesday and your weekly budget gets
-              re-calculated.
+              Cast &quot;nominate&quot; and username in /build on Farcaster to
+              gift $BUILD tokens. Casts liked by curators will share the weekly
+              reward pool.
             </Typography>
 
             <Button
-              href={"/stats"}
+              href="https://rounds.wtf/build"
+              target="_blank"
               component={Link}
               variant="solid"
               color="neutral"
               sx={{ mt: 2 }}
             >
-              Dashboard
+              rounds.wtf
             </Button>
           </Stack>
         </Stack>
@@ -76,11 +76,11 @@ export const HowToPlay: FunctionComponent = () => {
         >
           <Stack sx={{ alignItems: "center", gap: 1, color: "common.white" }}>
             <DroneCameraAirdrop sx={{ fontSize: "64px" }} />
-            <Typography level="h3">About</Typography>
+            <Typography level="h3">Airdrops</Typography>
 
             <Typography>
-              Airdrop 1 distributed 150B $BUILD tokens to 90K+ members. $BUILD
-              is 100% community owned. No team or investors allocation.
+              Airdrop 1 distributed 150B $BUILD tokens to 90K+ onchain builders.
+              $BUILD is 100% community owned. No team or investors allocation.
             </Typography>
             <Button
               variant="solid"
@@ -90,7 +90,7 @@ export const HowToPlay: FunctionComponent = () => {
               underline="none"
               sx={{ mt: 2 }}
             >
-              About
+              Tokenomics
             </Button>
           </Stack>
         </Stack>
