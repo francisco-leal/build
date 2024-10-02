@@ -141,7 +141,6 @@ export const getUserBalances = async (user: User, wallet: string) => {
   if (shouldUpdateBudget || user_budget === 0) {
     user_budget = await calculateUserBudget(user, wallet);
     user.boss_budget = user_budget;
-    revalidatePath(`/stats`);
     revalidateTag(`user_${user.id}`);
   }
 

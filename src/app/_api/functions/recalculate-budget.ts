@@ -10,7 +10,5 @@ export const recalculateBuilderBudget = async (): Promise<number> => {
 
   const budget = await calculateUserBudget(user, user.wallet);
 
-  revalidatePath(`/stats`);
-
   return budget;
 };
