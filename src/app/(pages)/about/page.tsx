@@ -17,13 +17,11 @@ export default function Tokenomics() {
     <Stack component="main" sx={{ position: "relative" }}>
       <BackgroundImage />
       <HeroSectionSlim sx={{ mb: 0 }}>
-        <Typography level="h1">
-        Universal Builder Income
-        </Typography>
+        <Typography level="h1">Universal Builder Income</Typography>
 
         <Typography level="title-lg" sx={{ pb: 8 }}>
-          $BUILD is a token of appreciation on Base, and a weekly nominations game to
-          reward onchain builders.
+          $BUILD is a token of appreciation on Base, and a weekly nominations
+          game to reward onchain builders.
         </Typography>
         <Box
           component={Image}
@@ -53,6 +51,9 @@ export default function Tokenomics() {
 
         <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
           $BUILD is an ERC-20 token on Base with a total supply of a 1T.
+          <br />
+          Airdrop 1, liquidity pool, and crowdfund party.app have already been
+          distributed.
         </Typography>
 
         <Link
@@ -93,12 +94,35 @@ export default function Tokenomics() {
       </HeroSection>
       <HeroSection>
         <Typography level="h2" textColor={"common.white"}>
+          Liquidity Rewards
+        </Typography>
+
+        <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
+          Provide liquidity to the official $BUILD/WETH Pool on Uniswap, and
+          earn $BUILD rewards (only available for full-range positions).
+        </Typography>
+
+        <Button
+          component={Link}
+          href={
+            "https://paragraph.xyz/@tolgadizmen/build-liquidity-mining-retroactive-rewards"
+          }
+          target="_blank"
+          variant="solid"
+          color="neutral"
+          sx={{ mt: 2 }}
+        >
+          Read More
+        </Button>
+      </HeroSection>
+      <HeroSection>
+        <Typography level="h2" textColor={"common.white"}>
           Governance
         </Typography>
 
         <Typography level="title-lg" textColor={"common.white"} maxWidth={720}>
-          Get to know the stewards team and the current status of the
-          BUILD treasury.
+          Get to know the stewards team and the current status of the BUILD
+          treasury.
           <br />
           Built by builders, for builders.
         </Typography>
