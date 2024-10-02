@@ -72,11 +72,8 @@ export const Header: FunctionComponent = () => {
             },
           }}
         >
-          <Link disabled={activePath === "stats"} href="/stats">
-            Dashboard
-          </Link>
-          <Link disabled={activePath === "discover"} href="/discover">
-            Discover
+          <Link disabled={activePath === ""} href="/">
+            Home
           </Link>
           <Link disabled={activePath === "leaderboard"} href="/leaderboard">
             Leaderboard
@@ -164,22 +161,6 @@ export const Header: FunctionComponent = () => {
           onClick={drawer.close}
         >
           Home
-        </Link>
-        <Link
-          component={NextLink}
-          prefetch={true}
-          href="/stats"
-          onClick={drawer.close}
-        >
-          Dashboard
-        </Link>
-        <Link
-          component={NextLink}
-          prefetch={true}
-          href="/discover"
-          onClick={drawer.close}
-        >
-          Discover
         </Link>
         <Link
           component={NextLink}
