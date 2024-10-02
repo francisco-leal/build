@@ -53,12 +53,14 @@ export const HowToPlay: FunctionComponent = () => {
             <Typography level="h3">Nominations</Typography>
 
             <Typography>
-              Cast "nominate" and username in /build on Farcaster to gift $BUILD
-              tokens. Casts liked by curators will share the weekly reward pool.
+              Cast &quot;nominate&quot; and username in /build on Farcaster to
+              gift $BUILD tokens. Casts liked by curators will share the weekly
+              reward pool.
             </Typography>
 
             <Button
               href="https://rounds.wtf/build"
+              target="_blank"
               component={Link}
               variant="solid"
               color="neutral"
