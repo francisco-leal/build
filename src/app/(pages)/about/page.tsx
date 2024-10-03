@@ -105,7 +105,7 @@ export default function Tokenomics() {
         <Button
           component={Link}
           href={
-            "https://paragraph.xyz/@tolgadizmen/build-liquidity-mining-retroactive-rewards"
+            "https://paragraph.xyz/@tolgadizmen/preview/M1cpVvwpJNhP3HqyBbO2"
           }
           target="_blank"
           variant="solid"
