@@ -105,7 +105,7 @@ export default function Tokenomics() {
         <Button
           component={Link}
           href={
-            "https://paragraph.xyz/@tolgadizmen/preview/M1cpVvwpJNhP3HqyBbO2"
+            "https://paragraph.xyz/@tolgadizmen/build-liquidity-rewards?referrer=0xf924efc8830bfA1029fA0cd7a51901a5EC03DE3d"
           }
           target="_blank"
           variant="solid"
